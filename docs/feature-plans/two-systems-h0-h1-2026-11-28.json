@@ -72,7 +72,7 @@
     {
       "path": "apps/mobile/src/features/profile/WhoAmI.tsx",
       "reason": "Entry row to replace.",
-      "sha256": "edf8c9bccad6001931004d8a3065e1b78abc49bba6e456833e80a793d4547d38"
+      "sha256": "df89258dc110ffc77771a6334fcff0c7465d277be7e9e094a8621ed61ee4c5e8"
     },
     {
       "path": "apps/mobile/src/features/profile/whoAmIModel.ts",
@@ -87,7 +87,7 @@
     {
       "path": "apps/mobile/src/features/billing/PaywallPanel.tsx",
       "reason": "Coming soon list.",
-      "sha256": "0d8364051d7f0d633dde00fe4bbd6233f7206bde0b2caaa6811d066d5a7a2ee1"
+      "sha256": "f55808a0e726b5fb5a7b165eea1fe2e3696dc2dd02498e2398cb4b61227d257c"
     },
     {
       "path": "scripts/validate-data.mjs",

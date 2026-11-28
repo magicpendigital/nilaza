@@ -1,0 +1,93 @@
+{
+  "version": "placeholder",
+  "review": {
+    "status": "draft",
+    "reviewer": "",
+    "reviewedAt": "",
+    "note": "Temporary placeholder for building the H1 screen; the reviewed H0 content replaces this file at merge."
+  },
+  "ui": {
+    "title": { "vi": "Hai hệ cùng nhìn bạn", "en": "Two systems, one you" },
+    "intro": { "vi": "Chiêm tinh và Bản đồ số là hai lăng kính khác nhau. Đặt cạnh nhau, chúng có chỗ gặp và chỗ khác giọng.", "en": "Astrology and numerology are two different lenses. Side by side, they meet in places and differ in others." },
+    "sourceNote": { "vi": "Ghép từ các mẫu viết sẵn, không do AI viết. Tính trên máy này, không lưu và không gửi đi.", "en": "Joined from written templates, not written by AI. Worked out on this device; nothing is saved or sent." },
+    "sunAxisTitle": { "vi": "Mặt Trời × Số chủ đạo", "en": "Sun × Life path" },
+    "moonAxisTitle": { "vi": "Mặt Trăng × Số linh hồn", "en": "Moon × Soul urge" },
+    "meetLabel": { "vi": "Điểm gặp", "en": "Where they meet" },
+    "differLabel": { "vi": "Chỗ khác giọng", "en": "Where they differ" },
+    "questionLabel": { "vi": "Câu hỏi cho bạn", "en": "A question for you" },
+    "needBirthDate": { "vi": "Trục này cần ngày sinh hợp lệ để tính số chủ đạo.", "en": "This axis needs a valid birth date to work out your life path." },
+    "needSun": { "vi": "Trục này cần cung Mặt Trời chắc chắn từ lá số đã lưu.", "en": "This axis needs a certain Sun sign from your saved chart." },
+    "needMoon": { "vi": "Trục này cần cung Mặt Trăng chắc chắn từ lá số đã lưu.", "en": "This axis needs a certain Moon sign from your saved chart." },
+    "needName": { "vi": "Số linh hồn cần họ tên lúc sinh. Bạn có thể nhập tên ở Bản đồ số.", "en": "Your soul urge needs your birth name. You can enter it in the Number Map." },
+    "premiumLocked": { "vi": "Premium", "en": "Premium" },
+    "guestInvite": { "vi": "Đăng nhập để xem hai hệ cùng nhìn bạn từ lá số và ngày sinh đã lưu.", "en": "Sign in to see the two systems side by side from your saved chart and birth date." },
+    "writeJournal": { "vi": "Viết vào Nhật ký", "en": "Write in Journal" },
+    "masterNote": { "vi": "Số {number} đọc theo khối của số gốc, kèm một sắc thái riêng.", "en": "{number} reads with the block of its root, plus a shade of its own." }
+  },
+  "elements": {
+    "fire": {
+      "name": { "vi": "Lửa", "en": "Fire" },
+      "sunFrame": { "vi": "Mặt Trời ở nhóm Lửa gợi hướng đi bằng hành động và hứng khởi.", "en": "A Fire Sun points to direction found through action and enthusiasm." },
+      "moonFrame": { "vi": "Mặt Trăng ở nhóm Lửa gợi nhu cầu được hăng hái và được thấy.", "en": "A Fire Moon points to a need for spark and for being seen." }
+    },
+    "earth": {
+      "name": { "vi": "Đất", "en": "Earth" },
+      "sunFrame": { "vi": "Mặt Trời ở nhóm Đất gợi hướng đi bằng sự bền bỉ và việc cụ thể.", "en": "An Earth Sun points to direction found through steadiness and concrete work." },
+      "moonFrame": { "vi": "Mặt Trăng ở nhóm Đất gợi nhu cầu an ổn và nhịp quen.", "en": "An Earth Moon points to a need for safety and familiar rhythm." }
+    },
+    "air": {
+      "name": { "vi": "Khí", "en": "Air" },
+      "sunFrame": { "vi": "Mặt Trời ở nhóm Khí gợi hướng đi bằng ý tưởng và trò chuyện.", "en": "An Air Sun points to direction found through ideas and conversation." },
+      "moonFrame": { "vi": "Mặt Trăng ở nhóm Khí gợi nhu cầu được hiểu và có khoảng thở.", "en": "An Air Moon points to a need to be understood and to have room to breathe." }
+    },
+    "water": {
+      "name": { "vi": "Nước", "en": "Water" },
+      "sunFrame": { "vi": "Mặt Trời ở nhóm Nước gợi hướng đi bằng cảm nhận và sự gắn bó.", "en": "A Water Sun points to direction found through feeling and closeness." },
+      "moonFrame": { "vi": "Mặt Trăng ở nhóm Nước gợi nhu cầu được thấu cảm và che chở.", "en": "A Water Moon points to a need for empathy and shelter." }
+    }
+  },
+  "sun": {
+    "fire.1": {
+      "meet": { "vi": "Cả hai cùng nghiêng về việc mở đường. Bạn có thể thấy mình sống rõ nhất khi bắt đầu.", "en": "Both lean toward opening the way. You may feel most alive when you begin." },
+      "differ": { "vi": "Lửa có thể cần người cùng cháy, còn số 1 có thể muốn đi một mình.", "en": "Fire may want company in the spark, while 1 may prefer to walk alone." },
+      "question": { "vi": "Điều gì bạn đang muốn bắt đầu, và ai bạn muốn rủ cùng?", "en": "What do you want to begin, and whom would you invite along?" }
+    },
+    "water.2": {
+      "meet": { "vi": "Cả hai cùng nghiêng về lắng nghe. Bạn có thể đọc được không khí trước khi ai nói ra.", "en": "Both lean toward listening. You may sense the mood before anyone names it." },
+      "differ": { "vi": "Nước có thể giữ cảm xúc cho riêng mình, còn số 2 có thể muốn chia sẻ để cân bằng.", "en": "Water may keep feelings private, while 2 may want to share them to find balance." },
+      "question": { "vi": "Gần đây bạn đã lắng nghe chính mình như lắng nghe người khác chưa?", "en": "Lately, have you listened to yourself the way you listen to others?" }
+    },
+    "earth.4": {
+      "meet": { "vi": "Cả hai cùng nghiêng về xây từng bước. Bạn có thể tin vào điều làm được bằng tay.", "en": "Both lean toward building step by step. You may trust what can be made by hand." },
+      "differ": { "vi": "Đất có thể cần nhịp chậm, còn số 4 có thể tự đặt khung quá chặt.", "en": "Earth may need a slow pace, while 4 may set a frame that is too tight." },
+      "question": { "vi": "Khung nào trong đời bạn đang nâng đỡ, khung nào đang bó?", "en": "Which frame in your life supports you, and which one holds you too tight?" }
+    },
+    "air.9": {
+      "meet": { "vi": "Cả hai cùng nghiêng về nhìn rộng. Bạn có thể nghĩ về nhiều người cùng lúc.", "en": "Both lean toward the wide view. You may think of many people at once." },
+      "differ": { "vi": "Khí có thể giữ khoảng cách, còn số 9 có thể muốn gắn bó sâu hơn.", "en": "Air may keep some distance, while 9 may want to care more deeply." },
+      "question": { "vi": "Bạn muốn góp phần cho điều gì lớn hơn mình?", "en": "What larger thing would you like to give to?" }
+    }
+  },
+  "moon": {
+    "fire.1": {
+      "meet": { "vi": "Trong lòng, bạn có thể cần được chủ động. Cả hai cùng nói về một ngọn lửa riêng.", "en": "Inside, you may need to take the lead. Both speak of a flame of your own." },
+      "differ": { "vi": "Lửa có thể bùng nhanh rồi lắng, còn số 1 có thể muốn giữ lửa lâu.", "en": "Fire may flare and settle quickly, while 1 may want to keep the flame going." },
+      "question": { "vi": "Khi nào bạn thấy mình được làm chủ cảm xúc của mình?", "en": "When do you feel in charge of your own feelings?" }
+    },
+    "water.2": {
+      "meet": { "vi": "Trong lòng, bạn có thể cần sự gần gũi. Cả hai cùng nói về sự thấu cảm.", "en": "Inside, you may need closeness. Both speak of empathy." },
+      "differ": { "vi": "Nước có thể chìm sâu vào cảm xúc, còn số 2 có thể tìm cách hòa cho êm.", "en": "Water may go deep into feeling, while 2 may look for a smooth middle." },
+      "question": { "vi": "Bạn cần ai ở gần khi lòng mình chao đảo?", "en": "Whom do you need nearby when you feel unsteady?" }
+    },
+    "earth.4": {
+      "meet": { "vi": "Trong lòng, bạn có thể cần nền vững. Cả hai cùng nói về sự an ổn.", "en": "Inside, you may need solid ground. Both speak of feeling safe." },
+      "differ": { "vi": "Đất có thể muốn nghỉ ngơi, còn số 4 có thể thấy phải làm cho xong.", "en": "Earth may want rest, while 4 may feel the work must be finished first." },
+      "question": { "vi": "Điều nhỏ nào giúp bạn thấy yên lòng mỗi ngày?", "en": "What small thing helps you feel settled each day?" }
+    },
+    "air.9": {
+      "meet": { "vi": "Trong lòng, bạn có thể cần ý nghĩa rộng hơn. Cả hai cùng nói về sự bao dung.", "en": "Inside, you may need a wider meaning. Both speak of generosity." },
+      "differ": { "vi": "Khí có thể nghĩ về cảm xúc, còn số 9 có thể muốn ôm lấy nó.", "en": "Air may think about a feeling, while 9 may want to hold it." },
+      "question": { "vi": "Cảm xúc nào bạn đang hiểu bằng đầu mà chưa cho phép mình cảm?", "en": "Which feeling do you understand in your head but have not let yourself feel?" }
+    }
+  }
+}

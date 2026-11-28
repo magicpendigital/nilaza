@@ -61,6 +61,14 @@ test("identity card, chips, the one line and the recorded counts", () => {
   expect(screen.getByText(/được đồng bộ với tài khoản/)).toBeTruthy();
 });
 
+test("the Premium row opens Two systems once it is wired, and stays Sắp có otherwise", () => {
+  const onOpenTwoSystems = jest.fn();
+  const { screen } = renderWhoAmI({ onOpenTwoSystems });
+  expect(screen.queryByText("Sắp có")).toBeNull();
+  fireEvent.press(screen.getByText("Hai hệ cùng nhìn bạn"));
+  expect(onOpenTwoSystems).toHaveBeenCalledTimes(1);
+});
+
 test("below 5 journal entries a hint replaces the counts", () => {
   const { props, screen } = renderWhoAmI({ journalEntries: entries(3) });
   expect(screen.queryByLabelText(/mục Nhật ký$/)).toBeNull();
