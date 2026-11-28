@@ -131,3 +131,84 @@ Chi tiết từng bước:
 3. **Gửi kèm chiều lá trong link** (để web hiện đúng lá ngược): đề xuất **có**.
 4. **Trước khi có Play:** cho hiện câu đầu ý nghĩa của lá người xem tự rút (đề xuất có), hay khóa luôn.
 5. **Thứ tự làm:** T1 (web) trước, T2 (app) đi cùng bản Android kế tiếp, T3 sau khi Play công khai.
+
+## 9. Owner đã quyết (28/11/2026)
+
+1. Rút trên web **1 lần/ngày** (phương án B).
+2. Công tắc "Kèm ý nghĩa" trong app **mặc định bật**.
+3. Link **gửi kèm chiều lá**.
+4. Lá người xem tự rút trên web **có hiện nội dung ý nghĩa cơ bản**, kèm nút tải app để xem sâu hơn. Owner lưu ý: phần này phải **có giá trị và khiến người xem thấy đúng**, thì mới gợi được tò mò muốn tìm hiểu sâu hơn.
+5. Thứ tự: T1 web → T2 app (cùng bản Android kế tiếp) → T3 sau khi Play công khai.
+
+Owner hỏi thêm: tải app ngay lúc đó thì mở app có xem tiếp được đúng lá đã rút trên web không? Phân tích ở mục 10–11.
+
+## 10. Phần ý nghĩa cơ bản trên web: thế nào là "có giá trị, thấy đúng"
+
+Sự thật về thư viện (đã đo trên `tarot-cards.json`):
+
+- Mỗi chiều lá có **một đoạn ý nghĩa ngắn, trung bình 135 ký tự (khoảng 2 câu)**.
+- Phần còn lại của mỗi lá là "giới thiệu" (khoảng 180 ký tự), "chân dung" (khoảng 180 ký tự) và một câu hỏi.
+
+Nghĩa là "phần sâu" trong app **không nằm ở chữ thư viện dài hơn**. Nó nằm ở việc **lá bài được đọc theo chuyện riêng của người đó**, cùng nhật ký và câu hỏi tiếp theo. Nếu hứa "ý nghĩa đầy đủ trong app" mà app chỉ có thêm hai đoạn ngắn, người dùng sẽ thấy bị hụt.
+
+Đề xuất sửa phần web đã viết ở mục 3:
+
+- **Hiện trọn đoạn ý nghĩa của đúng chiều lá** (2 câu), thay cho chỉ câu đầu. Kèm 3 từ khóa và câu hỏi của lá.
+  - Trình bày như lời nói với người xem: "Hôm nay lá này gợi với bạn: …".
+  - Đó là cái "thấy đúng": ngắn, gần, có câu hỏi để tự nghĩ tiếp.
+- **Lời hứa của nút tải app** nói đúng thứ app có mà web không có: "Lá này nói gì về chuyện bạn đang bận tâm? Hỏi lá bài trong app, ghi lại suy nghĩ của bạn." Không hứa "ý nghĩa trọn vẹn" chung chung.
+- **Trước khi T1 lên**, rà 156 đoạn ý nghĩa (78 lá × 2 chiều) xem đứng riêng một mình có đủ rõ và ấm không. Dùng quy trình rà nội dung Tarot (`nilaza-tarot-content-qc`). Đoạn nào cụt hoặc khó hiểu khi thiếu ngữ cảnh thì viết lại trước khi lên web.
+
+## 11. Liền mạch web → app: mở app thấy tiếp đúng lá đã rút trên web
+
+**Trả lời ngắn: làm được trên Android**, với điều kiện người xem bấm nút Google Play trên chính trang đó, trên cùng điện thoại. Đây cũng là cách biến "sợ mất lá" thành lý do tải ngay.
+
+### Cách hoạt động (đề xuất)
+
+```
+Web: rút lá → lá lưu trong trình duyệt
+   │  bấm "Tải Nilaza để hỏi tiếp lá này"
+   ▼
+Link Google Play kèm "referrer" = mã lá + chiều + ngày + loại trang  (không có gì về người xem)
+   │  cài app
+   ▼
+App mở lần đầu: đọc referrer (Play Install Referrer) → kiểm mã lá có trong thư viện, ngày còn trong 7 ngày
+   │
+   ▼
+Màn đầu tiên, TRƯỚC khi đòi đăng ký: "Lá bạn vừa rút trên web"
+   hình lá đúng chiều + ý nghĩa đã thấy + giới thiệu + chân dung lá + câu hỏi
+   [Hỏi lá này về chuyện của bạn]  [Ghi lại suy nghĩ]  → lúc này mới mời tạo tài khoản để lưu
+   │
+   ▼
+Lá được giữ trên máy (như lá rút khi chưa đăng nhập hiện nay) → sau khi đăng ký vẫn còn; Trang chủ hôm đó hiện đúng lá này
+```
+
+### Điểm then chốt và cách xử lý
+
+| Vấn đề | Cách xử lý đề xuất |
+|---|---|
+| App đã có sẵn cơ chế tương tự: lá rút khi chưa đăng nhập được giữ sang tài khoản (`guestDraw.ts`, máy chủ giữ lại lá cũ) | Dùng lại cách đó: lá từ web lưu trên máy như một "lá khách". Không làm đường riêng. |
+| **Lá bài hôm nay** ở Trang chủ đang tính theo tài khoản và ngày, nên sẽ khác lá web và gây rối | Hôm đó Trang chủ hiện lá web thay cho lá tính sẵn (chỉ ảnh hưởng phần hiển thị). Từ hôm sau trở lại bình thường. |
+| **Hỏi AI về lá này:** máy chủ đang tự rút và khóa lá mỗi ngày cho mỗi tài khoản (nguyên tắc "một sự kiện, một câu trả lời"). Nếu máy chủ nhận lá do điện thoại gửi lên, người ta có thể sửa link để tự chọn lá. | **Phương án đề xuất:** việc rút trên web do máy chủ làm. Trang web gọi một hàm máy chủ nhỏ; hàm rút lá và trả về lá kèm một **chữ ký**. App gửi lại chữ ký đó, máy chủ kiểm rồi nhận lá đó là lá rút của ngày. Cần Edge Function mới và một khóa bí mật (Owner duyệt riêng). Chưa làm thì: app vẫn hiện trọn nội dung thư viện của lá web, còn nút "Hỏi lá này" chuyển thành lượt rút thường của app. |
+| Người xem không bấm nút trên trang, mà tự tìm app trên Play; hoặc xem trên máy tính rồi cài trên điện thoại | Referrer không có. Phương án dự phòng đơn giản: màn đầu của app hỏi "Bạn vừa rút một lá trên web?" và cho chọn lại lá đó từ 78 lá có hình (người xem vừa thấy hình và tên). Chỉ hiển thị nội dung thư viện, không tính là lá rút trên máy chủ. |
+| Người xem đã cài app từ trước | Liên kết mở thẳng app (App Links), mang theo mã lá. Cần đặt tệp xác minh trên website và mã vân tay khóa ký của Play: Owner lấy trong Play Console, vì là cài đặt Play. Làm sau, khi đã có người cài. |
+| Mở app sau nhiều ngày | Lá vẫn hiện, nhưng ghi "Lá bạn rút trên web ngày 28/11", không tính là lá hôm nay. Quá 7 ngày thì bỏ. |
+| Riêng tư | Referrer chỉ có mã lá, chiều lá, ngày và loại trang. Không có email, tên hay ngày sinh. Cần kiểm lại cách khai báo trong mục An toàn dữ liệu của Play (chưa kiểm). |
+| iOS | Không có referrer tương đương. Để sau, khi làm iOS. |
+
+**Chưa kiểm chứng trong phiên này:**
+
+- tài liệu chính thức về Play Install Referrer (độ trễ, thời hạn lưu);
+- thư viện đọc referrer cho Expo: `expo-application` hiện **chưa** có trong app.
+
+Cả hai cần kiểm trước khi làm T3. Tất cả phần app ở đây cần bản Android mới.
+
+### Vị trí trong lộ trình
+
+- **T1 (web):** lưu lá đã rút cùng ngày rút trong trình duyệt. Cho sẵn chỗ gắn lá vào link Play: khi Play công khai chỉ cần bật lên.
+- **T3 (khi Play công khai):** đây là hạng mục chính.
+  - Đọc referrer, hiện màn "Lá bạn vừa rút trên web", giữ lá qua bước đăng ký, Trang chủ hôm đó hiện đúng lá đó.
+  - Làm cùng lúc màn dự phòng "chọn lại lá".
+  - Rút có chữ ký trên máy chủ, để hỏi AI về đúng lá web: cần Owner duyệt Edge Function và khóa bí mật.
+  - Mở thẳng app bằng App Links làm sau cùng.
+- **Đo:** số lượt cài có referrer từ trang chia sẻ, và tỉ lệ mở màn "Lá bạn vừa rút" → tạo tài khoản.
