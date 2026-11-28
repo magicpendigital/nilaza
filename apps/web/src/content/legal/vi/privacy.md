@@ -3,7 +3,7 @@ title: "Quyền riêng tư"
 description: "Chúng tôi chỉ hứa những kiểm soát dữ liệu đã được kiểm chứng trong phiên bản bạn đang dùng."
 locale: vi
 slug: privacy
-updatedAt: 2026-11-25
+updatedAt: 2026-11-28
 ---
 
 ## Thông tin bạn chủ động cung cấp
@@ -28,6 +28,15 @@ Mục này chỉ áp dụng khi Nilaza bật tính năng "Lời nhắn riêng" c
 - **Dữ liệu được gửi:** các con số Thần số học đã tính trên điện thoại (ví dụ số chủ đạo, năm và tháng cá nhân), mã các khối nội dung và ngôn ngữ. **Không** gửi họ tên, ngày sinh, năm sinh hay tuổi của bạn.
 - **Xử lý:** máy chủ Nilaza ghép chữ của các khối nội dung đã soạn sẵn rồi nhờ một mô hình AI (qua nhà cung cấp OpenRouter) viết thành một lời nhắn ngắn. Mã tài khoản của bạn không được gửi cho nhà cung cấp mô hình.
 - **Lưu trữ:** Nilaza **không lưu** lời nhắn, các con số hay mã khối. Máy chủ chỉ ghi số lần thử trong ngày và thông tin kỹ thuật (thời điểm, ngôn ngữ, số khối, model đã dùng) để giới hạn một lời nhắn mỗi ngày và theo dõi chất lượng dịch vụ.
+
+## Báo cáo tổng hợp Bản đồ số (khi tính năng được bật)
+
+Mục này chỉ áp dụng khi Nilaza bật tính năng "Báo cáo tổng hợp" cho tài khoản Premium. Trước khi bật, ứng dụng không gửi gì cho tính năng này. Phần 1 của báo cáo được ghép ngay trên điện thoại và không gửi đi đâu.
+
+- **Bạn chủ động gửi:** ứng dụng chỉ gửi sau khi bạn bấm "Gửi" trong hộp giải thích.
+- **Dữ liệu được gửi:** các con số Thần số học đã tính trên điện thoại, những chữ số có mặt trong biểu đồ ngày sinh (không gửi số lần lặp lại), các đường đầy hoặc trống, mã các khối nội dung và ngôn ngữ. **Không** gửi họ tên, ngày sinh, năm sinh hay tuổi của bạn.
+- **Xử lý:** máy chủ Nilaza ghép chữ của các khối nội dung đã soạn sẵn rồi nhờ một mô hình AI viết thành báo cáo: trước tiên là mô hình Claude của nhà cung cấp Anthropic; nếu không được thì một mô hình DeepSeek qua nhà cung cấp OpenRouter. Các nhà cung cấp này xử lý dữ liệu thay cho Nilaza. Mã tài khoản của bạn không được gửi cho nhà cung cấp mô hình.
+- **Lưu trữ:** báo cáo được **lưu trên điện thoại của bạn**, có trong "Xuất dữ liệu" và xóa được ở mục "Báo cáo đã lưu". Nilaza **không lưu** chữ của báo cáo, các con số hay mã khối trên máy chủ; máy chủ chỉ ghi số lần thử trong ngày và thông tin kỹ thuật (thời điểm, ngôn ngữ, số phần, số khối, model đã dùng) để giới hạn số báo cáo mỗi ngày và theo dõi chất lượng dịch vụ.
 
 ## Mua gói Premium
 

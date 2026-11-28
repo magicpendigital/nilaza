@@ -1,5 +1,5 @@
 import React from "react";
-import { fireEvent, render } from "@testing-library/react-native";
+import { act, fireEvent, render, waitFor } from "@testing-library/react-native";
 import { WhoAmI, type WhoAmIProps } from "../WhoAmI";
 
 const now = new Date(2026, 10, 25, 12);
@@ -59,6 +59,14 @@ test("identity card, chips, the one line and the recorded counts", () => {
   expect(screen.getByLabelText("5 tuần liên tục có viết")).toBeTruthy();
   expect(screen.getByText("Sắp có")).toBeTruthy();
   expect(screen.getByText(/được đồng bộ với tài khoản/)).toBeTruthy();
+});
+
+test("the Premium row opens Two systems once it is wired, and stays Sắp có otherwise", () => {
+  const onOpenTwoSystems = jest.fn();
+  const { screen } = renderWhoAmI({ onOpenTwoSystems });
+  expect(screen.queryByText("Sắp có")).toBeNull();
+  fireEvent.press(screen.getByText("Hai hệ cùng nhìn bạn"));
+  expect(onOpenTwoSystems).toHaveBeenCalledTimes(1);
 });
 
 test("below 5 journal entries a hint replaces the counts", () => {
@@ -123,4 +131,23 @@ test("saved reports list the Number Map when a birth date exists, and View opens
 test("no Number Map row without a birth date or a handler", () => {
   expect(renderWhoAmI({ birthDate: "", onOpenNumerology: jest.fn() }).screen.queryByTestId("whoami-numerology-row")).toBeNull();
   expect(renderWhoAmI().screen.queryByTestId("whoami-numerology-row")).toBeNull();
+});
+
+test("a saved Number Map report gets its own row; Delete empties the device key", async () => {
+  const data: Record<string, unknown> = {
+    "nilaza.numerology.report.v1": { schemaVersion: 1, numbersHash: "abc", createdAt: "2026-11-28T03:00:00.000Z", language: "vi", promptVersion: "v1",
+      sections: [{ id: "you", title: "Con người bạn", body: "Đoạn thử.", blockIds: [] }], questions: ["Một?", "Hai?", "Ba?"] }
+  };
+  const reportStorage = {
+    loadJson: jest.fn(async (key: string, fallback: unknown) => (key in data ? data[key] : fallback)),
+    saveJson: jest.fn(async (key: string, value: unknown) => { data[key] = value; })
+  } as any;
+  const { screen } = renderWhoAmI({ savedCharts: { status: "ready", charts: [] }, birthDate: "", reportStorage });
+  await waitFor(() => expect(screen.getByTestId("whoami-numerology-report-row")).toBeTruthy());
+  expect(screen.queryByText("Chưa có báo cáo nào được lưu trên máy.")).toBeNull();
+  fireEvent.press(screen.getByTestId("whoami-numerology-report-delete"));
+  await act(async () => { fireEvent.press(screen.getByTestId("whoami-numerology-report-confirm-delete")); });
+  expect(data["nilaza.numerology.report.v1"]).toBeNull();
+  expect(screen.queryByTestId("whoami-numerology-report-row")).toBeNull();
+  expect(screen.getByText("Chưa có báo cáo nào được lưu trên máy.")).toBeTruthy();
 });

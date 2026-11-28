@@ -5,11 +5,16 @@ import WaitlistForm from "../WaitlistForm.astro";
 import ShareCta from "./ShareCta.astro";
 import ShareTrust from "./ShareTrust.astro";
 import { shareCtaOf } from "../../lib/shareCta";
-import { sharePhaseNames, zodiac, type ShareVariant } from "../../lib/shareLanding";
+import { quoteBooks, sharePhaseNames, zodiac, type ShareVariant } from "../../lib/shareLanding";
 import type { Locale } from "../../lib/site";
 import cards from "../../../../../packages/content/data/tarot-cards.json";
 import numerology from "../../../../../packages/content/data/numerology-blocks.json";
 import sky from "../../../../../packages/content/data/astrology-daily-sky.json";
+import daoDucKinh from "../../../../../packages/content/data/book-quotes/dao-duc-kinh.json";
+import suyTuong from "../../../../../packages/content/data/book-quotes/suy-tuong.json";
+import kinhPhapCu from "../../../../../packages/content/data/book-quotes/kinh-phap-cu.json";
+import binhPhap from "../../../../../packages/content/data/book-quotes/binh-phap-ton-tu.json";
+import kinhDich from "../../../../../packages/content/data/book-quotes/kinh-dich.json";
 
 type Text = { vi: string; en: string };
 const { locale, variant } = Astro.props as { locale: Locale; variant: ShareVariant | "auto" };
@@ -18,10 +23,11 @@ const pick = (text: Text) => text[locale];
 const wants = (...names: ShareVariant[]) => variant === "auto" || names.includes(variant);
 const show = (...names: ShareVariant[]) => variant !== "auto" && names.includes(variant);
 
-// Only public library text for the visitor's locale is published: card names, three keywords and the card's question;
-// the approved life-path blocks; the sky line for each Moon sign. Nothing comes from the link except enumerated ids.
+// Only public library text for the visitor's locale is published: card names, three keywords, the upright and
+// reversed meanings and the card's question; the approved life-path blocks; the sky line for each Moon sign. Nothing
+// comes from the link except enumerated ids and 0/1 flags.
 const tarot = wants("card", "reading")
-  ? Object.fromEntries((cards as { id: string; name: Text; keywords: { vi: string[]; en: string[] }; reflectionQuestion: Text }[]).map((card) => [card.id, { name: pick(card.name), keywords: card.keywords[locale].slice(0, 3), question: pick(card.reflectionQuestion) }]))
+  ? Object.fromEntries((cards as { id: string; name: Text; keywords: { vi: string[]; en: string[] }; uprightMeaning: Text; reversedMeaning: Text; reflectionQuestion: Text }[]).map((card) => [card.id, { name: pick(card.name), keywords: card.keywords[locale].slice(0, 3), upright: pick(card.uprightMeaning), reversed: pick(card.reversedMeaning), question: pick(card.reflectionQuestion) }]))
   : null;
 const numbers = wants("numbers")
   ? {
@@ -38,13 +44,22 @@ const skyText = wants("sky")
       moon: Object.fromEntries(Object.entries(sky.moonSign as Record<string, { tone: Record<string, Text>; body: Text }>).map(([sign, entry]) => [sign, { tone: Object.fromEntries(Object.entries(entry.tone).map(([decan, text]) => [decan, pick(text)])), body: pick(entry.body) }]))
     }
   : null;
-const data = JSON.stringify({ locale, variant, tarot, numbers, sky: skyText }).replace(/</g, "\\u003c");
-const cta = shareCtaOf(locale);
+// Book lines: only files whose review is approved (the app's draft gate), only the quote, reference and question.
+type QuoteFile = { book: string; review: { status: string }; items: { ref: Text; quote: Text; question: Text }[] };
+const quoteFiles: Record<string, QuoteFile> = { "dao-duc-kinh": daoDucKinh, "suy-tuong": suyTuong, "kinh-phap-cu": kinhPhapCu, "binh-phap-ton-tu": binhPhap, "kinh-dich": kinhDich } as Record<string, QuoteFile>;
+const quote = wants("quote")
+  ? quoteBooks
+      .filter((book) => quoteFiles[book.id].review.status === "approved" && quoteFiles[book.id].items.length > 0)
+      .map((book) => ({ id: book.id, label: pick(book.label), author: pick(book.author), items: quoteFiles[book.id].items.map((item) => [pick(item.quote), pick(item.ref), pick(item.question)]) }))
+  : null;
+const data = JSON.stringify({ locale, variant, tarot, numbers, sky: skyText, quote }).replace(/</g, "\\u003c");
+const cta = shareCtaOf(locale, undefined, variant);
 const heading = {
   card: vi ? "Một lá bài để chậm lại một nhịp." : "One card to slow down for a moment.",
   reading: vi ? "Một trải bài để ngồi nghĩ cùng nhau." : "A spread to think about together.",
   numbers: vi ? "Con số chủ đạo của bạn là gì?" : "What is your life path number?",
-  sky: vi ? "Bầu trời của một ngày." : "The sky of one day."
+  sky: vi ? "Bầu trời của một ngày." : "The sky of one day.",
+  quote: vi ? "Một câu cho hôm nay." : "A line for today."
 };
 ---
 <section class="share-hero" data-share-root data-variant={variant}><div class="shell share-frame">
@@ -58,9 +73,11 @@ const heading = {
       <p class="lead" data-tarot-lead>{vi ? "Tarot ở Nilaza là một cách nhìn bằng biểu tượng: mỗi lá gợi một câu hỏi để bạn tự soi chiếu, không là lời dự đoán." : "Tarot on Nilaza is a symbolic way of looking: each card opens a question to reflect on, not a prediction."}</p>
       <div class="try">
         <p class="eyebrow">{vi ? "Đến lượt bạn" : "Your turn"}</p>
-        <button class="button" type="button" data-draw>{vi ? "Rút lá của bạn" : "Draw your card"}</button>
-        <p class="note">{vi ? "Lá được rút ngẫu nhiên ngay trên trình duyệt này. Không có gì được gửi đi." : "The card is drawn at random in this browser. Nothing is sent."}</p>
+        <p class="try-ask">{vi ? "Còn lá bài đang chờ bạn hôm nay là gì?" : "And which card is waiting for you today?"}</p>
+        <button class="button" type="button" data-draw>{vi ? "Rút lá của bạn hôm nay" : "Draw your card for today"}</button>
+        <p class="note" data-draw-note>{vi ? "Mỗi ngày một lá, rút ngẫu nhiên ngay trên trình duyệt này. Không có gì được gửi đi." : "One card a day, drawn at random in this browser. Nothing is sent."}</p>
         <div class="drawn" data-drawn hidden aria-live="polite"></div>
+        <p class="note" data-drawn-note hidden>{vi ? "Đây là lá của bạn hôm nay. Ngày mai quay lại để rút lá mới." : "This is your card for today. Come back tomorrow to draw a new one."}</p>
       </div>
     </div>
   )}
@@ -97,6 +114,26 @@ const heading = {
     </div>
   )}
 
+  {wants("quote") && quote && quote.length > 0 && (
+    <div class="panel" data-panel="quote" hidden={!show("quote")}>
+      <h1 class="display">{heading.quote}</h1>
+      <p class="lead">{vi ? "Một người bạn vừa chia sẻ một câu từ sách cổ trên Nilaza. Mỗi ngày một câu, kèm một câu hỏi để bạn tự ngẫm." : "A friend just shared a line from an old book on Nilaza. One line a day, with a question to sit with."}</p>
+      <figure class="quote-block" data-quote hidden aria-live="polite">
+        <blockquote class="quote-text" data-quote-text></blockquote>
+        <figcaption class="quote-source" data-quote-source></figcaption>
+        <p class="eyebrow quote-ask">{vi ? "Câu hỏi cho mình" : "A question for you"}</p>
+        <p class="question" data-quote-question></p>
+      </figure>
+      <div class="try">
+        <p class="eyebrow">{vi ? "Câu hôm nay của sách khác" : "Today's line from another book"}</p>
+        <div class="book-tabs" data-quote-books role="group" aria-label={vi ? "Chọn sách" : "Choose a book"}>
+          {quote.map((book) => <button class="book-tab" type="button" data-book={book.id} aria-pressed="false">{book.label}</button>)}
+        </div>
+        <p class="note">{vi ? "Câu được chọn theo ngày trên máy bạn, giống trong ứng dụng. Không có gì được gửi đi." : "The line is chosen by the date on your device, as in the app. Nothing is sent."}</p>
+      </div>
+    </div>
+  )}
+
   <ShareCta {locale} variant={variant === "auto" ? "share" : variant} />
   <ShareTrust {locale} />
 </div></section>
@@ -109,16 +146,17 @@ const heading = {
 <script is:inline type="application/json" id="share-landing-data" set:html={data}></script>
 <script>
   import { trackPublicEvent } from "../../lib/analytics";
-  import { isShareVariant, parseCardIds, parseSharedSky, randomIndex, readShareArrival, variantFromSearch, type ShareVariant } from "../../lib/shareLanding";
+  import { drawWebCard, isShareVariant, meaningBody, parseCardIds, parseMeaningFlag, parseOrientations, parseSharedSky, playReferrerUrl, quoteDateKey, quoteItemIndex, quoteLibraryPick, readShareArrival, readWebDraw, variantFromSearch, vnDateKey, type ShareVariant, type WebDraw } from "../../lib/shareLanding";
   import { lifePathNumber, parseBirthDate } from "../../../../mobile/src/features/numerology/calc";
 
-  type Card = { name: string; keywords: string[]; question: string };
+  type Card = { name: string; keywords: string[]; upright: string; reversed: string; question: string };
   type Data = {
     locale: "vi" | "en";
     variant: ShareVariant | "auto";
     tarot: Record<string, Card> | null;
     numbers: { blocks: Record<string, { title: string; leans: string; question: string }>; masters: Record<string, string> } | null;
     sky: { signs: Record<string, string>; phases: Record<string, string>; moon: Record<string, { tone: Record<string, string>; body: string }> } | null;
+    quote: { id: string; label: string; author: string; items: [string, string, string][] }[] | null;
   };
   const raw = document.getElementById("share-landing-data")?.textContent;
   const data = raw ? (JSON.parse(raw) as Data) : null;
@@ -137,9 +175,9 @@ const heading = {
     if (arrival.fromShare) trackPublicEvent("share_link_opened", { locale: lang, source: "share", surface: arrival.surface, medium: arrival.medium, variant });
 
     // Every element below is built with textContent and fixed attributes: nothing from the address becomes markup.
-    const cardFigure = (id: string, card: Card, size: "small" | "large") => {
+    const cardFigure = (id: string, card: Card, size: "small" | "large", reversed = false) => {
       const figure = document.createElement("figure");
-      figure.className = `card-figure ${size}`;
+      figure.className = `card-figure ${size}${reversed ? " reversed" : ""}`;
       const image = document.createElement("img");
       image.src = `/share/cards/${id}.webp`;
       image.alt = card.name;
@@ -148,8 +186,26 @@ const heading = {
       image.decoding = "async";
       const caption = document.createElement("figcaption");
       caption.textContent = card.name;
+      if (reversed) {
+        const turn = document.createElement("span");
+        turn.className = "orientation";
+        turn.textContent = vi ? "Ngược" : "Reversed";
+        caption.append(" ", turn);
+      }
       figure.append(image, caption);
       return figure;
+    };
+    // Library meaning for the card's orientation, under a short label.
+    const meaningBlock = (card: Card, reversed: boolean, label: string) => {
+      const block = document.createElement("div");
+      block.className = "meaning";
+      const title = document.createElement("p");
+      title.className = "meaning-label";
+      title.textContent = label;
+      const body = document.createElement("p");
+      body.textContent = meaningBody(reversed ? card.reversed : card.upright);
+      block.append(title, body);
+      return block;
     };
     const keywordList = (words: string[]) => {
       const list = document.createElement("ul");
@@ -162,16 +218,22 @@ const heading = {
       const tarot = data.tarot;
       const heading = root.querySelector<HTMLElement>("[data-tarot-heading]");
       if (heading) heading.textContent = (variant === "reading" ? heading.dataset.reading : heading.dataset.card) ?? heading.textContent;
-      const ids = parseCardIds(new URLSearchParams(location.search).get("c"), new Set(Object.keys(tarot)));
+      const params = new URLSearchParams(location.search);
+      const known = new Set(Object.keys(tarot));
+      const ids = parseCardIds(params.get("c"), known);
+      const turned = parseOrientations(params.get("o"), ids.length);
+      const withMeaning = parseMeaningFlag(params.get("m"));
       const friend = root.querySelector<HTMLElement>("[data-friend-cards]");
       const friendQuestion = root.querySelector<HTMLElement>("[data-friend-question]");
       if (ids.length && friend && heading) {
         heading.textContent = ids.length === 1 ? (vi ? "Bạn của bạn vừa rút lá này." : "Your friend just drew this card.") : vi ? "Bạn của bạn vừa trải những lá này." : "Your friend just laid out these cards.";
         friend.dataset.count = String(ids.length);
-        friend.replaceChildren(...ids.map((id) => {
+        friend.replaceChildren(...ids.map((id, index) => {
           const wrap = document.createElement("div");
           wrap.className = "friend-card";
-          wrap.append(cardFigure(id, tarot[id], ids.length === 1 ? "large" : "small"), keywordList(tarot[id].keywords));
+          wrap.append(cardFigure(id, tarot[id], ids.length === 1 ? "large" : "small", turned[index]), keywordList(tarot[id].keywords));
+          // The meaning only when the sharer chose to include it (m=1).
+          if (withMeaning) wrap.append(meaningBlock(tarot[id], turned[index], vi ? "Lá này gợi" : "This card points to"));
           return wrap;
         }));
         friend.hidden = false;
@@ -182,18 +244,34 @@ const heading = {
       }
       const drawButton = root.querySelector<HTMLButtonElement>("[data-draw]");
       const drawn = root.querySelector<HTMLElement>("[data-drawn]");
-      const allIds = Object.keys(tarot);
-      drawButton?.addEventListener("click", () => {
+      const drawNote = root.querySelector<HTMLElement>("[data-draw-note]");
+      const drawnNote = root.querySelector<HTMLElement>("[data-drawn-note]");
+      const play = root.querySelector<HTMLAnchorElement>('.share-cta-button[data-cta-kind="play"]');
+      const playBase = play?.getAttribute("href") ?? "";
+      const day = vnDateKey();
+      const storageKey = "nilaza.share.webDraw";
+      // One draw per Vietnam day in this browser; the stored value is checked against the deck and the day before use.
+      const stored = (() => { try { return readWebDraw(localStorage.getItem(storageKey), day, known); } catch { return null; } })();
+      const showDraw = (draw: WebDraw) => {
         if (!drawn) return;
-        const pool = allIds.filter((id) => !ids.includes(id));
-        const id = pool[randomIndex(pool.length)];
-        const card = tarot[id];
+        const card = tarot[draw.id];
         const question = document.createElement("p");
         question.className = "question";
         question.textContent = card.question;
-        drawn.replaceChildren(cardFigure(id, card, "large"), keywordList(card.keywords), question);
+        drawn.replaceChildren(cardFigure(draw.id, card, "large", draw.reversed), keywordList(card.keywords), meaningBlock(card, draw.reversed, vi ? "Hôm nay lá này gợi với bạn" : "Today this card points to"), question);
         drawn.hidden = false;
-        drawButton.textContent = vi ? "Rút lá khác" : "Draw another";
+        if (drawButton) drawButton.hidden = true;
+        if (drawNote) drawNote.hidden = true;
+        if (drawnNote) drawnNote.hidden = false;
+        // When the Play listing is on, the button carries the drawn card so the app can open on it later (T3).
+        if (play) play.href = playReferrerUrl(playBase, draw);
+      };
+      if (play) play.href = playReferrerUrl(playBase, null);
+      if (stored) showDraw(stored);
+      drawButton?.addEventListener("click", () => {
+        const draw = drawWebCard(Object.keys(tarot), ids, day);
+        try { localStorage.setItem(storageKey, JSON.stringify(draw)); } catch { /* private mode: the draw still shows */ }
+        showDraw(draw);
         tried();
       });
     }
@@ -243,6 +321,35 @@ const heading = {
         set("[data-sky-body]", entry.body);
       }
     }
+
+    if (panelName === "quote" && data.quote?.length) {
+      const books = data.quote;
+      const dateKey = quoteDateKey();
+      const block = root.querySelector<HTMLElement>("[data-quote]");
+      const tabs = [...root.querySelectorAll<HTMLButtonElement>("[data-quote-books] [data-book]")];
+      const set = (selector: string, text: string) => { const element = root.querySelector<HTMLElement>(selector); if (element) element.textContent = text; };
+      // First the app's line of the day from the whole library; a book tab then shows that book's own line of the day.
+      const showBook = (index: number, itemIndex = quoteItemIndex(books[index].id, dateKey, books[index].items.length)) => {
+        const book = books[index];
+        const [text, ref, question] = book.items[itemIndex];
+        set("[data-quote-text]", text);
+        set("[data-quote-source]", `${book.author} · ${ref}`);
+        set("[data-quote-question]", question);
+        for (const tab of tabs) tab.setAttribute("aria-pressed", String(tab.dataset.book === book.id));
+        if (block) block.hidden = false;
+      };
+      const daily = quoteLibraryPick(dateKey, books.map((book) => book.items.length));
+      if (daily) showBook(daily.bookIndex, daily.itemIndex);
+      for (const tab of tabs) {
+        tab.addEventListener("click", () => {
+          const index = books.findIndex((book) => book.id === tab.dataset.book);
+          if (index < 0) return;
+          showBook(index);
+          // The variant only: never which book or line.
+          tried();
+        });
+      }
+    }
   }
 </script>
 <style>
@@ -257,7 +364,15 @@ const heading = {
 .friend-question,.question{font:500 clamp(1.3rem,4.5vw,1.8rem)/1.25 var(--display);color:var(--gold);margin:0 0 18px;max-width:30ch}
 .try{margin:26px 0 0;padding:22px 0 0;border-top:1px solid var(--line)}
 .try .button{min-width:220px}
-.drawn{display:grid;grid-template-columns:minmax(0,180px);gap:12px;margin-top:20px}
+.try [hidden]{display:none}
+.try-ask{font:500 clamp(1.3rem,4.5vw,1.7rem)/1.25 var(--display);color:var(--ivory);margin:6px 0 16px}
+.drawn{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;margin-top:20px;max-width:620px}
+.drawn :global(.card-figure){max-width:180px}
+:global(.card-figure.reversed img){transform:rotate(180deg)}
+:global(.orientation){font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,164,92,.5);border-radius:99px;padding:.15rem .45rem;vertical-align:middle;white-space:nowrap}
+:global(.meaning){margin:10px 0 0;max-width:62ch}
+:global(.meaning p){margin:0;color:var(--ivory);line-height:1.55}
+:global(.meaning .meaning-label){margin:0 0 4px;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
 :global(.card-figure){margin:0}
 :global(.card-figure img){width:100%;height:auto;border-radius:10px;border:1px solid rgba(201,164,92,.4);background:#0f0e0d}
 :global(.card-figure figcaption){margin-top:8px;font:500 1.15rem/1.25 var(--display);color:var(--ivory)}
@@ -275,6 +390,14 @@ const heading = {
 .result-title{font:500 clamp(1.7rem,5vw,2.4rem)/1.15 var(--display);margin:0 0 12px}
 .sky-meta{color:var(--moon);margin:0 0 12px;font-size:.92rem}
 .sky-line{font:500 clamp(1.5rem,5vw,2.2rem)/1.2 var(--display);color:var(--gold);margin:0 0 16px;max-width:28ch}
+.quote-block{margin:0 0 8px;max-width:680px}
+.quote-text{margin:0 0 14px;padding:0 0 0 18px;border-left:3px solid var(--gold);font:500 clamp(1.5rem,5vw,2.2rem)/1.3 var(--display);color:var(--ivory)}
+.quote-source{color:var(--moon);font-size:.92rem;margin:0 0 20px}
+.quote-ask{margin:0 0 6px}
+.book-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
+.book-tab{min-height:44px;padding:.45rem .9rem;border:1px solid var(--line);border-radius:99px;background:transparent;color:var(--ivory);font:inherit;font-size:.9rem;cursor:pointer}
+.book-tab[aria-pressed="true"]{border-color:var(--gold);color:var(--gold)}
+.book-tab:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .join{display:grid;grid-template-columns:1fr 1fr;gap:80px}
 @media(max-width:800px){.join{grid-template-columns:1fr;gap:32px}.share-hero{padding:56px 0 48px}.try .button{width:100%}}
 @media(min-width:801px){.friend-cards[data-count="3"]{grid-template-columns:repeat(3,minmax(0,1fr))}.friend-cards[data-count="4"]{grid-template-columns:repeat(4,minmax(0,1fr))}}

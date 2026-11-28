@@ -296,6 +296,33 @@ const features = [
     ],
     prompt:
       "Join 3 to 5 of the sent Numerology blocks into one gentle reflective message. Use only the block text; no predictions, money, health or relationship verdicts."
+  },
+  // 2026-11-28: code defaults mirror packages/agent-config/model-routing.json; switch seeded off; report saved on the phone only.
+  {
+    id: "numerology_report",
+    name: "Numerology Full Report",
+    icon: "N",
+    version: "2026-11-28-numerology-report-v1",
+    status: "Active",
+    risk: "Medium",
+    provider: "openrouter",
+    model: "deepseek/deepseek-v4.1-flash",
+    fallbackProvider: "openrouter",
+    fallbackModel: "xiaomi/mimo-v2.6-flash",
+    schema: "numerology_report_v1",
+    safety: "Approved blocks only, strict output check",
+    description: "Premium, once a day: joins the approved Numerology blocks of the Number Map into 6-7 report sections. The app sends computed numbers, chart digits, arrows and block ids only.",
+    fields: [
+      field("language", "Language", "low", true, "vi"),
+      field("numbers", "Computed numbers", "medium", true, "core numbers, cycles, pinnacle"),
+      field("chart", "Birth chart digits and arrows", "medium", true, "digits present, no counts"),
+      field("blockIds", "Content block ids", "low", true, "up to 48"),
+      field("userName", "User name", "medium", false, "not sent"),
+      field("birthDate", "Birth date", "high", false, "not sent"),
+      field("journalHistory", "Journal history", "high", false, "not sent")
+    ],
+    prompt:
+      "Join the sent Numerology blocks into one report with the given sections and three open questions. Use only the block text; no predictions, money, health or relationship verdicts."
   }
 ];
 

@@ -10,7 +10,7 @@ import { parseAdminAccess } from "./features/owner/access";
 import type { AstrologyAiInvocation, AstrologyAiInsightResponse, AstrologyAiInsightResult } from "./features/astrology/astrologyAiInsight";
 import { parseTarotClarifier, parseTarotGuestDraw, parseTarotServerDraw, type TarotClarifier, type TarotGuestDraw, type TarotServerDraw } from "./features/tarot/serverDraw";
 import { MAX_NOTE_ATTEMPTS, parseReaderSuggestion, parseTarotNoteResponse, type ReaderAiSuggestion, type TarotNoteOutcome } from "./features/tarot/tarotNote";
-import type { PrivateMessagePayload } from "./features/numerology/aiPayload";
+import type { PrivateMessagePayload, ReportPayload, ReportSectionId } from "./features/numerology/aiPayload";
 import {
   ChatHandoffContext,
   DailyInsight,
@@ -366,6 +366,7 @@ const supabaseFunctionPathMap: Record<string, string> = {
   "/ai/ai-council": "/ai-council",
   "/ai/tarot-reading": "/ai-tarot-reading",
   "/ai/numerology-message": "/ai-numerology-message",
+  "/ai/numerology-report": "/ai-numerology-report",
   "/tarot/guest-draw": "/tarot-guest-draw",
   "/ai/daily-insight": "/ai-daily-insight",
   "/ai/daily-zodiac-pulse": "/ai-daily-zodiac-pulse",
@@ -1123,6 +1124,77 @@ export async function requestNumerologyMessage(payload: PrivateMessagePayload, o
   try {
     const result = await postKeepingStatus("/ai/numerology-message", payload, options, 45000);
     return result ? parseNumerologyMessageResponse(result.status, result.body) : { kind: "unavailable", reason: "auth" };
+  } catch (error) {
+    return { kind: "unavailable", reason: error instanceof BackendUnavailableError ? error.reason : "busy" };
+  }
+}
+
+/** One section of a generated Number Map report; the title is the approved title the server sends, never model text. */
+export type NumerologyReportSection = { id: ReportSectionId; title: string; body: string; blockIds: string[] };
+export type NumerologyReportResult = {
+  sections: NumerologyReportSection[];
+  questions: string[];
+  language: "vi" | "en";
+  promptVersion: string;
+  createdAt: string;
+};
+
+/** What the "Báo cáo tổng hợp" card shows after one request (2026-11-28, R1). Mirrors NumerologyMessageOutcome. */
+export type NumerologyReportOutcome =
+  | { kind: "report"; report: NumerologyReportResult; nextReportAt?: string }
+  /** feature_paused or content_not_approved: the card shows "Sắp có" and no button. */
+  | { kind: "soon" }
+  | { kind: "premium_required" }
+  /** Today's report was delivered, or the failures allowed today are used. */
+  | { kind: "daily_limit"; nextReportAt?: string }
+  /** A model safety block: calm, no retry today. */
+  | { kind: "blocked" }
+  | { kind: "unavailable"; reason: "offline" | "busy" | "auth" };
+
+const reportSectionIdSet = new Set<string>(["you", "name", "chart", "year", "pinnacle", "relationship", "questions"]);
+
+/** Maps one ai-numerology-report answer. Never invents report text; a malformed 200 is "busy". */
+export function parseNumerologyReportResponse(status: number, body: Record<string, unknown>): NumerologyReportOutcome {
+  const error = typeof body.error === "string" ? body.error : "";
+  const nextReportAt = typeof body.nextReportAt === "string" && body.nextReportAt ? body.nextReportAt : undefined;
+  if (error === "feature_paused" || error === "content_not_approved") return { kind: "soon" };
+  if (status === 403 && error === "premium_required") return { kind: "premium_required" };
+  if (status === 429 && error === "daily_limit_reached") return { kind: "daily_limit", nextReportAt };
+  if (status === 401) return { kind: "unavailable", reason: "auth" };
+  if (body.moderationStatus === "blocked") return { kind: "blocked" };
+  if (status !== 200) return { kind: "unavailable", reason: "busy" };
+  const busy = { kind: "unavailable", reason: "busy" } as const;
+  if (!Array.isArray(body.sections) || body.sections.length === 0) return busy;
+  const sections: NumerologyReportSection[] = [];
+  for (const raw of body.sections as unknown[]) {
+    const item = raw && typeof raw === "object" ? raw as Record<string, unknown> : null;
+    if (!item || typeof item.id !== "string" || !reportSectionIdSet.has(item.id)) return busy;
+    const title = typeof item.title === "string" ? item.title.trim() : "";
+    const text = typeof item.body === "string" ? item.body.trim() : "";
+    if (!title || !text) return busy;
+    const blockIds = Array.isArray(item.blockIds) ? item.blockIds.filter((id): id is string => typeof id === "string") : [];
+    sections.push({ id: item.id as ReportSectionId, title, body: text, blockIds });
+  }
+  const questions = Array.isArray(body.questions) ? body.questions.filter((q): q is string => typeof q === "string" && q.trim().length > 0).map((q) => q.trim()) : [];
+  if (questions.length === 0) return busy;
+  const language = body.language === "en" ? "en" : "vi";
+  const promptVersion = typeof body.promptVersion === "string" ? body.promptVersion : "";
+  const createdAt = typeof body.createdAt === "string" && body.createdAt ? body.createdAt : new Date().toISOString();
+  return { kind: "report", report: { sections, questions, language, promptVersion, createdAt }, nextReportAt };
+}
+
+/**
+ * 2026-11-28 (R1): asks ai-numerology-report for the full Number Map report. The payload holds computed numbers, the
+ * digits present, arrows and block ids only (aiPayload.buildReportPayload). Signed-in accounts only; never throws and
+ * never returns canned text. The server keeps no copy of the text; the app saves it on the device (reportStore.ts).
+ */
+export async function requestNumerologyReport(payload: ReportPayload, options: BackendOptions): Promise<NumerologyReportOutcome> {
+  const current = currentOptions(options);
+  if (!current.baseUrl || !current.authToken) return { kind: "unavailable", reason: "auth" };
+  try {
+    // The route allows two models of 60 s each inside a 120 s deadline; wait a little past it.
+    const result = await postKeepingStatus("/ai/numerology-report", payload, options, 125000);
+    return result ? parseNumerologyReportResponse(result.status, result.body) : { kind: "unavailable", reason: "auth" };
   } catch (error) {
     return { kind: "unavailable", reason: error instanceof BackendUnavailableError ? error.reason : "busy" };
   }

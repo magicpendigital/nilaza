@@ -3,9 +3,11 @@ import { AiRequestError, guardAiJsonRequest } from "../_shared/ai-request-guard.
 // Share measurement: the only values that can be stored. The mobile app builds its events from these same lists
 // (a mobile test compares them), so adding a value is a deliberate change in both places.
 export const SHARE_EVENT_NAMES = ["share_tapped", "share_completed"] as const;
-export const SHARE_SURFACES = ["today_card", "tarot_reading", "astro_big3", "astro_invite", "numerology_map", "daily_sky"] as const;
+export const SHARE_SURFACES = ["today_card", "tarot_reading", "astro_big3", "astro_invite", "numerology_map", "daily_sky", "book_quote"] as const;
 export const SHARE_ACTIONS = ["image", "link"] as const;
 export const SHARE_OUTCOMES = ["returned", "unavailable", "failed"] as const;
+// Image size chosen in the share sheet (28/11/2026): post 4:5 or story 9:16. Optional, and only with action "image".
+export const SHARE_FORMATS = ["post", "story"] as const;
 // Product signals for model campaigns and the Tarot note / reader suggestion (proposal 2026-11-23). Stored with
 // feature "product_signal" and a strictly enumerated metadata object; they share the daily limit with share events.
 export const PRODUCT_EVENT_NAMES = [
@@ -21,6 +23,7 @@ export type ShareEvent = {
   surface: (typeof SHARE_SURFACES)[number];
   action: (typeof SHARE_ACTIONS)[number];
   outcome?: (typeof SHARE_OUTCOMES)[number];
+  format?: (typeof SHARE_FORMATS)[number];
 };
 
 export type ProductMetadata = Partial<Record<(typeof PRODUCT_METADATA_KEYS)[number], string>>;
@@ -117,15 +120,18 @@ export function parseShareEvents(input: Record<string, unknown>): ParsedEvent[] 
       events.push(product);
       continue;
     }
-    if (!onlyKeys(event, ["name", "surface", "action", "outcome"])) return null;
+    if (!onlyKeys(event, ["name", "surface", "action", "outcome", "format"])) return null;
     if (!oneOf(SHARE_EVENT_NAMES, event.name) || !oneOf(SHARE_SURFACES, event.surface) || !oneOf(SHARE_ACTIONS, event.action)) return null;
+    // The format describes the shared image, so it is allowed only with action "image" and only from the list.
+    if ("format" in event && (event.action !== "image" || !oneOf(SHARE_FORMATS, event.format))) return null;
+    const format = oneOf(SHARE_FORMATS, event.format) ? { format: event.format } : {};
     if (event.name === "share_completed") {
       if (!oneOf(SHARE_OUTCOMES, event.outcome)) return null;
-      events.push({ name: event.name, surface: event.surface, action: event.action, outcome: event.outcome });
+      events.push({ name: event.name, surface: event.surface, action: event.action, outcome: event.outcome, ...format });
     } else {
       // A tap has no outcome yet.
       if ("outcome" in event) return null;
-      events.push({ name: event.name, surface: event.surface, action: event.action });
+      events.push({ name: event.name, surface: event.surface, action: event.action, ...format });
     }
   }
   return events;
@@ -173,7 +179,7 @@ export function createShareEventsHandler(storeFor: (req: Request) => Store | nul
           user_id: userId,
           event_name: event.name,
           feature: "share",
-          metadata: { surface: event.surface, action: event.action, ...(event.outcome ? { outcome: event.outcome } : {}) }
+          metadata: { surface: event.surface, action: event.action, ...(event.outcome ? { outcome: event.outcome } : {}), ...(event.format ? { format: event.format } : {}) }
         });
       const { error } = await store!.insert(rows);
       if (error) return json({ error: "share_events_unavailable" }, 503);

@@ -535,6 +535,68 @@ for (const relation of ["same", "sameParity", "differentParity"]) {
   assertExtraText(numerologyExtra.relationship?.questions?.[relation], "relationship.questions." + relation);
 }
 for (const key of ["chart", "digits", "relationship"]) scanSkyText(numerologyExtra[key], "." + key, "numerology-reading-extra");
+// 2026-11-28 (R0): Báo cáo tổng hợp strings, kept apart from the approved store with their own review block. The
+// ai-numerology-report function refuses while this review is a draft.
+const numerologyReport = readJson("packages/content/data/numerology-report.json");
+const assertReportText = (value, label) => assertViText(value, "numerology-report." + label);
+assert(["draft", "approved"].includes(numerologyReport.review?.status), "numerology-report.review.status must be draft or approved");
+assert(numerologyReport.review?.status !== "approved" || Boolean(numerologyReport.review?.reviewer), "numerology-report approved without a reviewer");
+for (const section of ["you", "name", "chart", "year", "pinnacle", "relationship", "questions"]) {
+  for (const field of ["title", "hint"]) assertReportText(numerologyReport.sections?.[section]?.[field], "sections." + section + "." + field);
+}
+assert(Object.keys(numerologyReport.sections ?? {}).length === 7, "numerology-report.sections must hold exactly 7 sections");
+for (const key of ["title", "teaser", "open", "back", "tocTitle", "partLabel", "localNote", "lockedNote", "noName", "action", "consentTitle",
+  "consentBody", "consentConfirm", "consentCancel", "loading", "aiLabel", "premiumNote", "dailyLimit", "unavailable", "retry", "blocked", "soon",
+  "soonBody", "savedTitle", "savedAt", "savedNote", "regenerate", "regenerateHint", "view", "delete", "deleteTitle", "deleteBody", "rowLabel",
+  "draftNote"]) assertReportText(numerologyReport.report?.[key], "report." + key);
+assert(/\{n\}/.test(numerologyReport.report?.partLabel?.vi ?? "") && /\{n\}/.test(numerologyReport.report?.partLabel?.en ?? ""), "numerology-report.report.partLabel needs {n}");
+assert(/\{date\}/.test(numerologyReport.report?.savedAt?.vi ?? "") && /\{date\}/.test(numerologyReport.report?.savedAt?.en ?? ""), "numerology-report.report.savedAt needs {date}");
+for (const key of ["sections", "report"]) scanSkyText(numerologyReport[key], "." + key, "numerology-report");
+// 2026-11-28: "Hai hệ cùng nhìn bạn" template content (Sun x life path and Moon x soul urge, 36 blocks each).
+// Draft until the Owner approves; no AI at runtime, so every sentence is checked here.
+const twoSystems = readJson("packages/content/data/two-systems-blocks.json");
+const assertTwoText = (value, label) => assertViText(value, "two-systems-blocks." + label);
+assert(hasText(twoSystems.version), "two-systems-blocks.version is missing");
+assert(["draft", "approved"].includes(twoSystems.review?.status), "two-systems-blocks.review.status must be draft or approved");
+assert(twoSystems.review?.status !== "approved" || (hasText(twoSystems.review?.reviewer) && hasText(twoSystems.review?.reviewedAt)), "two-systems-blocks approved without reviewer and reviewedAt");
+assert(!/external|ngoài|chưa có chuyên gia/i.test(twoSystems.review?.note ?? ""), "two-systems-blocks.review.note must not carry an external-expert disclaimer (Owner decision 28/11/2026)");
+const twoUiKeys = ["title", "intro", "sourceNote", "sunAxisTitle", "moonAxisTitle", "meetLabel", "differLabel", "questionLabel", "needBirthDate", "needSun", "needMoon", "needName", "premiumLocked", "guestInvite", "writeJournal", "masterNote"];
+for (const key of twoUiKeys) assertTwoText(twoSystems.ui?.[key], "ui." + key);
+assert(/\{number\}/.test(twoSystems.ui?.masterNote?.vi ?? "") && /\{number\}/.test(twoSystems.ui?.masterNote?.en ?? ""), "two-systems-blocks.ui.masterNote must keep the {number} placeholder in vi and en");
+const twoElements = ["fire", "earth", "air", "water"];
+for (const element of twoElements) for (const field of ["name", "sunFrame", "moonFrame"]) assertTwoText(twoSystems.elements?.[element]?.[field], "elements." + element + "." + field);
+const twoSentences = new Map();
+const noteTwoSentences = (value, label) => {
+  for (const language of ["vi", "en"]) {
+    for (const sentence of String(value?.[language] ?? "").split(/(?<=[.!?])\s+/)) {
+      const normalized = sentence.trim().toLowerCase();
+      if (normalized.length < 12) continue;
+      const earlier = twoSentences.get(language + ":" + normalized);
+      assert(!earlier, `two-systems-blocks.${label}.${language} repeats a sentence already used in ${earlier}`);
+      twoSentences.set(language + ":" + normalized, label);
+    }
+  }
+};
+for (const axisName of ["sun", "moon"]) {
+  const axisBlocks = twoSystems[axisName] ?? {};
+  const expectedKeys = twoElements.flatMap((element) => nbDigits.map((digit) => `${element}.${digit}`));
+  assert(Object.keys(axisBlocks).length === expectedKeys.length, `two-systems-blocks.${axisName} must have exactly ${expectedKeys.length} blocks`);
+  for (const key of expectedKeys) {
+    assert(axisBlocks[key], `two-systems-blocks.${axisName}.${key} is missing`);
+    for (const field of ["meet", "differ", "question"]) {
+      assertTwoText(axisBlocks[key]?.[field], `${axisName}.${key}.${field}`);
+      noteTwoSentences(axisBlocks[key]?.[field], `${axisName}.${key}.${field}`);
+    }
+  }
+  scanSkyText(axisBlocks, "." + axisName, "two-systems-blocks");
+}
+for (const key of ["ui", "elements"]) {
+  scanSkyText(twoSystems[key], "." + key, "two-systems-blocks");
+  const walk = (node, label) => (node && typeof node === "object" ? Object.entries(node).forEach(([k, v]) => (k === "vi" || k === "en" ? noteTwoSentences({ [k]: v }, label) : walk(v, label + "." + k))) : null);
+  walk(twoSystems[key], key);
+}
+assert(!/(?<!\d)\d{4}(?!\d)/.test(JSON.stringify(["sun", "moon", "ui", "elements"].map((key) => twoSystems[key]))), "two-systems-blocks text must not contain a 4-digit number (no years)");
+assert(!/(tuổi|thế hệ|years? old|generation)/i.test(JSON.stringify(["sun", "moon"].map((key) => twoSystems[key]))), "two-systems-blocks blocks must not mention age or generation");
 const skyTopics = readJson("packages/content/data/astrology-topic-placements.json");
 for (const key of ["reminder", "birthTimeNote", "needsBirthTime"]) assertViText(skyTopics[key], `astrology-topic-placements.${key}`);
 for (const [topicId, topic] of Object.entries(skyTopics.topics)) {

@@ -27,7 +27,11 @@
     // 2026-11-25 (migration 20261125090000): seeded off; limits and prompt are fixed in code this batch.
     { id: "numerology_private_message", label: "Lời nhắn riêng Thần số học", config: false,
       switchNote: "Tắt sẵn. Khi bật, hàm vẫn trả “Sắp có” cho đến khi nội dung numerology-blocks được duyệt.",
-      configNote: "Chỉ Premium. Hạn mức cố định trong mã: 1 lời nhắn mỗi ngày (giờ Việt Nam), tối đa 3 lần thử/ngày; không tốn Nil; prompt chưa sửa được ở Admin." }
+      configNote: "Chỉ Premium. Hạn mức cố định trong mã: 1 lời nhắn mỗi ngày (giờ Việt Nam), tối đa 3 lần thử/ngày; không tốn Nil; prompt chưa sửa được ở Admin." },
+    // 2026-11-28 (migration 20261128100000): seeded off; limits and prompt are fixed in code this batch.
+    { id: "numerology_report", label: "Báo cáo tổng hợp Thần số học", config: false,
+      switchNote: "Tắt sẵn. Khi bật, hàm vẫn trả “Sắp có” cho đến khi numerology-blocks và chữ của báo cáo (numerology-report) được duyệt.",
+      configNote: "Chỉ Premium. Hạn mức cố định trong mã: 1 báo cáo mỗi ngày (giờ Việt Nam) + 2 lần lỗi; không tốn Nil; báo cáo chỉ lưu trên máy; prompt chưa sửa được ở Admin." }
   ]);
   const CONFIG_IDS = FEATURES.filter(item => item.config).map(item => item.id);
   const MIGRATION_NOTE = "Máy chủ chưa có bảng cấu hình — cần Owner áp migration 20261113090100. Công tắc bật/tắt vẫn dùng được.";

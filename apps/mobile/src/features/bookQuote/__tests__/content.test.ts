@@ -2,6 +2,7 @@ import {
   BOOK_QUOTE_FEATURE_ID, SHOW_DRAFT_BOOK_QUOTES, availableBookQuoteBooks, bookQuoteBookForPersona, bookQuoteBookOrder, bookQuoteDateKey, bookQuoteHandoff,
   bookQuoteFeatureTitle, dailyBookQuote, getBookQuoteFile, isBookQuoteFileVisible, pickBookQuote, stableHash, visibleBookQuoteItems
 } from "../content";
+import type { BookQuoteBookId } from "../content";
 
 const bookQuoteDataDir = "../../../../../../packages/content/data/book-quotes";
 const bookQuoteDataFiles = ["dao-duc-kinh", "suy-tuong", "kinh-phap-cu", "binh-phap-ton-tu", "kinh-dich"];
@@ -137,4 +138,22 @@ test("chat hand-off stays inside the server limits and carries the quote, not an
   expect(handoff.safeSummary).toContain(quote.item.quote.vi);
   expect(handoff.sourceId).toBe(`kinh-phap-cu:${quote.item.id}:2026-11-27`);
   expect(bookQuoteHandoff(quote, "en").sourceLabel).toContain("Dhammapada");
+});
+
+// The website's quote page (apps/web/src/lib/shareLanding.ts) repeats this rotation so a QR scanned on the day it
+// was shared opens the same line. scripts/share-landing.test.mjs pins the same table; change both together.
+describe("daily rotation shared with the website", () => {
+  const table: [string, string, string, string, string][] = [
+    ["2026-11-28", "kinh-dich", "kd-09", "kinh-phap-cu", "pc-025"],
+    ["2026-12-31", "suy-tuong", "st-07-61", "dao-duc-kinh", "ddk-004"],
+    ["2027-01-01", "kinh-dich", "kd-07", "suy-tuong", "st-02-05"],
+    ["2027-02-28", "suy-tuong", "st-07-26", "kinh-dich", "kd-12"],
+    ["2028-02-29", "binh-phap-ton-tu", "bp-08-04", "dao-duc-kinh", "ddk-023"]
+  ];
+  it.each(table)("%s", (dateKey, book, itemId, otherBook, otherItemId) => {
+    const home = dailyBookQuote(dateKey);
+    expect(home?.book).toBe(book);
+    expect(home?.item.id).toBe(itemId);
+    expect(pickBookQuote(otherBook as BookQuoteBookId, dateKey)?.item.id).toBe(otherItemId);
+  });
 });

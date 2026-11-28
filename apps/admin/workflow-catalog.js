@@ -330,6 +330,53 @@
     e("usage_response", "usage_log", "response", t("Trả về", "Return"), [nm[1]], ["response", "response"])
   ], [t("Công tắc numerology_private_message tắt sẵn; migration 20261125090000 và việc deploy ai-numerology-message cần Owner duyệt. Nội dung numerology-blocks còn bản nháp nên hàm trả content_not_approved. Trace ghi theo feature numerology_private_message nhưng chưa gắn vào sơ đồ này.", "The numerology_private_message switch is seeded off; migration 20261125090000 and deploying ai-numerology-message need Owner approval. The numerology blocks are still a draft, so the function answers content_not_approved. Traces are written under numerology_private_message but are not bound to this graph.")]);
 
+  // 2026-11-28: Numerology "Báo cáo tổng hợp". Premium, signed-in, one delivered report a Vietnam day (+2 failed attempts).
+  // The app sends computed numbers, the digits present in the chart, the arrows and block ids only; the report is saved on
+  // the phone only. Switch seeded off.
+  const nrp = [r(f("ai-numerology-report")), r("supabase/functions/ai-numerology-report/handler.ts", "createNumerologyReportHandler"),
+    r(s("feature-switch.ts"), "featureEnabledStrict"), r(s("daily-attempts.ts"), "claimDeliveredAttempt"), r(s("numerology-payload.ts"), "resolveReportSections"),
+    r(s("numerology-report-prompt.ts"), "checkNumerologyReportText"), r(s("model-router.ts")), r("packages/content/data/numerology-report.json")];
+  const numerologyReport = g("numerology_report", t("Báo cáo tổng hợp Thần số học — Premium, 1 lần/ngày", "Numerology full report — Premium, once a day"), nrp, [
+    n("request_guard", t("Đăng nhập (không ẩn danh)", "Sign-in (not anonymous)"), "guard", 0, 0, t("Cần tài khoản đã đăng nhập, không ẩn danh (401). Thân yêu cầu chưa được đọc ở bước này.", "A signed-in, non-anonymous account is required (401). The body is not read yet."), [nrp[0], nrp[1]],
+      [p("request", "NumerologyReportRequest", "POST ai-numerology-report", t("Chỉ con số đã tính, các chữ số có trong biểu đồ, mũi tên và mã khối, sau hộp đồng ý trên app", "Computed numbers, chart digits present, arrows and block ids only, after the in-app consent box"), "personal")],
+      [o("userId", "UserId", "access_gate.userId", t("Tài khoản đã xác thực", "Verified account"))]),
+    n("access_gate", t("Công tắc + duyệt nội dung + Premium", "Switch + content review + Premium"), "gate", 1, 0, t("Đọc công tắc kiểu nghiêm (thiếu dòng hoặc lỗi = tắt): 503 feature_paused. numerology-blocks hoặc numerology-report chưa duyệt (chưa approved hoặc chưa có người duyệt): 503 content_not_approved. Không phải Premium: 403 premium_required. Không tốn lượt.", "Strict switch read (missing row or error = off): 503 feature_paused. numerology-blocks or numerology-report not approved (not approved or no reviewer): 503 content_not_approved. Not Premium: 403 premium_required. No attempt is used."), [nrp[1], nrp[2], nrp[4]],
+      [p("userId", "UserId", "request_guard.userId", t("Tài khoản", "Account"))],
+      [o("userId", "UserId", "attempt_claim.userId", t("Chỉ khi được phép", "Only when allowed"))]),
+    n("attempt_claim", t("Giữ lượt trong ngày", "Daily attempt claim"), "gate", 2, 0, t("usage_events numerology_report_attempted bằng JWT của chính người dùng: 1 báo cáo đã giao + 2 lần lỗi mỗi ngày giờ Việt Nam; hết lượt: 429 daily_limit_reached kèm nextReportAt.", "usage_events numerology_report_attempted with the caller's own JWT: 1 delivered report + 2 failed attempts per Vietnam day; otherwise 429 daily_limit_reached with nextReportAt."), [nrp[3]],
+      [p("userId", "UserId", "access_gate.userId", t("Tài khoản", "Account"))],
+      [o("userId", "UserId", "section_resolve.userId", t("Đã ghi một lần thử", "One attempt recorded"))]),
+    n("section_resolve", t("Kiểm yêu cầu + dựng các phần", "Request check + section build"), "context", 3, 0, t("Đọc thân có giới hạn rồi kiểm hợp đồng chặt: version 1, chỉ khóa cho phép, con số đúng dạng, chữ số 1–9 tăng dần, mũi tên phải suy ra đúng từ chữ số, mã khối phải đúng bộ mà các con số dẫn tới (sai: 400, lần thử đã tính). Chữ của từng khối lấy từ numerology-blocks.json; không có họ tên, ngày sinh, tuổi hay số lần đếm chữ.", "Bounded body read, then a strict contract: version 1, allowed keys only, well-formed numbers, digits 1-9 ascending, arrows must follow from the digits, block ids must be exactly the set the numbers lead to (otherwise 400, attempt counted). Each block's text comes from numerology-blocks.json; no name, birth date, age or letter counts."), [nrp[1], nrp[4], nrp[7]],
+      [p("userId", "UserId", "attempt_claim.userId", t("Tài khoản", "Account"))],
+      [o("sections", "ReportSection[]", "report_prompt.sections", t("6–7 phần với chữ đã duyệt", "6-7 sections with approved text"), "personal")]),
+    n("report_prompt", t("Prompt báo cáo", "Report prompt"), "prompt", 4, 0, t("Hướng dẫn trong prompt-library (numerology_report_system, chưa sửa được ở Admin) + luật khóa trong mã. Dữ liệu người dùng là một khối JSON ghi rõ không phải chỉ dẫn.", "Guide from prompt-library (numerology_report_system, not Admin-editable yet) + code-locked rules. User data is one JSON block labelled as not instructions."), [nrp[5], r("packages/agent-config/prompt-library.json")],
+      [p("sections", "ReportSection[]", "section_resolve.sections", t("Khối đã duyệt", "Approved blocks"), "personal")],
+      [o("exchange", "ModelExchange", "model_call.exchange", t("System + JSON dữ liệu", "System + data JSON"), "personal")]),
+    n("model_call", t("Model báo cáo", "Report model"), "model", 5, 0, t("Route numerology_report: OpenRouter DeepSeek v4.1 Flash, dự phòng MiMo v2.6 Flash, JSON, 4000 token, 60 giây/bước, tổng 120 giây, tắt suy luận. Không thuộc chiến dịch model. Kiểm đầu ra chạy trong router để lỗi định dạng thử model dự phòng.", "numerology_report route: OpenRouter DeepSeek v4.1 Flash, MiMo v2.6 Flash fallback, JSON, 4000 tokens, 60 s per step, 120 s total, reasoning off. Not part of model campaigns. The output check runs inside the router so a format failure tries the fallback."), [nrp[6], nrp[1]],
+      [p("exchange", "ModelExchange", "report_prompt.exchange", t("Không gửi mã tài khoản", "No account id sent"), "personal")],
+      [o("generation", "ModelGeneration", "output_check.generation", t("Văn bản + metadata", "Text + metadata"), "personal")]),
+    n("output_check", t("Kiểm báo cáo", "Report check"), "branch", 6, 0, t("JSON {sections, questions}: đúng các phần đã gửi theo thứ tự, mỗi phần 30–350 từ và mã khối thuộc phần đó, đúng 3 câu hỏi, không từ cấm, không số năm. Tiêu đề phần lấy từ bản đã duyệt. Không đạt: 503 report_unavailable, không có chữ soạn sẵn. Bị chặn an toàn: ghi safety event, không thử lại.", "JSON {sections, questions}: the sent sections in order, 30-350 words each with block ids from that section, exactly 3 questions, no banned words, no year numbers. Section titles come from the approved copy. Failure: 503 report_unavailable, never canned text. Safety block: safety event, no retry."), [nrp[5], nrp[1]],
+      [p("generation", "ModelGeneration", "model_call.generation", t("Đầu ra model", "Model output"), "personal")],
+      [o("report", "NumerologyReport", "usage_log.report", t("Báo cáo đã kiểm", "Checked report"), "personal"), o("blocked", "SafetyBlock", "safety_event.blocked", t("Bị chặn an toàn", "Safety block"))]),
+    n("safety_event", t("Ghi safety event", "Safety event"), "storage", 6, 1, t("safety_events (feature chat, blocked_topic) với tóm tắt không có nội dung; 503 retryable false.", "safety_events (feature chat, blocked_topic) with a content-free summary; 503 retryable false."), [nrp[1]],
+      [p("blocked", "SafetyBlock", "output_check.blocked", t("Lý do chặn", "Block reason"))]),
+    n("usage_log", t("Ghi usage, không lưu báo cáo", "Usage record, report not stored"), "storage", 7, 0, t("usage numerology_report_generated: phiên bản prompt, ngôn ngữ, số phần, model. Không lưu báo cáo, con số hay mã khối; không có bảng lưu báo cáo.", "usage numerology_report_generated: prompt version, language, section count, model. No report, numbers or block ids are stored; there is no report table."), [nrp[1]],
+      [p("report", "NumerologyReport", "output_check.report", t("Chỉ đếm", "Counts only"), "personal")],
+      [o("response", "NumerologyReportResponse", "response.response", t("Báo cáo + nextReportAt", "Report + nextReportAt"), "personal")]),
+    n("response", t("Trả báo cáo", "Return the report"), "output", 8, 0, t("{sections, questions, language, model, nextReportAt, createdAt}; app lưu trên máy (nilaza.numerology.report.v1) và dùng lại khi bộ số chưa đổi.", "{sections, questions, language, model, nextReportAt, createdAt}; the app saves it on the phone (nilaza.numerology.report.v1) and reuses it while the number set is unchanged."), [nrp[1]],
+      [p("response", "NumerologyReportResponse", "usage_log.response", t("Trả cho app", "Returned to the app"), "personal")])
+  ], [
+    e("guard_access", "request_guard", "access_gate", t("Tài khoản", "Account"), [nrp[1]], ["userId", "userId"]),
+    e("access_claim", "access_gate", "attempt_claim", t("Được phép", "Allowed"), [nrp[1]], ["userId", "userId"], t("Công tắc bật, nội dung đã duyệt, Premium.", "Switch on, content approved, Premium.")),
+    e("claim_sections", "attempt_claim", "section_resolve", t("Đã giữ lượt", "Attempt claimed"), [nrp[3]], ["userId", "userId"]),
+    e("sections_prompt", "section_resolve", "report_prompt", t("Các phần đã duyệt", "Approved sections"), [nrp[4]], ["sections", "sections"]),
+    e("prompt_model", "report_prompt", "model_call", t("System + JSON", "System + JSON"), [nrp[1]], ["exchange", "exchange"]),
+    e("model_check", "model_call", "output_check", t("Đầu ra", "Output"), [nrp[1]], ["generation", "generation"]),
+    e("check_safety", "output_check", "safety_event", t("Bị chặn", "Blocked"), [nrp[1]], ["blocked", "blocked"], t("moderationStatus blocked.", "moderationStatus blocked.")),
+    e("check_usage", "output_check", "usage_log", t("Đạt", "Passed"), [nrp[1]], ["report", "report"]),
+    e("usage_response", "usage_log", "response", t("Trả về", "Return"), [nrp[1]], ["response", "response"])
+  ], [t("Công tắc numerology_report tắt sẵn; migration 20261128100000 và việc deploy ai-numerology-report cần Owner duyệt. Chữ của báo cáo (numerology-report.json) và prompt numerology_report_system được Owner duyệt 29/11; numerology-blocks đã duyệt 25/11. Trace ghi theo feature numerology_report nhưng chưa gắn vào sơ đồ này.", "The numerology_report switch is seeded off; migration 20261128100000 and deploying ai-numerology-report need Owner approval. The report copy (numerology-report.json) and the numerology_report_system prompt were approved by the Owner on 29/11; the numerology blocks were approved on 25/11. Traces are written under numerology_report but are not bound to this graph.")]);
+
   // Field-level ports supplement aggregates; these names describe data use only,
   // never expose example private values or turn the graph into an executor.
   const fieldNode = (feature, id) => feature.nodes.find((item) => item.id === id);
@@ -390,7 +437,7 @@
   );
   const catalog = {
     schemaVersion: 1, version: "nilaza-admin-workflow-source-v1", reviewedAt: "2026-11-25",
-    features: [oracle, persona, council, tarot, daily, notifications, astrology, face, tarotNote, readerRouter, numerologyMessage],
+    features: [oracle, persona, council, tarot, daily, notifications, astrology, face, tarotNote, readerRouter, numerologyMessage, numerologyReport],
     sourceDigests: [
   {
     "path": "supabase/migrations/20260909014614_ai_trace_observability.sql",
@@ -398,7 +445,7 @@
   },
   {
     "path": "apps/mobile/App.tsx",
-    "sha256": "86aebb1d918ab00677f52e260863828942330b52d3299fa1aa9f872913a2daf9"
+    "sha256": "605cc62ac7a3581c9d3520493ee4c8acaa2edaa484a282675c1fcef7b00dade2"
   },
   {
     "path": "docs/FEATURE_PRD.md",
@@ -418,7 +465,7 @@
   },
   {
     "path": "packages/agent-config/prompt-library.json",
-    "sha256": "eb64e7ae297c122c119dc24f879217e986f80463a25c4113cf263e5885e5daa6"
+    "sha256": "4d5382027ca6c4be95276ca27ef474352df38a81c1e6f38bca774cd0242b26b5"
   },
   {
     "path": "packages/astrology-core/calculator.mjs",
@@ -454,7 +501,7 @@
   },
   {
     "path": "supabase/functions/_shared/model-router.ts",
-    "sha256": "6df41b89af38cf2622aed394a02e3c8b401af2e720ee68964aab04785c790140"
+    "sha256": "e91eee46a3888a08fe198d18abc63068cb15c5a613d694b12cd68aafc0543b42"
   },
   {
     "path": "supabase/functions/_shared/notification-provider.ts",
@@ -594,7 +641,7 @@
   },
   {
     "path": "supabase/functions/_shared/feature-switch.ts",
-    "sha256": "45b6f6c4a320b9cf1fa95091e346418860b6bc47406822288eb8f16a53569731"
+    "sha256": "874e502f0a8226e4d41ea7c4f4a0b24b42d9c67c8a74ffaaedd7914ab3344a87"
   },
   {
     "path": "supabase/functions/_shared/daily-attempts.ts",
@@ -611,6 +658,26 @@
   {
     "path": "packages/content/data/numerology-blocks.json",
     "sha256": "918d9cea12a8c34a18edd969c0a45f2b76507bf6c77206a5c929ba243f3d84a8"
+  },
+  {
+    "path": "supabase/functions/ai-numerology-report/index.ts",
+    "sha256": "2b60a9c099475b8d9c8d6b5925b52e886c521925b1455824c3ed9f4a570455e8"
+  },
+  {
+    "path": "supabase/functions/ai-numerology-report/handler.ts",
+    "sha256": "17151ec2636f15b0bf383c7e535887858f08cdc8c4d9e53402c9f2f1a72318a8"
+  },
+  {
+    "path": "supabase/functions/_shared/numerology-payload.ts",
+    "sha256": "030435754d1f2f8c77f3e91b89982d78bb042187d3113584bda0581b1b001e90"
+  },
+  {
+    "path": "supabase/functions/_shared/numerology-report-prompt.ts",
+    "sha256": "a53945c86bef487257f840ece2734fc8a5071d79b42eba229d086e297d169d5f"
+  },
+  {
+    "path": "packages/content/data/numerology-report.json",
+    "sha256": "9fc06c745f69a8904f40f017b42c2aacab00ca05c7685e572cc3c225d610dd7e"
   }
 ]
   };

@@ -68,16 +68,76 @@ export function parseCardIds(param: string | null, known: ReadonlySet<string>): 
   return result;
 }
 
+/** Per-card orientation from ?o= (one 0/1 per card, 1 = reversed). Anything else, or a missing value, reads as upright, so older links still open. */
+export function parseOrientations(param: string | null, count: number): boolean[] {
+  const valid = typeof param === "string" && /^[01]{1,4}$/.test(param);
+  return Array.from({ length: count }, (_, index) => (valid ? param[index] === "1" : false));
+}
+
+/** ?m=1 means the sharer chose to include the card meaning. */
+export const parseMeaningFlag = (param: string | null): boolean => param === "1";
+
+/** Vietnam calendar day (UTC+7) as YYYY-MM-DD, the day the app's daily draw uses. */
+export function vnDateKey(at: Date = new Date()): string {
+  return new Date(at.getTime() + 7 * 3600000).toISOString().slice(0, 10);
+}
+
+export type WebDraw = { id: string; reversed: boolean; day: string };
+
+/** The visitor's stored draw, only when it is well formed, a known card and from the given day; otherwise null. */
+export function readWebDraw(raw: string | null, day: string, known: ReadonlySet<string>): WebDraw | null {
+  if (!raw) return null;
+  try {
+    const value = JSON.parse(raw) as Partial<WebDraw>;
+    if (!value || typeof value.id !== "string" || !cardIdPattern.test(value.id) || !known.has(value.id)) return null;
+    if (typeof value.reversed !== "boolean" || value.day !== day) return null;
+    return { id: value.id, reversed: value.reversed, day };
+  } catch {
+    return null;
+  }
+}
+
+/** One draw for the day: a card not among the friend's, upright or reversed at even odds (as in the app). */
+export function drawWebCard(ids: readonly string[], exclude: readonly string[], day: string, random: () => number = defaultRandom): WebDraw {
+  const pool = ids.filter((id) => !exclude.includes(id));
+  const deck = pool.length ? pool : ids;
+  return { id: deck[randomIndex(deck.length, random)], reversed: random() < 0.5, day };
+}
+
+const meaningPrefixes = [/^Lá bài gợi\s+/, /^The card suggests\s+/];
+/** Library meaning shown under a label ("Hôm nay lá này gợi với bạn"): drop the "Lá bài gợi" opening so it does not repeat the label. */
+export function meaningBody(text: string): string {
+  for (const prefix of meaningPrefixes) {
+    if (prefix.test(text)) {
+      const rest = text.replace(prefix, "");
+      return rest.charAt(0).toLocaleUpperCase("vi") + rest.slice(1);
+    }
+  }
+  return text;
+}
+
+/** Google Play address with an install referrer: the surface, and the visitor's drawn card when there is one. Nothing else. */
+export function playReferrerUrl(playUrl: string, draw: WebDraw | null): string {
+  const referrer = new URLSearchParams({ utm_source: "share", utm_medium: "web", utm_campaign: "share_landing" });
+  if (draw) {
+    referrer.set("c", draw.id);
+    referrer.set("o", draw.reversed ? "1" : "0");
+    referrer.set("d", draw.day);
+  }
+  return `${playUrl}&referrer=${encodeURIComponent(referrer.toString())}`;
+}
+
 // Same list as the app (shareEvents.ts) and the share-events server function.
-export const shareSurfaces = ["today_card", "tarot_reading", "astro_big3", "astro_invite", "numerology_map", "daily_sky"] as const;
+// book_quote added 28/11/2026 (share cards v2, S1a); its own landing variant comes with S1b.
+export const shareSurfaces = ["today_card", "tarot_reading", "astro_big3", "astro_invite", "numerology_map", "daily_sky", "book_quote"] as const;
 export type ShareSurface = (typeof shareSurfaces)[number];
 
 /** The page layout a share link opens. Big 3 and invite links open /compare and have no variant here. */
-export const shareVariants = ["card", "reading", "numbers", "sky"] as const;
+export const shareVariants = ["card", "reading", "numbers", "sky", "quote"] as const;
 export type ShareVariant = (typeof shareVariants)[number];
 export const isShareVariant = (value: unknown): value is ShareVariant => (shareVariants as readonly unknown[]).includes(value);
 
-const variantBySurface: Partial<Record<ShareSurface, ShareVariant>> = { today_card: "card", tarot_reading: "reading", numerology_map: "numbers", daily_sky: "sky" };
+const variantBySurface: Partial<Record<ShareSurface, ShareVariant>> = { today_card: "card", tarot_reading: "reading", numerology_map: "numbers", daily_sky: "sky", book_quote: "quote" };
 
 /** Link preview title and description (Zalo, Messenger) per variant. Static, so it never repeats what was shared. */
 export function shareMeta(locale: "vi" | "en", variant: ShareVariant | "auto"): { title: string; description: string } {
@@ -85,8 +145,8 @@ export function shareMeta(locale: "vi" | "en", variant: ShareVariant | "auto"): 
   switch (variant) {
     case "reading":
       return vi
-        ? { title: "Một trải bài từ người bạn trên Nilaza", description: "Xem những lá bạn của bạn vừa trải, rồi tự rút một lá ngay trên trình duyệt. Tarot để tự soi chiếu, không là lời dự đoán." }
-        : { title: "A card spread from a friend on Nilaza", description: "See the cards your friend laid out, then draw one yourself right in your browser. Tarot for reflection, not prediction." };
+        ? { title: "Một trải bài từ người bạn trên Nilaza", description: "Xem những lá bạn của bạn vừa trải, rồi rút lá của bạn hôm nay ngay trên trình duyệt. Tarot để tự soi chiếu, không là lời dự đoán." }
+        : { title: "A card spread from a friend on Nilaza", description: "See the cards your friend laid out, then draw your card for today right in your browser. Tarot for reflection, not prediction." };
     case "numbers":
       return vi
         ? { title: "Con số chủ đạo của bạn là gì? — Nilaza", description: "Một người bạn vừa xem bản đồ số trên Nilaza. Nhập ngày sinh để xem con số của bạn; ngày sinh chỉ được tính trên trình duyệt, không gửi đi." }
@@ -95,12 +155,16 @@ export function shareMeta(locale: "vi" | "en", variant: ShareVariant | "auto"): 
       return vi
         ? { title: "Bầu trời hôm nay từ Nilaza", description: "Mặt Trăng đang ở cung nào và gợi nhịp gì cho ngày của bạn. Một dòng để tự soi chiếu, không là lời dự đoán." }
         : { title: "Today's sky from Nilaza", description: "Which sign the Moon is in and what pace it suggests for your day. A line to reflect on, not a prediction." };
+    case "quote":
+      return vi
+        ? { title: "Một câu cho hôm nay từ Nilaza", description: "Một câu trích từ sách cổ và một câu hỏi để tự ngẫm. Đọc câu hôm nay, rồi xem câu của những cuốn sách khác ngay trên trình duyệt." }
+        : { title: "A line for today from Nilaza", description: "One line from an old book and one question to sit with. Read today's line, then see the other books' lines right in your browser." };
     case "card":
     case "auto":
     default:
       return vi
-        ? { title: "Một lá bài từ người bạn trên Nilaza", description: "Một người bạn vừa chia sẻ lá bài của họ. Xem lá đó, rồi tự rút một lá ngay trên trình duyệt để chậm lại một nhịp." }
-        : { title: "A card from a friend on Nilaza", description: "A friend just shared their card. See it, then draw your own right in your browser and slow down for a moment." };
+        ? { title: "Một lá bài từ người bạn trên Nilaza", description: "Một người bạn vừa chia sẻ lá bài của họ. Xem lá đó, rồi rút lá của bạn hôm nay ngay trên trình duyệt để chậm lại một nhịp." }
+        : { title: "A card from a friend on Nilaza", description: "A friend just shared their card. See it, then draw your card for today right in your browser and slow down for a moment." };
   }
 }
 
@@ -153,7 +217,10 @@ function defaultRandom(): number {
   return Math.random();
 }
 
-export type ShareArrival = { fromShare: boolean; surface: ShareSurface | null; medium: "card" | "invite" | null };
+/** card: link sent with a card image; invite: comparison invite; qr: the code printed on the card image. */
+export const shareMediums = ["card", "invite", "qr"] as const;
+export type ShareMedium = (typeof shareMediums)[number];
+export type ShareArrival = { fromShare: boolean; surface: ShareSurface | null; medium: ShareMedium | null };
 
 /** Whether the visit came from a Nilaza share link, using only enumerated utm values. */
 export function readShareArrival(search: string): ShareArrival {
@@ -164,6 +231,55 @@ export function readShareArrival(search: string): ShareArrival {
   return {
     fromShare,
     surface: fromShare && (shareSurfaces as readonly string[]).includes(surface ?? "") ? (surface as ShareSurface) : null,
-    medium: fromShare && (medium === "card" || medium === "invite") ? medium : null
+    medium: fromShare && (shareMediums as readonly string[]).includes(medium ?? "") ? (medium as ShareMedium) : null
   };
 }
+
+// "Lời người xưa": the same daily line as the app (dailyBookQuote in apps/mobile/src/features/bookQuote/content.ts), one
+// line drawn from the whole library, so a QR scanned on the day it was shared opens that line. A test keeps both in step.
+
+/** Local calendar date as YYYY-MM-DD, like the app's bookQuoteDateKey. */
+export function quoteDateKey(at: Date = new Date()): string {
+  const pad = (value: number) => String(value).padStart(2, "0");
+  return `${at.getFullYear()}-${pad(at.getMonth() + 1)}-${pad(at.getDate())}`;
+}
+
+/** FNV-1a 32-bit, identical to the app's stableHash. */
+export function quoteHash(input: string): number {
+  let hash = 0x811c9dc5;
+  for (let index = 0; index < input.length; index += 1) {
+    hash ^= input.charCodeAt(index);
+    hash = Math.imul(hash, 0x01000193) >>> 0;
+  }
+  return hash >>> 0;
+}
+
+/** Index of the line a book shows on a date (the app's pickBookQuote). */
+export function quoteItemIndex(book: string, dateKey: string, count: number): number {
+  return count > 0 ? quoteHash(`${dateKey}|${book}`) % count : -1;
+}
+
+/**
+ * The one line of the day from the whole library (the app's dailyBookQuote, Owner 28/11/2026): every approved line of
+ * every book, in app book order, picked by one hash of the date. `counts` is the number of lines of each book shown.
+ */
+export function quoteLibraryPick(dateKey: string, counts: readonly number[]): { bookIndex: number; itemIndex: number } | null {
+  const total = counts.reduce((sum, count) => sum + Math.max(0, count), 0);
+  if (!total) return null;
+  let index = quoteHash(`${dateKey}|library`) % total;
+  for (let bookIndex = 0; bookIndex < counts.length; bookIndex += 1) {
+    const count = Math.max(0, counts[bookIndex]);
+    if (index < count) return { bookIndex, itemIndex: index };
+    index -= count;
+  }
+  return null;
+}
+
+/** Books in the app's order (bookQuoteBookOrder), with the app's short tab labels and author lines. */
+export const quoteBooks = [
+  { id: "dao-duc-kinh", label: { vi: "Đạo Đức Kinh", en: "Tao Te Ching" }, author: { vi: "Lão Tử", en: "Laozi" } },
+  { id: "suy-tuong", label: { vi: "Suy tưởng", en: "Meditations" }, author: { vi: "Marcus Aurelius", en: "Marcus Aurelius" } },
+  { id: "kinh-phap-cu", label: { vi: "Pháp Cú", en: "Dhammapada" }, author: { vi: "Kinh Pháp Cú", en: "The Dhammapada" } },
+  { id: "binh-phap-ton-tu", label: { vi: "Binh pháp", en: "Art of War" }, author: { vi: "Tôn Tử", en: "Sunzi" } },
+  { id: "kinh-dich", label: { vi: "Kinh Dịch", en: "I Ching" }, author: { vi: "Kinh Dịch", en: "The I Ching" } }
+] as const;

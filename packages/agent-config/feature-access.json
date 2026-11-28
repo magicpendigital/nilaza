@@ -62,6 +62,7 @@
     { "id": "ai_council", "label": "Hội đồng" },
     { "id": "tarot_note", "label": "Ghi chú riêng Tarot" },
     { "id": "reader_router", "label": "Gợi ý người đọc (tầng AI)" },
-    { "id": "numerology_private_message", "label": "Lời nhắn riêng Thần số học" }
+    { "id": "numerology_private_message", "label": "Lời nhắn riêng Thần số học" },
+    { "id": "numerology_report", "label": "Báo cáo tổng hợp Thần số học" }
   ]
 }

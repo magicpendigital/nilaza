@@ -92,6 +92,24 @@ test("ask, journal and back call through with today's quote", () => {
   expect(baseProps.onBack).toHaveBeenCalledTimes(1);
 });
 
+test("share opens the quote card with only the quote, its source and its question", () => {
+  const onOpenShare = jest.fn();
+  const screen = render(<BookQuoteScreen {...baseProps} book="dao-duc-kinh" onOpenShare={onOpenShare} />);
+  fireEvent.press(screen.getByText("Chia sẻ câu này"));
+  const quote = pickBookQuote("dao-duc-kinh", dateKey, false)!;
+  const request = onOpenShare.mock.calls[0][0];
+  expect(request.primary).toBe("image");
+  expect(request.model).toMatchObject({ surface: "book_quote", skin: "quote" });
+  expect(request.model.quote.text).toBe(quote.item.quote.vi);
+  expect(request.model.quote.source).toBe(`${bookQuoteTitle("dao-duc-kinh", "vi")} · ${quote.item.ref.vi}`);
+  expect(request.model.quote.question).toBe(quote.item.question.vi);
+});
+
+test("without a share handler there is no share button", () => {
+  const screen = render(<BookQuoteScreen {...baseProps} book="dao-duc-kinh" />);
+  expect(screen.queryByText("Chia sẻ câu này")).toBeNull();
+});
+
 test("save toggles, persists to account storage and lists the saved quote", async () => {
   const storage = memoryStorage();
   const expected = pickBookQuote("suy-tuong", dateKey, true)!;

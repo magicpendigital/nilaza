@@ -4,11 +4,11 @@
 import { shareCtaOf } from "../../lib/shareCta";
 import type { Locale } from "../../lib/site";
 const { locale, variant } = Astro.props as { locale: Locale; variant: string };
-const cta = shareCtaOf(locale);
+const cta = shareCtaOf(locale, undefined, variant);
 ---
 <div class="share-cta">
   <p class="share-cta-benefit">{cta.benefit}</p>
-  <a class="button share-cta-button" href={cta.href} {...(cta.kind === "play" ? { rel: "noopener", target: "_blank" } : {})} data-analytics-event="waitlist_cta_click" data-analytics-source="share" data-analytics-surface="share_landing" data-analytics-target={variant}>{cta.label}</a>
+  <a class="button share-cta-button" href={cta.href} data-cta-kind={cta.kind} {...(cta.kind === "play" ? { rel: "noopener", target: "_blank" } : {})} data-analytics-event="waitlist_cta_click" data-analytics-source="share" data-analytics-surface="share_landing" data-analytics-target={variant}>{cta.label}</a>
   <p class="share-cta-privacy">{cta.privacy}</p>
 </div>
 <style>

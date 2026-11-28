@@ -61,6 +61,11 @@ verify_jwt = true
 # accounts and stays off (switch seeded enabled = false) until the Owner turns it on.
 [functions.ai-numerology-message]
 verify_jwt = true
+
+# Numerology report (28/11): signed-in Premium accounts only, same checks as the private message; switch seeded
+# enabled = false until the Owner turns it on. The report is saved on the phone only.
+[functions.ai-numerology-report]
+verify_jwt = true
 # Paths to self-signed certificate pair.
 # cert_path = "../certs/my-cert.pem"
 # key_path = "../certs/my-key.pem"

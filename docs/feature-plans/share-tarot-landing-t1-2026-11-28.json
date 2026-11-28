@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 1,
+  "taskId": "share-tarot-landing-t1-2026-11-28",
+  "ownerAgent": "web_agent (share landing Tarot panel)",
+  "lane": "Website step T1 of docs/proposals/SHARE_TAROT_LANDING_FLOW_2026-11-28.vi.md. Owner approved 28/11/2026: \"Bắt đầu T1\" with decisions: one web draw per day, include-meaning on by default, orientation in the link, basic meaning shown with a CTA to the app, order T1 → T2 → T3.",
+  "goal": "On /vi/share/card and /vi/share/reading: show the friend card(s) in the right orientation, with the library meaning only when the link carries the meaning flag; one visitor draw per Vietnam day kept in the browser, showing the card, orientation, keywords, the library meaning for that orientation and the card question, then a call to action to the app (waitlist until Play is public); no more unlimited redraws. Prepare the Play link to carry the drawn card as an install referrer for T3.",
+  "successCriteria": [
+    "Links with o= (one 0/1 per card) show reversed cards rotated and labelled; links without o= behave as before (upright).",
+    "m=1 shows the orientation meaning under each friend card; without it no meaning is shown.",
+    "The visitor draws at most once per Vietnam day per browser; reloading the same day shows the same card and no draw button; a new day allows a new draw; broken or old stored values are ignored.",
+    "The drawn card shows the meaning for its orientation and the card question, then a CTA whose copy names what the app adds (ask about your own situation, keep notes).",
+    "When playStoreUrl is set, the CTA link carries a referrer with only the drawn card id, orientation, day and surface; with no draw it carries only the surface.",
+    "Nothing from the address becomes markup; analytics keep enumerated values only.",
+    "Shortlink options researched and written up for the Owner (no code)."
+  ],
+  "writeScope": [
+    "apps/web/src/components/share/",
+    "apps/web/src/lib/shareLanding.ts",
+    "apps/web/src/lib/shareCta.ts",
+    "scripts/share-landing.test.mjs",
+    "docs/proposals/",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "App code (T2) and Play referrer reading in the app (T3).",
+    "No SQL, Edge Function, secret, Cloudflare or Vercel setting change. Web deploy after merge needs the Owner approval.",
+    "Card library text is unchanged in this PR; the meaning review result is reported to the Owner."
+  ],
+  "impact": {
+    "entryPoint": "Share link or QR of a today card or a reading opens /vi/share/card or /vi/share/reading.",
+    "dataWrite": "Browser localStorage only: the visitor draw of the day (card id, orientation, day). Nothing sent to a server.",
+    "backendContract": "Unchanged: no API call is added; the waitlist form is unchanged.",
+    "adminVisibility": "Unchanged: no Admin field or metric touched.",
+    "privacySafety": "Only public library text; the link carries card ids, 0/1 orientation and a 0/1 meaning flag; no name, question, notes or AI text.",
+    "rollback": "Revert the PR and redeploy the previous web build; old links keep working because new parameters are optional.",
+    "observability": "Existing share_link_opened, share_landing_try and waitlist_cta_click events; no new event."
+  },
+  "canonicalContracts": [
+    "apps/mobile/src/features/share/shareLink.ts",
+    "apps/web/src/lib/shareLanding.ts"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Website route and checks.",
+      "sha256": "e508d09a9fdffc78da809a4f1449f1d77999186b9bd371870bd8582e132075e1"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Record and preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "reason": "Web colours, type and tone.",
+      "sha256": "bce12144fa7d6074c3213c977b0bc0187e2c9fa2d43453fab81f1145fa0129de"
+    },
+    {
+      "path": "docs/proposals/SHARE_TAROT_LANDING_FLOW_2026-11-28.vi.md",
+      "reason": "T1 scope and Owner decisions of 28/11.",
+      "sha256": "5dcbfa20ecd2b36d1f6af6694acb5d9b5ca32d4be105da5f5a094e5ab30402e8"
+    },
+    {
+      "path": "apps/web/src/components/share/ShareLanding.astro",
+      "reason": "Tarot panel and draw script being changed.",
+      "sha256": "44541493ab8d6eb41372a0ecc30bc96c4e0bd05c15c759e535476d9443b562a4"
+    },
+    {
+      "path": "apps/web/src/components/share/ShareCta.astro",
+      "reason": "Call to action block.",
+      "sha256": "01ca72259bfc57ceac836a1b8bab0b2af895f1b659c380ff7d37f849406e31c7"
+    },
+    {
+      "path": "apps/web/src/lib/shareLanding.ts",
+      "reason": "Link parsing helpers.",
+      "sha256": "372a67304d56e79910e495f6f5977f399a8e7858df5396cb8c20df5d659df4d2"
+    },
+    {
+      "path": "apps/web/src/lib/shareCta.ts",
+      "reason": "Play or waitlist switch.",
+      "sha256": "0a898b8415dfa8159b7aed89ba495314e34fd879d2f1bc5a94e94dbedd426168"
+    },
+    {
+      "path": "apps/web/src/lib/analytics.ts",
+      "reason": "Allowed events and properties.",
+      "sha256": "e3d0257606cac00f575102a438d0455e0e9038565edec474ea76ffc3c4c4abe4"
+    },
+    {
+      "path": "apps/mobile/src/features/share/shareLink.ts",
+      "reason": "App link format the web must read.",
+      "sha256": "ee6405f3503a226fd56ccb1ba6118055c62e18aa046a0fd633da671a13ce4a46"
+    },
+    {
+      "path": "apps/mobile/src/features/tarot/serverDraw.ts",
+      "reason": "Vietnam day key used by the app.",
+      "sha256": "d104f003f59a0678d2fa70db4ef623825bbc4bc0b38c1472219e910ec5c8c489"
+    },
+    {
+      "path": "scripts/share-landing.test.mjs",
+      "reason": "Existing web share tests.",
+      "sha256": "cc09568b2b841bba91476a0a039c5737590e63ad371699b884652fa0391dd1a4"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before edits; merge and web deploy only after Owner approval."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Existing share page styles and brand tokens reused; no new colours or fonts."
+    },
+    {
+      "name": "nilaza-tarot-content-qc",
+      "decision": "verified-current",
+      "evidence": "Library meanings are reviewed for standalone use by an agent review; findings reported to the Owner before the web deploy."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No new dependency. Play referrer format and Cloudflare redirect behaviour in the shortlink note are marked to be checked against official docs before use."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No auth or RLS change.",
+    "sensitiveData": "No personal data on the page, in the address, in localStorage or in analytics.",
+    "secretsLogging": "No secret read or written; .env not opened.",
+    "unresolvedHighRisks": [],
+    "externalInput": "o= and m= accept only 0/1 characters; card ids keep the existing allow-list; stored draws are validated against the deck and the day before use; all text set with textContent.",
+    "dependencies": "None: no package added or updated.",
+    "migrationRelease": "No migration. Web deploy to Cloudflare Pages after merge needs a separate Owner approval.",
+    "stopCondition": "Stop if a meaning text would need rewriting to be shown safely; report instead of editing library content here."
+  },
+  "workingTreeReview": {
+    "note": "Record written before any T1 edit on branch claude/share-tarot-landing-t1 cut from origin/main 614dd6f. sourceReview hashes refreshed to the edited files after implementation (29/11).",
+    "paths": [
+      "apps/web/src/components/share/ShareCta.astro",
+      "apps/web/src/components/share/ShareLanding.astro",
+      "apps/web/src/lib/shareCta.ts",
+      "apps/web/src/lib/shareLanding.ts",
+      "scripts/share-landing.test.mjs",
+      "PLAN.md",
+      "docs/proposals/SHARE_SHORTLINK_2026-11-29.vi.md",
+      "docs/feature-plans/share-tarot-landing-t1-2026-11-28.json"
+    ]
+  },
+  "validationCommands": [
+    "node --test scripts/share-landing.test.mjs",
+    "npm run web:check",
+    "npm run web:build",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Mở https://nilaza.magicpendigital.com/vi/share/card?c=major-00-fool&o=1&m=1 trên điện thoại → thấy lá Kẻ Khờ ngược kèm ý nghĩa; bấm Rút lá của bạn → thấy lá, chiều, ý nghĩa, câu hỏi và nút đăng ký; tải lại trang → vẫn đúng lá đó, không rút lại được.",
+  "residualRisk": "The daily limit is soft: a private window or cleared storage allows another draw (accepted by design). Library meanings are short; value depends on the copy review.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

@@ -2,6 +2,7 @@ import { journalStateKey, readJournalState } from "../journal/journalRepository"
 import { journalDraftStorageKey, readJournalDraft } from "../journal/journalDraftStore";
 import { feedbackStorageKey, readFeedbackQueue } from "../feedback/feedbackQueue";
 import { bookQuoteSavedStorageKey } from "../bookQuote/savedQuotes";
+import { numerologyReportStorageKey } from "../numerology/reportStore";
 
 const sources = {
   profile: "nilaza.profile", birthProfile: "nilaza.birthProfile", journal: journalStateKey,
@@ -12,7 +13,9 @@ const sources = {
   savedArtifacts: "nilaza.generatedArtifacts", favorites: "nilaza.favoritePersonaIds",
   memoryConsent: "nilaza.oracleMemoryConsent", notificationPreferences: "nilaza.notificationPreferences",
   learnedTarotCards: "nilaza.learnedTarotCards.v1", dailyReminder: "nilaza.dailyReminder.v1",
-  bookQuotesSaved: bookQuoteSavedStorageKey
+  bookQuotesSaved: bookQuoteSavedStorageKey,
+  // 2026-11-28: the Number Map report is saved on this device only, so Export data is its only copy outside the app.
+  numerologyReport: numerologyReportStorageKey
 } as const;
 const secretKey = /authorization|password|secret|token|api.?key|service.?role|credential|device.?push|grant/i;
 function exportValue(value: unknown, depth = 0): unknown {

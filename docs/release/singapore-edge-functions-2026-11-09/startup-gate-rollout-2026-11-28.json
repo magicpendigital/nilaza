@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "title": "Start-up server check: migration 20261128090000 applied, admin-documentation redeployed, Android build 0.1.3 (versionCode 10) produced",
+  "date": "2026-11-28",
+  "target": {
+    "projectRef": "etfajmrwyywokgafzxsb",
+    "label": "production (Owner decision 2026-11-12)"
+  },
+  "ownerApproval": "Owner approved in chat on 2026-11-28: 'Duyệt 1,2,3,4.' (1 merge PR #85 into main after green CI, 2 run SQL 20261128090000 with sha256 5239042fe30517d1633d96ace34711832c57056518b52aed8bd289b3623ba2da, 3 redeploy admin-documentation, 4 new Android build only after the SQL is applied). Receipt PR approved on 2026-11-29: 'Đồng ý duyệt \"commit → PR → gộp vào main\".'",
+  "records": [
+    "docs/feature-plans/startup-gate-2026-11-28.json"
+  ],
+  "sourceCommit": "66a0792 (merge of PR #85 into main)",
+  "preDeployChecks": [
+    "PR #85 CI green at head d757d87: 5 checks passed (Admin contract, Mobile type/tests/bundles, Plan/skills/preflight, Vercel)",
+    "SQL file sha256 (raw bytes) 5239042fe30517d1633d96ace34711832c57056518b52aed8bd289b3623ba2da, equal to the approved hash",
+    "Before applying: no app_release_policies table, no get_app_bootstrap function, last ledger version 20261127090000"
+  ],
+  "migration": {
+    "version": "20261128090000",
+    "name": "app_release_policy",
+    "method": "Owner ran 'npx --yes supabase@3.1.0 db query --remote=etfajmrwyywokgafzxsb -f supabase/migrations/20261128090000_app_release_policy.sql' (Claude's Supabase connector was read-only). The ledger row was then added by the Owner with 'insert into supabase_migrations.schema_migrations(version, name) values (''20261128090000'', ''app_release_policy'') on conflict (version) do nothing'.",
+    "verified": [
+      "public.app_release_policies exists, row level security on, 0 rows (no minimum version set: no reminder, no block)",
+      "public.get_app_bootstrap(), public.set_app_release_policy(text,integer,text), public.get_app_release_policies() and nilaza_private.app_release_policy_json(app_release_policies) exist",
+      "anon: execute on get_app_bootstrap = true; execute on set_app_release_policy and get_app_release_policies = false; select on the table = false",
+      "authenticated: execute on set_app_release_policy = true (the function itself requires ai.manage); select on the table = false",
+      "supabase_migrations.schema_migrations latest version 20261128090000 app_release_policy"
+    ]
+  },
+  "functions": {
+    "method": "npx --yes supabase@3.1.0 functions deploy admin-documentation --remote=etfajmrwyywokgafzxsb --use-api --yes (run by Claude from main 66a0792)",
+    "deployed": [
+      { "name": "admin-documentation", "note": "CLI reported 'Deployed Functions.'; carries owner guide section 4.4 (minimum app version)." }
+    ]
+  },
+  "androidBuild": {
+    "easBuildId": "78f78b7e-469f-4b17-85ed-6e00a70e04e2",
+    "profile": "play-internal",
+    "environment": "preview (Singapore backend)",
+    "appVersion": "0.1.3",
+    "versionCode": 10,
+    "source": "git archive of main 66a0792 into a temporary folder (no .git, no .env, no other sessions' worktrees); node_modules linked from the main checkout only for local config resolution and excluded by .easignore. Command in apps/mobile: EAS_SKIP_AUTO_FINGERPRINT=1 EAS_NO_VCS=1 EAS_PROJECT_ROOT=../.. eas build -p android --profile play-internal --non-interactive --no-wait (eas-cli 27.11.0).",
+    "note": "versionCode 9 was consumed by a first attempt that uploaded but stopped at the local fingerprint step (linked node_modules); no build was created for it.",
+    "finished": "2026-11-28T06:04:21Z",
+    "artifact": {
+      "file": "AAB",
+      "bytes": 134383369,
+      "sha256": "1df7fca116d3d68318e67b28d22a705ad49841f5241283777e70186a7271e403"
+    },
+    "bundleChecks": [
+      "index.android.bundle contains get_app_bootstrap, nilaza.bootstrap.v1, get_feature_access_config, market://details and the Vietnamese gate titles 'Mất kết nối' and 'Cần cập nhật'",
+      "points to project etfajmrwyywokgafzxsb",
+      "no 'service_role', 'sk-or-' or 'OPENROUTER' strings"
+    ]
+  },
+  "verification": {
+    "done": [
+      "server objects, grants and ledger as listed under migration.verified",
+      "admin-documentation deploy reported by the CLI",
+      "EAS build FINISHED; AAB size, sha256 and bundle strings as listed under androidBuild"
+    ],
+    "notDone": [
+      "an anonymous call to get_app_bootstrap over the network (Claude's connector cannot execute it); the first phone start of this build is the check",
+      "on a phone: normal start, offline banner within 24 hours, 'Mất kết nối' on a fresh install without network, reminder and Google Play button after the Owner sets a minimum version, TalkBack",
+      "Admin box 'Phiên bản app tối thiểu' used against the real project",
+      "owner guide section 4.4 viewed in Admin after the redeploy",
+      "upload of this AAB to the Play Console Internal testing track (Owner action)"
+    ]
+  },
+  "rollback": "Do not drop the SQL while any installed build calls get_app_bootstrap (those builds would treat the server as unreachable after 24 hours). To neutralise the policy, set the minimum version to empty in Admin. Full rollback statement is in the migration's header comment and must ship together with a build that no longer calls it."
+}

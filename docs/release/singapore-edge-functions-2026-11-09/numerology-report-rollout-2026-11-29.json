@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "title": "Numerology full report (R0-R2): one migration applied, one new function deployed, one function redeployed",
+  "date": "2026-11-29",
+  "target": {
+    "projectRef": "etfajmrwyywokgafzxsb",
+    "label": "production (Owner decision 2026-11-12)"
+  },
+  "ownerApproval": "Owner approved in chat on 2026-11-29: 'Duyệt Chạy migration 20261128100000 (sha256 dc9806fd…62a3d649). Duyệt 1. Deploy hàm ai-numerology-report. 2. Deploy lại hàm admin-model-router-config. Ngân sách: 5$ ... Đồng ý bật công tắc.'",
+  "records": ["docs/feature-plans/numerology-report-r0-r2-2026-11-28.json"],
+  "sourceCommit": "335d61d",
+  "sourceNote": "origin/main after PR 96 (report) and PR 95 (Hai hệ). The migration file is unchanged and its LF SHA-256 matched the approved hash before it was applied.",
+  "migrations": {
+    "method": "npx --yes supabase@3.1.0 db query --yes --remote=etfajmrwyywokgafzxsb -f <file> (run by Claude), exit 0; then migration repair --status applied 20261128100000.",
+    "files": [
+      { "file": "supabase/migrations/20261128100000_numerology_report.sql", "sha256": "dc9806fd990485caf4ef214280f630fef0b2ea4b751a7e0af037a14a62a3d649" }
+    ]
+  },
+  "postApplyChecks": {
+    "readOnlyQuery": "ai_feature_switches row numerology_report exists with enabled=false; model_route_versions has the active row 2026-11-28-numerology-report-v1 (openrouter deepseek/deepseek-v4.1-flash then xiaomi/mimo-v2.6-flash); ai_providers: openrouter enabled for sensitive data, anthropic disabled with data class personal.",
+    "note": "Older migration 20261116090000 shows no remote ledger entry; this predates this work and was left untouched."
+  },
+  "functions": {
+    "method": "npx --yes supabase@3.1.0 functions deploy <name> --remote=etfajmrwyywokgafzxsb --use-api --yes from detached origin/main 335d61d (run by Claude)",
+    "deployed": [
+      { "name": "ai-numerology-report", "version": 1, "verifyJwt": true, "status": "ACTIVE" },
+      { "name": "admin-model-router-config", "version": 10, "verifyJwt": true, "status": "ACTIVE" }
+    ]
+  },
+  "verification": {
+    "done": [
+      "migration exited 0 and the read-only check above passed",
+      "functions list shows both functions ACTIVE with verify_jwt true",
+      "unauthenticated POST to each function returns 401"
+    ],
+    "notDone": [
+      "route for numerology_report with the Owner's models (Claude Sonnet 5.5, then DeepSeek V4 Flash, then DeepSeek V4 Pro): publishing needs a signed-in admin with ai.manage, so the Owner publishes it in Admin; until then the code-default cheap route is active",
+      "Anthropic key, provider switch and data class 'sensitive': Owner action in Admin; without them the router skips Sonnet and starts with DeepSeek V4 Flash",
+      "feature switch numerology_report: still off; it is turned on after the Owner's route is published",
+      "live model call, cost and time per report; phone test with a new Android build",
+      "Supabase security advisor after this rollout"
+    ]
+  },
+  "budget": "Owner trial budget 5 USD; per-call cost cap 0.10 USD in code (worst case about 0.05 USD per report with Sonnet 5.5), so at least about 100 reports.",
+  "rollback": "Turn the numerology_report switch off (stops every call). Function: delete ai-numerology-report (new) or redeploy admin-model-router-config v9 from its previous commit. SQL is additive (allowlists, one route row, one switch row)."
+}

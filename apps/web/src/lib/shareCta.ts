@@ -9,14 +9,21 @@ const playPattern = /^https:\/\/play\.google\.com\/store\/apps\/details\?id=[A-Z
 
 export type ShareCta = { kind: "waitlist" | "play"; href: string; label: string; benefit: string; privacy: string };
 
-export function shareCtaOf(locale: "vi" | "en", playStoreUrl: string = shareCtaConfig.playStoreUrl): ShareCta {
+// Tarot pages promise what the browser cannot give: a reading for the visitor's own situation and a journal.
+const tarotBenefit = {
+  play: { vi: "Trong ứng dụng, bạn hỏi lá bài về chuyện của chính mình, nhận một bài đọc riêng và giữ suy ngẫm trong nhật ký.", en: "In the app, you ask the cards about your own situation, get a reading of your own and keep your reflections in a journal." },
+  waitlist: { vi: "Nhận tin qua email khi bản Android mở thử, để hỏi lá bài về chuyện của chính mình, nhận một bài đọc riêng và giữ suy ngẫm trong nhật ký.", en: "Get an email when the Android app opens for testing, to ask the cards about your own situation, get a reading of your own and keep your reflections in a journal." }
+};
+const isTarot = (variant?: string) => variant === "card" || variant === "reading";
+
+export function shareCtaOf(locale: "vi" | "en", playStoreUrl: string = shareCtaConfig.playStoreUrl, variant?: string): ShareCta {
   const vi = locale === "vi";
   if (playPattern.test(playStoreUrl.trim())) {
     return {
       kind: "play",
       href: playStoreUrl.trim(),
       label: vi ? "Tải Nilaza trên Google Play" : "Get Nilaza on Google Play",
-      benefit: vi ? "Rút bài, xem bản đồ số và bầu trời mỗi ngày, ngay trên điện thoại." : "Draw cards, see your number map and the daily sky, right on your phone.",
+      benefit: isTarot(variant) ? tarotBenefit.play[locale] : vi ? "Rút bài, xem bản đồ số và bầu trời mỗi ngày, ngay trên điện thoại." : "Draw cards, see your number map and the daily sky, right on your phone.",
       privacy: vi ? "Ngày sinh và ghi chú của bạn được tính và giữ trên máy, không cần chia sẻ với ai." : "Your birth date and notes are calculated and kept on your device; you do not have to share them."
     };
   }
@@ -24,7 +31,7 @@ export function shareCtaOf(locale: "vi" | "en", playStoreUrl: string = shareCtaC
     kind: "waitlist",
     href: "#join",
     label: vi ? "Đăng ký thử bản Android" : "Sign up to try the Android app",
-    benefit: vi ? "Nhận tin qua email khi bản Android mở thử, để tự rút bài, xem bản đồ số và bầu trời mỗi ngày trên điện thoại." : "Get an email when the Android app opens for testing, to draw your own cards and see your numbers and the daily sky on your phone.",
+    benefit: isTarot(variant) ? tarotBenefit.waitlist[locale] : vi ? "Nhận tin qua email khi bản Android mở thử, để tự rút bài, xem bản đồ số và bầu trời mỗi ngày trên điện thoại." : "Get an email when the Android app opens for testing, to draw your own cards and see your numbers and the daily sky on your phone.",
     privacy: vi ? "Chỉ cần email. Không cần ngày sinh, không cần thanh toán." : "Only an email. No birth date, no payment."
   };
 }

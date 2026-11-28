@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(import.meta.url);
 export const workflowApi = require("../apps/admin/workflow-catalog.js");
-export const FEATURE_IDS = Object.freeze(["oracle_router", "persona_chat", "ai_council", "tarot_reading", "daily_insight", "notifications", "astrology", "face_reading", "tarot_note", "reader_router", "numerology_private_message"]);
+export const FEATURE_IDS = Object.freeze(["oracle_router", "persona_chat", "ai_council", "tarot_reading", "daily_insight", "notifications", "astrology", "face_reading", "tarot_note", "reader_router", "numerology_private_message", "numerology_report"]);
 const states = ["implemented-source", "candidate-disabled", "deferred"];
 const privacy = ["public", "metadata", "personal", "sensitive", "credential-reference"];
 const kinds = ["trigger", "guard", "context", "prompt", "model", "branch", "storage", "output", "gate", "transport"];

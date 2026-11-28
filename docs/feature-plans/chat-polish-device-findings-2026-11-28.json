@@ -38,7 +38,10 @@
     "assets/personas/thumbnails/dhammapada-v2.jpg",
     "assets/personas/thumbnails/i-ching-v2.jpg",
     "docs/art-provenance/book-guides-dhammapada-i-ching-2026-11-28.brief.md",
-    "PLAN.md"
+    "PLAN.md",
+    "apps/web/src/lib/shareLanding.ts",
+    "apps/web/src/components/share/ShareLanding.astro",
+    "scripts/share-landing.test.mjs"
   ],
   "untouchedSurfaces": [
     "supabase/** is not edited: profile-upsert and the profile snapshot read stay as they are; no SQL, no deploy.",
@@ -92,7 +95,7 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Profile restore, onboarding gate, daily line wiring and persona detail entry.",
-      "sha256": "86aebb1d918ab00677f52e260863828942330b52d3299fa1aa9f872913a2daf9"
+      "sha256": "605cc62ac7a3581c9d3520493ee4c8acaa2edaa484a282675c1fcef7b00dade2"
     },
     {
       "path": "apps/mobile/src/auth/personalData.ts",
@@ -117,7 +120,7 @@
     {
       "path": "apps/mobile/src/features/bookQuote/BookQuoteScreen.tsx",
       "reason": "Daily line screen layout and copy.",
-      "sha256": "84d67393dfb4172d2c91a45af12d7a29e4b18fbaddbba1294e430f451b2fe25c"
+      "sha256": "cb01cc83767c87a9f28fe79b75132722f8dede2bd9f39a7f2a5856981a388389"
     }
   ],
   "skillReview": [

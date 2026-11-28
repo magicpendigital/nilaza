@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "taskId": "share-cards-v2-s1b-2026-11-28",
+  "ownerAgent": "web_agent (website share landing pages and preview images)",
+  "lane": "Website part of share cards v2 S1 (S1b of docs/proposals/SHARE_CARDS_V2_2026-11-28.vi.md). Owner approved on 28/11/2026: 'Đồng ý triển khai bước S1b.'",
+  "goal": "Open the book_quote share link and QR on a real page (/vi/share/quote, /en/share/quote) that shows today's approved line from the same rotation as the app and lets the visitor read another book's line; give every share page its own 1200x630 Facebook preview image (OG) per locale; count QR arrivals (utm_medium=qr) separately from link taps.",
+  "successCriteria": [
+    "shareVariants includes quote; /vi/share/quote and /en/share/quote build as static pages with their own title and description; the old /share address maps utm_campaign=book_quote to the quote panel.",
+    "The quote panel shows only approved book-quote items (review.status approved) with quote, reference, book title and question; the line for a date matches the app's homeBookQuote rotation (test with fixed dates).",
+    "readShareArrival accepts utm_medium qr next to card and invite; anything else is dropped.",
+    "scripts/build-share-og.mjs writes apps/web/public/share/og/<variant>-<locale>.png at 1200x630 with the brand fonts and logo, each under 200 KB; --check fails when one is missing, the wrong size, too big or extra; every variant page sets og:image to its file.",
+    "No birth data, name, typed question, note or journal reaches the page, the address or analytics; the quote page reads nothing from the address except the enumerated utm values."
+  ],
+  "writeScope": [
+    "apps/web/src/lib/shareLanding.ts",
+    "apps/web/src/components/share/",
+    "apps/web/src/pages/",
+    "apps/web/public/share/og/",
+    "scripts/build-share-og.mjs",
+    "scripts/share-landing.test.mjs",
+    "package.json",
+    "apps/mobile/src/features/bookQuote/__tests__/",
+    "docs/release/share-cards-v2-s1b-2026-11-28/",
+    "PLAN.md",
+    "reports/2026-11-28-android-share-cards-v2-test.md"
+  ],
+  "untouchedSurfaces": [
+    "App code and share-events are S1a (PR 91) and are not changed here.",
+    "No SQL, no Edge Function change, no Cloudflare or Vercel setting change; the web deploy uses the existing deploy:staging command after merge (Owner approved the S1b rollout on 28/11).",
+    "Referral reward (S3) and other skins (S2)."
+  ],
+  "impact": {
+    "entryPoint": "Share link or QR from the Một câu cho hôm nay card opens /vi/share/quote; links pasted on Facebook show the per-page preview image.",
+    "dataWrite": "None. The page computes the line in the browser; analytics events carry only enumerated values (variant, surface, medium).",
+    "backendContract": "Unchanged. marketing-waitlist already forwards any utm_medium value it receives.",
+    "adminVisibility": "Unchanged; share_link_opened can now carry medium qr in the web analytics stream.",
+    "privacySafety": "Only approved library text is published; nothing from the visitor is sent; reflective copy reuses approved items.",
+    "rollback": "Roll back the Cloudflare Pages deployment or redeploy the previous dist; the app's quote link would then 404 again.",
+    "observability": "share_link_opened gains medium qr; share_landing_try for the quote variant when the visitor reads another book's line."
+  },
+  "canonicalContracts": [
+    "apps/mobile/src/features/bookQuote/content.ts",
+    "apps/mobile/src/features/share/shareLink.ts",
+    "apps/web/src/lib/shareLanding.ts"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Website route and checks.",
+      "sha256": "e508d09a9fdffc78da809a4f1449f1d77999186b9bd371870bd8582e132075e1"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Record and preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "reason": "Colours, fonts and logo use for the OG images.",
+      "sha256": "bce12144fa7d6074c3213c977b0bc0187e2c9fa2d43453fab81f1145fa0129de"
+    },
+    {
+      "path": "docs/proposals/SHARE_CARDS_V2_2026-11-28.vi.md",
+      "reason": "S1 scope and Owner decisions (Facebook first, QR with utm_medium=qr).",
+      "sha256": "e934c559180ae9c6609a38e7ec5b274102b543bc8465cef164783961cb629b57"
+    },
+    {
+      "path": "apps/web/src/lib/shareLanding.ts",
+      "reason": "Variants, previews, arrival parsing.",
+      "sha256": "0a34372af5858d8a963cd38255a822cb114e495a37b06147dd3fde6823956fda"
+    },
+    {
+      "path": "apps/web/src/components/share/ShareLanding.astro",
+      "reason": "Shared landing frame and per-variant panels.",
+      "sha256": "1a2a4dc9dbc7040b3fa3afa4f2c158cfac09c124bf5f5d64d69bee4f8ed7bdaf"
+    },
+    {
+      "path": "apps/web/src/layouts/BaseLayout.astro",
+      "reason": "og:image tag and size.",
+      "sha256": "86f89af6084285413d37ada32967d3fb867302a53651966c57d4a139f0e87964"
+    },
+    {
+      "path": "apps/web/src/lib/analytics.ts",
+      "reason": "Public events and allowed properties.",
+      "sha256": "e3d0257606cac00f575102a438d0455e0e9038565edec474ea76ffc3c4c4abe4"
+    },
+    {
+      "path": "apps/mobile/src/features/bookQuote/content.ts",
+      "reason": "Approved-only gate and the daily quote rotation the web mirrors.",
+      "sha256": "c38fafb37b3d133a536203f11520b0e645fdff4cfef2af614b4e1c9664e8fd6d"
+    },
+    {
+      "path": "apps/mobile/src/features/share/shareLink.ts",
+      "reason": "App paths and QR address the web must open.",
+      "sha256": "ee6405f3503a226fd56ccb1ba6118055c62e18aa046a0fd633da671a13ce4a46"
+    },
+    {
+      "path": "scripts/build-share-card-thumbs.mjs",
+      "reason": "Existing generator/check pattern for share images.",
+      "sha256": "97110a27e2c070f8f996cae2ddd6c41cb00083a4a2b8483f5ee907176d5ec27b"
+    },
+    {
+      "path": "scripts/share-landing.test.mjs",
+      "reason": "Existing web share tests.",
+      "sha256": "2d084ed4718fd939cde6d34fe7e298812ace94bc27db941c261025b85bc1fdd9"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before edits; website deploy only after merge under the Owner's 28/11 approval; receipt recorded."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "OG images use the brand palette, the EB Garamond / Hanken Grotesk TTF masters in assets/brand/open-reflection/v1/source and the generated horizontal logo SVG; no infinity sign or letter N."
+    },
+    {
+      "name": "nilaza-content-review",
+      "decision": "verified-current",
+      "evidence": "No new reflective content: the page shows approved book-quote items unchanged. New page labels and preview copy are listed in the handoff for review."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No new dependency: sharp (already used by build-share-card-thumbs and brand generation) renders the preview images from local TTF fonts with its text input."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No auth or RLS change.",
+    "sensitiveData": "No personal data on the page, in the address or in analytics; the line shown depends only on the visitor's local date.",
+    "secretsLogging": "No secret read or written; .env not opened.",
+    "unresolvedHighRisks": [],
+    "externalInput": "The quote page reads only the enumerated utm values from the address (surface list, medium card|invite|qr); quote text comes from the build-time approved files and is rendered with textContent. Pages touched under apps/web/src/pages/[locale]/share/ ([variant].astro gains the quote variant and its og:image); bracket paths cannot be listed, so the scope is the pages directory.",
+    "dependencies": "No new package; sharp is already a root dependency used by existing generators.",
+    "migrationRelease": "No migration, no Edge Function. After merge the website is deployed with the existing deploy:staging command (Owner approved 28/11); receipt in docs/release/share-cards-v2-s1b-2026-11-28/.",
+    "stopCondition": "Stop if the quote page would need any non-approved text, if the web rotation cannot be shown to match the app's for fixed dates, or if a preview image cannot be kept under 200 KB at 1200x630."
+  },
+  "workingTreeReview": {
+    "note": "Record written before any S1b edit; branch fast-forwarded to main 3affb98 after PR 91 merged. sourceReview hashes refreshed to the implemented files at commit time. Follow-up docs PR after PR 92 merged: web deploy receipt, Android device test report (EAS 2b10c936) and PLAN update; no code change.",
+    "paths": []
+  },
+  "validationCommands": [
+    "node --test scripts/share-landing.test.mjs",
+    "node scripts/build-share-og.mjs --check",
+    "node scripts/build-share-card-thumbs.mjs --check",
+    "npm run web:check",
+    "npm run web:build",
+    "npm --prefix apps/mobile test -- --silent src/features/bookQuote",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Mở https://nilaza.magicpendigital.com/vi/share/quote?utm_source=share&utm_medium=qr&utm_campaign=book_quote trên điện thoại → thấy câu hôm nay, nguồn sách và câu hỏi; bấm chọn sách khác → câu đổi. Dán link https://nilaza.magicpendigital.com/vi/share/quote vào một bài Facebook (chưa đăng) → ảnh xem trước riêng của trang Một câu hiện ra.",
+  "residualRisk": "Facebook caches previews: pages shared before the deploy may keep the old image until re-scraped (Sharing Debugger, Owner). The web line of the day uses the visitor's local date, like the app, so people in different time zones may see different lines.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
