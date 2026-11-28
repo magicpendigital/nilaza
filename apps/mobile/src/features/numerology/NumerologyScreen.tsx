@@ -15,6 +15,7 @@ import type { NumerologyMessageOutcome } from "../../backendClient";
 
 // Layout follows the Design canvas screens "Bản đồ số, nhập thông tin" (NumInput) and "Bản đồ số" (NumMap),
 // sections "Bạn" and "Biểu đồ ngày sinh"; Lô 5 adds "Nhịp thời gian", "Hợp số" and the "Lời nhắn riêng · Sắp có" card.
+// The section bar (Bạn · Biểu đồ · Nhịp · Hợp số) and "Viết vào Nhật ký" follow the canvas NumMap (28/11).
 // The AI report and "Hỏi Nilaza" belong to later batches.
 
 const teal = "#9FD3CF";
@@ -36,13 +37,17 @@ type Props = {
   onEvent?: (name: string, metadata?: Record<string, string | number | boolean>) => void;
   /** Signed-in accounts only: sends the private-message payload (numbers and block ids, never the name or birth date). */
   onRequestPrivateMessage?: (payload: PrivateMessagePayload) => Promise<NumerologyMessageOutcome>;
+  /** Opens the Journal pre-filled with an approved question; the name, date and numbers are not passed. */
+  onWriteJournal?: (prompt: string) => void;
   onBack: () => void;
 };
+
+type ResultSection = "you" | "chart" | "time" | "compat";
 
 // Characters that are neither letters nor spaces: digits and symbols are skipped by the calculation, so say so.
 const oddNameChars = /[0-9_@#$%^&*()+=<>/\\|~`!?;:,"[\]{}]/;
 
-export function NumerologyScreen({ language, storage, initialBirthDate, onBirthDateChange, onOpenShare, onEvent, onRequestPrivateMessage, onBack }: Props) {
+export function NumerologyScreen({ language, storage, initialBirthDate, onBirthDateChange, onOpenShare, onEvent, onRequestPrivateMessage, onWriteJournal, onBack }: Props) {
   const vi = language === "vi";
   const [birthDate, setBirthDate] = useState(initialBirthDate);
   const [name, setName] = useState("");
@@ -105,7 +110,8 @@ export function NumerologyScreen({ language, storage, initialBirthDate, onBirthD
       {map ? (
         <Result map={map} name={shownName} language={language} onShare={share} onAddName={() => setMap(null)}
           // No metadata: the other person's date, name and numbers never reach an event.
-          onCompared={() => onEvent?.("numerology_compat_compared")} onRequestPrivateMessage={onRequestPrivateMessage} />
+          onCompared={() => onEvent?.("numerology_compat_compared")} onRequestPrivateMessage={onRequestPrivateMessage}
+          onWriteJournal={onWriteJournal ? (prompt) => { onEvent?.("numerology_journal_opened"); onWriteJournal(prompt); } : undefined} />
       ) : (
         <Input
           language={language}
@@ -229,9 +235,33 @@ function howLines(map: NumerologyMap, vi: boolean) {
   return lines;
 }
 
-function Result({ map, name, language, onShare, onAddName, onCompared, onRequestPrivateMessage }: { map: NumerologyMap; name: string; language: Language; onShare?: () => void; onAddName: () => void; onCompared?: () => void;
-  onRequestPrivateMessage?: Props["onRequestPrivateMessage"] }) {
+function SectionBar({ value, onChange, language }: { value: ResultSection; onChange: (next: ResultSection) => void; language: Language }) {
   const vi = language === "vi";
+  const items: { id: ResultSection; label: string }[] = [
+    { id: "you", label: vi ? "Bạn" : "You" },
+    { id: "chart", label: vi ? "Biểu đồ" : "Chart" },
+    { id: "time", label: vi ? "Nhịp" : "Timing" },
+    { id: "compat", label: vi ? "Hợp số" : "Match" }
+  ];
+  return (
+    <View testID="numerology-sections" accessibilityRole="tablist" style={s.segments}>
+      {items.map((item) => {
+        const on = item.id === value;
+        return (
+          <Pressable key={item.id} testID={`numerology-section-${item.id}`} accessibilityRole="tab" accessibilityState={{ selected: on }}
+            onPress={() => onChange(item.id)} style={[s.segment, on && s.segmentOn]}>
+            <Text numberOfLines={1} style={[s.segmentText, on && s.segmentTextOn]}>{item.label}</Text>
+          </Pressable>
+        );
+      })}
+    </View>
+  );
+}
+
+function Result({ map, name, language, onShare, onAddName, onCompared, onRequestPrivateMessage, onWriteJournal }: { map: NumerologyMap; name: string; language: Language; onShare?: () => void; onAddName: () => void; onCompared?: () => void;
+  onRequestPrivateMessage?: Props["onRequestPrivateMessage"]; onWriteJournal?: (prompt: string) => void }) {
+  const vi = language === "vi";
+  const [section, setSection] = useState<ResultSection>("you");
   const [picked, setPicked] = useState<NumerologyKind | null>(null);
   const present = Object.keys(map.grid.counts).map(Number).sort((a, b) => a - b);
   // Open on the most repeated digit (the lowest one on a tie), so a "×3" cell is read first.
@@ -257,6 +287,11 @@ function Result({ map, name, language, onShare, onAddName, onCompared, onRequest
     <View style={s.stack}>
       <View style={s.stackSm}>
         <Text style={s.kicker}>{name ? `${name.toUpperCase()} · ${dateText}` : dateText}</Text>
+        <SectionBar value={section} onChange={setSection} language={language} />
+      </View>
+
+      {section === "you" ? (<>
+      <View style={s.stackSm}>
         <View testID="number-lifePath" style={s.hero}>
           <View style={s.heroHead}>
             <Text accessibilityLabel={`${kindTitle("lifePath", language)} ${map.lifePath.label}`} style={s.heroNumber}>
@@ -309,6 +344,11 @@ function Result({ map, name, language, onShare, onAddName, onCompared, onRequest
           <Text style={s.proText}>{lifeBlock.trap}</Text>
         </View>
       </View>
+      <PrivateMessageSoon language={language} onRequestMessage={onRequestPrivateMessage
+        ? () => onRequestPrivateMessage(buildPrivateMessagePayload(map, localToday(), language)) : undefined} />
+      </>) : null}
+
+      {section === "chart" ? (<>
 
       <View style={s.section}>
         <Text style={s.kicker}>{vi ? "BIỂU ĐỒ NGÀY SINH" : "BIRTH-DATE CHART"}</Text>
@@ -322,11 +362,10 @@ function Result({ map, name, language, onShare, onAddName, onCompared, onRequest
       {map.grid.full.map((id) => <ArrowCard key={id} id={id} language={language} />)}
       {map.grid.empty.length ? <Text testID="arrows-empty-note" style={s.hint}>{`${notes.empty} ${vi ? "Ở bạn, các đường trống là" : "For you, the empty lines are"} ${map.grid.empty.join(", ")}.`}</Text> : null}
       <Text style={s.hint}>{notes.label}</Text>
+      </>) : null}
 
-      <NumerologyTime map={map} language={language} />
-      <NumerologyCompat map={map} language={language} onCompared={onCompared} />
-      <PrivateMessageSoon language={language} onRequestMessage={onRequestPrivateMessage
-        ? () => onRequestPrivateMessage(buildPrivateMessagePayload(map, localToday(), language)) : undefined} />
+      {section === "time" ? <NumerologyTime map={map} language={language} /> : null}
+      {section === "compat" ? <NumerologyCompat map={map} language={language} onCompared={onCompared} /> : null}
 
       <View style={s.section}>
         {onShare ? (
@@ -335,6 +374,12 @@ function Result({ map, name, language, onShare, onAddName, onCompared, onRequest
           </Pressable>
         ) : null}
         <Text style={[s.hint, s.gapTop]}>{`${vi ? "Câu hỏi để viết: " : "A question to write on: "}${lifeBlock.question}`}</Text>
+        {onWriteJournal ? (
+          <Pressable testID="numerology-write-journal" accessibilityRole="button" onPress={() => onWriteJournal(lifeBlock.question)} style={[s.secondary, s.gapTop]}>
+            <Ionicons name="create-outline" size={18} color={colors.gold} />
+            <Text style={s.secondaryText}>{vi ? "Viết vào Nhật ký" : "Write in Journal"}</Text>
+          </Pressable>
+        ) : null}
         <Text style={[s.footer, s.gapTop]}>
           {vi
             ? "Thần số học là một khung truyền thống để tự phản chiếu, không phải khoa học và không dự đoán tương lai."
@@ -478,6 +523,13 @@ const s = StyleSheet.create({
   disabled: { opacity: 0.45 },
   links: { marginTop: 6, alignItems: "center" },
   link: { minHeight: 44, justifyContent: "center", paddingHorizontal: 8 },
+  secondary: { minHeight: 48, borderRadius: 24, borderWidth: 1, borderColor: "rgba(201, 164, 92, 0.5)", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8, paddingHorizontal: 18 },
+  secondaryText: { color: colors.gold, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 15 },
+  segments: { flexDirection: "row", padding: 4, gap: 4, borderRadius: radius.pill, backgroundColor: card, marginTop: 8 },
+  segment: { flex: 1, minWidth: 0, minHeight: 44, borderRadius: radius.pill, alignItems: "center", justifyContent: "center", paddingHorizontal: 6 },
+  segmentOn: { backgroundColor: "rgba(201, 164, 92, 0.2)" },
+  segmentText: { color: soft, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 13.5 },
+  segmentTextOn: { color: colors.ivory },
   linkText: { color: colors.gold, fontFamily: typography.bodyFontFamily, fontSize: 14, textAlign: "center" },
   linkSoft: { color: soft },
   explain: { marginTop: 4, padding: 12, borderRadius: 12, backgroundColor: card },
