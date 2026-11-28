@@ -43,3 +43,6 @@ apps/*/coverage/
 **/*.keystore
 !apps/mobile/android/app/debug.keystore
 
+
+# Local agent worktrees and state: each worktree is a full repository copy (pushed the archive to 4 GB on 28/11).
+.claude/

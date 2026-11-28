@@ -21,7 +21,9 @@
 | QR thẻ Một câu | Đạt: `…/vi/share/quote?…utm_medium=qr&utm_campaign=book_quote` |
 | Mở địa chỉ QR trên trình duyệt điện thoại | Đạt: trang "Một câu cho hôm nay." hiện **đúng câu** trên thẻ (Chương 42) và cùng câu hỏi |
 
-## Lỗi nhỏ tìm thấy (chưa sửa)
+## Lỗi nhỏ tìm thấy
+
+Lỗi 1, 2 và 4 đã sửa trong code ngày 28/11 (nhánh `claude/share-numerology-card-layout`): thân thẻ Bản đồ số 4:5 gọn lại (khoảng cách, cỡ số, đệm ô) và cách đầu thẻ, vạch kẻ QR một khoảng cố định; `.easignore` bỏ qua `.claude/`. **Chưa thử lại trên điện thoại** (cần bản Android mới). Lỗi 3 để lại.
 
 1. **Thẻ Bản đồ số khổ 4:5:** dòng "BẢN ĐỒ SỐ CỦA MÌNH" và "SỐ CHỦ ĐẠO" sát nhau (gần như dính dòng).
 2. **Thẻ Bản đồ số khổ 4:5:** hai chip "Ngày sinh · 9", "Biểu đạt · 1" chạm vạch kẻ phía trên phần QR (thiếu khoảng trống bên dưới). Khổ Story không bị.
