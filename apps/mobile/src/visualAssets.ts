@@ -137,7 +137,7 @@ const personaVisuals: Record<string, Record<PersonaVisualRole, ImageSourcePropTy
     thumbnail: require("../assets/runtime/personas/thumbnails/stoic-journal-v2.jpg"),
     cover: require("../assets/runtime/personas/covers/stoic-journal-v2.jpg")
   },
-  // Placeholder art: dhammapada and i-ching reuse the stoic-journal and harmony-guide images until new art is approved.
+  // Own art since 28/11/2026 (provenance: docs/art-provenance/book-guides-dhammapada-i-ching-2026-11-28.brief.md).
   dhammapada: {
     thumbnail: require("../assets/runtime/personas/thumbnails/dhammapada-v2.jpg"),
     cover: require("../assets/runtime/personas/covers/dhammapada-v2.jpg")
@@ -185,7 +185,7 @@ export function getDeckVisual(deckId: string, role: DeckVisualRole = "cover") {
 }
 
 /** Personas whose art is still borrowed from another guide; screens tint it with the persona's own portrait colour. */
-const placeholderPersonaArtSlugs = new Set(["dhammapada", "i-ching"]);
+const placeholderPersonaArtSlugs = new Set<string>([]);
 
 export function personaPlaceholderArtTint(persona: Persona) {
   return placeholderPersonaArtSlugs.has(persona.slug) ? persona.portrait?.colors?.[0] : undefined;

@@ -106,6 +106,30 @@ describe("PersonaChatRoom", () => {
     expect(props.onSend).toHaveBeenCalledWith("I need perspective");
   });
 
+  it("drops a suggestion once it was sent and hides suggestions while the guide answers (device test 28/11)", () => {
+    const sent = [
+      { id: "u1", personaId: "p", role: "user" as const, text: "I need perspective", createdAt: "2026-11-28" },
+      { id: "g1", personaId: "p", role: "guide" as const, text: "Tell me more.", createdAt: "2026-11-28" }
+    ];
+    const chips = (tree: renderer.ReactTestRenderer) => tree.root
+      .findAll((node) => node.props.accessibilityRole === "button" && typeof node.type === "string")
+      .map((node) => textContent(node))
+      .filter((label) => label === "I need perspective" || label === "Help me decide");
+
+    const idle = renderTree(<PersonaChatRoom {...baseProps()} messages={sent} />);
+    expect(chips(idle)).toEqual(["Help me decide"]);
+
+    const busy = renderTree(<PersonaChatRoom {...baseProps()} messages={sent} chatGenerating />);
+    expect(chips(busy)).toEqual([]);
+  });
+
+  it("keeps the header subtitle short and lets the guide name use two lines", () => {
+    const tree = renderTree(<PersonaChatRoom {...baseProps()} personaName="Người Dẫn Đường Kinh Pháp Cú" />);
+    const title = tree.root.findAll((node) => node.type === "Text" && textContent(node) === "Người Dẫn Đường Kinh Pháp Cú")[0];
+    expect(title.props.numberOfLines).toBe(2);
+    expectText(tree, "AI · inspired by Người Dẫn Đường Kinh Pháp Cú");
+  });
+
   it("opens with the persona's own line and falls back to the generic one", () => {
     const own = renderTree(<PersonaChatRoom {...baseProps()} openingLine="Hello. Tell me what you are weighing." />);
     expectText(own, "Hello. Tell me what you are weighing.");

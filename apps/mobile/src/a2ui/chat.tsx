@@ -217,7 +217,8 @@ export function ChatRoomHeader({
         )}
 
         <View style={chatStyles.roomHeaderCopy}>
-          <Text numberOfLines={1} style={chatStyles.roomHeaderTitle}>{title}</Text>
+          {/* Two lines so long guide names are not cut (device test 28/11: "Người Dẫn Đư…"). */}
+          <Text numberOfLines={2} style={chatStyles.roomHeaderTitle}>{title}</Text>
           {subtitle ? <Text numberOfLines={1} style={chatStyles.roomHeaderSubtitle}>{subtitle}</Text> : null}
         </View>
 
@@ -549,8 +550,8 @@ export function QuickReplyRail({
   if (prompts.length === 0) return null;
 
   const replies = prompts.map((prompt) => (
-    <Pressable key={prompt.id} accessibilityRole="button" onPress={() => onSelect(prompt)} style={chatStyles.quickReply}>
-      <Text style={chatStyles.quickReplyText}>{prompt.label}</Text>
+    <Pressable key={prompt.id} accessibilityRole="button" onPress={() => onSelect(prompt)} style={[chatStyles.quickReply, wrap && chatStyles.quickReplyWrapItem]}>
+      <Text style={[chatStyles.quickReplyText, wrap && chatStyles.quickReplyWrapText]}>{prompt.label}</Text>
     </Pressable>
   ));
 
@@ -721,7 +722,8 @@ const chatStyles = StyleSheet.create({
   roomHeaderTitle: {
     color: colors.ivory,
     fontFamily: typography.bodySemiBoldFontFamily,
-    fontSize: 16
+    fontSize: 16,
+    lineHeight: 20
   },
   roomHeaderSubtitle: {
     color: colors.moon,
@@ -1112,6 +1114,15 @@ const chatStyles = StyleSheet.create({
     color: colors.ivory,
     fontFamily: typography.bodySemiBoldFontFamily,
     fontSize: 13
+  },
+  // Wrapped chips never run past the right edge: a long prompt breaks onto a second line inside its chip.
+  quickReplyWrapItem: {
+    maxWidth: "100%"
+  },
+  quickReplyWrapText: {
+    flexShrink: 1,
+    lineHeight: 18,
+    textAlign: "center"
   },
   sessionActionButton: {
     alignItems: "center",

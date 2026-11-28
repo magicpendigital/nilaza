@@ -106,7 +106,7 @@ export function HomeExperience({ language, greeting, now, revealed, streak, onRe
   latest?: HomeLatest; continuation?: ReactNode;
   /** The one suggested next step after today's card is revealed (analysis HO-05). */
   nextStep?: { title: string; body: string; cta: string; onPress: () => void };
-  /** "Một câu cho hôm nay": today's book and quote; the whole card opens the quote screen. */
+  /** "Lời người xưa": the one line of the day from the whole library and its book; the whole card opens the quote screen. */
   bookQuote?: { book: string; quote: string; onPress: () => void };
 }) {
   const [open, setOpen] = useState(false);
@@ -186,9 +186,9 @@ export function HomeExperience({ language, greeting, now, revealed, streak, onRe
       </Pressable>
     </View>
 
-    {bookQuote ? <Pressable testID="home-book-quote" accessibilityRole="button" accessibilityLabel={a11ySentence([vi ? "Một câu cho hôm nay" : "A line for today", bookQuote.book, bookQuote.quote, vi ? "Đọc lời bình và câu hỏi" : "Read the commentary and question"])}
+    {bookQuote ? <Pressable testID="home-book-quote" accessibilityRole="button" accessibilityLabel={a11ySentence([vi ? "Lời người xưa" : "Words of the ancients", bookQuote.book, bookQuote.quote, vi ? "Đọc lời bình và câu hỏi" : "Read the commentary and question"])}
       onPress={bookQuote.onPress} style={s.quoteCard}>
-      <Text style={s.tileKicker}>{vi ? "MỘT CÂU CHO HÔM NAY" : "A LINE FOR TODAY"}</Text>
+      <Text style={s.tileKicker}>{vi ? "LỜI NGƯỜI XƯA" : "WORDS OF THE ANCIENTS"}</Text>
       <Text style={s.quoteBook}>{bookQuote.book}</Text>
       <Text style={s.quoteText} numberOfLines={3}>{`“${bookQuote.quote}”`}</Text>
       <Text style={s.link}>{`${vi ? "Đọc lời bình và câu hỏi" : "Read the commentary and question"} →`}</Text>

@@ -44,6 +44,17 @@ export function relativeDayLabel(iso: string, now: Date, language: Language) {
   return then.toLocaleDateString(vi ? "vi-VN" : "en-GB", { day: "2-digit", month: "2-digit" });
 }
 
+// The hub unmounts whenever the reader switches tabs or opens a guide; the chosen filter lives here so it survives
+// until the app is closed (Owner device test 28/11: the "Sách" filter reset after a tab switch).
+let rememberedCategory: HubCategory = "all";
+let rememberedShowAll = false;
+
+/** Test helper: forget the remembered filter. */
+export function resetChatHubMemory() {
+  rememberedCategory = "all";
+  rememberedShowAll = false;
+}
+
 export function ChatHub({ language, now, recent, councilThumbnails, guides, matches, onOpenRecent, onOracle, onCouncil, onOpenGuide }: {
   language: Language;
   now: Date;
@@ -57,10 +68,18 @@ export function ChatHub({ language, now, recent, councilThumbnails, guides, matc
   onOpenGuide: (guideId: string) => void;
 }) {
   const vi = language === "vi";
-  const [category, setCategory] = useState<HubCategory>("all");
+  const [category, setCategoryState] = useState<HubCategory>(rememberedCategory);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const [showAll, setShowAll] = useState(false);
+  const [showAll, setShowAllState] = useState(rememberedShowAll);
+  const setCategory = (next: HubCategory) => {
+    rememberedCategory = next;
+    setCategoryState(next);
+  };
+  const setShowAll = (next: boolean) => {
+    rememberedShowAll = next;
+    setShowAllState(next);
+  };
   const filtered = guides.filter((guide) => matches(guide.id, category, query));
   const collapsed = !showAll && category === "all" && !query.trim();
   const visible = collapsed ? hubFeaturedIds.map((id) => filtered.find((guide) => guide.id === id)).filter((guide): guide is HubGuide => !!guide) : filtered;

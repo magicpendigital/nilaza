@@ -1,0 +1,181 @@
+{
+  "schemaVersion": 1,
+  "taskId": "chat-polish-device-findings-2026-11-28",
+  "ownerAgent": "mobile_ui_engineer",
+  "lane": "Mobile: fixes from the Android device test of 28/11/2026 (book art, onboarding gate, chat room header and suggestions, daily line, hub filter)",
+  "goal": "Close the five findings the Owner picked from the 28/11 device test: own art for Kinh Pháp Cú and Kinh Dịch, no second onboarding for an account that already finished it, a readable chat-room header and suggestions that leave once used, one daily line drawn from the whole library instead of one per book (with copy that no longer says 'five books'), and a hub filter that survives a tab switch.",
+  "successCriteria": [
+    "Kinh Pháp Cú and Kinh Dịch show their own cover and thumbnail (reviewed, no text, no figure), the borrowed-art tint is gone, and validate:visual-assets passes.",
+    "A signed-in account whose server profile says onboarding is complete never sees the 'BƯỚC 2/2' onboarding again, even when the local profile is missing or still says not onboarded; the decision lives in a pure, unit-tested function.",
+    "The chat room header shows the guide name in full (up to two lines) with a short subtitle; quick replies the reader already sent disappear, the rest wrap instead of being cut at the right edge, and none show while a reply is being written.",
+    "'Một câu cho hôm nay' becomes one line a day drawn from the whole library (stable for the day, same line on Home and on the screen); the screen has no per-book tabs or 'other books today' list; Explore no longer says 'năm cuốn sách xưa'; the title is replaced with more refined copy.",
+    "The Trò chuyện hub keeps the chosen filter (for example 'Sách') after the reader switches tab or opens a guide and comes back, until the app is closed.",
+    "tsc, mobile jest, validate:data, admin:check and validate:visual-assets pass."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/admin/workflow-catalog.js",
+    "apps/mobile/src/auth/personalData.ts",
+    "apps/mobile/src/auth/__tests__/",
+    "apps/mobile/src/a2ui/chat.tsx",
+    "apps/mobile/src/a2ui/__tests__/index.test.tsx",
+    "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
+    "apps/mobile/src/features/persona/__tests__/PersonaChatRoom.test.tsx",
+    "apps/mobile/src/features/chat/ChatHub.tsx",
+    "apps/mobile/src/features/chat/__tests__/ChatHub.test.tsx",
+    "apps/mobile/src/features/bookQuote/",
+    "apps/mobile/src/features/explore/ExploreHome.tsx",
+    "apps/mobile/src/features/explore/__tests__/ExploreHome.test.tsx",
+    "apps/mobile/src/features/home/HomeExperience.tsx",
+    "apps/mobile/src/features/home/__tests__/HomeExperience.test.tsx",
+    "apps/mobile/src/visualAssets.ts",
+    "apps/mobile/assets/runtime/personas/covers/dhammapada-v2.jpg",
+    "apps/mobile/assets/runtime/personas/covers/i-ching-v2.jpg",
+    "apps/mobile/assets/runtime/personas/thumbnails/dhammapada-v2.jpg",
+    "apps/mobile/assets/runtime/personas/thumbnails/i-ching-v2.jpg",
+    "assets/personas/covers/dhammapada-v2.jpg",
+    "assets/personas/covers/i-ching-v2.jpg",
+    "assets/personas/thumbnails/dhammapada-v2.jpg",
+    "assets/personas/thumbnails/i-ching-v2.jpg",
+    "docs/art-provenance/book-guides-dhammapada-i-ching-2026-11-28.brief.md",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "supabase/** is not edited: profile-upsert and the profile snapshot read stay as they are; no SQL, no deploy.",
+    "packages/agent-config/feature-access.json and apps/admin/feature-access.js keep the internal label 'Một câu cho hôm nay' because the spec is mirrored in a SQL migration; only app-facing copy changes.",
+    "Book quote content files (packages/content/data/book-quotes/*.json, Owner-approved 27/11) are read, not edited.",
+    "No dependency, no secret, .env not read, no account created."
+  ],
+  "impact": {
+    "entryPoint": "App start (profile restore), Trò chuyện hub and chat room, Home card and Explore row for the daily line, a book guide's detail page.",
+    "dataWrite": "No new data shape. Restoring a profile may now take onboarded=true from the account's own server snapshot and save it locally, which is the value the server already holds.",
+    "backendContract": "Unchanged. The app reads the existing profile snapshot more often (when the local profile is missing or not onboarded), with the same request.",
+    "adminVisibility": "Only the App.tsx digest in apps/admin/workflow-catalog.js is refreshed.",
+    "privacySafety": "No new personal data is shown or sent. The profile snapshot is the signed-in user's own row. New art has no people or religious figures.",
+    "observability": "Existing book_quote events keep their names; the opened event now reports the book of the line shown.",
+    "rollback": "Revert the commit; the screens and restore logic return to the previous behaviour with no data migration."
+  },
+  "canonicalContracts": [
+    "docs/BRAND_GUIDELINES.md (48 px touch target, support large text and wrapping, the right portrait for each guide)",
+    "reports/2026-11-28-android-device-test-chat-knowledge.md (findings 1, 2, 3, 4, 6 and 7)"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile lane checks.",
+      "sha256": "e508d09a9fdffc78da809a4f1449f1d77999186b9bd371870bd8582e132075e1"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "reason": "Touch target, wrapping and persona art rules.",
+      "sha256": "bce12144fa7d6074c3213c977b0bc0187e2c9fa2d43453fab81f1145fa0129de"
+    },
+    {
+      "path": "reports/2026-11-28-android-device-test-chat-knowledge.md",
+      "reason": "Device test findings this task closes.",
+      "sha256": "6fc86f7ab004793c723c60c1d2892aee0fd3a2438e411929c43320bf4e62e86e"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Profile restore, onboarding gate, daily line wiring and persona detail entry.",
+      "sha256": "86aebb1d918ab00677f52e260863828942330b52d3299fa1aa9f872913a2daf9"
+    },
+    {
+      "path": "apps/mobile/src/auth/personalData.ts",
+      "reason": "Server profile snapshot mapping (onboarding_completed).",
+      "sha256": "59743424c52e2b5126397aefceb54402c29345d9b5e382076bb2f9c27f32ec28"
+    },
+    {
+      "path": "apps/mobile/src/a2ui/chat.tsx",
+      "reason": "Room header and quick reply rail.",
+      "sha256": "e46aaefda3bc6a9788d3864dc62cdf4a60086031a20d2e669e4ba575778f2342"
+    },
+    {
+      "path": "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
+      "reason": "Header subtitle and quick replies in the room.",
+      "sha256": "cedf995cd02a6892166de11e3da0d951115af553b13cd2b9813b55df683aa892"
+    },
+    {
+      "path": "apps/mobile/src/features/bookQuote/content.ts",
+      "reason": "Daily line selection.",
+      "sha256": "aa02f924c60927e6b205e023d08211655c63115432be2ad647ab5d90e0dcf3b2"
+    },
+    {
+      "path": "apps/mobile/src/features/bookQuote/BookQuoteScreen.tsx",
+      "reason": "Daily line screen layout and copy.",
+      "sha256": "84d67393dfb4172d2c91a45af12d7a29e4b18fbaddbba1294e430f451b2fe25c"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, validation matrix and stop conditions applied; no workflow rule change."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Brand guidelines read for touch target, wrapping and persona art; new art matches the existing book still-life style."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses only React Native core components and props already used in the app. Art made with the mca image capability; no package change."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization change; the snapshot read uses the signed-in user's own session as before.",
+    "sensitiveData": "No new personal data is shown, stored or sent.",
+    "secretsLogging": "No logging or credentials added.",
+    "externalInput": "Server snapshot fields are only read as booleans/strings into the existing Profile shape.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration; ships with the next app build.",
+    "stopCondition": "Stop and report if a fix needs a backend contract change, SQL, a deploy, or a change to the Owner-approved quote content.",
+    "unresolvedHighRisks": []
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/chat-polish-device-findings-2026-11-28.json",
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "npm run validate:data",
+    "npm run admin:check",
+    "npm run validate:visual-assets"
+  ],
+  "managerTestPath": "Install the new build over the old one with an account that finished onboarding: it opens on Home, not on BƯỚC 2/2. Open Trò chuyện, tap Sách, go to Home and back: Sách is still selected; Kinh Pháp Cú and Kinh Dịch have their own pictures. Open Kinh Dịch and chat: the header shows the full guide name; a suggestion you tapped is gone and the rest wrap. On Home, the daily line card and the screen it opens show the same single line; Explore no longer mentions five books.",
+  "residualRisk": "All fixes are verified in unit tests only until a new Android build is installed. The exact cause of the device's second onboarding was not reproduced; the fix covers the two paths that can cause it (local profile not onboarded, or missing with a failed server read).",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/assets/runtime/personas/covers/dhammapada-v2.jpg",
+      "apps/mobile/assets/runtime/personas/covers/i-ching-v2.jpg",
+      "apps/mobile/assets/runtime/personas/thumbnails/dhammapada-v2.jpg",
+      "apps/mobile/assets/runtime/personas/thumbnails/i-ching-v2.jpg",
+      "apps/mobile/src/features/chat/ChatHub.tsx",
+      "apps/mobile/src/features/chat/__tests__/ChatHub.test.tsx",
+      "apps/mobile/src/visualAssets.ts",
+      "assets/personas/covers/dhammapada-v2.jpg",
+      "assets/personas/covers/i-ching-v2.jpg",
+      "assets/personas/thumbnails/dhammapada-v2.jpg",
+      "assets/personas/thumbnails/i-ching-v2.jpg",
+      "docs/art-provenance/book-guides-dhammapada-i-ching-2026-11-28.brief.md"
+    ],
+    "note": "These are this task's own first edits, made while investigating before the record was written: the hub filter memory (finding 7) with its test, and the reviewed Kinh Pháp Cú / Kinh Dịch art with its provenance note and the emptied placeholder-tint list."
+  }
+}

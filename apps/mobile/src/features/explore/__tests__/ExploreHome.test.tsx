@@ -27,18 +27,19 @@ const baseProps = {
   onAllDecks: jest.fn(), decks: [], guides: [], onAllGuides: jest.fn()
 };
 
-test("the Soi chiếu group holds only live rows and opens Một câu cho hôm nay", () => {
+test("the Soi chiếu group holds only live rows and opens Lời người xưa, with no book count", () => {
   const onBookQuote = jest.fn();
   const screen = render(<ExploreHome {...baseProps} onBookQuote={onBookQuote} />);
   expect(screen.getByText("Soi chiếu")).toBeTruthy();
-  fireEvent.press(screen.getByLabelText("Một câu cho hôm nay. Một câu từ năm cuốn sách xưa, kèm lời bình và một câu hỏi."));
+  expect(screen.queryByText(/năm cuốn/)).toBeNull();
+  fireEvent.press(screen.getByLabelText("Lời người xưa. Mỗi ngày một câu từ kho sách xưa, kèm lời bình và một câu hỏi để lặng ngẫm."));
   expect(onBookQuote).toHaveBeenCalledTimes(1);
 });
 
 test("without a target the group is hidden, so there is no dead tile", () => {
   const screen = render(<ExploreHome {...baseProps} />);
   expect(screen.queryByText("Soi chiếu")).toBeNull();
-  expect(screen.queryByText("Một câu cho hôm nay")).toBeNull();
+  expect(screen.queryByText("Lời người xưa")).toBeNull();
 });
 
 test("App gate: with the approved content the card shows; with only draft files it is hidden", () => {

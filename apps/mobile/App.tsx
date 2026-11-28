@@ -173,7 +173,7 @@ import { CardLibrary } from "./src/features/tarot/CardLibrary";
 import { ExploreHome } from "./src/features/explore/ExploreHome";
 import { NumerologyScreen } from "./src/features/numerology/NumerologyScreen";
 import { BookQuoteScreen } from "./src/features/bookQuote/BookQuoteScreen";
-import { BOOK_QUOTE_FEATURE_ID, availableBookQuoteBooks, bookQuoteBookForPersona, bookQuoteHandoff, bookQuoteText, bookQuoteTitle, homeBookQuote, type BookQuoteBookId, type BookQuoteOfDay } from "./src/features/bookQuote/content";
+import { BOOK_QUOTE_FEATURE_ID, availableBookQuoteBooks, bookQuoteBookForPersona, bookQuoteHandoff, bookQuoteFeatureTitle, bookQuoteText, bookQuoteTitle, dailyBookQuote, type BookQuoteBookId, type BookQuoteOfDay } from "./src/features/bookQuote/content";
 import personaShortNamesData from "../../packages/content/data/persona-short-names.json";
 import knowledgeBriefIndex from "../../packages/content/data/knowledge-briefs/index.json";
 
@@ -271,7 +271,7 @@ import { cleanupExportFiles, deliverExport } from "./src/features/privacy/delive
 import { AstrologyExperience } from "./src/features/astrology/AstrologyExperience";
 import { clearAstrologyBirthData, removeSavedChart, type AstrologyPersistence, type SavedChart } from "./src/features/astrology/persistence";
 import { buildSafeAstrologyContext } from "./src/features/astrology/handoff";
-import { mapDailyInsight, mapJournalRows, mapPersonaMessages, mapProfileSnapshot, mergeById } from "./src/auth/personalData";
+import { mapDailyInsight, mapJournalRows, mapPersonaMessages, mapProfileSnapshot, mergeById, resolveRestoredProfile, shouldReadRemoteProfile } from "./src/auth/personalData";
 import { buildDevicePushRegistration, requestNotificationPermission, subscribeToNotificationResponses } from "./src/notifications";
 import {
   canViewContentTier,
@@ -3170,7 +3170,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   // Bumped after a saved chart changes outside Chiêm tinh so Tôi là ai reads the store again.
   const [savedChartsRevision, setSavedChartsRevision] = useState(0);
   const [astrologyReturnScreen, setAstrologyReturnScreen] = useState<Tab>("home");
-  // "Một câu cho hôm nay": the book to open on, and where Back returns (Home, Explore or a persona page).
+  // "Lời người xưa" (book_quote): the book to open on (none = the library-wide line of the day), and where Back returns (Home, Explore or a persona page).
   const [bookQuoteBook, setBookQuoteBook] = useState<BookQuoteBookId | undefined>(undefined);
   const [bookQuoteReturnScreen, setBookQuoteReturnScreen] = useState<Tab>("home");
   const [astrologyFocus, setAstrologyFocus] = useState<AstrologyFocus>("soul");
@@ -3461,13 +3461,15 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         // language last picked on this device (e.g. on the sign-up screen) before
         // falling back to the phone language.
         const fallbackProfile = savedDeviceLanguage ? { ...profile, language: savedDeviceLanguage } : profile;
-        const remoteSnapshot = !savedProfile && scope.accessToken && supabaseUrl
+        // Also read it when the device copy says "not onboarded": onboarding finished on the server must win,
+        // or the person is sent back to BƯỚC 2/2 (device test 28/11).
+        const remoteSnapshot = shouldReadRemoteProfile(savedProfile) && scope.accessToken && supabaseUrl
           ? await getProfileSnapshot(backendOptions).catch(() => null) : null;
         const remoteProfile = remoteSnapshot
           ? (() => { try { return mapProfileSnapshot(remoteSnapshot, fallbackProfile); } catch { return null; } })()
           : null;
         if (!active || !scope.active) return;
-        const restoredProfile = savedProfile ?? remoteProfile?.profile ?? fallbackProfile;
+        const restoredProfile = resolveRestoredProfile(savedProfile, remoteProfile?.profile, fallbackProfile);
         const restoredBirth = savedBirthProfile ?? remoteProfile?.birth ?? defaultBirthProfile;
         setProfile({ ...restoredProfile, goals: migrateGoals(restoredProfile.goals ?? []), language: normalizeLanguage(restoredProfile.language) });
         setBirthDate(restoredBirth.birthDate ?? "");
@@ -4343,11 +4345,12 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     navigate("chat");
   };
 
-  // Opens "Một câu cho hôm nay" on a book (or the Home book of the day); Back returns to the tab it came from.
+  // Opens "Lời người xưa": a book guide's page passes its book; Home and Explore pass nothing and get the one line
+  // of the day from the whole library (Owner 28/11/2026). Back returns to the tab it came from.
   const openBookQuote = (book?: BookQuoteBookId) => {
     setBookQuoteReturnScreen(currentTabOrHome());
     // Null-safe: with nothing visible the screen shows its calm empty state and Back still works.
-    setBookQuoteBook(book ?? homeBookQuote(currentDateKey)?.book ?? undefined);
+    setBookQuoteBook(book);
     navigate("bookQuote");
   };
   const askBookQuoteGuide = (quote: BookQuoteOfDay) => {
@@ -6132,7 +6135,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
               onBack={() => navigate("explore")} />
           </ScrollView>
         ) : screen === "bookQuote" ? (
-          <BookQuoteScreen key={`${scope.key}:${bookQuoteBook ?? ""}`} language={language} dateKey={currentDateKey} initialBook={bookQuoteBook}
+          <BookQuoteScreen key={`${scope.key}:${bookQuoteBook ?? ""}`} language={language} dateKey={currentDateKey} book={bookQuoteBook}
             storage={scope.userId ? storage : undefined}
             isPremium={displayedTier === "premium"}
             onOpenPremium={paywallEnabled ? openPremium : undefined}
@@ -6675,10 +6678,10 @@ function HomeScreen({
   onWritePrompt: (prompt: string) => void;
   dailyReminderOn: boolean;
   onOpenReminder: () => void;
-  onBookQuote?: (book: BookQuoteBookId) => void;
+  onBookQuote?: (book?: BookQuoteBookId) => void;
 }) {
   const card = todayPulse.card;
-  const todayBookQuote = onBookQuote ? homeBookQuote(currentDateKey) : null;
+  const todayBookQuote = onBookQuote ? dailyBookQuote(currentDateKey) : null;
   const savedTodayEntry = journalEntries.find((entry) => entry.sourceType === "daily" && entry.sourceId === todayCardSourceId(currentDateKey));
   const cardSaved = Boolean(savedTodayEntry);
   const todayMood = journalEntries.find((entry) => !entry.sourceId && entry.sourceSnapshot?.type === "today_pulse" && entry.sourceSnapshot?.dateKey === currentDateKey)?.mood;
@@ -6698,7 +6701,8 @@ function HomeScreen({
     bookQuote={todayBookQuote && onBookQuote ? {
       book: bookQuoteTitle(todayBookQuote.book, language),
       quote: bookQuoteText(todayBookQuote.item, "quote", language),
-      onPress: () => onBookQuote(todayBookQuote.book)
+      // No book: the screen shows the same library-wide line of the day as this card.
+      onPress: () => onBookQuote()
     } : undefined}
     continuation={councilSession || guestCarry ? <>
       {guestCarry && guestCarry.cards[0] && onOpenGuestCarry ? (() => {
@@ -7139,7 +7143,7 @@ function ChatScreen({
   onSave: (entry: Omit<JournalEntry, "id" | "createdAt">) => void;
   onSend: (preset?: string) => void;
   onTrack: (name: string, metadata?: Record<string, string | number | boolean>) => void;
-  /** Book personas only: opens "Một câu cho hôm nay" on that persona's book. Free, so shown even when the guide is locked. */
+  /** Book personas only: opens "Lời người xưa" on that persona's book. Free, so shown even when the guide is locked. */
   onOpenBookQuote?: (book: BookQuoteBookId) => void;
 }) {
   const [detailTab, setDetailTab] = useState<PersonaDetailTab>("reflections");
@@ -7325,7 +7329,7 @@ function ChatScreen({
             <Ionicons name="arrow-back-outline" size={22} color={colors.gold} />
           </Pressable>
           <View style={[styles.editorialPersonaHeaderTitleWrap, showCompactTitle && styles.editorialPersonaHeaderTitleWrapVisible]}>
-            <Text style={styles.editorialPersonaHeaderTitle} numberOfLines={1}>{heroTitle}</Text>
+            <Text style={styles.editorialPersonaHeaderTitle} numberOfLines={2} adjustsFontSizeToFit minimumFontScale={0.85}>{heroTitle}</Text>
           </View>
           <View style={styles.editorialPersonaActionRow}>
             <Pressable
@@ -7357,12 +7361,12 @@ function ChatScreen({
           <Pressable
             testID="persona-book-quote"
             accessibilityRole="button"
-            accessibilityLabel={language === "vi" ? `Một câu cho hôm nay từ ${bookQuoteTitle(detailQuoteBook, language)}` : `A line for today from ${bookQuoteTitle(detailQuoteBook, language)}`}
+            accessibilityLabel={`${bookQuoteFeatureTitle(language)}. ${language === "vi" ? `Một câu từ ${bookQuoteTitle(detailQuoteBook, language)}` : `A line from ${bookQuoteTitle(detailQuoteBook, language)}`}`}
             style={styles.personaBookQuoteButton}
             onPress={() => onOpenBookQuote(detailQuoteBook)}
           >
             <Ionicons name="book-outline" size={18} color={colors.gold} />
-            <Text style={styles.personaBookQuoteText}>{language === "vi" ? "Một câu cho hôm nay" : "A line for today"}</Text>
+            <Text style={styles.personaBookQuoteText}>{language === "vi" ? "Đọc một câu từ sách này" : "Read a line from this book"}</Text>
             <Ionicons name="chevron-forward" size={16} color={colors.gold} />
           </Pressable>
         ) : null}
@@ -10163,12 +10167,13 @@ zodiacProfilePrompt: {
     opacity: 1,
     transform: [{ translateY: 0 }]
   },
+  // Two lines and a slight shrink so long book guides ("Người Dẫn Đường Kinh Pháp Cú") are not cut (device test 28/11).
   editorialPersonaHeaderTitle: {
     color: colors.gold,
     fontFamily: typography.headlineFontFamily,
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "600",
-    lineHeight: 22,
+    lineHeight: 20,
     textAlign: "center"
   },
   editorialRoundIcon: {

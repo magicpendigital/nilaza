@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View, type StyleProp, type ViewStyle } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors, layout, radius, typography } from "../../theme";
 import type { Language } from "../../types";
 import {
-  SHOW_DRAFT_BOOK_QUOTES, availableBookQuoteBooks, bookQuoteAuthor, bookQuoteTabLabel, bookQuoteText, bookQuoteTitle, pickBookQuote,
+  SHOW_DRAFT_BOOK_QUOTES, bookQuoteAuthor, bookQuoteFeatureTitle, bookQuoteText, bookQuoteTitle, dailyBookQuote, pickBookQuote,
   type BookQuoteBookId, type BookQuoteOfDay
 } from "./content";
 import {
@@ -13,11 +13,11 @@ import {
 } from "./savedQuotes";
 import { PremiumGate, useFeatureAccess, type FeatureAccessService } from "../access";
 
-// "Một câu cho hôm nay": one quote per book per day, picked on the device from the local date.
-// Layout follows the approved proposal (27/11/2026): book tabs, date, ref, serif quote, attribution,
-// "Lời bình", "Câu hỏi cho bạn", three actions, the other books today, saved quotes, footnote.
+// "Lời người xưa" (book_quote): one line a day drawn from the whole library, picked on the device from the local date.
+// Owner decision 28/11/2026: a single line, no per-book tabs and no "other books today" list, so the page stays quiet
+// and the line feels rare. Layout: date, ref, serif quote, attribution, "Lời bình", "Câu hỏi cho bạn", three actions,
+// saved quotes, footnote. A book guide's page can still open today's line from its own book.
 
-const card = "#1F1C1E";
 const soft = "#B8B0A4";
 const body = "#E9E2D6";
 
@@ -25,7 +25,8 @@ type Props = {
   language: Language;
   /** Local calendar date, YYYY-MM-DD. */
   dateKey: string;
-  initialBook?: BookQuoteBookId;
+  /** Opened from a book guide's page: today's line from that book. Otherwise the line of the day from the whole library. */
+  book?: BookQuoteBookId;
   /** Account storage. A guest passes nothing and saved quotes stay in memory for this session. */
   storage?: BookQuoteStorage;
   /** Short persona name for the "Hỏi tiếp …" button. */
@@ -45,21 +46,19 @@ type Props = {
   featureAccessService?: FeatureAccessService;
 };
 
-export function BookQuoteScreen({ language, dateKey, initialBook, storage, personaName, onAskPersona, onWriteJournal, onEvent, onBack, contentContainerStyle, showDrafts = SHOW_DRAFT_BOOK_QUOTES, isPremium = false, onOpenPremium, featureAccessService }: Props) {
+export function BookQuoteScreen({ language, dateKey, book, storage, personaName, onAskPersona, onWriteJournal, onEvent, onBack, contentContainerStyle, showDrafts = SHOW_DRAFT_BOOK_QUOTES, isPremium = false, onOpenPremium, featureAccessService }: Props) {
   const vi = language === "vi";
   // Free / Premium switch (Admin, Owner publishes). Default config: Free for everyone, so nothing changes until a
   // Premium setting is published. Saved quotes stay outside the gate: what a user saved is never hidden.
   const access = useFeatureAccess("book_quote", { isPremium, service: featureAccessService });
-  const books = useMemo(() => availableBookQuoteBooks(showDrafts), [showDrafts]);
-  const [book, setBook] = useState<BookQuoteBookId | undefined>(() => (initialBook && books.includes(initialBook) ? initialBook : books[0]));
   const [saved, setSaved] = useState<SavedBookQuote[]>([]);
   const savedTouched = useRef(false);
-  const scrollRef = useRef<ScrollView>(null);
-  const quote = book ? pickBookQuote(book, dateKey, showDrafts) : null;
+  const quote = (book ? pickBookQuote(book, dateKey, showDrafts) : null) ?? dailyBookQuote(dateKey, showDrafts);
+  const title = bookQuoteFeatureTitle(language);
 
   useEffect(() => {
-    if (book) onEvent?.("book_quote_opened", { book });
-    // Only the first book counts as an open; tab changes are not tracked.
+    if (quote) onEvent?.("book_quote_opened", { book: quote.book });
+    // One open per visit.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -93,18 +92,13 @@ export function BookQuoteScreen({ language, dateKey, initialBook, storage, perso
     onEvent?.("book_quote_saved", { book: quote.book, saved: !wasSaved });
   };
 
-  const switchBook = (next: BookQuoteBookId) => {
-    setBook(next);
-    scrollRef.current?.scrollTo?.({ y: 0, animated: false });
-  };
-
   const dateLabel = formatDateKey(dateKey, language);
 
   if (!quote) {
     return (
       <ScrollView testID="book-quote-screen" style={s.flex} contentContainerStyle={[s.screen, contentContainerStyle]}>
         <Header language={language} onBack={onBack} />
-        <Text accessibilityRole="header" style={s.title}>{vi ? "Một câu cho hôm nay" : "A line for today"}</Text>
+        <Text accessibilityRole="header" style={s.title}>{title}</Text>
         <Text testID="book-quote-empty" style={s.empty}>{vi ? "Nội dung đang được hoàn thiện." : "This content is being finished."}</Text>
       </ScrollView>
     );
@@ -112,29 +106,16 @@ export function BookQuoteScreen({ language, dateKey, initialBook, storage, perso
 
   const isSaved = isBookQuoteSaved(saved, quote.item.id);
   const guide = personaName(quote.file.personaId);
-  const title = bookQuoteTitle(quote.book, language);
+  const bookTitle = bookQuoteTitle(quote.book, language);
   const author = bookQuoteAuthor(quote.book, language);
-  const attribution = author === title ? title : `${author} · ${title}`;
-  const otherBooks = books.filter((other) => other !== quote.book);
+  const attribution = author === bookTitle ? bookTitle : `${author} · ${bookTitle}`;
 
   return (
-    <ScrollView ref={scrollRef} testID="book-quote-screen" style={s.flex} contentContainerStyle={[s.screen, contentContainerStyle]}>
+    <ScrollView testID="book-quote-screen" style={s.flex} contentContainerStyle={[s.screen, contentContainerStyle]}>
       <Header language={language} onBack={onBack} />
-      <Text accessibilityRole="header" style={s.title}>{vi ? "Một câu cho hôm nay" : "A line for today"}</Text>
+      <Text accessibilityRole="header" style={s.title}>{title}</Text>
 
       <PremiumGate access={access} language={language} onOpenPremium={onOpenPremium}>
-      <View accessibilityRole="tablist" style={s.tabs}>
-        {books.map((id) => {
-          const selected = id === quote.book;
-          return (
-            <Pressable key={id} accessibilityRole="tab" accessibilityState={{ selected }} accessibilityLabel={bookQuoteTitle(id, language)}
-              onPress={() => switchBook(id)} style={[s.tab, selected && s.tabActive]}>
-              <Text style={[s.tabText, selected && s.tabTextActive]}>{bookQuoteTabLabel(id, language)}</Text>
-            </Pressable>
-          );
-        })}
-      </View>
-
       <Text style={s.date}>{dateLabel}</Text>
       <Text style={s.ref}>{bookQuoteText(quote.item, "ref", language)}</Text>
       <Text testID="book-quote-text" style={s.quote}>{`“${bookQuoteText(quote.item, "quote", language)}”`}</Text>
@@ -167,27 +148,6 @@ export function BookQuoteScreen({ language, dateKey, initialBook, storage, perso
         </Pressable>
       </View>
 
-      {otherBooks.length ? (
-        <View style={s.section}>
-          <Text accessibilityRole="header" style={s.kicker}>{vi ? "CÁC SÁCH KHÁC HÔM NAY" : "OTHER BOOKS TODAY"}</Text>
-          {otherBooks.map((id) => {
-            const other = pickBookQuote(id, dateKey, showDrafts);
-            if (!other) return null;
-            const otherTitle = bookQuoteTitle(id, language);
-            const otherQuote = bookQuoteText(other.item, "quote", language);
-            return (
-              <Pressable key={id} accessibilityRole="button" accessibilityLabel={`${otherTitle}. ${otherQuote}`}
-                onPress={() => switchBook(id)} style={s.otherCard}>
-                <View style={s.flex}>
-                  <Text style={s.otherTitle}>{otherTitle}</Text>
-                  <Text style={s.otherQuote} numberOfLines={2}>{otherQuote}</Text>
-                </View>
-                <Text style={s.link}>{vi ? "Đọc →" : "Read →"}</Text>
-              </Pressable>
-            );
-          })}
-        </View>
-      ) : null}
       </PremiumGate>
 
       {saved.length ? (
@@ -209,7 +169,7 @@ export function BookQuoteScreen({ language, dateKey, initialBook, storage, perso
         </View>
       ) : null}
 
-      <Text style={s.footnote}>{vi ? "Mỗi sách một câu mỗi ngày; mở lại trong ngày vẫn là câu này." : "One line per book each day; reopen it today and it stays the same."}</Text>
+      <Text style={s.footnote}>{vi ? "Mỗi ngày chỉ một câu, chọn từ kho sách xưa. Ngày mai sẽ là một câu khác." : "Just one line a day, drawn from the old books. Tomorrow brings another."}</Text>
     </ScrollView>
   );
 }
@@ -244,11 +204,6 @@ const s = StyleSheet.create({
   iconButton: { minWidth: layout.minimumTouchTarget, minHeight: layout.minimumTouchTarget, alignItems: "center", justifyContent: "center" },
   headerKicker: { color: colors.gold, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 11, letterSpacing: 1.5 },
   title: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 32, lineHeight: 38, marginTop: 4 },
-  tabs: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginTop: 16 },
-  tab: { minHeight: 44, justifyContent: "center", paddingHorizontal: 14, borderRadius: radius.pill, borderWidth: 1, borderColor: "rgba(247, 241, 230, 0.16)" },
-  tabActive: { backgroundColor: colors.ivory, borderColor: colors.ivory },
-  tabText: { color: body, fontFamily: typography.bodyFontFamily, fontSize: 13, lineHeight: 18 },
-  tabTextActive: { color: colors.charcoal, fontFamily: typography.bodySemiBoldFontFamily },
   date: { color: soft, fontFamily: typography.bodyFontFamily, fontSize: 13, lineHeight: 19, marginTop: 24 },
   ref: { color: colors.gold, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 12, lineHeight: 18, letterSpacing: 1, marginTop: 6, textTransform: "uppercase" },
   quote: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 26, lineHeight: 36, marginTop: 12 },
@@ -263,10 +218,6 @@ const s = StyleSheet.create({
   primaryText: { flexShrink: 1, color: colors.charcoal, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 15, lineHeight: 20, textAlign: "center" },
   secondary: { minHeight: 52, flexDirection: "row", gap: 8, alignItems: "center", justifyContent: "center", borderRadius: radius.pill, borderWidth: 1, borderColor: colors.outlineVariant, paddingHorizontal: 18, paddingVertical: 12 },
   secondaryText: { flexShrink: 1, color: colors.ivory, fontFamily: typography.bodyFontFamily, fontSize: 15, lineHeight: 20, textAlign: "center" },
-  otherCard: { flexDirection: "row", alignItems: "center", gap: 12, minHeight: layout.minimumTouchTarget, padding: 14, borderRadius: radius.card, backgroundColor: card, borderWidth: 1, borderColor: "rgba(247, 241, 230, 0.08)" },
-  otherTitle: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 18, lineHeight: 22 },
-  otherQuote: { color: soft, fontFamily: typography.bodyFontFamily, fontSize: 13, lineHeight: 19, marginTop: 4 },
-  link: { color: colors.gold, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 13, lineHeight: 19 },
   // Saved quotes are information, not a target: a plain row with a divider, only the remove icon is tappable.
   savedRow: { flexDirection: "row", alignItems: "flex-start", gap: 8, paddingVertical: 10, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.border },
   savedMeta: { color: soft, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 12, lineHeight: 17 },
