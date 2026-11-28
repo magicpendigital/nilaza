@@ -76,6 +76,7 @@ Chỉ cần khai phần này **khi Owner bật** công tắc `numerology_report`
 - Ghi chú về "chữ số có mặt": tập chữ số có mặt (ví dụ 1, 2, 3, 5) không đủ để dựng lại ngày sinh, nhưng là dữ liệu suy ra từ ngày sinh. Đề xuất vẫn khai như mục 2.4 (con số đã tính), **Owner xác nhận** khi bật.
 - Báo cáo lưu trên máy nằm trong "Xuất dữ liệu" và xóa được ở "Tôi là ai → Báo cáo đã lưu → Xóa" hoặc khi xóa dữ liệu trên máy; không có bản trên máy chủ để xóa.
 - Mã hóa khi truyền: HTTPS. Xóa tài khoản xóa các dòng usage_events như hiện có.
+- **Đối chiếu Play Console 29/11/2026 (Agent, tài khoản nhà phát triển Magicpen Digital, ứng dụng `app.nilaza.mobile`):** bản khai đang có đã gồm "Hoạt động trong ứng dụng → Nội dung khác do người dùng tạo" (thu thập, **không bắt buộc**, mục đích Chức năng ứng dụng và Cá nhân hóa) và "Tương tác với ứng dụng" (Chức năng ứng dụng, Phân tích, Chống lừa đảo/bảo mật); mục chia sẻ là "Không chia sẻ dữ liệu với bên thứ ba"; mã hóa khi truyền và đường dẫn xóa tài khoản đã khai. Anthropic và OpenRouter là nhà cung cấp dịch vụ, không tính là chia sẻ. **Kết luận: không cần sửa hay gửi lại mẫu An toàn dữ liệu** cho Báo cáo tổng hợp; chỉ cập nhật trang quyền riêng tư (đã sửa vi/en để nêu Anthropic và OpenRouter). Agent không bấm Lưu hay Gửi trên Play Console.
 
 ## 3. Trang cửa hàng: đoạn mô tả gói đăng ký (nháp để Owner sửa)
 
