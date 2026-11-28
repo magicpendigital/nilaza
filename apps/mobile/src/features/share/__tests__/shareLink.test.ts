@@ -1,4 +1,4 @@
-import { buildShareUrl, newShareId, shareLinkMessage, SHARE_ORIGIN } from "../shareLink";
+import { buildShareQrUrl, buildShareUrl, newShareId, shareInviteLine, shareLinkMessage, SHARE_ORIGIN } from "../shareLink";
 
 const parse = (url: string) => new URL(url);
 
@@ -51,7 +51,7 @@ it("creates 8-character ids that depend only on the random source", () => {
   expect(newShareId()).toMatch(/^[a-z0-9]{8}$/);
 });
 
-const surfaces = ["today_card", "tarot_reading", "astro_big3", "astro_invite", "numerology_map", "daily_sky"] as const;
+const surfaces = ["today_card", "tarot_reading", "astro_big3", "astro_invite", "numerology_map", "daily_sky", "book_quote"] as const;
 const link = "https://x.test/a";
 
 it("writes a first-person message with the link on its own line for every surface and language", () => {
@@ -115,7 +115,8 @@ test("each surface opens its own page, so the link preview matches what was shar
     astro_big3: "/en/compare",
     astro_invite: "/en/compare",
     numerology_map: "/en/share/numbers",
-    daily_sky: "/en/share/sky"
+    daily_sky: "/en/share/sky",
+    book_quote: "/en/share/quote"
   });
 });
 
@@ -161,4 +162,29 @@ test("the daily-sky message invites without naming the sender's details", () => 
   expect(vi).toContain("bầu trời");
   expect(vi).not.toMatch(/\bsẽ\b|\bphải\b/);
   expect(shareLinkMessage("en", "daily_sky", link)).toContain("today's sky");
+});
+
+test("the QR address is short and private: page, surface and the qr medium only", () => {
+  for (const surface of surfaces) {
+    const parsed = parse(buildShareQrUrl("vi", surface));
+    expect(parsed.origin).toBe(SHARE_ORIGIN);
+    expect(parsed.pathname).toBe(parse(buildShareUrl({ language: "vi", surface, id: "abc12345" })).pathname);
+    expect(Object.fromEntries(parsed.searchParams)).toEqual({ utm_source: "share", utm_medium: "qr", utm_campaign: surface });
+  }
+});
+
+test("a book-quote link carries no card id or sign", () => {
+  const parsed = parse(buildShareUrl({ language: "vi", surface: "book_quote", id: "abc12345", cardIds: ["major-00-fool"], sunSign: "leo" }));
+  expect(parsed.pathname).toBe("/vi/share/quote");
+  expect(parsed.searchParams.get("cards")).toBeNull();
+  expect(parsed.searchParams.get("sun")).toBeNull();
+});
+
+test("every surface has its own invite line in both languages, with the Owner's line for the quote card", () => {
+  expect(shareInviteLine("vi", "book_quote")).toBe("Nhận một câu mỗi sáng từ kho tri thức cổ");
+  for (const language of ["vi", "en"] as const) {
+    const lines = surfaces.map((surface) => shareInviteLine(language, surface));
+    lines.forEach((line) => expect(line.length).toBeGreaterThan(10));
+    expect(new Set(lines).size).toBe(lines.length);
+  }
 });

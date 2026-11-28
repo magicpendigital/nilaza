@@ -69,15 +69,16 @@ export function parseCardIds(param: string | null, known: ReadonlySet<string>): 
 }
 
 // Same list as the app (shareEvents.ts) and the share-events server function.
-export const shareSurfaces = ["today_card", "tarot_reading", "astro_big3", "astro_invite", "numerology_map", "daily_sky"] as const;
+// book_quote added 28/11/2026 (share cards v2, S1a); its own landing variant comes with S1b.
+export const shareSurfaces = ["today_card", "tarot_reading", "astro_big3", "astro_invite", "numerology_map", "daily_sky", "book_quote"] as const;
 export type ShareSurface = (typeof shareSurfaces)[number];
 
 /** The page layout a share link opens. Big 3 and invite links open /compare and have no variant here. */
-export const shareVariants = ["card", "reading", "numbers", "sky"] as const;
+export const shareVariants = ["card", "reading", "numbers", "sky", "quote"] as const;
 export type ShareVariant = (typeof shareVariants)[number];
 export const isShareVariant = (value: unknown): value is ShareVariant => (shareVariants as readonly unknown[]).includes(value);
 
-const variantBySurface: Partial<Record<ShareSurface, ShareVariant>> = { today_card: "card", tarot_reading: "reading", numerology_map: "numbers", daily_sky: "sky" };
+const variantBySurface: Partial<Record<ShareSurface, ShareVariant>> = { today_card: "card", tarot_reading: "reading", numerology_map: "numbers", daily_sky: "sky", book_quote: "quote" };
 
 /** Link preview title and description (Zalo, Messenger) per variant. Static, so it never repeats what was shared. */
 export function shareMeta(locale: "vi" | "en", variant: ShareVariant | "auto"): { title: string; description: string } {
@@ -95,6 +96,10 @@ export function shareMeta(locale: "vi" | "en", variant: ShareVariant | "auto"): 
       return vi
         ? { title: "Bầu trời hôm nay từ Nilaza", description: "Mặt Trăng đang ở cung nào và gợi nhịp gì cho ngày của bạn. Một dòng để tự soi chiếu, không là lời dự đoán." }
         : { title: "Today's sky from Nilaza", description: "Which sign the Moon is in and what pace it suggests for your day. A line to reflect on, not a prediction." };
+    case "quote":
+      return vi
+        ? { title: "Một câu cho hôm nay từ Nilaza", description: "Một câu trích từ sách cổ và một câu hỏi để tự ngẫm. Đọc câu hôm nay, rồi xem câu của những cuốn sách khác ngay trên trình duyệt." }
+        : { title: "A line for today from Nilaza", description: "One line from an old book and one question to sit with. Read today's line, then see the other books' lines right in your browser." };
     case "card":
     case "auto":
     default:
@@ -153,7 +158,10 @@ function defaultRandom(): number {
   return Math.random();
 }
 
-export type ShareArrival = { fromShare: boolean; surface: ShareSurface | null; medium: "card" | "invite" | null };
+/** card: link sent with a card image; invite: comparison invite; qr: the code printed on the card image. */
+export const shareMediums = ["card", "invite", "qr"] as const;
+export type ShareMedium = (typeof shareMediums)[number];
+export type ShareArrival = { fromShare: boolean; surface: ShareSurface | null; medium: ShareMedium | null };
 
 /** Whether the visit came from a Nilaza share link, using only enumerated utm values. */
 export function readShareArrival(search: string): ShareArrival {
@@ -164,6 +172,49 @@ export function readShareArrival(search: string): ShareArrival {
   return {
     fromShare,
     surface: fromShare && (shareSurfaces as readonly string[]).includes(surface ?? "") ? (surface as ShareSurface) : null,
-    medium: fromShare && (medium === "card" || medium === "invite") ? medium : null
+    medium: fromShare && (shareMediums as readonly string[]).includes(medium ?? "") ? (medium as ShareMedium) : null
   };
 }
+
+// "Một câu cho hôm nay": the same daily line as the app (apps/mobile/src/features/bookQuote/content.ts), so a QR
+// scanned on the day it was shared opens the line on the card. A test keeps the two rotations in step.
+
+/** Local calendar date as YYYY-MM-DD, like the app's bookQuoteDateKey. */
+export function quoteDateKey(at: Date = new Date()): string {
+  const pad = (value: number) => String(value).padStart(2, "0");
+  return `${at.getFullYear()}-${pad(at.getMonth() + 1)}-${pad(at.getDate())}`;
+}
+
+/** FNV-1a 32-bit, identical to the app's stableHash. */
+export function quoteHash(input: string): number {
+  let hash = 0x811c9dc5;
+  for (let index = 0; index < input.length; index += 1) {
+    hash ^= input.charCodeAt(index);
+    hash = Math.imul(hash, 0x01000193) >>> 0;
+  }
+  return hash >>> 0;
+}
+
+function quoteDayNumber(dateKey: string): number {
+  const [year, month, day] = dateKey.split("-").map(Number);
+  return Math.floor(Date.UTC(year, (month || 1) - 1, day || 1) / 86400000);
+}
+
+/** Index of the line a book shows on a date (the app's pickBookQuote). */
+export function quoteItemIndex(book: string, dateKey: string, count: number): number {
+  return count > 0 ? quoteHash(`${dateKey}|${book}`) % count : -1;
+}
+
+/** Index of the book shown first on a date, from the books in app order that have approved lines (the app's homeBookQuoteBook). */
+export function quoteBookIndex(dateKey: string, count: number): number {
+  return count > 0 ? ((quoteDayNumber(dateKey) % count) + count) % count : -1;
+}
+
+/** Books in the app's order (bookQuoteBookOrder), with the app's short tab labels and author lines. */
+export const quoteBooks = [
+  { id: "dao-duc-kinh", label: { vi: "Đạo Đức Kinh", en: "Tao Te Ching" }, author: { vi: "Lão Tử", en: "Laozi" } },
+  { id: "suy-tuong", label: { vi: "Suy tưởng", en: "Meditations" }, author: { vi: "Marcus Aurelius", en: "Marcus Aurelius" } },
+  { id: "kinh-phap-cu", label: { vi: "Pháp Cú", en: "Dhammapada" }, author: { vi: "Kinh Pháp Cú", en: "The Dhammapada" } },
+  { id: "binh-phap-ton-tu", label: { vi: "Binh pháp", en: "Art of War" }, author: { vi: "Tôn Tử", en: "Sunzi" } },
+  { id: "kinh-dich", label: { vi: "Kinh Dịch", en: "I Ching" }, author: { vi: "Kinh Dịch", en: "The I Ching" } }
+] as const;

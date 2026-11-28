@@ -65,8 +65,8 @@ it("captures the card at 1080x1350, shares the image with the message in one sha
   expect(options.message).toContain("Ngôi Sao");
   expect(options.message).toContain(url);
   expect(mockShareAsync).not.toHaveBeenCalled();
-  expect(onEvent).toHaveBeenNthCalledWith(1, "share_tapped", { surface: "today_card", action: "image" });
-  expect(onEvent).toHaveBeenNthCalledWith(2, "share_completed", { surface: "today_card", action: "image", outcome: "returned" });
+  expect(onEvent).toHaveBeenNthCalledWith(1, "share_tapped", { surface: "today_card", action: "image", format: "post" });
+  expect(onEvent).toHaveBeenNthCalledWith(2, "share_completed", { surface: "today_card", action: "image", format: "post", outcome: "returned" });
 });
 
 it("sends the tracked link as text and records the same two events", async () => {
@@ -82,7 +82,7 @@ it("reports failure without crashing when capture throws and still cleans nothin
   mockCaptureRef.mockRejectedValue(new Error("snapshot failed"));
   const { screen, onEvent } = setup();
   fireEvent.press(screen.getByText("Chia sẻ ảnh"));
-  await waitFor(() => expect(onEvent).toHaveBeenCalledWith("share_completed", { surface: "today_card", action: "image", outcome: "failed" }));
+  await waitFor(() => expect(onEvent).toHaveBeenCalledWith("share_completed", { surface: "today_card", action: "image", format: "post", outcome: "failed" }));
   expect(screen.getByText(/Chưa chia sẻ được/)).toBeTruthy();
   expect(mockShareAsync).not.toHaveBeenCalled();
   expect(mockNativeOpen).not.toHaveBeenCalled();
@@ -94,7 +94,7 @@ it("points to the link button when image sharing is unavailable", async () => {
   mockIsAvailable.mockResolvedValue(false);
   const { screen, onEvent } = setup();
   fireEvent.press(screen.getByText("Chia sẻ ảnh"));
-  await waitFor(() => expect(onEvent).toHaveBeenCalledWith("share_completed", { surface: "today_card", action: "image", outcome: "unavailable" }));
+  await waitFor(() => expect(onEvent).toHaveBeenCalledWith("share_completed", { surface: "today_card", action: "image", format: "post", outcome: "unavailable" }));
   expect(screen.getByText(/chưa hỗ trợ chia sẻ ảnh/)).toBeTruthy();
 });
 
@@ -129,14 +129,14 @@ it("falls back to sharing the image alone when the native share fails", async ()
   const { screen, onEvent } = setup();
   fireEvent.press(screen.getByText("Chia sẻ ảnh"));
   await waitFor(() => expect(mockShareAsync).toHaveBeenCalledWith("file:///cache/card.png", expect.objectContaining({ mimeType: "image/png" })));
-  await waitFor(() => expect(onEvent).toHaveBeenCalledWith("share_completed", { surface: "today_card", action: "image", outcome: "returned" }));
+  await waitFor(() => expect(onEvent).toHaveBeenCalledWith("share_completed", { surface: "today_card", action: "image", format: "post", outcome: "returned" }));
 });
 
 it("does not report cancelling the share sheet as a failure", async () => {
   mockNativeOpen.mockResolvedValue({ dismissedAction: true, success: false, message: "CANCELED" });
   const { screen, onEvent } = setup();
   fireEvent.press(screen.getByText("Chia sẻ ảnh"));
-  await waitFor(() => expect(onEvent).toHaveBeenCalledWith("share_completed", { surface: "today_card", action: "image", outcome: "returned" }));
+  await waitFor(() => expect(onEvent).toHaveBeenCalledWith("share_completed", { surface: "today_card", action: "image", format: "post", outcome: "returned" }));
   expect(screen.queryByText(/Chưa chia sẻ được/)).toBeNull();
   expect(mockShareAsync).not.toHaveBeenCalled();
 });
@@ -158,7 +158,7 @@ it("still shares the image when the clipboard fails, without claiming the text w
   const { screen, onEvent } = setup();
   fireEvent.press(screen.getByText("Chia sẻ ảnh"));
   await waitFor(() => expect(mockNativeOpen).toHaveBeenCalled());
-  await waitFor(() => expect(onEvent).toHaveBeenCalledWith("share_completed", { surface: "today_card", action: "image", outcome: "returned" }));
+  await waitFor(() => expect(onEvent).toHaveBeenCalledWith("share_completed", { surface: "today_card", action: "image", format: "post", outcome: "returned" }));
   expect(screen.queryByText(/Đã sao chép/)).toBeNull();
 });
 
@@ -167,4 +167,27 @@ it("does not touch the clipboard when only the link text is shared", async () =>
   fireEvent.press(screen.getByText("Gửi kèm link"));
   await waitFor(() => expect(Share.share).toHaveBeenCalled());
   expect(mockSetString).not.toHaveBeenCalled();
+});
+
+it("lets the person pick Story 9:16, captures it at 1080x1920 and records the format", async () => {
+  const { screen, onEvent } = setup();
+  expect(screen.getByTestId("share-format-post").props.accessibilityState).toMatchObject({ selected: true });
+  expect(screen.getByTestId("share-card-tarot-post")).toBeTruthy();
+  fireEvent.press(screen.getByText("Story 9:16"));
+  expect(screen.getByTestId("share-card-tarot-story")).toBeTruthy();
+  fireEvent.press(screen.getByText("Chia sẻ ảnh"));
+  await waitFor(() => expect(mockNativeOpen).toHaveBeenCalled());
+  expect(mockCaptureRef).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({ width: 1080, height: 1920, format: "png" }));
+  expect(onEvent).toHaveBeenNthCalledWith(1, "share_tapped", { surface: "today_card", action: "image", format: "story" });
+  expect(onEvent).toHaveBeenNthCalledWith(2, "share_completed", { surface: "today_card", action: "image", format: "story", outcome: "returned" });
+});
+
+it("prints the QR, the feature invite line and the address on the card, and sends no format with a link share", async () => {
+  const { screen, onEvent } = setup();
+  expect(screen.getByTestId("share-card-qr", { includeHiddenElements: true })).toBeTruthy();
+  expect(screen.getByText("Bạn rút thử xem lá của bạn là gì?")).toBeTruthy();
+  expect(screen.getByText("nilaza.magicpendigital.com")).toBeTruthy();
+  fireEvent.press(screen.getByText("Gửi kèm link"));
+  await waitFor(() => expect(onEvent).toHaveBeenCalledWith("share_completed", { surface: "today_card", action: "link", outcome: "returned" }));
+  expect(onEvent).toHaveBeenNthCalledWith(1, "share_tapped", { surface: "today_card", action: "link" });
 });

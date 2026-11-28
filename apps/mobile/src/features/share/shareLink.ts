@@ -4,9 +4,11 @@ import { astrologySignIds, type AstrologySignId } from "../astrology/contracts";
 // Public origin of the Nilaza website. Share links open a public page here; they never open the app.
 export const SHARE_ORIGIN = "https://nilaza.magicpendigital.com";
 
-// Every surface is also in the server allow-list (shareEvents.ts); numerology_map and daily_sky were added there on 28/11/2026.
-export type ShareSurface = "today_card" | "tarot_reading" | "astro_big3" | "astro_invite" | "numerology_map" | "daily_sky";
-export type ShareMedium = "card" | "invite";
+// Every surface is also in the server allow-list (shareEvents.ts); numerology_map and daily_sky were added there on 28/11/2026,
+// book_quote (Một câu cho hôm nay) with share cards v2 the same day.
+export type ShareSurface = "today_card" | "tarot_reading" | "astro_big3" | "astro_invite" | "numerology_map" | "daily_sky" | "book_quote";
+/** card: link sent with a card; invite: comparison invite; qr: the code printed on the card image. */
+export type ShareMedium = "card" | "invite" | "qr";
 
 const idAlphabet = "abcdefghijklmnopqrstuvwxyz0123456789";
 const cardIdPattern = /^[a-z0-9][a-z0-9-]{1,40}$/;
@@ -47,6 +49,8 @@ export const sharePagePath: Record<ShareSurface, string> = {
   tarot_reading: "share/reading",
   numerology_map: "share/numbers",
   daily_sky: "share/sky",
+  // The quote page is built in the website part of share cards v2 (S1b); it must be live before an app build ships this card.
+  book_quote: "share/quote",
   astro_big3: "compare",
   astro_invite: "compare"
 };
@@ -70,7 +74,7 @@ export function buildShareUrl(input: ShareLinkInput): string {
       params.set("p", sky.phase);
       params.set("d", sky.date);
     }
-  } else if (input.surface !== "numerology_map") {
+  } else if (input.surface !== "numerology_map" && input.surface !== "book_quote") {
     const cards = (input.cardIds ?? []).filter((id) => cardIdPattern.test(id)).slice(0, MAX_SHARE_CARDS);
     if (cards.length) params.set("c", cards.join(","));
   }
@@ -79,6 +83,42 @@ export function buildShareUrl(input: ShareLinkInput): string {
   params.set("utm_campaign", input.surface);
   params.set("utm_content", /^[a-z0-9]{6,12}$/.test(input.id) ? input.id : newShareId());
   return `${SHARE_ORIGIN}/${locale}/${sharePagePath[input.surface] ?? "share"}?${params.toString()}`;
+}
+
+/**
+ * Address encoded in the QR on the card image: the feature's try page with three enumerated utm values and nothing else.
+ * No card id, sign, sky, share id, name or date, so the code stays short enough to scan from a phone screen and says nothing
+ * about the sender.
+ */
+export function buildShareQrUrl(language: Language, surface: ShareSurface): string {
+  const locale = language === "vi" ? "vi" : "en";
+  const params = new URLSearchParams({ utm_source: "share", utm_medium: "qr", utm_campaign: surface });
+  return `${SHARE_ORIGIN}/${locale}/${sharePagePath[surface] ?? "share"}?${params.toString()}`;
+}
+
+/**
+ * One line printed on the card next to the QR: an invitation to try the feature, written per feature (share cards v2).
+ * The quote line was chosen by the Owner on 28/11/2026; the others follow the proposal's draft table.
+ */
+export function shareInviteLine(language: Language, surface: ShareSurface): string {
+  const vi = language === "vi";
+  switch (surface) {
+    case "book_quote":
+      return vi ? "Nhận một câu mỗi sáng từ kho tri thức cổ" : "Get one line each morning from the old books";
+    case "numerology_map":
+      return vi ? "Còn bạn là số mấy? Tính trong 10 giây" : "What is your number? Find out in 10 seconds";
+    case "tarot_reading":
+      return vi ? "Bạn thử trải xem mình ra những lá nào?" : "Try a spread and see which cards you get";
+    case "daily_sky":
+      return vi ? "Trăng hôm nay ở cung nào?" : "Which sign is the Moon in today?";
+    case "astro_big3":
+      return vi ? "Big 3 của bạn là gì?" : "What is your Big 3?";
+    case "astro_invite":
+      return vi ? "Bản đồ sao của hai mình hợp nhau ở đâu?" : "Where do our star charts line up?";
+    case "today_card":
+    default:
+      return vi ? "Bạn rút thử xem lá của bạn là gì?" : "Draw yours and see which card you get";
+  }
 }
 
 /** Plain readable address printed on the card image; it carries no tracking. */
@@ -121,6 +161,10 @@ export function shareLinkMessage(language: Language, surface: ShareSurface, url:
     lead = vi
       ? "Hôm nay mình đọc bầu trời trên Nilaza và có một dòng làm mình nghĩ về nhịp của ngày. Bạn xem bầu trời hôm nay gợi gì cho bạn?"
       : "I read today's sky on Nilaza and one line made me think about the pace of the day. Want to see what it brings up for you?";
+  } else if (surface === "book_quote") {
+    lead = vi
+      ? "Sáng nay mình đọc được câu này trên Nilaza và cứ nghĩ mãi. Bạn đọc thử xem câu của bạn hôm nay là gì?"
+      : "I read this line on Nilaza this morning and keep thinking about it. Want to see today's line for you?";
   } else if (surface === "numerology_map") {
     lead = vi
       ? "Mình vừa xem bản đồ số của mình và có một nét làm mình phải gật gù. Bạn thử xem bản đồ số của bạn đi?"

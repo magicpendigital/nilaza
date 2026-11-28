@@ -1,5 +1,6 @@
 ---
-// One static page per share variant, so each link preview has its own title and description.
+// One static page per share variant, so each link preview has its own title, description and image
+// (apps/web/public/share/og/<variant>-<locale>.png, built by scripts/build-share-og.mjs).
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import ShareLanding from "../../../components/share/ShareLanding.astro";
 import { locales, type Locale } from "../../../lib/site";
@@ -10,6 +11,6 @@ export function getStaticPaths() {
 const { locale, variant } = Astro.props as { locale: Locale; variant: ShareVariant };
 const { title, description } = shareMeta(locale, variant);
 ---
-<BaseLayout {locale} {title} {description} waitlistTarget="#join">
+<BaseLayout {locale} {title} {description} image={`/share/og/${variant}-${locale}.png`} waitlistTarget="#join">
   <ShareLanding {locale} {variant} />
 </BaseLayout>
