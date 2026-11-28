@@ -24,6 +24,8 @@ export type WhoAmIProps = {
   onOpenChart: (chart: SavedChart) => void;
   onDeleteChart: (chart: SavedChart) => void;
   onMakeChart: () => void;
+  /** Opens the Number Map. It is worked out from the profile birth date (and the saved birth name), so it has no separate copy to delete. */
+  onOpenNumerology?: () => void;
   onWriteJournal: () => void;
   onEditBirth: () => void;
   onEditName: () => void;
@@ -166,7 +168,7 @@ export function WhoAmI(props: WhoAmIProps) {
           <Text style={[s.detail, s.pad]}>
             {vi ? "Chưa đọc được lá số đã lưu. Dữ liệu không bị thay đổi; hãy mở lại màn hình." : "Saved charts could not be read. Nothing was changed; reopen this screen."}
           </Text>
-        ) : props.savedCharts.charts.length === 0 ? (
+        ) : props.savedCharts.charts.length === 0 && !(props.birthDate && props.onOpenNumerology) ? (
           <Text style={[s.detail, s.pad]}>{vi ? "Chưa có báo cáo nào được lưu trên máy." : "No reports saved on this device yet."}</Text>
         ) : (
           props.savedCharts.charts.map((chart) => {
@@ -185,6 +187,16 @@ export function WhoAmI(props: WhoAmIProps) {
             );
           })
         )}
+        {props.savedCharts.status === "ready" && props.birthDate && props.onOpenNumerology ? (
+          <View testID="whoami-numerology-row" style={s.row}>
+            <Ionicons name="keypad-outline" size={19} color={colors.gold} />
+            <View style={s.flex}>
+              <Text style={s.rowTitle}>{`${vi ? "Bản đồ số" : "Number map"} · ${displayBirthDate(props.birthDate)}`}</Text>
+              <Text style={s.detail}>{vi ? "Tính lại từ ngày sinh trong hồ sơ, không lưu bản riêng." : "Worked out again from your profile birth date; no separate copy is kept."}</Text>
+            </View>
+            <SmallButton label={vi ? "Xem" : "View"} accessibilityLabel={vi ? "Xem Bản đồ số" : "View number map"} onPress={props.onOpenNumerology} />
+          </View>
+        ) : null}
       </Section>
 
       <Section title={vi ? "Dữ liệu của tôi" : "My data"}>
