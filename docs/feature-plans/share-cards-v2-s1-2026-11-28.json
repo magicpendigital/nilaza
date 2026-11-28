@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "taskId": "share-cards-v2-s1-2026-11-28",
+  "ownerAgent": "mobile_agent",
+  "lane": "Mobile share cards (S1a of docs/proposals/SHARE_CARDS_V2_2026-11-28.vi.md, Owner said 'Bắt đầu làm bước S1' on 28/11/2026) plus the matching share-events allow-list code. The website part of S1 (quote landing variant, per-variant OG images, accepting utm_medium=qr) is S1b, a separate PR.",
+  "goal": "Give every share card the v2 frame (logo, per-feature invite line, QR to the web try page, address, reflection note), add a 9:16 Story format next to 4:5 with a format picker in the share sheet, add three feature skins (Một câu cho hôm nay on ivory paper, Bản đồ số on teal night with a big number and a decorative 3x3 grid, Lá bài hôm nay on charcoal with a gold frame, the real card art, English title and Vietnamese small line), add a share button to Một câu cho hôm nay, and count shares by feature and format.",
+  "successCriteria": [
+    "ShareCardView renders four skins (classic, quote, numbers, tarot) in two formats: post 1080x1350 and story 1080x1920; captureShareCard captures the size of the chosen format.",
+    "Every skin shows the v2 frame: Nilaza logo image (brand runtime PNG), an invite line per surface, a scannable QR, the address nilaza.magicpendigital.com and 'Để tự phản chiếu, không phải dự đoán.'; in story format the logo and QR sit inside the Story safe zone (top 64 and bottom 88 of 640 design units are kept free of content).",
+    "QR is generated on the device by the qrcode package (core encoder only) and drawn with react-native-svg as dark modules on an ivory tile with a quiet zone; it encodes only the try-page URL with utm_source=share, utm_medium=qr, utm_campaign=<surface>: no card id, sign, sky, share id, name or date.",
+    "Share sheet has a format picker (Bài đăng 4:5 / Story 9:16) with radio semantics; the preview follows the choice; the default is 4:5.",
+    "Một câu cho hôm nay has a 'Chia sẻ câu này' button that opens the share sheet with the quote skin: quote, book and chapter, the item's question; never the user's saved list, journal text or persona chat.",
+    "Today card uses the tarot skin: card art, English card name as title, Vietnamese name on a small line (Vietnamese UI only), up to three library keywords, the library meaning sentence.",
+    "Numerology share uses the numbers skin: life-path label large, block title, decorative 3x3 grid 1-9 with the root digit highlighted (not the birth-date digits), the approved block's light and question lines, birthday and expression numbers as chips.",
+    "Share events carry format (post|story) for image actions; the app list equals the server list (jest), server Deno tests accept format only with action image and reject unknown values; book_quote is a new surface in both lists and in the website's mirrored list (node test).",
+    "Share link for book_quote goes to /{vi,en}/share/quote (page built in S1b); the link carries no quote id.",
+    "mobile tsc and jest pass; Deno share-events tests pass; validate:data, validate:brand, share-landing node test and feature preflight CI pass."
+  ],
+  "writeScope": [
+    "apps/mobile/src/features/share/",
+    "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+    "apps/mobile/src/features/bookQuote/BookQuoteScreen.tsx",
+    "apps/mobile/src/features/bookQuote/__tests__/BookQuoteScreen.test.tsx",
+    "apps/mobile/src/features/numerology/NumerologyScreen.tsx",
+    "apps/mobile/App.tsx",
+    "apps/mobile/package.json",
+    "package-lock.json",
+    "supabase/functions/share-events/handler.ts",
+    "supabase/functions/share-events/handler_test.ts",
+    "apps/web/src/lib/shareLanding.ts",
+    "scripts/share-landing.test.mjs",
+    "docs/release/share-cards-v2-s1-2026-11-28/HANDOFF.vi.md",
+    "docs/proposals/SHARE_CARDS_V2_2026-11-28.vi.md",
+    "PLAN.md",
+    "apps/admin/workflow-catalog.js"
+  ],
+  "untouchedSurfaces": [
+    "No SQL, no Edge Function deploy, no website deploy, no secret read or set, no Supabase/Vercel/Cloudflare/EAS/Play setting changed, no Android build.",
+    "Website pages and OG images are S1b (separate PR); in S1a the web only gains book_quote in its mirrored surface list so the existing node test keeps the three lists equal.",
+    "Referral reward (S3), Big 3 / sky / invite skins (S2) and seasonal cards are not touched; those surfaces keep the classic layout inside the new frame.",
+    "No card text is newly written for the library; quote, numerology and tarot text come from the approved files. Only the invite lines and format labels are new copy.",
+    "Open PR 85 (startup gate) may touch App.tsx; S1a changes in App.tsx are limited to the share wiring."
+  ],
+  "impact": {
+    "entryPoint": "Existing share buttons (Lá bài hôm nay, trải bài, Big 3, lời mời so cung, Bản đồ số, Bầu trời hôm nay) open the same sheet, now with a format picker. New: 'Chia sẻ câu này' on Một câu cho hôm nay (Home card or Khám phá → Một câu cho hôm nay).",
+    "dataWrite": "None new on the device beyond existing local usage events (share_tapped / share_completed now also carry format). Server: usage_events rows with feature 'share' may carry surface book_quote and metadata.format once share-events is redeployed (Owner step).",
+    "backendContract": "share-events gains surface book_quote and an optional enumerated format (post|story) allowed only with action image. Until the Owner redeploys the function, the deployed version rejects those events with 400; the app sends events fire-and-forget, so sharing is never blocked, only those counts are lost.",
+    "adminVisibility": "No Admin change. Admin share metrics, if any, read metadata as text and will see the new values.",
+    "privacySafety": "Builders take only public library fields; the QR URL carries no personal or content id; the numbers grid is decorative 1-9, never the birth-date digits; no name, birth date, question, notes, mood or journal reaches the card or the link.",
+    "observability": "Funnel by surface and format: share_tapped / share_completed with format; QR scans are visible on the website as utm_medium=qr once S1b accepts it (until then the website records medium null).",
+    "rollback": "Revert the PR; the server change is additive and old app versions keep sending events without format."
+  },
+  "canonicalContracts": [
+    "supabase/functions/share-events/handler.ts",
+    "apps/mobile/src/features/share/shareEvents.ts",
+    "docs/proposals/SHARE_CARDS_V2_2026-11-28.vi.md"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile and backend routes and checks.",
+      "sha256": "e508d09a9fdffc78da809a4f1449f1d77999186b9bd371870bd8582e132075e1"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Record and preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "reason": "Colours, fonts, corners, contrast for the skins.",
+      "sha256": "bce12144fa7d6074c3213c977b0bc0187e2c9fa2d43453fab81f1145fa0129de"
+    },
+    {
+      "path": "docs/proposals/SHARE_CARDS_V2_2026-11-28.vi.md",
+      "reason": "S1 scope, skins, invite lines, Owner decisions (QR, Facebook first).",
+      "sha256": "e934c559180ae9c6609a38e7ec5b274102b543bc8465cef164783961cb629b57"
+    },
+    {
+      "path": "supabase/functions/share-events/handler.ts",
+      "reason": "Server allow-list for surfaces and event shape.",
+      "sha256": "926b4486e41bca3165d9fed63bd71f164e0a70d231224832fb9fee2003e3db4f"
+    },
+    {
+      "path": "apps/mobile/src/features/share/shareEvents.ts",
+      "reason": "App copy of the allow-list.",
+      "sha256": "e628b273456d73eb72d68498b6467a37a5227dbb94ccebb962924af53a7a180e"
+    },
+    {
+      "path": "apps/mobile/src/features/share/shareLink.ts",
+      "reason": "Share URL per surface.",
+      "sha256": "ee6405f3503a226fd56ccb1ba6118055c62e18aa046a0fd633da671a13ce4a46"
+    },
+    {
+      "path": "apps/mobile/src/features/share/shareCardContent.ts",
+      "reason": "Card models and builders.",
+      "sha256": "20e60b2e68f10ed63fdfdf1fe6c40a2e28569dc1ce39662aa08ce70fad591a9d"
+    },
+    {
+      "path": "apps/mobile/src/features/share/ShareCardView.tsx",
+      "reason": "Current single 4:5 template.",
+      "sha256": "149791a1eff158e140d4fdcab455852b91d3d512db3b90833caf3f67b9182b7e"
+    },
+    {
+      "path": "apps/mobile/src/features/share/ShareCardSheet.tsx",
+      "reason": "Share sheet and events.",
+      "sha256": "751879d59874d38b6ae217a5da82665c6ac8f0e3d1d7f73c5ff944db201c82f2"
+    },
+    {
+      "path": "apps/mobile/src/features/share/captureShareCard.ts",
+      "reason": "Capture size.",
+      "sha256": "a4aea3d0b3c9b1e756961d4eaed3214e7c002939c87f07c0c5eb2f117047a103"
+    },
+    {
+      "path": "apps/mobile/src/features/bookQuote/BookQuoteScreen.tsx",
+      "reason": "Gets the share entry.",
+      "sha256": "4b6dcd703a2d4b07e9fe81f98200a5ddf7bbf0c2d6ea19427be4c04924513560"
+    },
+    {
+      "path": "apps/mobile/src/features/numerology/NumerologyScreen.tsx",
+      "reason": "Numerology share request gets block light, question and root.",
+      "sha256": "a2d0081fc5ce0bd3fd85a04eddf94ae35530217dfcfee082f07f098b28b2b916"
+    },
+    {
+      "path": "packages/content/data/numerology-blocks.json",
+      "reason": "Owner-approved blocks (light, question) shown on the numbers skin.",
+      "sha256": "918d9cea12a8c34a18edd969c0a45f2b76507bf6c77206a5c929ba243f3d84a8"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before the first code edit; S1 split into S1a (app) and S1b (web) to keep the PR small; Owner-only steps (share-events redeploy, web deploy, Android build) listed, not done."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Skins use theme colours and EB Garamond / Hanken Grotesk, logo from the brand runtime PNGs, corners <= 8 design units, QR modules charcoal on ivory; validate:brand run; canvas mockups are not presented as app screenshots."
+    },
+    {
+      "name": "nilaza-content-review",
+      "decision": "verified-current",
+      "evidence": "Only new copy is the invite lines and format labels; they are listed in the handoff for review. Quote, numerology and tarot text come from approved library files unchanged."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Adds qrcode 1.5.4 (MIT, soldair/node-qrcode) to apps/mobile. Only its core encoder qrcode/lib/core/qrcode is imported (create(text, { errorCorrectionLevel }) returns modules.size and modules.data), so the PNG/terminal/canvas renderers and their dependencies (pngjs, yargs) are not bundled. Drawing uses the already installed react-native-svg 15.12.1."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://www.npmjs.com/package/qrcode",
+      "reason": "qrcode 1.5.4, MIT; dependencies dijkstrajs, pngjs, yargs; main lib/index.js, browser field maps it to lib/browser.js; create() API documented (QRCode.create(text, [options]) returns modules)",
+      "checkedAt": "2026-11-28"
+    },
+    {
+      "url": "https://github.com/soldair/node-qrcode",
+      "reason": "Source of lib/core/qrcode.js create(): error correction levels L/M/Q/H, auto version selection; byte mode encodes the URL.",
+      "checkedAt": "2026-11-28"
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No auth or RLS change; share-events still authenticates before reading the body.",
+    "sensitiveData": "Card builders take only library fields; the QR URL holds only origin, locale, page and three enumerated utm values; numerology grid is decorative; no birth data, name, question, note or journal on the card, in the link or in events.",
+    "secretsLogging": "No secret read or written; .env not read.",
+    "externalInput": "share-events validates format against the enumerated list post|story and accepts it only with action image; unknown keys still reject the batch. The QR library receives only the URL string built by the app.",
+    "dependencies": "One new runtime dependency (qrcode 1.5.4, MIT, widely used); core encoder only; lockfile reviewed for the added packages.",
+    "migrationRelease": "No migration (usage_events.metadata is unconstrained jsonb). share-events redeploy, the S1b website deploy and the Android build are Owner steps; the website quote page (S1b) must be live before an Android build that ships the quote card, or its QR and link would open a missing page.",
+    "stopCondition": "Stop if the QR at the chosen size (at least 192 px in a 1080-wide export) cannot be decoded back to the same URL in a test; stop if any skin needs text that is not in an approved library file or the reviewed invite lines.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record written before any code edit on branch claude/share-cards-v2-s1 cut from origin/main 217e158 (28/11/2026); the worktree was clean then. Scope updated during implementation (28/11): the qrcode type file lives in apps/mobile/src/features/share/qrcode.d.ts (src/types.ts already exists, so no src/types/ folder), and AstrologyExperience.tsx gets one line so the astro_invite card prints its own invite line. Review hashes refreshed to the implemented files at commit time (28/11), as earlier PRs did. apps/admin/workflow-catalog.js: only the App.tsx source digest is refreshed, as earlier PRs did after editing App.tsx.",
+    "paths": []
+  },
+  "validationCommands": [
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "npx --yes deno@2 test --allow-all supabase/functions/share-events",
+    "npm run validate:data",
+    "npm run validate:backend",
+    "npm run validate:brand",
+    "node --test scripts/share-landing.test.mjs",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Trên điện thoại (bản build mới): Trang chủ → Lá bài hôm nay → Chia sẻ → thấy thẻ nền than khung vàng, tên tiếng Anh và tên Việt nhỏ, mã QR ở góc dưới. Chọn 'Story 9:16' → thẻ dài ra, logo và QR không sát mép. Bấm 'Chia sẻ ảnh' → đăng Story Facebook thử. Dùng điện thoại khác quét QR trên ảnh → mở trang Nilaza. Làm tương tự với Bản đồ số (nền teal, số lớn) và Một câu cho hôm nay (nút 'Chia sẻ câu này', nền giấy ngà).",
+  "residualRisk": "QR scan from a real phone screen, Story safe zones on Facebook/Instagram/TikTok and image compression are not verified until tested on devices. The quote landing page (S1b) does not exist yet, so the quote card's QR and link would 404 until S1b is deployed. share-events must be redeployed (Owner) before book_quote and format counts are stored; until then those events are rejected silently. New invite lines need content review before release.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
