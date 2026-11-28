@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { knowledgeBriefCheckErrors } from "./build-knowledge-briefs.mjs";
 
 const root = process.cwd();
 const errors = [];
@@ -11,6 +12,8 @@ const contracts = [
   { gatewayPath: "/ai/persona-chat", functionName: "ai-persona-chat" },
   { gatewayPath: "/ai/ai-council", functionName: "ai-council" },
   { gatewayPath: "/ai/tarot-reading", functionName: "ai-tarot-reading" },
+  { gatewayPath: "/ai/numerology-message", functionName: "ai-numerology-message" },
+  { gatewayPath: "/tarot/guest-draw", functionName: "tarot-guest-draw" },
   { gatewayPath: "/ai/daily-insight", functionName: "ai-daily-insight" },
   { gatewayPath: "/ai/daily-zodiac-pulse", functionName: "ai-daily-zodiac-pulse" },
   { gatewayPath: "/ai/astrology-insight", functionName: "ai-astrology-insight" },
@@ -22,7 +25,7 @@ const contracts = [
   { gatewayPath: "/notifications/send-test", functionName: "notification-send-test" }
 ];
 
-const adminFunctions = ["admin-ai-council-config", "admin-model-router-config", "admin-ai-provider-probe", "admin-astrology-prompt-config", "admin-ai-trace-qa-payload", "admin-documentation", "admin-ai-eval-run", "admin-team-invite", "notification-send-test", "notification-dispatch", "notification-receipts"];
+const adminFunctions = ["admin-ai-council-config", "admin-model-router-config", "admin-model-campaigns", "admin-ai-provider-probe", "admin-astrology-prompt-config", "admin-ai-trace-qa-payload", "admin-documentation", "admin-ai-eval-run", "admin-team-invite", "notification-send-test", "notification-dispatch", "notification-receipts"];
 
 function assert(condition, message) {
   if (!condition) errors.push(message);
@@ -53,7 +56,9 @@ for (const { functionName } of contracts) {
   const indexPath = path.join(root, "supabase", "functions", functionName, "index.ts");
   assert(fs.existsSync(indexPath), `Missing Supabase Edge Function ${functionName}/index.ts`);
   if (fs.existsSync(indexPath)) {
-    const source = fs.readFileSync(indexPath, "utf8");
+    // Nil P1-B: ai-astrology-insight keeps its request handling in handler.ts; check both files together.
+    const source = fs.readFileSync(indexPath, "utf8") + (functionName === "ai-astrology-insight"
+      ? "\n" + read("supabase/functions/ai-astrology-insight/handler.ts") : "");
     const oracleFactory = functionName === "ai-oracle-turn"
       && source.includes("export function createOracleHandler(")
       && source.includes("serve(createOracleHandler())");
@@ -80,6 +85,21 @@ for (const { functionName } of contracts) {
       assert(source.includes("createFeedbackHandler") && source.includes("supabase.auth.getUser"), "Feedback must use the authenticated handler");
       assert(handler.includes("await guardAiJsonRequest") && handler.includes("parseFeedbackSubmission") && handler.includes("parseFeedbackReceipt") && handler.includes("parseFeedbackExport"), "Feedback must guard input and validate all acknowledgements");
     }
+    if (functionName === "ai-numerology-message") {
+      // 2026-11-25: sign-in, strict switch, content gate, Premium and quota all run before the body is read; the server
+      // resolves approved block text itself and stores no message text.
+      const handler = read("supabase/functions/ai-numerology-message/handler.ts");
+      assert(source.includes("@supabase/supabase-js") && source.includes("supabase.auth.getUser(token)") && source.includes("aiAuthUserOrUnavailable(data?.user, error)"), "Numerology message must verify the caller from the JWT");
+      assert(source.includes("featureEnabledStrict(") && !source.includes("featurePaused("), "Numerology message must read its switch strictly (off unless enabled = true)");
+      assert(source.includes("claimDeliveredAttempt(") && source.includes("PREMIUM_ENTITLEMENTS") && source.includes("resolveServerTier("), "Numerology message must claim its daily quota and judge Premium on the server");
+      assert(!source.includes("SUPABASE_SERVICE_ROLE_KEY") && !source.includes("campaignClient"), "Numerology message must use only the caller's client and no model campaign");
+      const order = ["authenticateAiRequest(", "deps.featureEnabled()", "contentApproved()", "deps.readTier(", "deps.claimAttempt(", "readBoundedJson(", "checkNumerologyRequest(", "resolveNumerologyBlocks(", "deps.generate("];
+      const positions = order.map((token) => handler.indexOf(token));
+      assert(positions.every((position, index) => position >= 0 && (index === 0 || position > positions[index - 1])), "Numerology message must check sign-in, switch, content, Premium and quota before reading the body, then validate before generating");
+      assert(handler.includes('fallbackText: ""') && handler.includes("acceptOutput:") && handler.includes("strictTraceRedaction: true"), "Numerology message must not return canned text and must check the answer inside the router");
+      assert(handler.includes("content_not_approved") && handler.includes("premium_required") && handler.includes("persistenceStatus"), "Numerology message must keep its refusal codes and persistenceStatus");
+      assert(!handler.includes("await req.json()") && !source.includes("await req.json()"), "Numerology message must not bypass bounded body parsing");
+    }
     if (functionName === "share-events") {
       const handler = read("supabase/functions/share-events/handler.ts");
       assert(source.includes("createShareEventsHandler") && source.includes("caller.auth.getUser("), "Share events must verify the caller before storing");
@@ -101,7 +121,7 @@ for (const { functionName } of contracts) {
       const authPosition = source.indexOf("supabase.auth.getUser(");
       const bodyPosition = source.indexOf("await req.text()");
       assert(authPosition >= 0 && bodyPosition > authPosition, "ai-astrology-insight must authenticate before reading private request data");
-      for (const required of ["ASTROLOGY_AI_CONTRACT.entitlement.requiredEntitlement", "usage_events", "astrology_reports", "strictTraceRedaction: true", "ASTROLOGY_AI_CONTRACT.responseSchema.name", "prompt_not_ready", "selectedFactIds", "user_id: userId", "runtime_environment_not_configured", "AI_TRACE_ENVIRONMENT", "FAILED_ATTEMPT_ALLOWANCE", "deliveredCount >= dailyAttemptLimit"]) {
+      for (const required of ["ASTROLOGY_AI_CONTRACT.entitlement.requiredEntitlement", "usage_events", "astrology_reports", "strictTraceRedaction: true", "ASTROLOGY_AI_CONTRACT.responseSchema.name", "prompt_not_ready", "selectedFactIds", "user_id: userId", "runtime_environment_not_configured", "AI_TRACE_ENVIRONMENT", "FAILED_ATTEMPT_ALLOWANCE", "astrology_claim_report", "p_daily_limit: dailyAttemptLimit", "astrologyLockKey(", "report_in_progress"]) {
         assert(source.includes(required), `ai-astrology-insight must preserve ${required}`);
       }
     }
@@ -158,6 +178,11 @@ for (const functionName of adminFunctions) {
       : functionName === "admin-model-router-config" ? [
         "serve(async (req)", "Access-Control-Allow-Origin", "@supabase/supabase-js", "supabase.auth.getUser",
         'supabase.rpc("has_admin_capability",', "Admin role required", "model_route_versions"
+      ] : functionName === "admin-model-campaigns" ? [
+        // Model campaigns (2026-11-24): the signed-in admin's own session; the SQL RPCs re-check the capability.
+        "serve(async (req)", "Access-Control-Allow-Origin", "@supabase/supabase-js", "supabase.auth.getUser",
+        'supabase.rpc("has_admin_capability",', 'req.method === "GET" ? "ai.read" : "ai.manage"', "Admin role required",
+        "createModelCampaignsHandler"
       ] : functionName === "admin-ai-provider-probe" ? [
         "serve(async (req)", "Access-Control-Allow-Origin", "@supabase/supabase-js", "supabase.auth.getUser",
         'supabase.rpc("has_admin_capability",', 'capability: "ai.manage"', "Admin role required", 'service.rpc("record_ai_provider_probe",'
@@ -250,6 +275,17 @@ for (const required of [
   "to authenticated"
 ]) {
   assert(astrologyMigration.includes(required), `Astrology backend migration missing ${required}`);
+}
+// Nil P1-B: the lock migration narrows those grants: the app only reads its own rows; the server claims a key.
+const astrologyLockMigration = read("supabase/migrations/20261115110000_astrology_lock.sql");
+for (const required of [
+  "revoke insert, update, delete on table public.astrology_reports from public, anon, authenticated",
+  "create unique index if not exists astrology_reports_user_lock_key_uidx",
+  "create trigger astrology_reports_guard before update on public.astrology_reports",
+  "public.astrology_claim_report(",
+  "public.astrology_soft_delete_reports("
+]) {
+  assert(astrologyLockMigration.includes(required), `Astrology lock migration missing ${required}`);
 }
 
 const notificationMigration = read("supabase/migrations/20260710000000_notifications_contract.sql");
@@ -346,6 +382,61 @@ const supabaseConfig = read("supabase/config.toml").replaceAll("\r\n", "\n");
 assert(supabaseConfig.includes("[functions.marketing-waitlist]\nverify_jwt = false"), "marketing-waitlist must be explicitly public in config.toml");
 assert(supabaseConfig.includes("[functions.admin-documentation]\nverify_jwt = true"), "admin-documentation must require JWT verification in config.toml");
 assert(supabaseConfig.includes("[functions.admin-team-invite]\nverify_jwt = true"), "admin-team-invite must require JWT verification in config.toml");
+
+// Billing lot 1 (2026-11-15): RevenueCat webhook is public at the gateway but guarded by a shared secret.
+assert(supabaseConfig.includes("[functions.revenuecat-webhook]\nverify_jwt = false"), "revenuecat-webhook must be explicitly public in config.toml (RevenueCat sends no JWT)");
+const revenuecatEntrypoint = read("supabase/functions/revenuecat-webhook/index.ts");
+const revenuecatHandler = read("supabase/functions/revenuecat-webhook/handler.ts");
+assert(revenuecatEntrypoint.includes('import { createRevenueCatWebhookHandler } from "./handler.ts"') && revenuecatEntrypoint.includes("serve(async req => await handler(req))"), "revenuecat-webhook must wire the tested handler");
+for (const required of ["REVENUECAT_WEBHOOK_AUTH", "SUPABASE_SERVICE_ROLE_KEY"]) {
+  assert(revenuecatEntrypoint.includes(required), `revenuecat-webhook entrypoint missing ${required}`);
+}
+for (const required of ["secretMatches", "MIN_SECRET_LENGTH", "MAX_BODY_BYTES", "nilaza_apply_revenuecat_event", "PREMIUM_ENTITLEMENT", "\"Cache-Control\": \"no-store\"", "transfer_not_applied", "test_event"]) {
+  assert(revenuecatHandler.includes(required), `revenuecat-webhook handler missing ${required}`);
+}
+assert(revenuecatHandler.indexOf("await secretMatches(req.headers") > 0 && revenuecatHandler.indexOf("await secretMatches(req.headers") < revenuecatHandler.indexOf("await readBoundedText(req)"), "revenuecat-webhook must check the secret before reading the body");
+assert(!revenuecatHandler.includes("await req.json()") && !revenuecatEntrypoint.includes("Access-Control-Allow-Origin"), "revenuecat-webhook must use bounded parsing and expose no CORS");
+assert(fs.existsSync(path.join(root, "supabase/functions/revenuecat-webhook/handler_test.ts")), "revenuecat-webhook must keep its handler tests");
+// Two migrations with one version prefix break the migration history table (found 2026-11-16).
+{
+  const seen = new Map();
+  for (const name of fs.readdirSync(path.join(root, "supabase/migrations")).filter((file) => file.endsWith(".sql"))) {
+    const version = name.split("_")[0];
+    assert(!seen.has(version), `duplicate migration version ${version}: ${seen.get(version)} and ${name}`);
+    seen.set(version, name);
+  }
+}
+// Billing lot 3 (2026-11-16): account deletion removes the RevenueCat customer, after the purge and
+// before the auth user, fail-closed, with the secret key read from the function environment only.
+const accountDeleteEntrypoint = read("supabase/functions/account-delete/index.ts");
+const accountDeleteHandler = read("supabase/functions/account-delete/handler.ts");
+const accountDeleteBilling = read("supabase/functions/account-delete/billing.ts");
+assert(accountDeleteEntrypoint.includes('Deno.env.get("REVENUECAT_API_KEY")') && accountDeleteEntrypoint.includes("createRevenueCatCustomerDeleter"), "account-delete must build the billing delete from REVENUECAT_API_KEY");
+assert(accountDeleteBilling.includes('"https://api.revenuecat.com/v1"') && accountDeleteBilling.includes('method: "DELETE"') && accountDeleteBilling.includes("AbortController") && !accountDeleteBilling.includes("console."), "account-delete billing call must be a bounded DELETE to RevenueCat v1 without logging");
+const purgeAt = accountDeleteHandler.indexOf("nilaza_account_delete_purge\", {");
+const billingAt = accountDeleteHandler.indexOf("deps!.deleteBillingCustomer(userId)");
+const authDeleteAt = accountDeleteHandler.indexOf("deps!.deleteUser(userId)");
+assert(purgeAt > 0 && billingAt > purgeAt && authDeleteAt > billingAt && accountDeleteHandler.includes('fail("billing_delete_failed")'), "account-delete must delete the billing customer after the purge and before the auth user, failing closed");
+assert(fs.existsSync(path.join(root, "supabase/functions/account-delete/billing_test.ts")), "account-delete must keep its billing tests");
+const revenuecatMigration = read("supabase/migrations/20261116090000_revenuecat_entitlements.sql");
+for (const required of [
+  "nilaza_private.revenuecat_webhook_events",
+  "force row level security",
+  "revoke all on table nilaza_private.revenuecat_webhook_events from public, anon, authenticated",
+  "public.nilaza_apply_revenuecat_event",
+  "set search_path = public, nilaza_private, pg_temp",
+  "from public, anon, authenticated",
+  "to service_role",
+  "'duplicate'",
+  "'stale'",
+  "'unknown_user'",
+  "on conflict (user_id, provider) do update"
+]) {
+  assert(revenuecatMigration.includes(required), `RevenueCat entitlement migration missing ${required}`);
+}
+assert(!/create\s+table\s+(if\s+not\s+exists\s+)?public\./i.test(revenuecatMigration) && !/(drop|create|alter)\s+policy/i.test(revenuecatMigration), "RevenueCat migration must not add public tables or change RLS policies");
+const astrologyInsightSource = read("supabase/functions/ai-astrology-insight/handler.ts");
+assert(astrologyInsightSource.includes("resolveServerTier(") && astrologyInsightSource.includes("PREMIUM_ENTITLEMENTS"), "ai-astrology-insight must judge Premium through _shared/premium-entitlement.ts");
 const modelRouterSource = read("supabase/functions/_shared/model-router.ts");
 assert(modelRouterSource.includes("createAiTrace") && modelRouterSource.includes("traceContext") && modelRouterSource.includes("traceHooks"), "Model router must emit AI trace context and provider hooks");
 for (const provider of ["openai", "anthropic", "gemini", "openrouter"]) {
@@ -379,6 +470,9 @@ for (const { gatewayPath, functionName } of contracts) {
 for (const functionName of adminFunctions) assert(functionsReadme.includes(functionName), `Supabase functions README missing ${functionName}`);
 assert(functionsReadme.includes("Authorization: Bearer"), "Supabase functions README must document JWT Authorization header");
 assert(functionsReadme.includes("apikey"), "Supabase functions README must document Supabase apikey header");
+
+// Knowledge briefs (Owner 25/11/2026): the generated Edge Function module must match packages/content/data/knowledge-briefs.
+for (const error of knowledgeBriefCheckErrors()) errors.push(error);
 
 if (errors.length) {
   console.error("Backend contract validation failed:");

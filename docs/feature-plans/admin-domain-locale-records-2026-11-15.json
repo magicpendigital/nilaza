@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "taskId": "admin-domain-locale-records-2026-11-15",
+  "ownerAgent": "backend_agent",
+  "lane": "Records only: admin custom domain attached, app locale auto-detect research proposal",
+  "goal": "Record the Owner-approved 15/11 admin domain work (Vercel domain, Cloudflare CNAME, Supabase redirect URL, ADMIN_INVITE_REDIRECT_URL) in the rollout receipt and PLAN.md, and add a research proposal for detecting the phone language and sending auth email in the sign-up language. No code, SQL or template changes.",
+  "successCriteria": [
+    "Receipt followUp2026-11-15c lists approval text, actions, read-back results and what is not verified.",
+    "PLAN.md header and item 12 match the receipt.",
+    "Proposal docs/proposals/APP_LOCALE_AUTO_DETECT_2026-11-15.vi.md describes current state from code, the plan, impact, tests and Owner approvals; nothing is implemented."
+  ],
+  "writeScope": [
+    "docs/release/singapore-edge-functions-2026-11-09/admin-14-11-rollout-2026-11-15.json",
+    "docs/proposals/APP_LOCALE_AUTO_DETECT_2026-11-15.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "App code, i18n, AuthFlow and supabaseAuth are unchanged until the Owner approves the proposal.",
+    "Admin, Edge Functions, migrations and email templates are unchanged."
+  ],
+  "impact": {
+    "entryPoint": "No user or admin entry point changes; documents only.",
+    "dataWrite": "No local, seed or database data is written.",
+    "backendContract": "No API, Edge Function or provider contract changes.",
+    "adminVisibility": "No Admin page or metric changes; documents only.",
+    "privacySafety": "Receipt names no keys or personal data; the secret value was never read back.",
+    "observability": "No events, counters or logs change; documents only.",
+    "rollback": "Revert the commit; no runtime state to restore."
+  },
+  "canonicalContracts": [
+    "docs/release/singapore-edge-functions-2026-11-09/admin-14-11-rollout-2026-11-15.json is the rollout receipt for 14/11-15/11 Singapore changes"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Owner approval boundary for settings, secrets and deploys.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Records and docs lane.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/mobile/src/i18n.ts",
+      "reason": "Language options and default language vi.",
+      "sha256": "20ce0f1ba6cd42a71a9e1aab811146a5d65f71830925631b4f6310dee380c182"
+    },
+    {
+      "path": "apps/mobile/src/auth/AuthFlow.tsx",
+      "reason": "Language menu only on the welcome view.",
+      "sha256": "078489872b8e0d2d258e4da2017b8ba9b8b496e46a06c2a32d7a563e6994c507"
+    },
+    {
+      "path": "apps/mobile/src/auth/supabaseAuth.ts",
+      "reason": "Sign-up metadata has name and adult confirmation, no locale.",
+      "sha256": "961d0c1c9aa6efaef860325a63982eac441c3a688d3180ec1493a72879b4fc2a"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Records-only PR; PLAN.md updated in the same PR."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No packages or code."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change in this PR; records and a proposal only.",
+    "sensitiveData": "No personal data or birth data; receipt holds only public domain names and command text.",
+    "secretsLogging": "No secret values recorded; ADMIN_INVITE_REDIRECT_URL checked by name only.",
+    "externalInput": "No user or external input is processed; documents only.",
+    "dependencies": "No package, lockfile or dependency is added or changed.",
+    "migrationRelease": "No migration or release in this PR; records only.",
+    "stopCondition": "Stop if any secret value or personal data would be written to the repo.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Receipt, PLAN.md and proposal were written before this record (records-only change); recorded here per protocol.",
+    "paths": [
+      "docs/release/singapore-edge-functions-2026-11-09/admin-14-11-rollout-2026-11-15.json",
+      "docs/proposals/APP_LOCALE_AUTO_DETECT_2026-11-15.vi.md"
+    ]
+  },
+  "validationCommands": [
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Open https://admin.nilaza.magicpendigital.com and read PLAN.md item 12 and the locale proposal.",
+  "residualRisk": "Admin on the new domain still uses the old QA Supabase project; locale plan not implemented.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

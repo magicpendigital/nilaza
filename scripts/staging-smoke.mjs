@@ -55,15 +55,22 @@ console.log(`2. Cổng verify_jwt + hàm user-credits: HTTP ${credits.status} ($
 if (skipAi) {
   console.log("3. Bỏ qua gọi AI (--skip-ai).");
 } else {
-  const tarot = await call("ai-tarot-reading", {
+  // P1-A: the server draws (one draw per account, spread, topic and Vietnam day), then the app asks to interpret that drawId.
+  // Running the smoke twice on the same day replays the stored reading (no second model call).
+  const draw = await call("ai-tarot-reading", {
     method: "POST", headers: auth,
-    body: JSON.stringify({ language: "vi", topic: "open", spread: "daily-one", question: "Hôm nay mình nên chú ý điều gì?", selectedCards: [{ id: "major-00-fool", orientation: "upright" }] })
+    body: JSON.stringify({ action: "draw", language: "vi", topic: "open", spread: "daily-one", question: "Hôm nay mình nên chú ý điều gì?" })
   });
+  const drawId = draw.body?.drawId;
+  console.log(`3a. Tarot rút lá trên máy chủ: HTTP ${draw.status} · ${drawId ? `drawId ${String(drawId).slice(0, 8)}…` : JSON.stringify(draw.body).slice(0, 160)}`);
+  const tarot = drawId
+    ? await call("ai-tarot-reading", { method: "POST", headers: auth, body: JSON.stringify({ action: "interpret", drawId, language: "vi" }) })
+    : draw;
   const body = tarot.body ?? {};
   const source = body.provenance?.sourceKind ?? "?";
   const ok = tarot.status === 200 && body.moderationStatus === "passed" && source === "ai";
   results.push(["ai-tarot-reading", ok]);
-  console.log(`3. Tarot AI (1 lá, gọi model thật): HTTP ${tarot.status} (${Math.round(tarot.ms / 1000)} s) · nguồn = ${source} · kiểm duyệt = ${body.moderationStatus ?? "?"}`);
+  console.log(`3b. Tarot AI (1 lá${body.replayed ? ", bài đã lưu hôm nay, không gọi model" : ", gọi model thật"}): HTTP ${tarot.status} (${Math.round(tarot.ms / 1000)} s) · nguồn = ${source} · kiểm duyệt = ${body.moderationStatus ?? "?"}`);
   const model = body.model ?? {};
   if (model.provider || model.model) console.log(`   model: ${model.provider ?? ""} ${model.model ?? ""}${model.fallbackUsed ? " (dự phòng)" : ""}`.trimEnd());
   if (typeof body.summary === "string") console.log(`   trích: ${body.summary.replace(/\s+/g, " ").slice(0, 160)}…`);

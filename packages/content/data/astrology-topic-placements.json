@@ -27,7 +27,7 @@
   "topics": {
     "love": {
       "label": {
-        "vi": "Tình yêu",
+        "vi": "Tình cảm",
         "en": "Love"
       },
       "points": [
@@ -37,7 +37,7 @@
     },
     "career": {
       "label": {
-        "vi": "Sự nghiệp",
+        "vi": "Công việc",
         "en": "Career"
       },
       "points": [

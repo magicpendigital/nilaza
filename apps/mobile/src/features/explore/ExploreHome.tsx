@@ -2,23 +2,47 @@ import { Image, type ImageSourcePropType, Pressable, StyleSheet, Text, View } fr
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors, layout, radius, typography } from "../../theme";
 import type { Language } from "../../types";
+import { localizeAstrologySign } from "../astrology/contracts";
+import { skyGlanceAt } from "../astrology/dailySky";
+import { MoonGlyph } from "../home/MoonGlyph";
+import { moonPhaseLabel } from "../home/moonPhase";
 
 // Khám phá (design canvas Explore, 2026-10-31): Tarot, Astrology, decks by mood, guides, face reading soon.
 export type ExploreDeckTile = { mood: string; deckName: string; image: ImageSourcePropType; onPress: () => void };
 export type ExploreGuideRow = { key: string; title: string; detail: string; thumbnails: ImageSourcePropType[]; onPress: () => void };
+// "Soi chiếu" group. Extension point: add a row here only when its screen is live (no "soon" tiles in this group).
+export type ExploreReflectRow = { key: string; icon: keyof typeof Ionicons.glyphMap; title: string; detail: string; onPress: () => void };
 
-export function ExploreHome({ language, deckCount, onTarot, onLibrary, onAstrology, onAllDecks, decks, guides, onAllGuides }: {
+export function ExploreHome({ language, deckCount, onTarot, onLibrary, onAstrology, onSky, onNumerology, onAllDecks, decks, guides, onAllGuides, onBookQuote, now }: {
   language: Language;
   deckCount: number;
   onTarot: () => void;
   onLibrary: () => void;
   onAstrology: () => void;
+  /** Opens "Bầu trời hôm nay"; the block is hidden without it. */
+  onSky?: () => void;
+  now?: Date;
+  onNumerology: () => void;
   onAllDecks: () => void;
   decks: ExploreDeckTile[];
   guides: ExploreGuideRow[];
   onAllGuides: () => void;
+  /** Opens "Một câu cho hôm nay"; the "Soi chiếu" group is hidden when no row has a target. */
+  onBookQuote?: () => void;
 }) {
   const vi = language === "vi";
+  const sky = onSky ? skyGlanceAt(now ?? new Date()) : null;
+  const skySign = sky ? localizeAstrologySign(sky.sign, language) : "";
+  const reflectRows: ExploreReflectRow[] = [
+    ...(onBookQuote ? [{
+      key: "book_quote",
+      icon: "book-outline" as const,
+      title: vi ? "Một câu cho hôm nay" : "A line for today",
+      detail: vi ? "Một câu từ năm cuốn sách xưa, kèm lời bình và một câu hỏi." : "A line from five classic books, with commentary and a question.",
+      onPress: onBookQuote
+    }] : [])
+  ];
+  const skyLine = sky ? `${moonPhaseLabel(sky.phase.id, language).name} · ${Math.round(sky.illumination * 100)}% ${vi ? "sáng" : "lit"}` : "";
   return (
     <View style={s.root}>
       <Text style={s.title} accessibilityRole="header">{vi ? "Khám phá" : "Explore"}</Text>
@@ -33,14 +57,50 @@ export function ExploreHome({ language, deckCount, onTarot, onLibrary, onAstrolo
         </View>
       </View>
 
+      {sky && onSky ? (
+        <Pressable accessibilityRole="button" accessibilityLabel={`${vi ? "Bầu trời hôm nay" : "Today's sky"}: ${vi ? "Trăng ở" : "Moon in"} ${skySign}. ${skyLine}`} onPress={onSky} style={s.astro}>
+          <MoonGlyph phase={sky} size={44} />
+          <View style={s.flex}>
+            <Text style={s.kicker}>{vi ? "Bầu trời hôm nay" : "Today's sky"}</Text>
+            <Text style={s.cardTitle}>{vi ? `Trăng ở ${skySign}` : `Moon in ${skySign}`}</Text>
+            <Text style={s.cardBody}>{skyLine}</Text>
+          </View>
+          <Ionicons name="chevron-forward" size={18} color="#B8B0A4" />
+        </Pressable>
+      ) : null}
+
       <Pressable accessibilityRole="button" onPress={onAstrology} style={s.astro}>
         <View style={s.flex}>
           <Text style={s.kicker}>{vi ? "Chiêm tinh" : "Astrology"}</Text>
           <Text style={s.cardTitle}>{vi ? "Bầu trời của bạn" : "Your sky"}</Text>
-          <Text style={s.cardBody}>{vi ? "Big 3, Mặt Trăng hôm nay và so lá số với một người." : "Big 3, today's Moon and comparing charts with someone."}</Text>
+          <Text style={s.cardBody}>{vi ? "Big 3, 12 cung & thần thoại và so lá số với một người." : "Big 3, 12 signs & myths and comparing charts with someone."}</Text>
         </View>
         <Ionicons name="planet-outline" size={34} color={colors.gold} />
       </Pressable>
+
+      <Pressable accessibilityRole="button" onPress={onNumerology} style={s.astro}>
+        <View style={s.flex}>
+          <Text style={s.kicker}>{vi ? "Bản đồ số" : "Number map"}</Text>
+          <Text style={s.cardTitle}>{vi ? "Những con số của bạn" : "Your numbers"}</Text>
+          <Text style={s.cardBody}>{vi ? "Số chủ đạo, ngày sinh và biểu đồ ngày sinh. Tính ngay trên máy." : "Life path, birthday and birth-date chart. Calculated on your device."}</Text>
+        </View>
+        <Ionicons name="keypad-outline" size={34} color={colors.gold} />
+      </Pressable>
+
+      {reflectRows.length ? (
+        <View style={s.section}>
+          <Text accessibilityRole="header" style={s.kicker}>{vi ? "Soi chiếu" : "Reflect"}</Text>
+          {reflectRows.map((row) => (
+            <Pressable key={row.key} accessibilityRole="button" accessibilityLabel={`${row.title}. ${row.detail}`} onPress={row.onPress} style={s.astro}>
+              <View style={s.flex}>
+                <Text style={s.cardTitle}>{row.title}</Text>
+                <Text style={s.cardBody}>{row.detail}</Text>
+              </View>
+              <Ionicons name={row.icon} size={30} color={colors.gold} />
+            </Pressable>
+          ))}
+        </View>
+      ) : null}
 
       <View style={s.section}>
         <View style={s.sectionHead}>

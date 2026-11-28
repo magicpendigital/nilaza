@@ -1,6 +1,7 @@
 import { AstrologyHub } from "./AstrologyHub";
+import { DailySkyScreen } from "./DailySkyScreen";
 import { AiDeepRead } from "./AiDeepRead";
-import { premiumOnSale } from "../owner/accountTierPolicy";
+import { paywallEnabled } from "../billing/paywallAccess";
 import { crisisSupportCopy } from "../safety/CrisisSupportCard";
 import { BirthDateFields, BirthTimeFields } from "./BirthFields";
 import { Big3Summary, BigThreeCards, ChartRowLink, SkyTabs, TopicPanel, chartHeaderLine } from "./ChartOverviewParts";
@@ -51,6 +52,7 @@ import {
   toAstrologyAiGuideAnswer,
   astrologyAnswerSectionIds,
   astrologyAnswerSectionLabels,
+  astrologyReplayNotice,
   type AstrologyAiInsightResult,
   type AstrologyAnswerReportTarget,
   type AstrologyAiInvocation,
@@ -72,9 +74,10 @@ import {
   validSavedAstrologyAiInsight,
   validDisplayZone,
 } from "./persistence";
+import { birthProfileLockedMessage, evaluateBirthProfileChange } from "./birthProfileLock";
 
-type Place = (typeof placeData.places)[number];
-type Stage = "home" | "form" | "confirm" | "report" | "world" | "chart" | "people" | "consent" | "compare";
+type Place =(typeof placeData.places)[number];
+type Stage = "home" | "sky" | "form" | "confirm" | "report" | "world" | "chart" | "people" | "consent" | "compare";
 const fold = (s: string) =>
   s
     .normalize("NFD")
@@ -146,6 +149,10 @@ export function AstrologyExperience({
   onOpenShare,
   aiSignInRequired = false,
   onRequestSignIn,
+  onOpenPremium,
+  initialStage,
+  initialChartId,
+  onWriteJournal,
 }: {
   language: AstrologyLanguage;
   storage: AstrologyPersistence;
@@ -173,9 +180,18 @@ export function AstrologyExperience({
   /** No account token: the AI buttons lead to sign-in instead of a dead lock (UX review K4/U1, 2026-11-15). */
   aiSignInRequired?: boolean;
   onRequestSignIn?: () => void;
+  /** Opens the Premium section of Me; used only while the Premium purchase screen may be shown. */
+  onOpenPremium?: () => void;
+  /** "sky" opens "Bầu trời hôm nay" directly (from Home or Explore); Back then leaves Astrology. */
+  initialStage?: "sky";
+  /** Tôi là ai > Báo cáo đã lưu > Xem: open this saved chart once the store is read. */
+  initialChartId?: string;
+  /** Opens Journal with the day's question prefilled. */
+  onWriteJournal?: (prompt: string) => void;
 }) {
   const vi = language === "vi";
-  const [stage, setStage] = useState<Stage>("home");
+  const [stage, setStage] = useState<Stage>(initialStage ?? "home");
+  const enteredOnSky = useRef(initialStage === "sky");
   const [data, setData] = useState<AstrologyData>(freshAstrologyData),
     [loaded, setLoaded] = useState(false),
     [busy, setBusy] = useState(false);
@@ -277,7 +293,7 @@ export function AstrologyExperience({
     setAiAnswer(undefined);
     setAiStatus("ready");
     setShowAiConsent(false);
-    setStage("home");
+    setStage(enteredOnSky.current ? "sky" : "home");
     if (!accountReady) return () => { live.current = false; accountGeneration.current++; };
     storage
       .loadJson<unknown>(astrologyStorageKey, freshAstrologyData())
@@ -295,6 +311,8 @@ export function AstrologyExperience({
         setData(value);
         setZoneDraft(value.displayZone);
         setLoaded(true);
+        const requested = initialChartId ? value.reports.find((item) => item.id === initialChartId) : undefined;
+        if (requested) openSavedChart(requested);
       })
       .catch(() => {
         if (live.current && account === accountGeneration.current)
@@ -594,6 +612,12 @@ export function AstrologyExperience({
         onRequestSignIn?.();
         return;
       }
+      if (!aiSignInRequired && paywallEnabled && onOpenPremium) {
+        // A signed-in account without Premium goes to the plans instead of a dead end.
+        setAiStatus("locked");
+        onOpenPremium();
+        return;
+      }
       if (!aiSignInRequired) {
         setAiStatus("error");
         setAiErrorMessage(vi
@@ -626,6 +650,15 @@ export function AstrologyExperience({
         : "This request could not be sent. Sign in and try again.");
       return;
     }
+    // Nil P1-B: an unsaved chart of your own whose details differ from a locked birth profile does not
+    // reach the AI guide. Checked without writing anything; saving the chart is what records a change.
+    if (!workingData.current.reports.some(item => item.id === activeReport.id) && !birthProfileDecision(activeReport).allowed) {
+      setShowAiConsent(false);
+      setAiStatus("error");
+      setAiCrisis(false);
+      setAiErrorMessage(birthProfileLockedMessage(language));
+      return;
+    }
     aiRequestInFlight.current = true;
     const operation = ++aiGeneration.current;
     const account = accountGeneration.current;
@@ -647,7 +680,11 @@ export function AstrologyExperience({
       aiInteractionId.current = correlation.interactionId;
       const result = await requestAstrologyAi(invocation, correlation);
       if (!live.current || operation !== aiGeneration.current || account !== accountGeneration.current) return;
-      const context = { chart: invocation.chart, selectedFactIds: invocation.selectedFactIds, facts: invocation.facts, caveats: invocation.caveats };
+      // Nil P1-B: on a replay the server returns the reading it stored for this chart and topic, checked
+      // against the facts it was written from; keep those facts with the saved reading.
+      const context = result.replayed && result.context
+        ? { chart: invocation.chart, selectedFactIds: result.context.selectedFactIds, facts: result.context.facts, caveats: result.context.caveats }
+        : { chart: invocation.chart, selectedFactIds: invocation.selectedFactIds, facts: invocation.facts, caveats: invocation.caveats };
       if (!validAstrologyAiResponse(result.report, context, { requestId: invocation.requestId, language: invocation.language })) throw new Error("invalid_server_response");
       const provenance = result.provenance === undefined ? undefined
         : parseAnswerProvenance(result.provenance, { feature: "astrology_insight", locale: invocation.language, correlation });
@@ -658,8 +695,9 @@ export function AstrologyExperience({
       };
       if (!validSavedAstrologyAiInsight(snapshot, activeReport.chart)) throw new Error("invalid_answer_snapshot");
       setAiSnapshot(snapshot);
-      setAiAnswer(toAstrologyAiGuideAnswer(result.report, invocation.caveats, provenance));
+      setAiAnswer(toAstrologyAiGuideAnswer(result.report, context.caveats, provenance));
       setAiStatus("success");
+      if (result.replayed) setNotice(astrologyReplayNotice(language));
     } catch (requestError) {
       if (!live.current || operation !== aiGeneration.current || account !== accountGeneration.current) return;
       const code = (requestError as { code?: string })?.code;
@@ -671,6 +709,9 @@ export function AstrologyExperience({
         // ai-astrology-insight returns these before any usage or report row is written (UX review U4).
         route_not_ready: ["Đọc sâu đang bảo trì, lượt của bạn chưa bị trừ. Hãy thử lại sau.", "Deep read is under maintenance; your turn has not been used. Please try again later."],
         prompt_not_ready: ["Đọc sâu đang bảo trì, lượt của bạn chưa bị trừ. Hãy thử lại sau.", "Deep read is under maintenance; your turn has not been used. Please try again later."],
+        // Nil P1-B: another request for the same chart and topic is still being written.
+        report_in_progress: ["Nilaza vẫn đang viết bài đọc cho câu hỏi này. Chờ một chút rồi mở lại nhé, lượt của bạn chưa bị trừ thêm.", "Nilaza is still writing the reading for this question. Wait a moment and open it again; no extra turn is used."],
+        report_replay_unavailable: ["Chưa mở lại được bài đọc đã lưu. Hãy thử lại sau, lượt của bạn chưa bị trừ.", "The saved reading could not be opened yet. Please try again later; your turn has not been used."],
         chart_facts_unavailable: ["AI cần giờ sinh chính xác để dùng các dữ kiện của bản đồ này.", "The AI guide needs an exact birth time to use this chart's facts."],
         // Canonical crisis copy with 115 (UX review K5/U2); the screens also show the CrisisSupportCard.
         crisis_support: [crisisSupportCopy("vi").body, crisisSupportCopy("en").body],
@@ -724,6 +765,10 @@ export function AstrologyExperience({
   const comparison = comparePerson && myChartReport
     ? synastryText(compareCharts(myChartReport.chart, comparePerson.chart, comparePerson.relationship), comparePerson.name, language)
     : null;
+  const birthProfileDecision = (chart: SavedChart) =>
+    evaluateBirthProfileChange(workingData.current.birthProfileLock, chart.input, new Date(), {
+      existing: workingData.current.reports[0]?.input,
+    });
   const saveReport = async (includeAnswer = false) => {
     if (!report || writing.current) return;
     const existing = workingData.current.reports.find(r => r.id === report.id);
@@ -741,12 +786,20 @@ export function AstrologyExperience({
       );
       return;
     }
+    // Nil P1-B: saving a new chart of your own sets or corrects your birth profile. A few corrections are
+    // allowed soon after the first one, then it is locked. Calculating and viewing charts stay unlimited.
+    const lockDecision = existing ? undefined : birthProfileDecision(report);
+    if (lockDecision && !lockDecision.allowed) {
+      setError(birthProfileLockedMessage(language));
+      return;
+    }
     const account = accountGeneration.current;
     const target: SavedChart = includeAnswer && aiSnapshot
       ? { ...report, aiInsight: { ...aiSnapshot, savedAt: new Date().toISOString() } } : report;
     try {
       await save({
         ...workingData.current,
+        ...(lockDecision?.persist ? { birthProfileLock: lockDecision.lock } : {}),
         nextRevision: Math.max(
           workingData.current.nextRevision,
           report.input.revision + 1,
@@ -786,7 +839,7 @@ export function AstrologyExperience({
     generation.current++;
     setError("");
     setNotice("");
-    if (stage === "home") onBack();
+    if (stage === "home" || (stage === "sky" && enteredOnSky.current)) onBack();
     else if (stage === "chart") setStage(report ? "report" : "home");
     else if (stage === "confirm") setStage("form");
     else if (stage === "compare" || stage === "consent" || (stage === "form" && formFor === "person")) {
@@ -887,9 +940,22 @@ export function AstrologyExperience({
                 {vi ? "Đang mở dữ liệu trên thiết bị…" : "Opening device data…"}
               </Text>
             )}
+            {stage === "sky" && (
+              <DailySkyScreen
+                language={language}
+                now={now}
+                chart={myChart?.report.chart ?? null}
+                ready={loaded}
+                onAddBirthDate={newForm}
+                {...(myChart ? { onAddBirthTime: () => editBirthDetails(myChart.report, true) } : {})}
+                {...(onWriteJournal ? { onWriteJournal } : {})}
+                {...(onOpenShare ? { onShare: onOpenShare } : {})}
+              />
+            )}
             {stage === "home" && (
               <>
                 <AstrologyHub
+                  onSky={() => setStage("sky")}
                   language={language}
                   now={now}
                   dateLabel={`${vi ? "Hôm nay" : "Today"} · ${localCalendarLabel(now, data.displayZone, language)}`}
@@ -1385,7 +1451,8 @@ export function AstrologyExperience({
                     <AiDeepRead
                       language={language}
                       available={canRequestAstrologyAi && !ownerPremiumPreview}
-                      premiumOnSale={premiumOnSale}
+                      premiumOnSale={paywallEnabled}
+                      onOpenPremium={onOpenPremium}
                       signInRequired={aiSignInOffered}
                       onSignIn={onRequestSignIn}
                       crisis={aiCrisis}

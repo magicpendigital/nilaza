@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "taskId": "ai-eval-arena-proposal-2026-11-24",
+  "ownerAgent": "backend_agent",
+  "lane": "Documents: proposal for a generic blind-test mechanism (Eval Arena) for every AI feature (Owner request 24/11)",
+  "goal": "Write the proposal for one reusable offline blind-test mechanism (eval sets, route-variant contenders, layered judging, decision-model comparison for reader_router) that feeds the campaign system, so the Owner can approve method, phases and approvals before any code changes.",
+  "successCriteria": [
+    "docs/proposals/AI_EVAL_ARENA_2026-11-24.vi.md states the weaknesses of the current method A/B, the Eval Arena design, where decision models fit, phasing with Owner approvals, a comparison table and numbered Owner decisions with recommendations.",
+    "The document marks what is verified in the repository and what is assumption.",
+    "No app, Edge Function, migration, route or prompt change."
+  ],
+  "writeScope": [
+    "docs/proposals/AI_EVAL_ARENA_2026-11-24.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "apps/mobile, apps/admin, supabase/functions and supabase/migrations are unchanged.",
+    "Model routes, prompts, quotas, eval budget and switches on any live project are unchanged.",
+    "PLAN.md is not edited by this task; the parent session records the proposal."
+  ],
+  "impact": {
+    "entryPoint": "None yet; the proposal covers the Admin AI evals page and its future blind-judging screen.",
+    "dataWrite": "No data is written anywhere; docs only, proposed eval tables need later Owner-approved migrations.",
+    "backendContract": "None; proposed route override per variant in admin-ai-eval-run needs a later Owner-approved code PR and deploy.",
+    "adminVisibility": "None yet; proposed judging screen shows synthetic cases only, never real user questions.",
+    "privacySafety": "Proposal keeps eval sets synthetic and prefers zero-data-retention routes; decision-model data policy is flagged as not verified.",
+    "observability": "Proposed cost, latency, format and safety counters per contender; not implemented.",
+    "rollback": "Revert the docs commit."
+  },
+  "canonicalContracts": [
+    "supabase/functions/admin-model-router-config/contract.ts stays the source of allowed route features"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Owner approval boundary.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Documents lane checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/TAROT_NOTE_READER_ROUTER_CAMPAIGNS_2026-11-23.vi.md",
+      "reason": "Current blind test (section 4) and campaign design (section 3).",
+      "sha256": "4249d8e90fc8bba351a5973be969f62cf9a1b32a74b94fa93e38dea9005ef9a4"
+    },
+    {
+      "path": "supabase/functions/admin-ai-eval-run/runner.ts",
+      "reason": "Eval runner compares draft vs active only; supported features and crisis handling.",
+      "sha256": "2bdd664f0cceb84b0131289ec717a102ccca6d39146b42f2de87acc6ce823def"
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "reason": "Route shape (steps of provider and model) and default routes per feature.",
+      "sha256": "01ca101d275f5e7995e990083096b2d023dfdd37c5b5bedbb1ec8b6864475179"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Docs-only record passed before the document was written."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Proposal keeps crisis 115 checks, fallback labelling, quota and budget rules; code, migrations and deploys left to the Owner."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No auth, RLS or quota change in this PR.",
+    "sensitiveData": "No data handled; proposal uses synthetic eval sets and no real user questions.",
+    "secretsLogging": "No secrets read; no keys or .env values touched.",
+    "externalInput": "No new input path; docs only.",
+    "dependencies": "No package or lockfile change.",
+    "migrationRelease": "No migration; proposed migrations and deploys need separate Owner approval.",
+    "stopCondition": "Stop if the proposal would require reading keys or user data.",
+    "unresolvedHighRisks": []
+  },
+  "validationCommands": [
+    "node scripts/feature-preflight.mjs --ci --base origin/main",
+    "npm run validate:governance"
+  ],
+  "managerTestPath": "Open the proposal doc and check the decisions list and phasing match what you want built first.",
+  "residualRisk": "Proposal only; decision-model facts come from the Owner's 24/11 note and are not verified against provider docs here.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  },
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Repository code and docs only; decision-model facts are marked as unverified assumptions in the document."
+  },
+  "externalSourceReview": [],
+  "workingTreeReview": {
+    "paths": [
+      "docs/proposals/AI_EVAL_ARENA_2026-11-24.vi.md"
+    ],
+    "note": "Record written before the document. The repo-root PaywallPanel.test.tsx is untracked and not part of this task."
+  }
+}

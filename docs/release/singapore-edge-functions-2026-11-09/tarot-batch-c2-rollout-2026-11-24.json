@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "title": "Tarot Batch C part 2: two migrations applied, four functions deployed, migration history repaired",
+  "date": "2026-11-24",
+  "target": {
+    "projectRef": "etfajmrwyywokgafzxsb",
+    "label": "production (Owner decision 2026-11-12)"
+  },
+  "ownerApproval": "Owner approved in chat on 2026-11-24 ('Duyệt áp và deploy'): apply the two migrations named by SHA-256 in PLAN.md (Tarot ba tầng section) and deploy ai-tarot-reading, admin-model-router-config, admin-model-campaigns, share-events.",
+  "records": [
+    "docs/feature-plans/tarot-note-reader-router-backend-2026-11-24.json",
+    "docs/feature-plans/model-campaigns-2026-11-24.json",
+    "docs/feature-plans/tarot-batch-c-integration-2026-11-24.json"
+  ],
+  "sourceCommit": "ddebc58",
+  "sourceNote": "Merge of PR 65 on main; local main equalled origin/main when the migrations were applied and the functions deployed.",
+  "migrations": {
+    "method": "npx --yes supabase@3.1.0 db query --yes --remote=etfajmrwyywokgafzxsb -f <file>, one file at a time in this order, stop on error (run by Claude); both files exited 0. Then npx supabase@3.1.0 migration repair --status applied 20261124090000 20261124090100 --remote=etfajmrwyywokgafzxsb --yes.",
+    "files": [
+      { "file": "supabase/migrations/20261124090000_tarot_note_reader_router.sql", "sha256": "e4faf8f23d4030d761ff67beb67dfb448cd5ac8bde9f14cb6d9fb7d832e34c9f" },
+      { "file": "supabase/migrations/20261124090100_model_campaigns.sql", "sha256": "4f361a42c76a4697391acb3409bd6783113062fef0d55c95a730741eb60b39d7" }
+    ]
+  },
+  "postApplyChecks": {
+    "readOnlyQuery": "supabase db query --read-only: tables model_campaigns and model_campaign_variants exist with RLS on; all 9 public functions created by the migrations exist (admin_get_model_campaign_metrics, admin_list_model_campaigns, admin_pick_model_campaign_winner, admin_save_model_campaign_draft, admin_set_model_campaign_status, publish_model_route_config, runtime_model_campaign_for_feature, set_ai_feature_switch, tarot_note_claim); supabase_migrations.schema_migrations has rows 20261124090000 and 20261124090100.",
+    "securityAdvisor": "not run"
+  },
+  "functions": {
+    "method": "npx --yes supabase@3.1.0 functions deploy ai-tarot-reading admin-model-router-config admin-model-campaigns share-events --remote=etfajmrwyywokgafzxsb --use-api --yes (run by Claude)",
+    "deployed": [
+      { "name": "ai-tarot-reading", "version": 15, "verifyJwt": true },
+      { "name": "admin-model-router-config", "version": 7, "verifyJwt": true },
+      { "name": "admin-model-campaigns", "version": 1, "verifyJwt": true },
+      { "name": "share-events", "version": 7, "verifyJwt": true }
+    ]
+  },
+  "verification": {
+    "done": [
+      "both migrations exited 0 and the read-only check above passed",
+      "functions list shows the four functions ACTIVE at the versions above",
+      "unauthenticated POST to each of the four functions returns 401"
+    ],
+    "notDone": [
+      "signed-in call of the note and suggest_reader actions (needs the new Android build)",
+      "live call to the decision model typesafe/jev-1.14 via OpenRouter (alpha API) and its data policy",
+      "openai_decisions and gemini_decisions: OPENAI_API_KEY and GEMINI_API_KEY are not set (Owner choice, optional)",
+      "Admin 'Model và chiến dịch' page against the live functions",
+      "Supabase security advisor after this rollout"
+    ]
+  },
+  "rollback": "Functions: redeploy ai-tarot-reading, admin-model-router-config and share-events from b5ea7a0 (the Batch C part 1 deploy source); admin-model-campaigns can be deleted, it did not exist before. SQL: the new tables and functions are additive; switch off tarot_note and reader_router in Admin, or end any running campaign, to stop their use without dropping anything."
+}

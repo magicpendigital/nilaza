@@ -42,3 +42,11 @@ test("corrupt envelope or storage failure never produces an empty/partial export
   await expect(buildLocalExport({ userId: "qa", active: () => true,
     read: async () => { throw new Error("failed read"); }, journalSnapshot: journal })).rejects.toThrow("failed read");
 });
+
+test("includes saved book quotes (Một câu cho hôm nay)", async () => {
+  const saved = { schemaVersion: 1, items: [{ id: "st-04-03", book: "suy-tuong", dateKey: "2026-11-27", savedAt: "2026-11-27T08:00:00.000Z", ref: "Quyển 4 · đoạn 3", quote: "Câu thử" }] };
+  const read = jest.fn(async (key: string) => key === "nilaza.bookQuotes.saved.v1" ? saved : null);
+  const json = await buildLocalExport({ userId: "qa", active: () => true, read: read as any, journalSnapshot: journal });
+  expect(JSON.parse(json).data.bookQuotesSaved).toEqual(saved);
+  expect(read.mock.calls.map(([key]) => key)).toContain("nilaza.bookQuotes.saved.v1");
+});

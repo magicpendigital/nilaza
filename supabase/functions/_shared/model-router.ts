@@ -4,6 +4,11 @@ import {
   ModelProviderError,
   ModelProviderName,
   ModelProviderRequest,
+  DECISION_ROUTE_FEATURES,
+  isChatProvider,
+  isChatStep,
+  isDecisionProvider,
+  RouteProviderName,
   ModelRoute,
   ModelRouteStep,
   MAX_ROUTE_STEPS,
@@ -29,11 +34,17 @@ import { invokeOpenAI } from "./providers/openai.ts";
 import { invokeOpenRouter } from "./providers/openrouter.ts";
 import { readOpenRouterBillingReceipt } from "./providers/openrouter-billing.ts";
 import { ConfiguredFeature, readActiveFeatureConfig } from "./feature-config.ts";
+import { parseRouteSteps } from "./model-route-steps.ts";
+import { applyCampaignRoute, resolveCampaignRoute, type CampaignExperiment } from "./model-campaign.ts";
 import {
+  CallCost,
+  CostSource,
   DATA_CLASS_RANK,
   DataClass,
   ProviderRegistry,
+  callCost,
   featureDataClass,
+  projectCallCostMicro,
   readProviderRegistry,
   referencePrice,
   reportProviderOutcome,
@@ -142,6 +153,66 @@ export const defaultModelRoutes: Record<string, ModelRoute> = {
     responseSchema: "astrology_report_v1",
     fallbackWhen: ["missing_api_key", "provider_timeout", "rate_limit", "provider_5xx", "malformed_response"],
     safetyPolicy: { interpretCalculatedPlacementsOnly: true, requireCalculationCaveats: true, reasoning: { mode: "low", maxTokens: 512 } }
+  },
+  // Batch C (2026-11-24): the free daily private note under the Tarot summary. Short JSON {text, need, askThem}.
+  tarot_note: {
+    feature: "tarot_note",
+    version: "2026-11-24-tarot-note-v1",
+    status: "active",
+    primaryProvider: "openrouter",
+    primaryModel: "deepseek/deepseek-v4.1-flash",
+    fallbackProvider: "openrouter",
+    fallbackModel: "xiaomi/mimo-v2.6-flash",
+    temperature: 0.7,
+    maxOutputTokens: 700,
+    responseSchema: "tarot_note_output_v1",
+    fallbackWhen: ["missing_api_key", "provider_timeout", "rate_limit", "provider_5xx", "malformed_response"],
+    safetyPolicy: { allowSpiritualReflection: true, blockDeterministicPredictions: true, reasoning: { mode: "off" } },
+    steps: [
+      { provider: "openrouter", model: "deepseek/deepseek-v4.1-flash", timeoutMs: 20_000, maxTokens: 700, temperature: 0.7, jsonMode: true, reasoning: { mode: "off" } },
+      { provider: "openrouter", model: "xiaomi/mimo-v2.6-flash", timeoutMs: 20_000, maxTokens: 700, temperature: 0.7, jsonMode: true, reasoning: { mode: "off" } }
+    ],
+    totalDeadlineMs: 40_000
+  },
+  // 2026-11-25: Bản đồ số "Lời nhắn riêng". The model only picks and joins approved numerology blocks into JSON
+  // {message, blockIds}; the output is checked inside the router (numerology-message-prompt.ts). Sensitive data class.
+  numerology_private_message: {
+    feature: "numerology_private_message",
+    version: "2026-11-25-numerology-message-v1",
+    status: "active",
+    primaryProvider: "openrouter",
+    primaryModel: "deepseek/deepseek-v4.1-flash",
+    fallbackProvider: "openrouter",
+    fallbackModel: "xiaomi/mimo-v2.6-flash",
+    temperature: 0.6,
+    maxOutputTokens: 600,
+    responseSchema: "numerology_private_message_v1",
+    fallbackWhen: ["missing_api_key", "provider_timeout", "rate_limit", "provider_5xx", "malformed_response"],
+    safetyPolicy: { approvedBlocksOnly: true, blockDeterministicPredictions: true, reasoning: { mode: "off" } },
+    steps: [
+      { provider: "openrouter", model: "deepseek/deepseek-v4.1-flash", timeoutMs: 20_000, maxTokens: 600, temperature: 0.6, jsonMode: true, reasoning: { mode: "off" } },
+      { provider: "openrouter", model: "xiaomi/mimo-v2.6-flash", timeoutMs: 20_000, maxTokens: 600, temperature: 0.6, jsonMode: true, reasoning: { mode: "off" } }
+    ],
+    totalDeadlineMs: 40_000
+  },
+  // Batch C (2026-11-24): AI tier of the reader suggestion. A decision model picks one slug (no text); a cheap chat model
+  // answering JSON is the fallback. The 4 s budget is enforced in reader-router.ts (the table minimum deadline is 5 s).
+  // The primary/fallback pair describes the chat step so a router that ignores steps never calls a decision API.
+  reader_router: {
+    feature: "reader_router",
+    version: "2026-11-24-reader-router-v1",
+    status: "active",
+    primaryProvider: "openrouter",
+    primaryModel: "deepseek/deepseek-v4.1-flash",
+    temperature: 0.2,
+    maxOutputTokens: 200,
+    responseSchema: "reader_router_choice_v1",
+    fallbackWhen: ["missing_api_key", "provider_timeout", "rate_limit", "provider_5xx", "malformed_response"],
+    safetyPolicy: { decisionOnly: true, reasoning: { mode: "off" } },
+    steps: [
+      { provider: "openrouter_decisions", model: "typesafe/jev-1.14", timeoutMs: 3_000, maxTokens: 64, temperature: 0, jsonMode: false, reasoning: null },
+      { provider: "openrouter", model: "deepseek/deepseek-v4.1-flash", timeoutMs: 3_000, maxTokens: 200, temperature: 0.2, jsonMode: true, reasoning: { mode: "off" } }
+    ]
   }
 };
 
@@ -153,40 +224,22 @@ function envGet(env: EnvLike | undefined, key: string) {
   return typeof Deno !== "undefined" ? Deno.env.get(key) : undefined;
 }
 
-/**
- * A7 (D3): model_route_versions.steps to the runtime shape. Anything outside the database bounds makes the whole chain
- * unusable (undefined), so the route falls back to its primary/fallback columns, which the publish RPC keeps equal to
- * the first two steps.
- */
-export function parseRouteSteps(value: unknown): ModelRouteStep[] | undefined {
-  if (!Array.isArray(value) || value.length < 1 || value.length > MAX_ROUTE_STEPS) return undefined;
-  const steps: ModelRouteStep[] = [];
-  const int = (input: unknown, min: number, max: number) => typeof input === "number" && Number.isInteger(input) && input >= min && input <= max;
-  for (const raw of value) {
-    if (!raw || typeof raw !== "object") return undefined;
-    const step = raw as Record<string, unknown>;
-    if (!MODEL_PROVIDER_NAMES.includes(step.provider as ModelProviderName)) return undefined;
-    if (typeof step.model !== "string" || !step.model.trim() || step.model.length > 160) return undefined;
-    if (!int(step.timeout_ms, 1_000, FEATURE_DEADLINE_MAX_MS) || !int(step.max_tokens, 64, 8192)) return undefined;
-    if (typeof step.temperature !== "number" || step.temperature < 0 || step.temperature > 2 || typeof step.json_mode !== "boolean") return undefined;
-    let reasoning: ModelRouteStep["reasoning"] = null;
-    if (step.reasoning && typeof step.reasoning === "object") {
-      const r = step.reasoning as { mode?: unknown; maxTokens?: unknown };
-      if (!REASONING_MODES.includes(r.mode as ReasoningMode)) return undefined;
-      reasoning = { mode: r.mode as ReasoningMode, ...(int(r.maxTokens, 64, 8192) && r.mode !== "off" ? { maxTokens: r.maxTokens as number } : {}) };
-    }
-    steps.push({
-      provider: step.provider as ModelProviderName, model: step.model.trim(), timeoutMs: step.timeout_ms as number,
-      maxTokens: step.max_tokens as number, temperature: step.temperature, jsonMode: step.json_mode, reasoning
-    });
-  }
-  return steps;
-}
+export { parseRouteSteps };
 
 function rowToRoute(row: any, fallback: ModelRoute): ModelRoute {
   if (!row) return fallback;
-  const steps = parseRouteSteps(row.steps);
+  const steps = parseRouteSteps(row.steps, { allowDecision: (DECISION_ROUTE_FEATURES as readonly string[]).includes(row.feature) });
   const totalDeadlineMs = validFeatureDeadlineMs(row.total_deadline_ms);
+  // Batch C: the legacy primary/fallback pair is chat-only. When a reader_router row starts with a decision step, the
+  // pair is taken from its chat steps; without usable steps the code default applies.
+  let primary = { provider: row.primary_provider, model: row.primary_model };
+  let secondary = row.fallback_provider ? { provider: row.fallback_provider, model: row.fallback_model } : undefined;
+  if (!isChatProvider(primary.provider) || (secondary && !isChatProvider(secondary.provider))) {
+    const chat = (steps ?? []).filter(isChatStep);
+    if (!steps || !chat.length) return fallback;
+    primary = { provider: chat[0].provider, model: chat[0].model };
+    secondary = chat[1] ? { provider: chat[1].provider, model: chat[1].model } : undefined;
+  }
   return {
     ...(steps ? { steps } : {}),
     ...(totalDeadlineMs !== undefined ? { totalDeadlineMs } : {}),
@@ -194,10 +247,10 @@ function rowToRoute(row: any, fallback: ModelRoute): ModelRoute {
     feature: row.feature,
     version: row.version,
     status: row.status,
-    primaryProvider: row.primary_provider,
-    primaryModel: row.primary_model,
-    fallbackProvider: row.fallback_provider ?? undefined,
-    fallbackModel: row.fallback_model ?? undefined,
+    primaryProvider: primary.provider,
+    primaryModel: primary.model,
+    fallbackProvider: secondary?.provider ?? undefined,
+    fallbackModel: secondary?.model ?? undefined,
     temperature: Number(row.temperature ?? fallback.temperature),
     maxOutputTokens: Number(row.max_output_tokens ?? fallback.maxOutputTokens),
     responseSchema: row.response_schema ?? fallback.responseSchema,
@@ -241,17 +294,57 @@ export async function readActiveModelRoute(supabase: SupabaseLike | null | undef
   }
 }
 
-function detectSafetyIssue(text: string) {
+const OUTPUT_SAFETY_CHECKS = [
+  { code: "self_harm", patterns: ["kill myself", "suicide", "end my life", "tu tu", "tự tử"] },
+  { code: "regulated_advice", patterns: ["medical diagnosis", "legal advice", "financial advice", "diagnose me"] },
+  { code: "deterministic_prediction", patterns: ["will definitely happen", "certainly happen", "guaranteed future"] }
+];
+
+export function detectSafetyIssue(text: string) {
   const normalized = text.toLowerCase();
-  const checks = [
-    { code: "self_harm", patterns: ["kill myself", "suicide", "end my life", "tu tu", "tự tử"] },
-    { code: "regulated_advice", patterns: ["medical diagnosis", "legal advice", "financial advice", "diagnose me"] },
-    { code: "deterministic_prediction", patterns: ["will definitely happen", "certainly happen", "guaranteed future"] }
-  ];
-  for (const check of checks) {
+  for (const check of OUTPUT_SAFETY_CHECKS) {
     if (check.patterns.some((pattern) => normalized.includes(pattern))) return check.code;
   }
   return null;
+}
+
+/**
+ * Streaming: text this close to the end is held back until more arrives, so a safety phrase split across two chunks
+ * is caught before any part of it reaches the person.
+ */
+export const STREAM_HOLDBACK_CHARS = Math.max(...OUTPUT_SAFETY_CHECKS.flatMap((check) => check.patterns.map((pattern) => pattern.length))) - 1;
+
+/**
+ * One streamed attempt: runs the output safety check on everything received so far, forwards only text that is
+ * already past the check (all but the last STREAM_HOLDBACK_CHARS), and reports whether anything was sent.
+ */
+export function createStreamGate(provider: ModelProviderName, send: (text: string) => void) {
+  let received = "";
+  let sent = 0;
+  const emit = (end: number) => {
+    // Never split a UTF-16 surrogate pair across two events.
+    if (end < received.length && end > sent && /[\uD800-\uDBFF]/.test(received[end - 1])) end -= 1;
+    if (end <= sent) return;
+    send(received.slice(sent, end));
+    sent = end;
+  };
+  return {
+    onDelta(piece: string) {
+      received += piece;
+      const issue = detectSafetyIssue(received);
+      if (issue) {
+        throw new ModelProviderError({ provider, code: issue, message: "Output safety check blocked the streamed reply.", retryable: false, safetyBlocked: true });
+      }
+      emit(received.length - STREAM_HOLDBACK_CHARS);
+    },
+    /** After the full reply passed every check: send the held-back tail. */
+    flush() {
+      emit(received.length);
+    },
+    get emitted() {
+      return sent > 0;
+    }
+  };
 }
 
 function providerSecret(provider: ModelProviderName, env?: EnvLike) {
@@ -305,6 +398,14 @@ export async function generateWithModelRoute(input: {
   costCapMicro?: number | null;
   /** Tests and tools: provider switches/circuits to use instead of reading ai_providers. */
   providerRegistry?: ProviderRegistry | null;
+  /**
+   * Streaming (persona chat only, docs/contracts/persona-chat-streaming.md): visible reply text as it arrives. Only
+   * OpenRouter streams; other providers answer at once. A later step is tried only while nothing has been sent; once
+   * text has been sent a failure ends the turn with streamInterrupted instead of a fallback.
+   */
+  onDelta?: (text: string) => void;
+  /** Streaming: how long a started stream may run, from the start of this call (default 140 s). */
+  streamDeadlineMs?: number;
   /** Override of the feature's data class (FEATURE_DATA_CLASS). */
   dataClass?: DataClass;
   supabase?: SupabaseLike | null;
@@ -349,7 +450,34 @@ export async function generateWithModelRoute(input: {
   const rootSpan = traceSetup.rootSpan;
   // A7 (E5): step chain summary for the root span (skipped steps, spent cost, cap, deadline). Unset for legacy routes.
   let chainSummary: Record<string, unknown> | undefined;
-  const finish = async (result: ModelGenerationResult, status?: "ok" | "blocked" | "fallback" | "error") => {
+  // P1-C: cost of every model call of this turn (success or failure). Span keys are snake_case so the trace redaction
+  // keeps them (numbers, booleans and *_source strings survive "redacted" mode).
+  const costTally = { totalMicro: 0, calls: 0, source: null as CostSource | null };
+  const recordCallCost = (
+    provider: ModelProviderName,
+    model: string,
+    receipt?: { costUsd?: number | null; inputTokens?: number | null; outputTokens?: number | null } | null,
+    usage?: { inputTokens?: number; outputTokens?: number }
+  ): { cost: CallCost; attributes: Record<string, unknown> } => {
+    const inputTokens = usage?.inputTokens ?? receipt?.inputTokens ?? null;
+    const outputTokens = usage?.outputTokens ?? receipt?.outputTokens ?? null;
+    const cost = callCost({ provider, model, receiptUsd: receipt?.costUsd ?? null, inputTokens, outputTokens });
+    costTally.calls += 1;
+    costTally.totalMicro += cost.costMicro ?? 0;
+    if (costTally.source === null || COST_SOURCE_RANK[cost.costSource] > COST_SOURCE_RANK[costTally.source]) costTally.source = cost.costSource;
+    return {
+      cost,
+      attributes: {
+        cost_micro: cost.costMicro,
+        cost_source: cost.costSource,
+        price_verified: cost.priceVerified,
+        input_tokens: inputTokens,
+        output_tokens: outputTokens
+      }
+    };
+  };
+  const finish = async (rawResult: ModelGenerationResult, status?: "ok" | "blocked" | "fallback" | "error") => {
+    const result: ModelGenerationResult = input.onDelta ? { ...rawResult, streamed: streamEmitted } : rawResult;
     const defaultStatus = status ?? (result.moderationStatus === "blocked" ? "blocked" : result.moderationStatus === "fallback" ? "fallback" : "ok");
     const rootOutput = {
       status: result.moderationStatus,
@@ -361,6 +489,11 @@ export async function generateWithModelRoute(input: {
       safetyReason: result.safetyReason ?? null,
       outcome: resultOutcome(result),
       ...(chainSummary ? { chain: chainSummary } : {}),
+      ...(input.onDelta ? { streamed: streamEmitted, stream_interrupted: result.streamInterrupted === true } : {}),
+      // P1-C: turn total. No model call (e.g. prompt safety block) = 0 calls, 0 micro-USD, cost_source null.
+      cost_micro_total: costTally.totalMicro,
+      cost_source: costTally.source,
+      cost_call_count: costTally.calls,
       traceVersion: "v1"
     };
     if (input.deferTraceFlush) {
@@ -387,6 +520,20 @@ export async function generateWithModelRoute(input: {
       traceExported: flush.exported,
       traceUrl: flush.externalTraceUrl
     };
+  };
+
+  // Streaming state for the whole turn: once any text has been sent, no later step may run.
+  let streamEmitted = false;
+  const generationStartedAt = Date.now();
+  const streamDeadlineAt = generationStartedAt + (typeof input.streamDeadlineMs === "number" && input.streamDeadlineMs > 0 ? input.streamDeadlineMs : FEATURE_DEADLINE_MAX_MS);
+  const streamGate = (provider: ModelProviderName, attemptDeadlineAt: number) => {
+    if (!input.onDelta) return undefined;
+    const send = input.onDelta;
+    const gate = createStreamGate(provider, (text) => {
+      streamEmitted = true;
+      send(text);
+    });
+    return { gate, request: { onDelta: (piece: string) => gate.onDelta(piece), streamDeadlineAt: Math.min(attemptDeadlineAt, streamDeadlineAt) } };
   };
 
   const route = input.route ?? await readActiveModelRoute(input.supabase, input.feature);
@@ -441,6 +588,7 @@ export async function generateWithModelRoute(input: {
 
   for (const candidate of candidates) {
     let providerSpan: AiTraceSpan | undefined;
+    const stream = streamGate(candidate.provider, deadlineMs === undefined ? Number.POSITIVE_INFINITY : attemptsStartedAt + deadlineMs);
     try {
       const timeoutMs = deadlineMs === undefined
         ? undefined
@@ -481,6 +629,7 @@ export async function generateWithModelRoute(input: {
         responseSchema: route.responseSchema,
         ...(reasoning ? { reasoning } : {}),
         ...(timeoutMs !== undefined ? { timeoutMs } : {}),
+        ...(stream?.request ?? {}),
         traceHooks: {
           onRequest: (payload) => providerSpan?.captureWireRequest(payload),
           onResponse: (payload) => providerSpan?.captureWireResponse(payload)
@@ -488,6 +637,7 @@ export async function generateWithModelRoute(input: {
         ...(input.qaTraceHooks ? { qaTraceHooks: input.qaTraceHooks } : {})
       }, generationEnv);
       attempts.push({ provider: candidate.provider, model: candidate.model, resolvedModel: response.model, ok: true, ...(response.billingReceipt ? { billingReceipt: response.billingReceipt } : {}) });
+      const legacyCost = recordCallCost(candidate.provider, candidate.model, response.billingReceipt, response.usage);
       providerSpan.update({
         output: {
           text: response.text,
@@ -514,7 +664,8 @@ export async function generateWithModelRoute(input: {
             cached_input_tokens: response.billingReceipt.cachedInputTokens ?? null,
             cache_write_tokens: response.billingReceipt.cacheWriteTokens ?? null,
             reasoning_tokens: response.billingReceipt.reasoningTokens ?? null
-          } : {})
+          } : {}),
+          ...legacyCost.attributes
         }
       }).end("ok");
       const outputSafety = detectSafetyIssue(response.text);
@@ -535,12 +686,14 @@ export async function generateWithModelRoute(input: {
         }, "blocked");
       }
       const hasNext = candidates.indexOf(candidate) < candidates.length - 1;
-      const rejection = hasNext && route.fallbackWhen.includes("malformed_response")
+      // Once text has been sent there is no fallback; the feature's own check still runs on the final text.
+      const rejection = hasNext && !streamEmitted && route.fallbackWhen.includes("malformed_response")
         ? input.acceptOutput?.(response.text, response.finishReason) : undefined;
       if (rejection) {
         attempts[attempts.length - 1] = { ...attempts[attempts.length - 1], ok: false, code: "malformed_response", detail: `output_check:${String(rejection).slice(0, 40)}` };
         continue;
       }
+      stream?.gate.flush();
       return await finish({
         text: response.text,
         finishReason: response.finishReason,
@@ -571,15 +724,20 @@ export async function generateWithModelRoute(input: {
         ...(providerError.providerDetail ? { detail: providerError.providerDetail } : {}),
         ...(billingReceipt ? { resolvedModel: billingReceipt.model, billingReceipt } : {})
       });
+      // A call that never started (deadline reached before this attempt) has no span and no cost.
+      const failedCost = providerSpan ? recordCallCost(candidate.provider, candidate.model, billingReceipt) : undefined;
       providerSpan?.update({
-        ...(billingReceipt ? { attributes: {
-          generation_id: billingReceipt.generationId ?? null,
-          billing_status: billingReceipt.status,
-          billing_source: billingReceipt.source,
-          charged_usd: billingReceipt.costUsd,
-          upstream_inference_cost_usd: billingReceipt.upstreamInferenceCostUsd,
-          resolved_model: billingReceipt.model
-        } } : {}),
+        attributes: {
+          ...(billingReceipt ? {
+            generation_id: billingReceipt.generationId ?? null,
+            billing_status: billingReceipt.status,
+            billing_source: billingReceipt.source,
+            charged_usd: billingReceipt.costUsd,
+            upstream_inference_cost_usd: billingReceipt.upstreamInferenceCostUsd,
+            resolved_model: billingReceipt.model
+          } : {}),
+          ...failedCost?.attributes
+        },
         output: {
           errorCode: providerError.code,
           status: providerError.status ?? null,
@@ -588,6 +746,22 @@ export async function generateWithModelRoute(input: {
           safetyBlocked: providerError.safetyBlocked
         }
       }).end(providerError.safetyBlocked ? "blocked" : "error");
+      if (streamEmitted && !providerError.safetyBlocked) {
+        return await finish({
+          text: input.fallbackText,
+          provider: "local_fallback",
+          model: "safe_mock",
+          routeVersionId: route.id,
+          routeVersion: route.version,
+          fallbackUsed: true,
+          attempts,
+          latencyMs: 0,
+          usage: {},
+          moderationStatus: "fallback",
+          outcome: "canned",
+          streamInterrupted: true
+        }, "error");
+      }
       if (!candidate.fallbackUsed && shouldFallback(providerError, route)) continue;
       return await finish({
         text: input.fallbackText,
@@ -652,10 +826,12 @@ export async function generateWithModelRoute(input: {
     };
     const canned = async (latencyMs = 0) => {
       summary();
+      const interrupted = streamEmitted;
       return await finish({
         text: input.fallbackText, provider: "local_fallback", model: "safe_mock", routeVersionId: route.id, routeVersion: route.version,
-        fallbackUsed: true, attempts, latencyMs, usage: {}, moderationStatus: "fallback", outcome: "canned"
-      }, "fallback");
+        fallbackUsed: true, attempts, latencyMs, usage: {}, moderationStatus: "fallback", outcome: "canned",
+        ...(interrupted ? { streamInterrupted: true } : {})
+      }, interrupted ? "error" : "fallback");
     };
     const safetyBlock = async (reason: string, latencyMs = 0, usage = {}) => {
       summary();
@@ -666,6 +842,11 @@ export async function generateWithModelRoute(input: {
     };
 
     for (const [stepIndex, step] of steps.entries()) {
+      // Batch C: decision steps return a choice, not text; only reader-router.ts calls them.
+      if (!isChatStep(step)) {
+        skipped.push({ stepIndex, provider: step.provider, reason: "decision_provider" });
+        continue;
+      }
       const policy = registry.get(step.provider);
       const skipReason = !policy || !policy.enabled ? "disabled"
         : !secretPresent(policy.secretName, getEnv) ? "missing_secret"
@@ -685,7 +866,7 @@ export async function generateWithModelRoute(input: {
       }
       const price = referencePrice(step.provider, step.model);
       const inputChars = input.system.length + input.messages.reduce((sum, message) => sum + message.content.length, 0);
-      const projectedMicro = price ? Math.ceil(Math.ceil(inputChars / 3) * price[0] + step.maxTokens * price[1]) : 0;
+      const projectedMicro = projectCallCostMicro(price, inputChars, step.maxTokens);
       if (spentMicro >= costCapMicro || spentMicro + projectedMicro > costCapMicro) {
         skipped.push({ stepIndex, provider: step.provider, reason: "cost_cap" });
         continue;
@@ -694,10 +875,8 @@ export async function generateWithModelRoute(input: {
       const fallbackStep = stepIndex > 0;
       const reasoning = step.reasoning ?? undefined;
       let providerSpan: AiTraceSpan | undefined;
-      const stepCost = (receiptUsd: number | null | undefined, usage?: { inputTokens?: number; outputTokens?: number }) => {
-        if (typeof receiptUsd === "number" && Number.isFinite(receiptUsd)) return Math.round(receiptUsd * 1_000_000);
-        return price && usage ? Math.ceil((usage.inputTokens ?? 0) * price[0] + (usage.outputTokens ?? 0) * price[1]) : 0;
-      };
+      // A started stream may run to the end of the chain's total deadline, not just this step's first-text timeout.
+      const stream = streamGate(step.provider, startedAt + totalDeadlineMs);
       try {
         providerSpan = trace.startSpan({
           name: `llm.${step.provider}.${fallbackStep ? "fallback" : "primary"}`,
@@ -714,13 +893,16 @@ export async function generateWithModelRoute(input: {
           feature: input.feature, provider: step.provider, model: step.model, system: input.system, messages: input.messages,
           temperature: step.temperature, maxOutputTokens: step.maxTokens, responseSchema: route.responseSchema,
           ...(reasoning ? { reasoning } : {}), timeoutMs, jsonMode: step.jsonMode,
+          ...(stream?.request ?? {}),
           traceHooks: {
             onRequest: (payload) => providerSpan?.captureWireRequest(payload),
             onResponse: (payload) => providerSpan?.captureWireResponse(payload)
           },
           ...(input.qaTraceHooks ? { qaTraceHooks: input.qaTraceHooks } : {})
         }, generationEnv);
-        const costMicro = stepCost(response.billingReceipt?.costUsd, response.usage);
+        const okCost = recordCallCost(step.provider, step.model, response.billingReceipt, response.usage);
+        // Unknown cost counts as 0 for the cap, as before.
+        const costMicro = okCost.cost.costMicro ?? 0;
         spentMicro += costMicro;
         attempts.push({ provider: step.provider, model: step.model, resolvedModel: response.model, ok: true, ...(response.billingReceipt ? { billingReceipt: response.billingReceipt } : {}) });
         if (policy && (policy.failures > 0 || policy.openedUntil !== null)) await report(step.provider, { result: "ok" });
@@ -736,7 +918,8 @@ export async function generateWithModelRoute(input: {
               generation_id: response.billingReceipt.generationId ?? null, billing_status: response.billingReceipt.status,
               billing_source: response.billingReceipt.source, charged_usd: response.billingReceipt.costUsd,
               upstream_inference_cost_usd: response.billingReceipt.upstreamInferenceCostUsd, resolved_model: response.billingReceipt.model
-            } : {})
+            } : {}),
+            ...okCost.attributes
           }
         });
         if (outputSafety) {
@@ -745,7 +928,7 @@ export async function generateWithModelRoute(input: {
         }
         providerSpan.end("ok");
         const hasNext = stepIndex < steps.length - 1;
-        const rejection = hasNext && !formatRetryUsed ? input.acceptOutput?.(response.text, response.finishReason) : undefined;
+        const rejection = hasNext && !formatRetryUsed && !streamEmitted ? input.acceptOutput?.(response.text, response.finishReason) : undefined;
         if (rejection) {
           formatRetryUsed = true;
           attempts[attempts.length - 1] = { ...attempts[attempts.length - 1], ok: false, code: "malformed_response", detail: `output_check:${String(rejection).slice(0, 40)}` };
@@ -753,6 +936,7 @@ export async function generateWithModelRoute(input: {
           lastError = { code: "malformed_response", errorClass: "format" };
           continue;
         }
+        stream?.gate.flush();
         summary();
         return await finish({
           text: response.text, finishReason: response.finishReason, provider: response.provider, model: response.model,
@@ -762,7 +946,8 @@ export async function generateWithModelRoute(input: {
       } catch (error) {
         const providerError = error instanceof ModelProviderError ? error : thrownProviderError(step.provider, error);
         const billingReceipt = step.provider === "openrouter" ? providerError.billingReceipt ?? readOpenRouterBillingReceipt(null, step.model) : undefined;
-        const costMicro = stepCost(billingReceipt?.costUsd);
+        const failedCost = providerSpan ? recordCallCost(step.provider, step.model, billingReceipt) : undefined;
+        const costMicro = failedCost?.cost.costMicro ?? 0;
         spentMicro += costMicro;
         const { errorClass, moveOn } = classifyProviderError(providerError);
         attempts.push({
@@ -773,7 +958,8 @@ export async function generateWithModelRoute(input: {
         providerSpan?.update({
           attributes: {
             errorClass, httpStatus: providerError.status ?? null, costMicro, outcome: errorClass === "safety" ? "safety_block" : "error",
-            ...(billingReceipt ? { generation_id: billingReceipt.generationId ?? null, billing_status: billingReceipt.status, charged_usd: billingReceipt.costUsd } : {})
+            ...(billingReceipt ? { generation_id: billingReceipt.generationId ?? null, billing_status: billingReceipt.status, charged_usd: billingReceipt.costUsd } : {}),
+            ...failedCost?.attributes
           },
           output: { errorCode: providerError.code, status: providerError.status ?? null, providerDetail: providerError.providerDetail ?? null, retryable: providerError.retryable, safetyBlocked: providerError.safetyBlocked }
         }).end(providerError.safetyBlocked ? "blocked" : "error");
@@ -782,7 +968,7 @@ export async function generateWithModelRoute(input: {
         }
         if (errorClass === "safety") return await safetyBlock(providerError.code);
         lastError = { code: providerError.code, errorClass };
-        if (!moveOn) break;
+        if (!moveOn || streamEmitted) break;
         if (errorClass === "format") {
           if (formatRetryUsed) break;
           formatRetryUsed = true;
@@ -793,5 +979,42 @@ export async function generateWithModelRoute(input: {
   }
 }
 
+/**
+ * Batch C (2026-11-24): the route a feature runs for this user. The active route is read as before (an ambiguous or
+ * invalid active route still throws); then a running model campaign of the feature, read with the service-role client,
+ * may swap the step chain for the user's variant. No campaign, no service client or any campaign error keeps the active
+ * route and experiment null.
+ */
+export async function resolveFeatureRoute(
+  supabase: SupabaseLike | null | undefined,
+  feature: string,
+  userId: string,
+  options: {
+    campaignClient?: Parameters<typeof resolveCampaignRoute>[0];
+    locale?: string | null;
+    now?: Date;
+    resolveCampaign?: typeof resolveCampaignRoute;
+  } = {}
+): Promise<{ route: ModelRoute; experiment: CampaignExperiment | null }> {
+  const route = await readActiveModelRoute(supabase, feature);
+  if (!options.campaignClient) return { route, experiment: null };
+  try {
+    const resolve = options.resolveCampaign ?? resolveCampaignRoute;
+    const campaign = await resolve(options.campaignClient, feature, userId, options.now ?? new Date(), { locale: options.locale ?? null, signedIn: true });
+    if (!campaign) return { route, experiment: null };
+    return { route: applyCampaignRoute(route, campaign.route), experiment: { ...campaign.experiment } };
+  } catch {
+    return { route, experiment: null };
+  }
+}
+
+/** Flat trace/usage metadata keys for a campaign run (ai-trace keeps campaignId and variant as top-level keys only). */
+export function experimentTraceMetadata(experiment: { campaignId: string; variant: string } | null | undefined): Record<string, string> {
+  return experiment ? { campaignId: experiment.campaignId, variant: experiment.variant } : {};
+}
+
 /** Owner 04/11: a fallback step may cost more than the first, but one turn stays under 0.02 USD unless configured. */
 export const DEFAULT_COST_CAP_MICRO = 20_000;
+
+/** P1-C: the turn's cost_source is the least certain of its calls. */
+const COST_SOURCE_RANK: Record<CostSource, number> = { reported: 0, estimated: 1, unknown: 2 };

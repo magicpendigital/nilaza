@@ -1,0 +1,1638 @@
+{
+  "version": "2026-11-22-b3",
+  "status": "owner-approved-samples",
+  "scope": {
+    "vi": "Bài đọc Nilaza v1 (Lô B, báo cáo giá trị 21/11): kho diễn giải ghép 5 lớp cho bài đọc miễn phí, không gọi AI. Ưu tiên 3 chủ đề Tình yêu, Công việc, Bản thân. Lớp 1 chiều xuôi lấy từ tarot-card-guide.json (Owner duyệt 30/10); chiều ngược theo chủ đề mới có 6 lá mẫu, các lá khác dùng nghĩa ngược chung cho đến khi Owner duyệt mẫu.",
+    "en": "Nilaza reading v1 (batch B, value report 21/11): a five-layer library for the free reading, no AI call. Priority topics Love, Career, Self. Layer 1 upright comes from tarot-card-guide.json (Owner approved 30/10); reversed per topic has 6 sample cards, other cards use the general reversed meaning until the Owner approves the sample."
+  },
+  "positionRoles": {
+    "daily-one": [
+      "message"
+    ],
+    "past-present-future": [
+      "past",
+      "present",
+      "potential"
+    ],
+    "situation-challenge-advice": [
+      "situation",
+      "challenge",
+      "advice"
+    ],
+    "love-three": [
+      "you",
+      "other",
+      "relationship"
+    ],
+    "crossroads-four": [
+      "stand",
+      "forward",
+      "hold",
+      "lens"
+    ]
+  },
+  "roles": {
+    "message": {
+      "upright": {
+        "vi": "Hôm nay lá của bạn xoay quanh {kw}.",
+        "en": "Today your card turns on {kw}."
+      },
+      "reversed": {
+        "vi": "Hôm nay {kw} có thể đang bị dồn vào trong, chưa được bạn cho phép lên tiếng.",
+        "en": "Today {kw} may be pushed inward, not yet allowed to speak."
+      }
+    },
+    "past": {
+      "upright": {
+        "vi": "Nền đưa bạn tới đây là {kw}.",
+        "en": "The ground that brought you here is {kw}."
+      },
+      "reversed": {
+        "vi": "{kw} từ trước có thể vẫn chưa thật sự khép lại.",
+        "en": "{kw} from before may not be fully closed yet."
+      }
+    },
+    "present": {
+      "upright": {
+        "vi": "Điều đang có mặt rõ nhất lúc này là {kw}.",
+        "en": "What is most present right now is {kw}."
+      },
+      "reversed": {
+        "vi": "{kw} đang có mặt nhưng bị kìm lại, chưa được nhìn thẳng.",
+        "en": "{kw} is present but held back, not yet faced."
+      }
+    },
+    "potential": {
+      "upright": {
+        "vi": "Nếu giữ nhịp hiện tại, điều đang mở ra là {kw}.",
+        "en": "If the current pace holds, what is opening up is {kw}."
+      },
+      "reversed": {
+        "vi": "{kw} vẫn có thể mở ra, nhưng đang chậm lại; bạn còn chỗ để xoay hướng.",
+        "en": "{kw} can still open up, but it is slowing; you still have room to steer."
+      }
+    },
+    "situation": {
+      "upright": {
+        "vi": "Khung cảnh bạn đang đứng được tô bằng {kw}.",
+        "en": "The scene you stand in is coloured by {kw}."
+      },
+      "reversed": {
+        "vi": "Trong khung cảnh này, {kw} là phần bạn có thể chưa muốn nhìn kỹ.",
+        "en": "In this scene, {kw} is the part you may not want to look at closely yet."
+      }
+    },
+    "challenge": {
+      "upright": {
+        "vi": "Chỗ đang tạo ma sát là {kw}.",
+        "en": "The friction sits in {kw}."
+      },
+      "reversed": {
+        "vi": "Ma sát quanh {kw} nằm ở bên trong bạn nhiều hơn bên ngoài.",
+        "en": "The friction around {kw} sits more inside you than outside."
+      }
+    },
+    "advice": {
+      "upright": {
+        "vi": "Hướng đáng thử: dựa vào {kw}.",
+        "en": "A way worth trying: lean on {kw}."
+      },
+      "reversed": {
+        "vi": "Với {kw}, lúc này làm nhẹ đi có thể giúp hơn làm thêm.",
+        "en": "With {kw}, easing off may help more than adding more right now."
+      }
+    },
+    "you": {
+      "upright": {
+        "vi": "Bạn đang có mặt trong mối quan hệ với {kw}.",
+        "en": "You are showing up in the relationship with {kw}."
+      },
+      "reversed": {
+        "vi": "{kw} là nhu cầu của bạn đang bị giấu đi.",
+        "en": "{kw} is a need of yours being kept hidden."
+      }
+    },
+    "other": {
+      "upright": {
+        "vi": "Người ấy đang hiện lên trong mắt bạn với {kw}.",
+        "en": "The other person appears to you through {kw}."
+      },
+      "reversed": {
+        "vi": "Trong mắt bạn, {kw} ở người ấy đang bị che khuất một phần.",
+        "en": "To you, {kw} in the other person is partly hidden."
+      }
+    },
+    "relationship": {
+      "upright": {
+        "vi": "Khoảng giữa hai người đang xoay quanh {kw}.",
+        "en": "The space between you turns on {kw}."
+      },
+      "reversed": {
+        "vi": "Khoảng giữa hai người có {kw} chưa được nói ra thành lời.",
+        "en": "Between you, {kw} has not yet been put into words."
+      }
+    },
+    "stand": {
+      "upright": {
+        "vi": "Bạn đang đứng trước ngã rẽ với {kw}.",
+        "en": "You stand at the crossroads with {kw}."
+      },
+      "reversed": {
+        "vi": "{kw} đang chững lại; có thể bạn đã mệt vì cân nhắc quá lâu.",
+        "en": "{kw} has stalled; you may be tired from weighing too long."
+      }
+    },
+    "forward": {
+      "upright": {
+        "vi": "Nếu bước tới, điều có thể đi cùng bạn là {kw}.",
+        "en": "If you step forward, what may come with you is {kw}."
+      },
+      "reversed": {
+        "vi": "Nếu bước tới, {kw} là điều cần chuẩn bị trước.",
+        "en": "If you step forward, {kw} is what needs preparing first."
+      }
+    },
+    "hold": {
+      "upright": {
+        "vi": "Nếu giữ nguyên, điều có thể đi cùng bạn là {kw}.",
+        "en": "If you hold still, what may come with you is {kw}."
+      },
+      "reversed": {
+        "vi": "Giữ nguyên có một cái giá thầm lặng: {kw} bị gác lại.",
+        "en": "Holding still has a quiet cost: {kw} is set aside."
+      }
+    },
+    "lens": {
+      "upright": {
+        "vi": "Lăng kính để nhìn cả hai hướng là {kw}.",
+        "en": "The lens for both directions is {kw}."
+      },
+      "reversed": {
+        "vi": "{kw} nhắc rằng có thể bạn chưa cần quyết ngay hôm nay.",
+        "en": "{kw} is a reminder that you may not need to decide today."
+      }
+    }
+  },
+  "threads": {
+    "daily-one": {
+      "vi": "{card1} mang tới hôm nay chủ đề {kw1}.",
+      "en": "{card1} brings today's theme of {kw1}."
+    },
+    "past-present-future": {
+      "vi": "các lá kể một câu chuyện đi từ {kw1} ({card1}), qua {kw2} ({card2}), tới {kw3} ({card3}).",
+      "en": "the cards tell a story moving from {kw1} ({card1}), through {kw2} ({card2}), toward {kw3} ({card3})."
+    },
+    "situation-challenge-advice": {
+      "vi": "bạn đang ở giữa {kw1} ({card1}); điều tạo ma sát là {kw2} ({card2}); còn hướng đáng thử là {kw3} ({card3}).",
+      "en": "you are in the middle of {kw1} ({card1}); the friction is {kw2} ({card2}); and the way worth trying is {kw3} ({card3})."
+    },
+    "love-three": {
+      "vi": "bạn đang mang vào mối quan hệ {kw1} ({card1}), người ấy hiện lên trong mắt bạn với {kw2} ({card2}), còn khoảng giữa hai người xoay quanh {kw3} ({card3}).",
+      "en": "you bring {kw1} ({card1}) into the relationship, the other person appears to you through {kw2} ({card2}), and the space between you turns on {kw3} ({card3})."
+    },
+    "crossroads-four": {
+      "vi": "bạn đang đứng ở {kw1} ({card1}); bước tới gắn với {kw2} ({card2}), giữ nguyên gắn với {kw3} ({card3}); và {card4} mời bạn nhìn cả hai qua {kw4}.",
+      "en": "you stand in {kw1} ({card1}); stepping forward is tied to {kw2} ({card2}), holding still to {kw3} ({card3}); and {card4} invites you to see both through {kw4}."
+    }
+  },
+  "reversedMark": {
+    "vi": "{kw} đang bị kìm lại",
+    "en": "{kw} held back"
+  },
+  "focus": {
+    "past-present-future": {
+      "cards": [
+        0,
+        2
+      ],
+      "text": {
+        "vi": "Điều đáng chú ý nhất: từ {kwA} tới {kwB} là một quãng chuyển khá rõ. Điều gì trong bạn đã, hoặc cần, thay đổi để đi hết quãng đó?",
+        "en": "What stands out most: from {kwA} to {kwB} is a clear shift. What in you has changed, or needs to, to make that journey?"
+      }
+    },
+    "situation-challenge-advice": {
+      "cards": [
+        1,
+        2
+      ],
+      "text": {
+        "vi": "Điều đáng chú ý nhất: ma sát nằm ở {kwA}, còn hướng gợi ra lại là {kwB}. Hai điều này nghe như ngược nhau, nhưng thường chính {kwB} là cách đi qua {kwA}.",
+        "en": "What stands out most: the friction sits in {kwA}, while the suggested way is {kwB}. They sound opposed, but {kwB} is often how you move through {kwA}."
+      }
+    },
+    "love-three": {
+      "cards": [
+        0,
+        1
+      ],
+      "text": {
+        "vi": "Điều đáng chú ý nhất: bạn mang {kwA}, còn phía người ấy hiện lên với {kwB}. Chỗ hai điều này gặp nhau, hoặc lệch nhau, có thể là điều câu hỏi của bạn đang thật sự chạm tới.",
+        "en": "What stands out most: you bring {kwA}, while the other side appears as {kwB}. Where these meet, or miss each other, may be what your question is really touching."
+      }
+    },
+    "crossroads-four": {
+      "cards": [
+        1,
+        2
+      ],
+      "text": {
+        "vi": "Điều đáng chú ý nhất: bước tới mang màu {kwA}, giữ nguyên mang màu {kwB}. Khi đọc hai từ này, bạn thấy mình nghiêng về bên nào? Cảm giác đó cũng là một dữ kiện đáng để ý.",
+        "en": "What stands out most: stepping forward carries {kwA}, holding still carries {kwB}. Reading those two words, which way do you lean? That feeling is worth noticing too."
+      }
+    }
+  },
+  "deepHook": {
+    "vi": "Giữa {cardA} và {cardB} là phần riêng của câu hỏi này. Bài đọc chuyên sâu sẽ đọc kỹ chỗ đó: vì sao hai lá cùng xuất hiện, chúng nói gì với hoàn cảnh của bạn, và nên bắt đầu từ đâu.",
+    "en": "Between {cardA} and {cardB} lies what is particular to this question. The deep reading looks closely at that: why these two cards appear together, what they say about your situation, and where to begin."
+  },
+  "combinations": {
+    "majorsMajority": {
+      "vi": "phần lớn các lá thuộc nhóm Ẩn chính, gợi ý đây là một giai đoạn có sức nặng hơn chuyện thường ngày.",
+      "en": "most cards are Major Arcana, which suggests a period that weighs more than everyday matters."
+    },
+    "suit": {
+      "cups": {
+        "vi": "nhiều lá Cốc cho thấy chuyện này nằm ở cảm xúc và sự kết nối nhiều hơn là chuyện đúng sai.",
+        "en": "several Cups suggest this is more about feelings and connection than about right or wrong."
+      },
+      "wands": {
+        "vi": "nhiều lá Gậy cho thấy một thôi thúc muốn hành động, muốn bắt đầu điều gì đó.",
+        "en": "several Wands point to an urge to act and to start something."
+      },
+      "swords": {
+        "vi": "nhiều lá Kiếm cho thấy suy nghĩ, những điều chưa nói ra và nhu cầu nhìn rõ đang chiếm chỗ lớn.",
+        "en": "several Swords point to thoughts, things left unsaid and a need for clarity."
+      },
+      "pentacles": {
+        "vi": "nhiều lá Tiền cho thấy chuyện này gắn với những điều cụ thể: thời gian, tiền bạc, sức lực.",
+        "en": "several Pentacles tie this to concrete things: time, money and energy."
+      }
+    },
+    "mixed": {
+      "vi": "các lá trải ra nhiều hướng, như có vài lực cùng kéo bạn một lúc.",
+      "en": "the cards spread in several directions, as if a few forces are pulling at once."
+    },
+    "single": {
+      "vi": "lá bạn rút hôm nay là một gợi ý để soi lại chính mình.",
+      "en": "the card you drew today is a prompt to look at yourself."
+    },
+    "reversedMajority": {
+      "vi": "Nhiều lá ngược cho thấy năng lượng đang quay vào bên trong hoặc bị chặn lại.",
+      "en": "Several reversed cards show energy turning inward or held back."
+    },
+    "elementTension": {
+      "fire-water": {
+        "vi": "Lửa và Nước cùng xuất hiện: điều bạn muốn làm và điều bạn đang cảm có thể kéo ngược nhau.",
+        "en": "Fire and Water appear together: what you want to do and what you feel may pull against each other."
+      },
+      "air-earth": {
+        "vi": "Khí và Đất cùng xuất hiện: điều bạn nghĩ ra và điều thực tế cho phép có thể chưa khớp.",
+        "en": "Air and Earth appear together: what you think through and what is practical may not match yet."
+      }
+    },
+    "elementHarmony": {
+      "fire-air": {
+        "vi": "Lửa và Khí đi cùng nhau: ý tưởng và động lực đang tiếp sức cho nhau.",
+        "en": "Fire and Air go together: ideas and drive are feeding each other."
+      },
+      "water-earth": {
+        "vi": "Nước và Đất đi cùng nhau: cảm xúc có chỗ dựa vào điều cụ thể.",
+        "en": "Water and Earth go together: feelings have something concrete to rest on."
+      }
+    },
+    "courtsMany": {
+      "vi": "Có nhiều lá Cung đình: chuyện này xoay quanh con người, cách mỗi người đang thể hiện mình.",
+      "en": "Several court cards: this turns on people and how each is showing up."
+    },
+    "acesMany": {
+      "vi": "Có nhiều lá Át: nhiều điểm khởi đầu cùng lúc; chọn một hạt giống để chăm trước.",
+      "en": "Several Aces: many beginnings at once; pick one seed to tend first."
+    },
+    "repeatedNumber": {
+      "vi": "Số {number} lặp lại giữa các lá, như một chủ đề muốn được bạn để ý.",
+      "en": "The number {number} repeats across the cards, like a theme asking for your attention."
+    }
+  },
+  "stepTitle": {
+    "vi": "Một việc nhỏ trong 24 giờ",
+    "en": "One small step in the next 24 hours"
+  },
+  "steps": {
+    "love": {
+      "major": {
+        "vi": "Viết ra một điều bạn thật sự cần trong mối quan hệ này, bằng một câu, rồi đọc to nó cho chính mình nghe.",
+        "en": "Write down, in one sentence, one thing you truly need in this relationship, then read it aloud to yourself."
+      },
+      "cups": {
+        "vi": "Nói hoặc nhắn một câu thật lòng về cảm xúc của bạn, không kèm câu hỏi người kia phải trả lời ngay.",
+        "en": "Say or send one honest sentence about how you feel, without a question they must answer right away."
+      },
+      "wands": {
+        "vi": "Rủ người ấy làm một việc nhỏ cùng nhau trong tuần này, rồi để ý bạn thấy thế nào khi đề nghị.",
+        "en": "Suggest one small thing to do together this week, and notice how it feels to ask."
+      },
+      "swords": {
+        "vi": "Viết ra điều bạn chưa nói, rồi chọn một câu trong đó bạn sẵn sàng nói ra một cách bình tĩnh.",
+        "en": "Write down what you have not said, then choose one sentence of it you are ready to say calmly."
+      },
+      "pentacles": {
+        "vi": "Để ý một việc cụ thể người ấy làm cho bạn, hoặc bạn làm cho người ấy, trong hôm nay.",
+        "en": "Notice one concrete thing they do for you, or you do for them, today."
+      }
+    },
+    "career": {
+      "major": {
+        "vi": "Viết ra một quyết định công việc bạn đang trì hoãn, và một dữ kiện bạn còn thiếu để quyết.",
+        "en": "Write down one work decision you are putting off, and one fact you still need to make it."
+      },
+      "cups": {
+        "vi": "Cảm ơn hoặc hỏi han một người cùng làm trong hôm nay, thật lòng và ngắn gọn.",
+        "en": "Thank or check in with one colleague today, briefly and sincerely."
+      },
+      "wands": {
+        "vi": "Chọn một việc bạn hào hứng nhất và dành 25 phút cho nó trước khi mở hộp thư.",
+        "en": "Pick the task you are most excited about and give it 25 minutes before opening your inbox."
+      },
+      "swords": {
+        "vi": "Viết lại vấn đề đang vướng thành một câu hỏi rõ, rồi gửi cho đúng một người có thể trả lời.",
+        "en": "Rewrite the problem you are stuck on as one clear question, and send it to one person who can answer."
+      },
+      "pentacles": {
+        "vi": "Ghi lại thời gian bạn thật sự dùng cho việc quan trọng nhất hôm nay.",
+        "en": "Track how much time you actually spend on today's most important task."
+      }
+    },
+    "self": {
+      "major": {
+        "vi": "Dành mười phút ở một mình, không điện thoại, và viết ra điều đang thay đổi trong bạn.",
+        "en": "Take ten minutes alone, without your phone, and write down what is changing in you."
+      },
+      "cups": {
+        "vi": "Gọi tên cảm xúc mạnh nhất hôm nay bằng một từ, và cho phép nó có mặt mà không cần sửa.",
+        "en": "Name today's strongest feeling in one word, and let it be there without fixing it."
+      },
+      "wands": {
+        "vi": "Làm một việc nhỏ chỉ vì bạn thích, trong khoảng mười lăm phút.",
+        "en": "Do one small thing just because you enjoy it, for about fifteen minutes."
+      },
+      "swords": {
+        "vi": "Viết ra một suy nghĩ đang lặp lại, rồi viết một câu trả lời tử tế hơn cho nó.",
+        "en": "Write down one thought that keeps looping, then write a kinder reply to it."
+      },
+      "pentacles": {
+        "vi": "Chăm cơ thể một việc cụ thể: uống đủ nước, đi bộ ngắn, hoặc ngủ sớm hơn mười lăm phút.",
+        "en": "Care for your body in one concrete way: enough water, a short walk, or bed fifteen minutes earlier."
+      }
+    },
+    "decision": {
+      "major": {
+        "vi": "Viết hai lựa chọn ra hai cột, mỗi cột ghi một điều bạn sẽ được và một điều bạn sẽ mất, rồi khoanh điều bạn không muốn mất nhất.",
+        "en": "Write the two options in two columns, each with one thing you gain and one thing you lose, then circle the loss you least want."
+      },
+      "wands": {
+        "vi": "Chọn phương án làm bạn thấy có sức sống hơn và làm thử bước đầu tiên của nó trong 20 phút, như một lần thử chứ chưa phải cam kết.",
+        "en": "Pick the option that makes you feel more alive and try its first step for 20 minutes, as a test rather than a commitment."
+      },
+      "cups": {
+        "vi": "Hình dung bạn đã chọn xong một phương án, ngồi yên một phút, rồi ghi lại cảm giác đầu tiên trong người bạn.",
+        "en": "Imagine you have already chosen one option, sit still for a minute, then write down the first feeling in your body."
+      },
+      "swords": {
+        "vi": "Viết ra một dữ kiện bạn còn thiếu để quyết, và một người hoặc một nguồn bạn có thể hỏi trong hôm nay.",
+        "en": "Write down one fact you still need to decide, and one person or source you can ask today."
+      },
+      "pentacles": {
+        "vi": "Tính thử chi phí thật của mỗi lựa chọn trong ba tháng tới: thời gian, tiền và sức lực, mỗi thứ một dòng.",
+        "en": "Estimate the real cost of each option over the next three months: time, money and energy, one line each."
+      }
+    },
+    "open": {
+      "major": {
+        "vi": "Viết một câu bắt đầu bằng “Điều mình đang thật sự hỏi là…”, rồi đọc lại xem câu hỏi có đổi khác không.",
+        "en": "Write one sentence that begins “What I am really asking is…”, then read it back and see whether the question has changed."
+      },
+      "wands": {
+        "vi": "Làm ngay một việc nhỏ đang nằm chờ mà bạn đã muốn làm từ lâu, trong khoảng mười lăm phút.",
+        "en": "Do one small waiting task you have wanted to do for a while, for about fifteen minutes."
+      },
+      "cups": {
+        "vi": "Nhắn cho một người bạn tin một câu thật lòng về điều bạn đang mang trong lòng hôm nay.",
+        "en": "Send someone you trust one honest sentence about what you are carrying today."
+      },
+      "swords": {
+        "vi": "Dọn một góc nhỏ quanh bạn, bàn làm việc hay điện thoại, để đầu óc có chỗ thở.",
+        "en": "Clear one small corner around you, your desk or your phone, so your mind has room to breathe."
+      },
+      "pentacles": {
+        "vi": "Chọn một việc thực tế bạn có thể hoàn tất trước tối nay và đánh dấu khi xong.",
+        "en": "Pick one practical task you can finish before tonight and tick it off when it's done."
+      }
+    }
+  },
+  "journal": {
+    "love": {
+      "major": {
+        "vi": "Mối quan hệ này đang dạy bạn điều gì về chính mình?",
+        "en": "What is this relationship teaching you about yourself?"
+      },
+      "cups": {
+        "vi": "Bạn cảm thấy được lắng nghe nhất vào lúc nào, và điều gì làm nên khoảnh khắc đó?",
+        "en": "When do you feel most heard, and what makes that moment?"
+      },
+      "wands": {
+        "vi": "Điều gì khiến bạn muốn chủ động hơn, và điều gì đang giữ bạn lại?",
+        "en": "What makes you want to take the lead, and what is holding you back?"
+      },
+      "swords": {
+        "vi": "Nếu được nói thật mà không sợ bị hiểu lầm, bạn sẽ nói gì?",
+        "en": "If you could speak honestly without fear of being misread, what would you say?"
+      },
+      "pentacles": {
+        "vi": "Sự quan tâm bằng hành động nào khiến bạn thấy an toàn?",
+        "en": "Which acts of care make you feel safe?"
+      }
+    },
+    "career": {
+      "major": {
+        "vi": "Nếu nhìn lại năm nay, bạn muốn mình đã chọn điều gì trong công việc?",
+        "en": "Looking back on this year, what would you want to have chosen at work?"
+      },
+      "cups": {
+        "vi": "Công việc hiện tại nuôi dưỡng phần nào trong bạn, và bỏ đói phần nào?",
+        "en": "Which part of you does your work feed, and which part does it starve?"
+      },
+      "wands": {
+        "vi": "Việc nào làm bạn quên giờ, và bạn có thể làm nó nhiều hơn một chút không?",
+        "en": "Which task makes you lose track of time, and could you do a little more of it?"
+      },
+      "swords": {
+        "vi": "Quyết định nào sẽ dễ hơn nếu bạn có thêm đúng một thông tin?",
+        "en": "Which decision would be easier with just one more piece of information?"
+      },
+      "pentacles": {
+        "vi": "Bạn đang đầu tư thời gian và sức lực vào đâu, và nó có khớp với điều bạn coi trọng?",
+        "en": "Where are you investing your time and energy, and does it match what you value?"
+      }
+    },
+    "self": {
+      "major": {
+        "vi": "Phiên bản nào của bạn đang muốn lớn lên lúc này?",
+        "en": "Which version of you is trying to grow right now?"
+      },
+      "cups": {
+        "vi": "Cảm xúc nào bạn hay đẩy đi, và nó có thể đang muốn nói gì?",
+        "en": "Which feeling do you tend to push away, and what might it be trying to say?"
+      },
+      "wands": {
+        "vi": "Điều gì làm bạn thấy mình sống động nhất trong tuần qua?",
+        "en": "What made you feel most alive this past week?"
+      },
+      "swords": {
+        "vi": "Câu chuyện nào bạn hay kể về bản thân, và nó còn đúng không?",
+        "en": "What story do you often tell about yourself, and is it still true?"
+      },
+      "pentacles": {
+        "vi": "Thói quen nhỏ nào đang âm thầm giữ bạn vững?",
+        "en": "Which small habit is quietly keeping you steady?"
+      }
+    },
+    "decision": {
+      "major": {
+        "vi": "Một năm nữa nhìn lại, bạn muốn mình đã chọn theo điều gì: nỗi sợ, hay điều bạn coi trọng?",
+        "en": "Looking back a year from now, what do you want to have chosen by: fear, or what you value?"
+      },
+      "wands": {
+        "vi": "Nếu không ai đánh giá, bạn sẽ chọn hướng nào ngay lúc này?",
+        "en": "If no one were judging, which way would you choose right now?"
+      },
+      "cups": {
+        "vi": "Phương án nào khiến bạn thấy nhẹ lòng hơn khi tưởng tượng mình đã chọn nó?",
+        "en": "Which option leaves you feeling lighter when you imagine having chosen it?"
+      },
+      "swords": {
+        "vi": "Điều gì bạn đang biết nhưng chưa muốn thừa nhận về lựa chọn này?",
+        "en": "What do you already know about this choice but don't want to admit yet?"
+      },
+      "pentacles": {
+        "vi": "Lựa chọn nào bạn có thể duy trì được, chứ không chỉ bắt đầu được?",
+        "en": "Which choice could you keep up, not just start?"
+      }
+    },
+    "open": {
+      "major": {
+        "vi": "Điều gì đang đổi khác trong cuộc sống bạn, dù còn rất nhỏ?",
+        "en": "What is shifting in your life, even if it is still small?"
+      },
+      "wands": {
+        "vi": "Điều gì gần đây làm bạn thấy háo hức, và bạn đã cho nó bao nhiêu chỗ?",
+        "en": "What has excited you lately, and how much room have you given it?"
+      },
+      "cups": {
+        "vi": "Hôm nay trái tim bạn đang cần điều gì nhất?",
+        "en": "What does your heart need most today?"
+      },
+      "swords": {
+        "vi": "Suy nghĩ nào đang chiếm nhiều chỗ nhất trong đầu bạn, và nó có thật sự đúng không?",
+        "en": "Which thought takes up the most room in your head, and is it actually true?"
+      },
+      "pentacles": {
+        "vi": "Điều gì trong đời sống hằng ngày đang nâng đỡ bạn mà bạn ít khi để ý?",
+        "en": "What in your everyday life supports you that you rarely notice?"
+      }
+    }
+  },
+  "reversedTopics": {
+    "major-00-fool": {
+      "love": {
+        "vi": "Bạn có thể đang muốn lao vào điều mới, hoặc đang ngại bắt đầu vì sợ tổn thương. Thử chậm lại đủ để hỏi: mình đang tò mò thật, hay đang chạy trốn điều gì?",
+        "en": "You may want to rush into something new, or hesitate to begin for fear of being hurt. Slow down enough to ask: am I truly curious, or running from something?"
+      },
+      "career": {
+        "vi": "Một hướng mới hấp dẫn nhưng có thể bạn đang bỏ qua phần chuẩn bị. Viết ra điều tối thiểu cần có trước khi bước, để thử nghiệm không thành liều lĩnh.",
+        "en": "A new direction is tempting, but you may be skipping the preparation. Write down the minimum you need before stepping in, so a trial does not become a gamble."
+      },
+      "self": {
+        "vi": "Nỗi sợ làm sai có thể đang giữ bạn ở chỗ quen thuộc. Cho mình một lần thử nhỏ, nơi vấp một chút cũng không sao.",
+        "en": "Fear of getting it wrong may be keeping you somewhere familiar. Give yourself one small try where stumbling a little is fine."
+      }
+    },
+    "major-01-magician": {
+      "love": {
+        "vi": "Bạn có thể đang dồn nhiều công sức để gây ấn tượng mà chưa rõ mình thật sự muốn gì từ mối quan hệ này. Viết ra một câu về điều bạn mong có, trước khi làm thêm điều gì cho người kia.",
+        "en": "You may be putting a lot of effort into impressing someone without being clear what you truly want from this relationship. Write one sentence about what you hope for before doing anything more for them."
+      },
+      "career": {
+        "vi": "Kỹ năng và nguồn lực của bạn có thể đang bị chia ra cho quá nhiều việc cùng lúc. Chọn một mục tiêu cho tuần này và gác lại một việc không phục vụ nó.",
+        "en": "Your skills and resources may be spread across too many things at once. Choose one goal for this week and set aside one task that does not serve it."
+      },
+      "self": {
+        "vi": "Bạn có thể đang nghi ngờ khả năng của mình, hoặc làm rất nhiều mà không biết để làm gì. Liệt kê ba điều bạn đang làm tốt, rồi hỏi: mình muốn dùng chúng vào đâu?",
+        "en": "You may be doubting your abilities, or doing a lot without knowing what for. List three things you do well, then ask: where do I want to use them?"
+      }
+    },
+    "major-02-high-priestess": {
+      "love": {
+        "vi": "Có thể có một cảm nhận về mối quan hệ này mà bạn chưa muốn thừa nhận, nên bạn lấp khoảng trống bằng suy đoán. Tách ra trên giấy: điều mình cảm thấy, điều mình đoán, và điều mình đã thật sự nghe.",
+        "en": "There may be a feeling about this relationship you have not wanted to admit, so you fill the gap with guesses. Separate them on paper: what you feel, what you guess, and what you have actually heard."
+      },
+      "career": {
+        "vi": "Giữa quá nhiều ý kiến và thông tin, bạn có thể đang bỏ qua cảm nhận của chính mình về công việc. Dành mười phút yên tĩnh không điện thoại, rồi ghi lại điều đầu tiên bạn nhận ra.",
+        "en": "Amid so many opinions and inputs, you may be overlooking your own sense of your work. Take ten quiet minutes without your phone, then write down the first thing you notice."
+      },
+      "self": {
+        "vi": "Bạn có thể đang giữ một điều trong lòng mà chưa dám gọi tên, kể cả với chính mình. Viết nó ra một dòng ở nơi chỉ mình bạn đọc, không cần làm gì thêm.",
+        "en": "You may be holding something inside that you have not dared to name, even to yourself. Write it in one line somewhere only you will read, with nothing more to do."
+      }
+    },
+    "major-03-empress": {
+      "love": {
+        "vi": "Bạn có thể đang chăm lo cho người kia nhiều đến mức quên rằng mình cũng cần được quan tâm. Thử nói ra một điều nhỏ bạn muốn nhận, thay vì chờ người kia tự nhận ra.",
+        "en": "You may be caring for the other person so much that you forget you also need care. Try naming one small thing you would like to receive, instead of waiting for them to notice."
+      },
+      "career": {
+        "vi": "Một dự án bạn nâng niu có thể đang lấy hết sức của bạn, hoặc bị bỏ dở vì thiếu thời gian vun đắp. Chọn một khung giờ cố định trong tuần cho nó, và giữ phần còn lại cho nghỉ ngơi.",
+        "en": "A project you cherish may be taking all your energy, or sitting idle for lack of time to tend it. Choose one fixed slot in your week for it, and keep the rest for rest."
+      },
+      "self": {
+        "vi": "Bạn có thể đang cho đi nhiều hơn mức mình còn, rồi thấy cạn kiệt mà không rõ vì sao. Hôm nay làm một việc dễ chịu chỉ dành cho bạn, như ăn một bữa thật chậm hay ra ngoài hít thở.",
+        "en": "You may be giving more than you have left, then feeling drained without knowing why. Today, do one pleasant thing just for you, like a slow meal or a breath of fresh air outside."
+      }
+    },
+    "major-04-emperor": {
+      "love": {
+        "vi": "Mối quan hệ có thể đang nghiêng về một phía: hoặc quá nhiều quy tắc, hoặc gần như không có ranh giới. Chọn một điều bạn cần được tôn trọng và nói ra bằng một câu bình thản.",
+        "en": "The relationship may lean too far one way: too many rules, or hardly any boundaries. Choose one thing you need respected and say it in one calm sentence."
+      },
+      "career": {
+        "vi": "Bạn có thể đang ôm hết trách nhiệm, hoặc làm việc trong một quy trình cứng đến mức khó xoay xở. Ghi ra một quy tắc đang giúp ích và một quy tắc cần sửa, rồi đề xuất sửa đúng chỗ đó.",
+        "en": "You may be carrying all the responsibility, or working within a process too rigid to manage. Write down one rule that helps and one that needs changing, then propose a change to just that one."
+      },
+      "self": {
+        "vi": "Bạn có thể đang tự kỷ luật quá khắt khe, hoặc thấy ngày của mình thiếu một nhịp để dựa vào. Đặt một thói quen nhỏ và mềm, như một giờ đi ngủ cố định, rồi giữ nó trong vài ngày.",
+        "en": "You may be disciplining yourself too harshly, or feeling your days lack a rhythm to lean on. Set one small, gentle routine, like a fixed bedtime, and keep it for a few days."
+      }
+    },
+    "major-05-hierophant": {
+      "love": {
+        "vi": "Bạn có thể đang đo mối quan hệ bằng những chuẩn mực được dạy từ trước, dù chúng không còn hợp với hai người. Viết ra một kỳ vọng như vậy và tự hỏi: đây là điều mình muốn, hay điều mình được bảo phải muốn?",
+        "en": "You may be measuring the relationship by standards you were taught, even if they no longer fit the two of you. Write down one such expectation and ask: is this what I want, or what I was told to want?"
+      },
+      "career": {
+        "vi": "Một cách làm quen thuộc ở nơi làm việc hay trong việc học có thể không còn hợp với điều bạn coi trọng. Hỏi một người có kinh nghiệm vì sao lại làm như vậy, trước khi quyết định giữ hay đổi.",
+        "en": "A familiar way of doing things at work or in study may no longer fit what you value. Ask someone experienced why it is done that way, before deciding whether to keep or change it."
+      },
+      "self": {
+        "vi": "Bạn có thể đang mang một niềm tin từ gia đình hay cộng đồng mà chưa từng tự mình xem lại. Chọn một niềm tin như thế, giữ phần vẫn còn đúng với bạn hôm nay, và để ngỏ phần còn lại.",
+        "en": "You may be carrying a belief from family or community that you have never examined yourself. Pick one such belief, keep the part that still feels true today, and leave the rest open."
+      }
+    },
+    "major-06-lovers": {
+      "love": {
+        "vi": "Điều bạn nói và điều bạn thật sự cần trong mối quan hệ có thể chưa khớp nhau. Viết ra điều quan trọng nhất với bạn lúc này, rồi xem lời nói và việc làm gần đây có hướng về nó không.",
+        "en": "What you say and what you truly need in the relationship may not quite match. Write down what matters most to you right now, then see whether your recent words and actions point toward it."
+      },
+      "career": {
+        "vi": "Một lựa chọn trong công việc có thể đang kéo bạn xa khỏi giá trị của mình, dù trông rất hợp lý. Đặt hai phương án cạnh nhau và ghi bên dưới mỗi cái: nó giữ lại được điều gì mình coi trọng?",
+        "en": "A work choice may be pulling you away from your values, even if it looks sensible. Put two options side by side and write under each: what does this keep of what I value?"
+      },
+      "self": {
+        "vi": "Bạn có thể đang bị chia đôi giữa điều mình muốn và điều người khác mong ở mình. Dành một lúc để trả lời riêng câu hỏi: nếu không ai nhìn, mình sẽ chọn gì?",
+        "en": "You may feel split between what you want and what others expect of you. Take a moment to answer just this: if no one were watching, what would I choose?"
+      }
+    },
+    "major-07-chariot": {
+      "love": {
+        "vi": "Bạn có thể đang cố điều khiển nhịp của mối quan hệ, hoặc bị kéo giữa nhiều mong muốn trái chiều. Chọn một điều trong tầm tay bạn để làm, và để phần còn lại cho người kia tự quyết.",
+        "en": "You may be trying to steer the pace of the relationship, or feel pulled between conflicting wishes. Choose one thing within your reach to do, and leave the rest for the other person to decide."
+      },
+      "career": {
+        "vi": "Theo đuổi nhiều mục tiêu cùng lúc có thể khiến bạn tốn sức mà không tiến xa. Viết ra các hướng đang theo, chọn một ưu tiên cho tháng này, và tạm hoãn ít nhất một hướng.",
+        "en": "Pursuing many goals at once may cost effort without much progress. Write down the directions you are following, pick one priority for this month, and pause at least one."
+      },
+      "self": {
+        "vi": "Bạn có thể đang gồng mình để giữ mọi thứ trong tầm kiểm soát và thấy hụt hơi. Hôm nay thả lỏng một việc nhỏ bạn hay muốn làm thật hoàn hảo, và để ý cảm giác sau đó.",
+        "en": "You may be straining to keep everything under control and feeling out of breath. Today, loosen your grip on one small thing you usually want perfect, and notice how it feels."
+      }
+    },
+    "major-08-strength": {
+      "love": {
+        "vi": "Bạn có thể đang nhịn và chịu đựng nhiều hơn mức thoải mái để giữ hòa khí. Chọn một điều nhỏ bạn muốn từ chối, và thử nói không với nó một cách dịu dàng.",
+        "en": "You may be holding back and putting up with more than is comfortable to keep the peace. Choose one small thing you want to decline, and try saying no to it gently."
+      },
+      "career": {
+        "vi": "Bạn có thể đang cố tự gánh mọi việc vì nghĩ rằng nhờ giúp là yếu kém. Nhờ một người hỗ trợ đúng một phần việc cụ thể trong tuần này.",
+        "en": "You may be carrying everything yourself, thinking that asking for help is weakness. Ask one person to help with one specific part of the work this week."
+      },
+      "self": {
+        "vi": "Một giọng nói tự nghi ngờ có thể đang khiến bạn quên mình đã vượt qua những gì. Ghi lại một lần gần đây bạn đã kiên nhẫn với một chuyện khó, dù nhỏ.",
+        "en": "A voice of self-doubt may be making you forget what you have already come through. Write down one recent time you stayed patient with something hard, however small."
+      }
+    },
+    "major-09-hermit": {
+      "love": {
+        "vi": "Bạn có thể đang thu mình lại trong mối quan hệ, hoặc bận đến mức không còn lúc nào nghe chính mình. Gửi một tin nhắn ngắn cho người bạn quý, hoặc giữ một buổi tối yên tĩnh, tùy điều bạn đang thiếu.",
+        "en": "You may be withdrawing within the relationship, or so busy you have no time to hear yourself. Send a short message to someone you care about, or keep one quiet evening, depending on what you lack."
+      },
+      "career": {
+        "vi": "Làm việc một mình quá lâu có thể khiến bạn thiếu góc nhìn từ người khác. Chia sẻ một phần việc đang làm với một đồng nghiệp hay bạn học để nghe thêm một ý kiến.",
+        "en": "Working alone for too long may leave you without other people's perspectives. Share one piece of what you are working on with a colleague or classmate to hear one more opinion."
+      },
+      "self": {
+        "vi": "Bạn có thể đang ở một mình nhiều mà không thấy nhẹ hơn, hoặc sống ồn ào đến mức chẳng nghe được mình. Thử đi dạo một quãng ngắn không đeo tai nghe, rồi ghi lại một suy nghĩ hiện ra.",
+        "en": "You may be spending a lot of time alone without feeling lighter, or living so loudly you cannot hear yourself. Try a short walk without headphones, then note one thought that comes up."
+      }
+    },
+    "major-10-wheel": {
+      "love": {
+        "vi": "Một kiểu xung đột hay tình huống có thể đang lặp lại trong các mối quan hệ của bạn. Ghi lại lần gần nhất nó xảy ra và một điều nhỏ bạn muốn làm khác đi ở lần tới.",
+        "en": "A kind of conflict or situation may keep repeating in your relationships. Note the last time it happened and one small thing you would like to do differently next time."
+      },
+      "career": {
+        "vi": "Bạn có thể đang cố giữ nguyên cách làm cũ trong khi hoàn cảnh công việc đã đổi. Chia một trang giấy làm hai cột: điều mình không đổi được và điều mình có thể điều chỉnh trong tuần này.",
+        "en": "You may be holding on to an old way of working while the situation has changed. Split a page into two columns: what you cannot change and what you can adjust this week."
+      },
+      "self": {
+        "vi": "Bạn có thể đang mắc trong một vòng lặp quen thuộc và tự trách vì chưa thoát ra được. Hãy chỉ ghi nhận vòng lặp ấy mà không phán xét, rồi chọn một điểm nhỏ để làm khác đi.",
+        "en": "You may be caught in a familiar loop and blaming yourself for not breaking out. Simply notice the loop without judgment, then choose one small point to do differently."
+      }
+    },
+    "major-11-justice": {
+      "love": {
+        "vi": "Bạn có thể đang kết luận về mối quan hệ khi mới nghe một phía, hoặc đang quá khắt khe với chính mình. Trước khi quyết định, ghi lại một điều bạn chưa biết và cần hỏi cho rõ.",
+        "en": "You may be drawing conclusions about the relationship from one side only, or judging yourself too harshly. Before deciding, write down one thing you do not yet know and need to ask about."
+      },
+      "career": {
+        "vi": "Một đánh giá ở công việc có thể đang thiếu dữ kiện, kể cả cách bạn tự đánh giá mình. Gom lại vài con số hay ví dụ cụ thể trước khi đưa ra nhận định.",
+        "en": "An assessment at work may be missing facts, including how you are judging yourself. Gather a few concrete figures or examples before reaching a view."
+      },
+      "self": {
+        "vi": "Bạn có thể đang là vị giám khảo nghiêm khắc nhất của chính mình. Viết lại một lời tự trách theo cách công bằng hơn, có cả phần bạn đã làm được.",
+        "en": "You may be your own harshest judge. Rewrite one self-criticism more fairly, including the part you did well."
+      }
+    },
+    "major-12-hanged-man": {
+      "love": {
+        "vi": "Bạn có thể đang chờ người kia thay đổi hay chờ một dấu hiệu, mà không rõ mình sẽ chờ đến bao giờ. Tự đặt một mốc thời gian để nhìn lại, thay vì để việc chờ kéo dài mãi.",
+        "en": "You may be waiting for the other person to change, or for a sign, without knowing how long you will wait. Set yourself a date to look again, rather than letting the waiting stretch on."
+      },
+      "career": {
+        "vi": "Một việc có thể đang bị gác lại với lý do chờ thời điểm phù hợp. Hỏi mình đây là dừng để nhìn rõ hơn hay đang trì hoãn, rồi đặt một hạn cụ thể.",
+        "en": "A task may be on hold while you wait for the right moment. Ask yourself whether this is a pause to see more clearly or a postponement, then set a specific deadline."
+      },
+      "self": {
+        "vi": "Bạn có thể thấy bế tắc vì cứ nhìn vấn đề từ cùng một phía quen thuộc. Thử kể lại chuyện đó như thể bạn là một người bạn đứng ngoài nhìn vào.",
+        "en": "You may feel stuck because you keep seeing the problem from the same familiar angle. Try retelling the situation as a friend looking in from outside."
+      }
+    },
+    "major-13-death": {
+      "love": {
+        "vi": "Bạn có thể đang níu giữ một hình ảnh cũ của mối quan hệ, dù nó đã đổi khác. Viết ra điều bạn tiếc nhớ và điều bạn sẵn sàng để lại phía sau, chưa cần quyết định gì ngay.",
+        "en": "You may be holding on to an old picture of the relationship, even though it has changed. Write down what you miss and what you are ready to leave behind, without deciding anything yet."
+      },
+      "career": {
+        "vi": "Một vai trò hay cách làm có thể đã hết phù hợp nhưng bạn chưa sẵn sàng buông. Chọn một bước chuyển nhỏ, như bàn giao một việc hay thử một kỹ năng mới, thay vì đổi tất cả.",
+        "en": "A role or way of working may have run its course, yet you may not be ready to let go. Choose one small transition, like handing over one task or trying a new skill, rather than changing everything."
+      },
+      "self": {
+        "vi": "Bạn có thể đang đứng giữa phiên bản cũ và mới của mình, và thấy chênh vênh. Cho phép mình ở khoảng giữa thêm một thời gian, và kể với một người bạn tin về cảm giác đó.",
+        "en": "You may be standing between an old and a new version of yourself and feeling unsteady. Allow yourself to stay in between a while longer, and tell someone you trust how that feels."
+      }
+    },
+    "major-14-temperance": {
+      "love": {
+        "vi": "Một bên có thể đang cho nhiều hơn hẳn, hoặc nhịp gặp gỡ và nhắn tin đang quá dồn dập. Điều chỉnh một thói quen nhỏ giữa hai người, như giờ nhắn tin hay số buổi gặp, cho vừa hơn.",
+        "en": "One side may be giving far more, or the pace of meeting and messaging may be too intense. Adjust one small shared habit, like texting times or how often you meet, so it feels more even."
+      },
+      "career": {
+        "vi": "Bạn có thể đang làm việc với nhịp quá gấp, hoặc dồn hết vào một mảng mà bỏ quên phần khác. Thêm một khoảng nghỉ ngắn vào lịch ngày mai, và giữ nó như một cuộc hẹn.",
+        "en": "You may be working at too rushed a pace, or pouring everything into one area while neglecting others. Add one short break to tomorrow's schedule and keep it like an appointment."
+      },
+      "self": {
+        "vi": "Bạn có thể đang đòi hỏi mình phải cân bằng hoàn hảo, và thấy mệt vì chưa làm được. Chọn một thứ đang quá nhiều và bớt đi một chút hôm nay, như cà phê, màn hình hay việc nhà.",
+        "en": "You may be demanding perfect balance of yourself and feeling tired for falling short. Choose one thing that is too much and cut back a little today, like coffee, screen time or chores."
+      }
+    },
+    "major-15-devil": {
+      "love": {
+        "vi": "Bạn có thể đang bắt đầu nhận ra một sự ràng buộc trong mối quan hệ, nhưng chưa biết bước ra thế nào. Đặt một giới hạn nhỏ cho riêng mình, và tìm một người bạn tin để trò chuyện khi cần.",
+        "en": "You may be starting to notice a tie in the relationship, without yet knowing how to step out of it. Set one small limit for yourself, and find someone you trust to talk with when you need to."
+      },
+      "career": {
+        "vi": "Một thói quen làm việc hay chi tiêu có thể đang giữ chân bạn, dù bạn đã nhận ra nó. Chọn một giới hạn đo được cho tuần này, như giờ tắt máy hay một khoản chi cố định.",
+        "en": "A work or spending habit may be holding you back, even though you have noticed it. Pick one measurable limit for this week, like a log-off time or a fixed spending amount."
+      },
+      "self": {
+        "vi": "Bạn có thể đã thấy rõ một thói quen khiến mình mắc kẹt, và thấy nản vì thay đổi không dễ. Ghi lại lúc nào nó thường xuất hiện, rồi chuẩn bị sẵn một việc khác để làm vào lúc đó.",
+        "en": "You may now see a habit that keeps you stuck, and feel discouraged that change is not easy. Note when it usually shows up, then have one other thing ready to do at that moment."
+      }
+    },
+    "major-16-tower": {
+      "love": {
+        "vi": "Có thể bạn đang né một điều cần nói ra vì sợ nó làm mọi thứ đổ vỡ. Bắt đầu từ điều bạn biết chắc, nói nhẹ nhàng, thay vì chờ nó tự bung ra.",
+        "en": "You may be avoiding something that needs saying for fear it will break everything. Start from what you know for sure and say it gently, rather than waiting for it to burst out."
+      },
+      "career": {
+        "vi": "Một kế hoạch đang lung lay nhưng bạn có thể đang cố giữ nguyên. Xem phần nền nào vẫn vững, và sửa một chỗ trước khi phải sửa tất cả.",
+        "en": "A plan is shaking but you may be trying to hold it as it is. See which foundations still hold, and fix one place before you have to fix everything."
+      },
+      "self": {
+        "vi": "Bạn có thể đang sống trong nỗi lo rằng mọi thứ sẽ sụp. Ghi lại dữ kiện thật, tách khỏi điều bạn đang sợ, rồi xem cái nào lớn hơn.",
+        "en": "You may be living with the worry that everything will collapse. Write down the real facts apart from what you fear, and see which is bigger."
+      }
+    },
+    "major-17-star": {
+      "love": {
+        "vi": "Bạn có thể đang khó tin rằng mình xứng đáng được thương theo cách mình mong. Ghi lại một khoảnh khắc gần đây bạn thấy được quan tâm, dù rất nhỏ.",
+        "en": "You may be finding it hard to believe you deserve to be loved the way you hope. Write down one recent moment you felt cared for, however small."
+      },
+      "career": {
+        "vi": "Sau nhiều cố gắng, bạn có thể đang mất dần động lực với con đường mình đã chọn. Thay vì ép mình lạc quan, chọn một việc nhỏ trong tầm tay và làm xong nó hôm nay.",
+        "en": "After much effort, you may be losing motivation for the path you chose. Instead of forcing optimism, pick one small task within reach and finish it today."
+      },
+      "self": {
+        "vi": "Bạn có thể đang thấy mệt và trống rỗng, rồi trách mình vì không còn hy vọng như trước. Làm một việc chăm sóc cơ thể thật đơn giản, như uống nước, ngủ sớm hay ra ngoài nắng một lúc.",
+        "en": "You may feel tired and empty, and blame yourself for not feeling as hopeful as before. Do one simple thing to care for your body, like drinking water, sleeping early or stepping into the sun for a while."
+      }
+    },
+    "major-18-moon": {
+      "love": {
+        "vi": "Bạn có thể đang để một nỗi lo hay một giấc mơ dẫn dắt cách mình hiểu người kia. Chọn một điều bạn đang đoán và hỏi thẳng, một cách nhẹ nhàng.",
+        "en": "You may be letting a worry or a dream shape how you read the other person. Choose one thing you are guessing about and ask directly, gently."
+      },
+      "career": {
+        "vi": "Một tình huống ở công việc có thể đang dần rõ ra, nhưng vẫn còn vài chỗ bạn chỉ đang suy đoán. Liệt kê những điều đã được xác nhận và những điều cần kiểm tra thêm, trước khi hành động.",
+        "en": "A situation at work may be getting clearer, but some parts are still guesses. List what has been confirmed and what needs checking before you act."
+      },
+      "self": {
+        "vi": "Một nỗi sợ mơ hồ có thể đang lớn hơn thực tế khi bạn ở một mình với nó. Nói nỗi sợ ấy thành lời với một người bạn tin, để nó có hình dạng rõ hơn.",
+        "en": "A vague fear may feel larger than reality when you are alone with it. Put that fear into words with someone you trust, so it takes a clearer shape."
+      }
+    },
+    "major-19-sun": {
+      "love": {
+        "vi": "Bạn có thể đang cố tỏ ra vui vẻ trong mối quan hệ, hoặc mong mọi khoảnh khắc đều phải rực rỡ. Chia sẻ với người kia một điều thật lòng, kể cả khi nó không vui.",
+        "en": "You may be trying to seem cheerful in the relationship, or expecting every moment to shine. Share one honest thing with the other person, even if it is not a happy one."
+      },
+      "career": {
+        "vi": "Một thành quả có thể chưa mang lại niềm vui như bạn kỳ vọng. Ghi lại một phần nhỏ của công việc mà bạn thật sự thích làm, tách khỏi kết quả.",
+        "en": "An achievement may not have brought the joy you expected. Note one small part of the work you truly enjoy doing, apart from the result."
+      },
+      "self": {
+        "vi": "Bạn có thể đang đặt cho mình chuẩn hạnh phúc quá cao, nên những niềm vui nhỏ bị bỏ qua. Hôm nay để ý một điều khiến bạn mỉm cười, và cho phép nó là đủ.",
+        "en": "You may be setting too high a standard for happiness, so small joys slip by. Today, notice one thing that makes you smile, and let it be enough."
+      }
+    },
+    "major-20-judgement": {
+      "love": {
+        "vi": "Bạn có thể vẫn tự trách mình vì một điều đã xảy ra trong mối quan hệ cũ hay hiện tại. Viết bài học bạn rút ra thành một câu, rồi gấp tờ giấy lại.",
+        "en": "You may still be blaming yourself for something that happened in a past or current relationship. Write the lesson you took from it in one sentence, then fold the paper away."
+      },
+      "career": {
+        "vi": "Bạn có thể đang nghe thấy một mong muốn mới về công việc nhưng ngại thừa nhận vì sợ mình đã đi sai hướng. Ghi lại mong muốn đó cùng một bước tìm hiểu nhỏ, như trò chuyện với một người đang làm nghề ấy.",
+        "en": "You may be hearing a new wish about your work but hesitate to admit it for fear you went the wrong way. Write down that wish with one small step to explore it, like talking to someone in that field."
+      },
+      "self": {
+        "vi": "Bạn có thể đang dùng một lỗi trong quá khứ để định nghĩa cả con người mình. Viết thêm ba điều về bạn không liên quan gì đến chuyện đó.",
+        "en": "You may be using a past mistake to define who you are. Write down three things about yourself that have nothing to do with it."
+      }
+    },
+    "major-21-world": {
+      "love": {
+        "vi": "Có thể vẫn còn một điều chưa nói hết khiến bạn khó khép lại hay bước tiếp trong chuyện tình cảm. Xác định điều cuối cùng bạn cần nói hay làm cho trọn, dù chỉ là viết một lá thư không gửi.",
+        "en": "There may be something left unsaid that makes it hard to close a chapter or move on in love. Identify the last thing you need to say or do to feel complete, even if it is only a letter you never send."
+      },
+      "career": {
+        "vi": "Một việc gần xong có thể đang kéo dài vì bạn ngại công nhận nó đã đủ tốt. Chọn phần việc cuối vừa sức, hoàn tất nó, rồi tự ghi nhận trước khi nhận việc mới.",
+        "en": "A nearly finished task may be dragging on because you hesitate to call it good enough. Pick one manageable final part, finish it, and acknowledge it before taking on something new."
+      },
+      "self": {
+        "vi": "Bạn có thể đang vội nhìn tới chặng sau mà chưa công nhận mình đã đi được bao xa. Viết ra ba điều bạn đã làm được trong năm nay, dù nhỏ.",
+        "en": "You may be rushing to the next stage without acknowledging how far you have come. Write down three things you have done this year, however small."
+      }
+    },
+    "minor-wands-ace": {
+      "love": {
+        "vi": "Bạn có thể đang có nhiều hứng khởi với một mối quan hệ nhưng chưa rõ mình muốn nó đi về đâu. Thử viết một câu ngắn về điều bạn thật sự mong có, trước khi bày tỏ thêm.",
+        "en": "You may feel plenty of spark about a connection but not yet know where you want it to go. Try writing one short sentence about what you truly hope for before you express more."
+      },
+      "career": {
+        "vi": "Một ý tưởng mới có thể đang hấp dẫn bạn trong khi điều kiện để bắt đầu chưa đủ. Chọn phiên bản thử nhỏ nhất có thể làm trong tuần này, để xem còn cần chuẩn bị gì.",
+        "en": "A new idea may be pulling at you while the conditions to begin are not yet in place. Choose the smallest trial you could do this week, to see what still needs preparing."
+      },
+      "self": {
+        "vi": "Ngọn lửa hứng thú trong bạn có thể đang nhỏ dần vì chưa có chỗ để cháy. Dành mười lăm phút hôm nay cho một việc sáng tạo bất kỳ, không cần nó dẫn tới đâu.",
+        "en": "Your inner spark may be fading because it has nowhere to burn yet. Give fifteen minutes today to any creative activity, without needing it to lead anywhere."
+      }
+    },
+    "minor-wands-two": {
+      "love": {
+        "vi": "Bạn có thể đang đứng giữa việc giữ điều quen thuộc và mở lòng với một hướng mới trong tình cảm. Viết ra một điều bạn cần nhất lúc này, rồi để nó dẫn bước tiếp theo.",
+        "en": "You may be standing between keeping what is familiar and opening up to a new direction in love. Write down the one thing you need most right now, and let it guide your next step."
+      },
+      "career": {
+        "vi": "Một kế hoạch chưa rõ có thể khiến bạn cân nhắc mãi giữa các lựa chọn mà chưa bước. Xếp các hướng theo một ưu tiên duy nhất, như thời gian hay thu nhập, rồi chọn bước nhỏ cho hướng đứng đầu.",
+        "en": "An unclear plan may keep you weighing options without moving. Rank the paths by a single priority, such as time or income, then choose a small step for the one at the top."
+      },
+      "self": {
+        "vi": "Nỗi ngại điều chưa biết có thể đang giữ bạn nhìn ra xa mà không rời chỗ đứng. Hỏi mình nếu không sợ thì sẽ thử điều gì trước, và ghi câu trả lời lại.",
+        "en": "Fear of the unknown may keep you gazing outward without leaving where you stand. Ask yourself what you would try first if you were not afraid, and write the answer down."
+      }
+    },
+    "minor-wands-three": {
+      "love": {
+        "vi": "Bạn có thể đang chờ một tín hiệu đáp lại lâu hơn mình mong, và bắt đầu đọc sự im lặng thành câu trả lời. Hỏi một câu rõ ràng về điều bạn đang chờ, thay vì tiếp tục đoán.",
+        "en": "You may be waiting longer than you hoped for a response, and starting to read silence as an answer. Ask one clear question about what you are waiting for, instead of continuing to guess."
+      },
+      "career": {
+        "vi": "Kết quả có thể đến chậm hơn kỳ vọng, khiến bạn nghi ngờ cả kế hoạch. Xem lại một mốc thời gian bạn đã đặt và điều chỉnh nó cho sát thực tế hơn.",
+        "en": "Results may be arriving more slowly than expected, making you doubt the whole plan. Revisit one deadline you set and adjust it to fit reality more closely."
+      },
+      "self": {
+        "vi": "Bạn có thể đang xem việc mọi thứ chưa đến như dấu hiệu mình đã sai. Ghi lại ba điều bạn đã làm được từ khi bắt đầu, để thấy chặng đường chứ không chỉ đích đến.",
+        "en": "You may be treating what has not arrived yet as a sign you were wrong. Write down three things you have done since you began, to see the journey and not only the destination."
+      }
+    },
+    "minor-wands-four": {
+      "love": {
+        "vi": "Một cột mốc chung có thể đã trôi qua mà chưa được ghi nhận, hoặc bạn chưa thấy mình thật sự thuộc về. Đề nghị một cách đánh dấu nhỏ hợp với cả hai, như một bữa tối yên tĩnh.",
+        "en": "A shared milestone may have passed without being marked, or you may not yet feel you truly belong. Suggest a small way of marking it that suits you both, like a quiet dinner."
+      },
+      "career": {
+        "vi": "Bạn có thể đã xong một chặng việc nhưng vội chuyển sang việc tiếp mà không dừng lại. Báo kết quả cho nhóm, hoặc tự ghi nhận nó bằng một buổi nghỉ ngắn.",
+        "en": "You may have finished a stretch of work but rushed on to the next without pausing. Share the result with your team, or mark it yourself with a short break."
+      },
+      "self": {
+        "vi": "Cảm giác lạc lõng giữa một nhóm có thể đang khiến bạn nghĩ mình không thuộc về đâu. Tìm một nơi hay một người khiến bạn thoải mái là chính mình, và dành chút thời gian ở đó.",
+        "en": "Feeling out of place in a group may be making you think you belong nowhere. Find one place or person where you feel at ease being yourself, and spend a little time there."
+      }
+    },
+    "minor-wands-five": {
+      "love": {
+        "vi": "Hai người có thể đang tranh cãi vòng quanh cùng một chuyện, hoặc né hẳn nó để giữ yên. Chọn đúng một điểm bạn muốn được hiểu, nói nó ra, và hẹn dừng nếu cuộc nói chuyện bắt đầu nóng lên.",
+        "en": "The two of you may be arguing in circles over the same thing, or avoiding it entirely to keep the peace. Choose one point you want understood, say it, and agree to pause if the talk starts to heat up."
+      },
+      "career": {
+        "vi": "Cạnh tranh hay tranh luận trong nhóm có thể đang kéo dài mà không đi tới đâu. Đề nghị ghi các ý kiến vào một chỗ chung, rồi chọn một tiêu chí để quyết.",
+        "en": "Competition or debate in the team may be dragging on without getting anywhere. Suggest writing the views down in one shared place, then choose one criterion to decide by."
+      },
+      "self": {
+        "vi": "Bên trong bạn có thể đang có nhiều mong muốn giằng co, khiến bạn mệt mà chưa nhận ra. Liệt kê các tiếng nói đó ra giấy, và hỏi điều nào cần được lắng nghe trước hôm nay.",
+        "en": "Several wishes may be pulling against each other inside you, tiring you without your noticing. List those voices on paper, and ask which one needs to be heard first today."
+      }
+    },
+    "minor-wands-six": {
+      "love": {
+        "vi": "Bạn có thể đang chờ được khen hay được ghi nhận để thấy mình có giá trị trong mối quan hệ. Nói ra một điều bạn muốn được nhìn thấy, thay vì im lặng chờ nó tự được nhận ra.",
+        "en": "You may be waiting for praise or recognition to feel valued in the relationship. Name one thing you would like to be noticed, rather than waiting silently for it to be seen."
+      },
+      "career": {
+        "vi": "Thiếu lời ghi nhận có thể khiến bạn thấy nỗ lực của mình không đáng kể. Viết ra một đóng góp cụ thể trong tháng này và tự đánh giá nó theo tiêu chí bạn đặt ra.",
+        "en": "A lack of acknowledgment may make your effort feel insignificant. Write down one concrete contribution from this month and assess it by criteria you set yourself."
+      },
+      "self": {
+        "vi": "Sự tự tin của bạn có thể đang lên xuống theo phản ứng của người khác. Hôm nay, trước khi xem ai nói gì, hãy tự hỏi mình có hài lòng với điều vừa làm không.",
+        "en": "Your confidence may be rising and falling with other people's reactions. Today, before checking what anyone says, ask yourself whether you are satisfied with what you just did."
+      }
+    },
+    "minor-wands-seven": {
+      "love": {
+        "vi": "Bạn có thể đang luôn ở thế phòng thủ, như phải bảo vệ mình trong từng cuộc trò chuyện. Chọn một điều thật sự quan trọng để giữ, và thử buông những điểm nhỏ còn lại.",
+        "en": "You may be on the defensive all the time, as if you must protect yourself in every conversation. Pick one thing that truly matters to hold onto, and try letting the smaller points go."
+      },
+      "career": {
+        "vi": "Bạn có thể đang ôm quá nhiều cuộc đối đầu ở chỗ làm cùng một lúc. Chọn một ranh giới cần giữ nhất, và nhờ đồng nghiệp hay người quản lý hỗ trợ phần còn lại.",
+        "en": "You may be carrying too many confrontations at work at once. Choose the one boundary that most needs holding, and ask a colleague or manager for support with the rest."
+      },
+      "self": {
+        "vi": "Việc luôn phải chứng minh mình đúng có thể đang làm bạn kiệt sức. Cho phép mình một ngày không giải thích hay bảo vệ điều gì, và để ý xem cơ thể thấy ra sao.",
+        "en": "Always having to prove yourself right may be wearing you out. Allow yourself one day without explaining or defending anything, and notice how your body feels."
+      }
+    },
+    "minor-wands-eight": {
+      "love": {
+        "vi": "Tin nhắn có thể đang chậm lại, hoặc chồng chéo và dễ hiểu lầm. Hỏi lại một điều cho rõ thay vì đoán ý.",
+        "en": "Messages may be slowing down, or crossing and easy to misread. Ask one thing again to be clear rather than guessing."
+      },
+      "career": {
+        "vi": "Việc có thể đang bị chậm vì thông tin chưa thống nhất. Dừng một nhịp để xác nhận ai làm gì, trước khi tăng tốc.",
+        "en": "Work may be slowing because information is not aligned. Pause to confirm who does what before speeding up."
+      },
+      "self": {
+        "vi": "Bạn có thể đang ôm quá nhiều việc cùng lúc. Chọn một việc để làm xong, và cho phép những việc còn lại chờ.",
+        "en": "You may be juggling too much at once. Choose one thing to finish, and let the rest wait."
+      }
+    },
+    "minor-wands-nine": {
+      "love": {
+        "vi": "Những tổn thương cũ có thể khiến bạn luôn cảnh giác, chờ điều xấu xảy ra dù hiện tại đang ổn. Để ý một khoảnh khắc an toàn hôm nay và cho phép mình thả lỏng trong đó.",
+        "en": "Old hurts may keep you on guard, expecting something bad even when things are fine now. Notice one safe moment today and let yourself relax into it."
+      },
+      "career": {
+        "vi": "Bạn có thể đang ép mình cố thêm dù đã gần chạm giới hạn sức. Xem lại một mục tiêu và giảm nó xuống mức bạn giữ được mà vẫn ngủ đủ.",
+        "en": "You may be pushing to do more even though you are near your limit. Review one goal and scale it down to a level you can sustain while still sleeping enough."
+      },
+      "self": {
+        "vi": "Bạn có thể đang tin rằng nghỉ ngơi là bỏ cuộc. Đặt một khoảng nghỉ thật vào lịch hôm nay, và nhắc mình rằng mọi nỗ lực trước đó vẫn còn nguyên.",
+        "en": "You may believe that resting means giving up. Put a real break on today's schedule, and remind yourself that all your earlier effort is still there."
+      }
+    },
+    "minor-wands-ten": {
+      "love": {
+        "vi": "Bạn có thể đang gánh phần lớn việc vun đắp mối quan hệ mà ngại nói ra. Nêu một việc bạn muốn được chia bớt, bằng lời đề nghị chứ không phải lời trách.",
+        "en": "You may be carrying most of the work of tending the relationship and hesitating to say so. Name one task you would like to share, as a request rather than a complaint."
+      },
+      "career": {
+        "vi": "Bạn có thể vừa bắt đầu đặt bớt việc xuống, nhưng vẫn thấy có lỗi khi nhờ người khác. Chọn một đầu việc có thể giao lại hoặc dời lịch, và nói rõ điều đó ngay trong tuần.",
+        "en": "You may have started to set some work down, yet still feel guilty asking others for help. Choose one task to hand over or reschedule, and say so clearly this week."
+      },
+      "self": {
+        "vi": "Cảm giác mình phải tự lo hết mọi thứ có thể đang đè nặng lên bạn. Viết ra những trách nhiệm bạn đang mang, rồi gạch đi một điều không thật sự thuộc về mình.",
+        "en": "The feeling that you must handle everything alone may be weighing on you. Write down the responsibilities you are carrying, then cross out one that is not truly yours."
+      }
+    },
+    "minor-wands-page": {
+      "love": {
+        "vi": "Bạn có thể đang tò mò về một người hay một cảm xúc mới nhưng ngại bày tỏ vì sợ vụng về. Gửi một lời hỏi han đơn giản, chấp nhận rằng nó không cần hoàn hảo.",
+        "en": "You may be curious about someone or a new feeling but hesitant to show it for fear of being clumsy. Send one simple message of interest, accepting that it does not need to be perfect."
+      },
+      "career": {
+        "vi": "Bạn có thể có nhiều điều muốn học mà chưa chọn được hướng, hoặc ngại thử vì sợ làm chưa giỏi. Chọn một kỹ năng và làm một bài tập nhỏ trong ba mươi phút, để học chứ không để chấm điểm.",
+        "en": "You may have many things you want to learn but no direction yet, or hesitate to try for fear of not being good enough. Pick one skill and do a thirty-minute exercise, to learn rather than to be graded."
+      },
+      "self": {
+        "vi": "Sự háo hức trong bạn có thể đang tản ra nhiều hướng rồi nguội đi trước khi kịp thành hình. Giữ một cuốn sổ ý tưởng, và chọn một ý để thử hôm nay dù kết quả còn dở dang.",
+        "en": "Your eagerness may be scattering in many directions and cooling before it takes shape. Keep an ideas notebook, and pick one idea to try today even if the result stays unfinished."
+      }
+    },
+    "minor-wands-knight": {
+      "love": {
+        "vi": "Bạn có thể đang lao vào nhanh rồi nguội cũng nhanh, hoặc muốn mọi thứ tiến triển gấp hơn nhịp của hai người. Chậm lại một tuần trước khi đưa ra quyết định lớn nào về mối quan hệ.",
+        "en": "You may be rushing in quickly and cooling just as fast, or wanting things to move faster than your shared pace. Slow down for a week before making any big decision about the relationship."
+      },
+      "career": {
+        "vi": "Nhiều dự án bắt đầu hăng hái có thể đang dang dở cùng lúc. Liệt kê chúng ra, chọn một việc để làm đến cùng, và tạm cất những việc khác vào danh sách chờ.",
+        "en": "Several projects started with enthusiasm may be half-finished at once. List them, choose one to see through, and put the others on a waiting list for now."
+      },
+      "self": {
+        "vi": "Năng lượng của bạn có thể đang bùng lên rồi tắt, khiến bạn thiếu kiên nhẫn với chính mình. Trước khi bắt đầu điều mới, hỏi mình: mình muốn theo nó đến đâu?",
+        "en": "Your energy may be flaring up and burning out, leaving you impatient with yourself. Before starting something new, ask yourself: how far do I want to follow it?"
+      }
+    },
+    "minor-wands-queen": {
+      "love": {
+        "vi": "Bạn có thể đang cố tỏ ra mạnh mẽ, ổn thỏa trong mối quan hệ, hoặc so mình với người khác. Thử chia sẻ một điều nhỏ bạn thật sự thích hay cần, dù nó không làm bạn trông nổi bật.",
+        "en": "You may be trying to appear strong and composed in the relationship, or comparing yourself to others. Try sharing one small thing you truly enjoy or need, even if it does not make you shine."
+      },
+      "career": {
+        "vi": "So sánh với người khác có thể đang khiến bạn nghi ngờ cách làm riêng của mình. Ghi lại một việc bạn làm tốt theo cách của mình, và giữ nó trong lần trình bày tới.",
+        "en": "Comparing yourself with others may be making you doubt your own way of working. Note one thing you do well in your own style, and keep it in your next presentation."
+      },
+      "self": {
+        "vi": "Bạn có thể đang mệt vì phải giữ một hình ảnh tự tin mọi lúc. Dành một buổi tối làm điều bạn thích chỉ cho riêng mình, không cần ai nhìn thấy.",
+        "en": "You may be tired from keeping up a confident image all the time. Spend one evening doing something you enjoy just for yourself, with no one needing to see it."
+      }
+    },
+    "minor-wands-king": {
+      "love": {
+        "vi": "Bạn có thể đang có hình dung rõ về tương lai chung nhưng lại quyết thay cho cả hai. Hỏi người kia hình dung thế nào, rồi tìm một điểm chung để cùng bắt đầu.",
+        "en": "You may have a clear picture of a shared future but be deciding it for both of you. Ask them how they picture it, then find one common point to start from together."
+      },
+      "career": {
+        "vi": "Một tầm nhìn lớn có thể đang thiếu bước thực hiện, hoặc bạn đang giữ một hướng mà ít người được góp ý. Chia mục tiêu thành việc của tuần này và mời một người góp ý trước khi chốt.",
+        "en": "A big vision may lack concrete steps, or you may be holding a direction few others have shaped. Break the goal into this week's tasks and invite one person's input before finalizing."
+      },
+      "self": {
+        "vi": "Bạn có thể đang đặt kỳ vọng rất cao cho mình mà ít khi bắt tay vào làm. Chọn một cam kết nhỏ có thể giữ trong bảy ngày, và xem lại nó mỗi tối.",
+        "en": "You may be setting high expectations for yourself while rarely starting on them. Choose one small commitment you can keep for seven days, and check in on it each evening."
+      }
+    },
+    "minor-cups-ace": {
+      "love": {
+        "vi": "Có thể bạn đang khó đón nhận sự quan tâm, hoặc thấy mình phải đáp lại khi lòng chưa sẵn sàng. Thử nhận một lời tử tế hôm nay chỉ bằng một câu cảm ơn, không cần trao lại gì ngay.",
+        "en": "You may find it hard to receive care, or feel you must give back before your heart is ready. Try receiving one kind word today with a simple thank you, without needing to return anything right away."
+      },
+      "career": {
+        "vi": "Niềm hứng thú với công việc có thể đang cạn mà bạn chưa gọi tên được vì sao. Viết ra một việc gần đây từng khiến bạn thấy có hồn, rồi tìm một phần nhỏ của nó để làm lại.",
+        "en": "Your enthusiasm for work may be running dry without you being able to name why. Write down one recent task that felt alive to you, then find a small part of it to do again."
+      },
+      "self": {
+        "vi": "Bạn có thể đang mang một cảm xúc chưa có tên và giữ nó cho riêng mình. Dành mười phút yên tĩnh để viết ra vài từ gần nhất với điều đó, không cần chia sẻ với ai.",
+        "en": "You may be carrying a feeling that has no name yet and keeping it to yourself. Spend ten quiet minutes writing a few words that come closest to it, without needing to share them."
+      }
+    },
+    "minor-cups-two": {
+      "love": {
+        "vi": "Nhu cầu của hai người có thể chưa gặp nhau. Bạn có thể nói rõ điều mình muốn, rồi để người kia trả lời theo cách của họ, không ép sự đáp lại.",
+        "en": "Your needs may not be meeting yet. You can say clearly what you want, then let them answer in their own way, without forcing a response."
+      },
+      "career": {
+        "vi": "Một mối hợp tác có thể đang lệch: một bên cho nhiều hơn. Nói ra điều bạn cần để công bằng hơn, bằng một đề nghị cụ thể.",
+        "en": "A partnership may be uneven, with one side giving more. Say what you need for it to feel fairer, as one concrete request."
+      },
+      "self": {
+        "vi": "Bạn có thể đang dễ dãi với người khác mà khắt khe với mình. Thử đáp lại bản thân hôm nay như cách bạn vẫn đáp lại một người bạn.",
+        "en": "You may be easy on others and hard on yourself. Try answering yourself today the way you would answer a friend."
+      }
+    },
+    "minor-cups-three": {
+      "love": {
+        "vi": "Có thể bạn đang cố hòa vào vòng bạn bè của người kia, hoặc thấy mối quan hệ thiếu những người cùng vui chung. Chọn một buổi gặp nhỏ với vài người khiến cả hai thấy thoải mái, thay vì đi mọi cuộc hẹn.",
+        "en": "You may be trying hard to fit into the other person's circle, or feel the relationship lacks people to share joy with. Choose one small gathering with a few people you both feel easy around, rather than showing up everywhere."
+      },
+      "career": {
+        "vi": "Bạn có thể đang thấy lạc lõng trong nhóm, hoặc gắng hòa nhập bằng cách nhận lời mọi thứ. Tìm một hay hai đồng nghiệp hợp với mình và rủ họ trò chuyện ngắn trong tuần này.",
+        "en": "You may feel out of place in your team, or try to fit in by saying yes to everything. Find one or two colleagues you click with and invite them for a short chat this week."
+      },
+      "self": {
+        "vi": "Có thể bạn đang mệt vì phải tỏ ra vui vẻ để được thuộc về. Nhắn cho một người bạn mà ở cạnh họ bạn không cần cố gắng, chỉ để hỏi thăm.",
+        "en": "You may be tired from having to seem cheerful in order to belong. Message one friend you never have to try hard around, just to check in."
+      }
+    },
+    "minor-cups-four": {
+      "love": {
+        "vi": "Sự quan tâm của bạn có thể đang quay lại, nhưng bạn cũng có thể đang ép mình hào hứng khi lòng còn mệt. Nhận một lời mời nhỏ mà bạn thật sự muốn, và cho phép mình từ chối phần còn lại.",
+        "en": "Your interest may be returning, though you may also be forcing enthusiasm while your heart is still tired. Accept one small invitation you truly want, and let yourself decline the rest."
+      },
+      "career": {
+        "vi": "Một cơ hội trước đây bạn bỏ qua có thể đang khiến bạn tò mò trở lại. Dành nửa giờ tìm hiểu thêm về nó trước khi quyết định có nhận hay không.",
+        "en": "An opportunity you once passed over may be stirring your curiosity again. Spend half an hour learning more about it before deciding whether to take it."
+      },
+      "self": {
+        "vi": "Bạn có thể đang trách mình vì chưa thấy hứng thú như trước, dù cơ thể vẫn cần nghỉ. Chọn một điều nhỏ thật sự muốn thử, hoặc chọn nghỉ trọn vẹn, thay vì làm nửa vời cả hai.",
+        "en": "You may be blaming yourself for not feeling as eager as before, even though your body still needs rest. Choose one small thing you truly want to try, or choose full rest, rather than half of each."
+      }
+    },
+    "minor-cups-five": {
+      "love": {
+        "vi": "Bạn có thể bắt đầu nhìn thấy những người vẫn ở bên mình sau một mất mát, dù nỗi tiếc vẫn còn. Gửi một lời cảm ơn ngắn đến một người đã lặng lẽ đỡ bạn thời gian qua.",
+        "en": "You may be starting to see who has stayed beside you after a loss, even while regret lingers. Send a short thank-you to someone who has quietly supported you lately."
+      },
+      "career": {
+        "vi": "Một dự án hay cơ hội đã lỡ có thể vẫn khiến bạn day dứt, dù không phải mọi thứ đều mất. Liệt kê ba kỹ năng hay mối quan hệ bạn vẫn còn giữ được từ chuyện đó.",
+        "en": "A missed project or chance may still weigh on you, even though not everything was lost. List three skills or connections you still have from that experience."
+      },
+      "self": {
+        "vi": "Bạn có thể đang tự hối thúc mình phải vượt qua nỗi buồn cho nhanh. Cho phép mình buồn thêm một chút hôm nay, và ghi lại một điều nhỏ vẫn đang nâng đỡ bạn.",
+        "en": "You may be pushing yourself to get over sadness quickly. Allow yourself a little more sadness today, and note one small thing that is still holding you up."
+      }
+    },
+    "minor-cups-six": {
+      "love": {
+        "vi": "Bạn có thể đang so sánh hiện tại với những ngày đầu, hoặc với một người cũ, và thấy điều trước mắt nhạt hơn. Thử gọi tên một điều bạn cần trong mối quan hệ lúc này, không dựa vào ký ức.",
+        "en": "You may be comparing the present with the early days, or with someone from before, and finding what is here paler. Try naming one thing you need in the relationship now, apart from memory."
+      },
+      "career": {
+        "vi": "Cách làm quen thuộc từng hiệu quả có thể đang giữ bạn lại trước những yêu cầu mới. Chọn một thói quen cũ trong công việc và thử điều chỉnh nó cho hợp với tuần này.",
+        "en": "A familiar way of working that once served you may be holding you back from new demands. Pick one old work habit and try adjusting it to fit this week."
+      },
+      "self": {
+        "vi": "Có thể bạn đang níu giữ một hình ảnh cũ về chính mình mà quên rằng mình đã thay đổi. Viết ra một điều bạn muốn mang theo từ quá khứ và một điều bạn sẵn sàng để lại.",
+        "en": "You may be holding on to an old image of yourself and forgetting that you have changed. Write down one thing you want to carry from the past and one thing you are ready to leave behind."
+      }
+    },
+    "minor-cups-seven": {
+      "love": {
+        "vi": "Bạn có thể đang muốn gọi tên mối quan hệ thật nhanh chỉ để thoát khỏi cảm giác mơ hồ. Trước khi chọn, hãy tự hỏi một điều thực tế: cách hai người đối xử với nhau hằng ngày có hợp với bạn không?",
+        "en": "You may want to define the relationship quickly just to escape the uncertainty. Before choosing, ask yourself one practical question: does the way you treat each other day to day suit you?"
+      },
+      "career": {
+        "vi": "Giữa nhiều hướng đi, bạn có thể đang chọn vội để khỏi phải cân nhắc thêm. Đặt ra một tiêu chí cụ thể như thời gian, chi phí hay sức lực, rồi gạch bớt những hướng không đạt.",
+        "en": "Among several paths, you may be choosing in a hurry to avoid weighing them further. Set one concrete criterion such as time, cost or energy, then cross off the paths that do not meet it."
+      },
+      "self": {
+        "vi": "Những mong muốn từng rối rắm có thể đang dần rõ ra, nhưng bạn cũng có thể đang ép mình chốt sớm. Chọn một ước muốn và viết bước nhỏ nhất có thể làm thử trong tuần này.",
+        "en": "Wishes that felt tangled may be getting clearer, though you may also be forcing an early decision. Choose one wish and write the smallest step you could try this week."
+      }
+    },
+    "minor-cups-eight": {
+      "love": {
+        "vi": "Bạn có thể đang ở lại vì quen, hoặc muốn rời đi chỉ để khỏi đối diện một cảm xúc khó. Viết ra điều bạn thật sự cần ở mối quan hệ này trước khi nghĩ đến chuyện ở hay đi.",
+        "en": "You may be staying out of habit, or wanting to leave just to avoid a hard feeling. Write down what you truly need from this relationship before thinking about staying or going."
+      },
+      "career": {
+        "vi": "Ý định bỏ việc hay đổi hướng có thể đến từ mệt mỏi nhiều hơn từ một lựa chọn rõ ràng. Tách riêng điều khiến bạn kiệt sức và điều khiến bạn thấy mất ý nghĩa, rồi xem cái nào nặng hơn.",
+        "en": "The urge to quit or change course may come more from exhaustion than from a clear choice. Separate what drains you from what makes the work feel meaningless, then see which weighs more."
+      },
+      "self": {
+        "vi": "Có thể bạn đang chần chừ trước một thay đổi mà lòng đã biết là cần, vì nơi cũ vẫn dễ chịu hơn. Hỏi mình một câu: nếu không sợ mất gì, mình sẽ làm bước nhỏ nào trước?",
+        "en": "You may be hesitating before a change you already sense you need, because the old place still feels easier. Ask yourself: if I were not afraid of losing anything, what small step would I take first?"
+      }
+    },
+    "minor-cups-nine": {
+      "love": {
+        "vi": "Điều bạn từng mong ở mối quan hệ có thể đã có, nhưng bạn vẫn chưa thấy đủ đầy. Thử gọi tên nhu cầu sâu hơn nằm bên dưới mong muốn ấy, rồi nói nó ra bằng một câu đơn giản.",
+        "en": "What you once hoped for in the relationship may be here, yet it still does not feel like enough. Try naming the deeper need beneath that wish, then say it in one simple sentence."
+      },
+      "career": {
+        "vi": "Bạn có thể đang theo đuổi thêm lời khen hay thành tích mà niềm vui không đến như mong đợi. Viết ra mức đủ của riêng mình trong công việc tháng này, không dựa vào sự công nhận của ai.",
+        "en": "You may be chasing more praise or achievement, yet the satisfaction does not arrive as hoped. Write down what enough looks like for you at work this month, without relying on anyone's approval."
+      },
+      "self": {
+        "vi": "Có thể bạn đang tìm sự hài lòng ở bên ngoài trong khi điều mình cần nằm ở chỗ khác. Ghi lại ba điều nhỏ hôm nay khiến bạn thấy đủ, dù không ai nhìn thấy.",
+        "en": "You may be looking for contentment outside while what you need lies elsewhere. Note three small things today that felt like enough, even if no one else saw them."
+      }
+    },
+    "minor-cups-ten": {
+      "love": {
+        "vi": "Bạn có thể đang cố giữ hình ảnh một mối quan hệ êm ấm trong khi bên trong có điều chưa ổn. Chọn một lúc riêng tư để nói về một chuyện nhỏ chưa ổn, không cần mọi thứ phải trông hoàn hảo.",
+        "en": "You may be trying to keep up the picture of a happy relationship while something inside is not right. Choose a private moment to talk about one small thing that is off, without needing everything to look perfect."
+      },
+      "career": {
+        "vi": "Một tập thể trông gắn bó từ bên ngoài có thể chưa cho bạn cảm giác thuộc về thật sự. Xem lại một giá trị bạn coi trọng, và tìm một người trong nhóm cũng chia sẻ giá trị đó.",
+        "en": "A team that looks close from outside may not give you a real sense of belonging. Revisit one value you care about, and find one person in the group who shares it."
+      },
+      "self": {
+        "vi": "Có thể bạn đang so sánh mái ấm của mình với một hình mẫu lý tưởng và thấy mình thiếu sót. Viết ra một khoảnh khắc gần đây bạn thấy được thuộc về, dù nó không giống bức tranh trong đầu.",
+        "en": "You may be comparing your home life with an ideal picture and feeling you fall short. Write down one recent moment when you felt you belonged, even if it looked nothing like the picture in your head."
+      }
+    },
+    "minor-cups-page": {
+      "love": {
+        "vi": "Bạn có thể đang ngại bày tỏ một cảm xúc mới vì chưa rõ mình mong gì từ người kia. Thử viết điều đó thành một câu thật đơn giản cho riêng mình đọc, trước khi quyết định có gửi đi không.",
+        "en": "You may be shy about expressing a new feeling because you are not sure what you hope for from the other person. Try writing it as one very simple sentence just for yourself, before deciding whether to send it."
+      },
+      "career": {
+        "vi": "Một ý tưởng sáng tạo có thể đang bị bạn giữ lại vì sợ bị cho là ngây thơ. Chia sẻ nó với một người đáng tin dưới dạng bản phác thảo, không cần hoàn chỉnh.",
+        "en": "You may be holding back a creative idea for fear it will seem naive. Share it with one trusted person as a rough sketch, without needing it to be finished."
+      },
+      "self": {
+        "vi": "Có thể bạn đang gạt đi những cảm xúc mềm mại vì thấy chúng trẻ con. Dành chút thời gian vẽ, viết hay hát vu vơ, chỉ để xem cảm xúc ấy muốn nói gì.",
+        "en": "You may be brushing aside tender feelings because they seem childish. Spend a little time doodling, writing or humming, just to see what that feeling wants to say."
+      }
+    },
+    "minor-cups-knight": {
+      "love": {
+        "vi": "Bạn có thể đang yêu hình ảnh mình vẽ ra nhiều hơn những gì thật sự diễn ra giữa hai người. Ghi lại vài việc cụ thể gần đây mỗi người đã làm cho nhau, rồi so với điều bạn đang mong.",
+        "en": "You may be more in love with the picture you have drawn than with what actually happens between you. Note a few concrete things each of you has done for the other lately, then compare them with what you hope for."
+      },
+      "career": {
+        "vi": "Một lời hứa hay kế hoạch đầy cảm hứng có thể chưa đi kèm việc làm cụ thể. Chọn một lời hứa của bạn trong công việc và biến nó thành một việc có hạn hoàn thành rõ ràng.",
+        "en": "An inspiring promise or plan may not yet come with concrete action. Pick one promise you have made at work and turn it into a task with a clear deadline."
+      },
+      "self": {
+        "vi": "Có thể bạn đang chờ cảm hứng hoàn hảo rồi mới bắt đầu điều mình yêu thích. Làm một phần nhỏ của nó trong mười lăm phút hôm nay, dù cảm hứng chưa đến.",
+        "en": "You may be waiting for perfect inspiration before starting something you love. Do one small piece of it for fifteen minutes today, even if inspiration has not arrived."
+      }
+    },
+    "minor-cups-queen": {
+      "love": {
+        "vi": "Bạn có thể đang ôm lấy cảm xúc của người kia nhiều đến mức quên mất mình đang cần gì. Trước khi an ủi lần tới, hỏi mình một câu: lúc này mình đang cảm thấy thế nào?",
+        "en": "You may be taking on the other person's feelings so much that you forget what you need. Before comforting them next time, ask yourself: how am I feeling right now?"
+      },
+      "career": {
+        "vi": "Bạn có thể đang là người mọi người tìm đến để trút bầu tâm sự, và việc đó đang lấy dần sức của bạn. Đặt một giới hạn nhẹ nhàng, như hẹn lại một lúc khác khi bạn đang bận.",
+        "en": "You may be the one everyone comes to with their troubles, and it is slowly draining your energy. Set one gentle limit, such as offering another time when you are busy."
+      },
+      "self": {
+        "vi": "Có thể bạn đang khó tách đâu là cảm xúc của mình và đâu là thứ thấm từ người xung quanh. Cuối ngày, viết ra một cảm xúc và tự hỏi nó thật sự bắt đầu từ đâu.",
+        "en": "You may find it hard to tell your own feelings apart from what you have absorbed from people around you. At the end of the day, write down one feeling and ask where it truly began."
+      }
+    },
+    "minor-cups-king": {
+      "love": {
+        "vi": "Bạn có thể đang nén cảm xúc để giữ vẻ bình tĩnh, hoặc để cơn bực quyết định thay mình lúc trò chuyện. Khi thấy cảm xúc dâng lên, dừng vài nhịp thở rồi nói điều bạn cần thay vì điều bạn trách.",
+        "en": "You may be holding feelings down to look calm, or letting frustration decide for you mid-conversation. When you feel it rising, pause for a few breaths, then say what you need rather than what you blame."
+      },
+      "career": {
+        "vi": "Ở vai trò cần giữ bình tĩnh, bạn có thể đã gạt cảm xúc của mình sang một bên quá lâu. Trước một quyết định quan trọng, ghi riêng điều bạn đang cảm thấy và điều dữ kiện đang cho thấy.",
+        "en": "In a role that asks you to stay composed, you may have set your own feelings aside for too long. Before an important decision, write down separately what you feel and what the facts show."
+      },
+      "self": {
+        "vi": "Có thể bạn đã quen tỏ ra ổn đến mức khó biết mình thật sự đang thế nào. Dành một khoảng lặng ngắn mỗi tối để gọi tên một cảm xúc, mà không cần sửa nó.",
+        "en": "You may be so used to seeming fine that it is hard to know how you really are. Take a short quiet moment each evening to name one feeling, without needing to fix it."
+      }
+    },
+    "minor-swords-ace": {
+      "love": {
+        "vi": "Bạn có thể đang vội kết luận về một lời nói hay tin nhắn khi thông tin còn thiếu. Hỏi lại đúng một điều còn mơ hồ, bằng giọng tò mò thay vì chất vấn.",
+        "en": "You may be rushing to a conclusion about something said or texted while information is still missing. Ask about just one unclear point, in a curious tone rather than an accusing one."
+      },
+      "career": {
+        "vi": "Một ý tưởng hay quyết định có thể đang rối vì nhiều lý lẽ chồng lên nhau. Viết vấn đề chính thành một câu ngắn, rồi đánh dấu điều nào đã có dữ kiện và điều nào chỉ là đoán.",
+        "en": "An idea or decision may feel tangled because several lines of reasoning overlap. Write the core problem as one short sentence, then mark what has facts behind it and what is only a guess."
+      },
+      "self": {
+        "vi": "Bạn có thể đang ép mình phải rõ ràng ngay, dù trong lòng còn nhiều điều chưa gọi được tên. Cho phép một câu hỏi được để ngỏ hôm nay, và ghi nó lại để quay về sau.",
+        "en": "You may be pushing yourself to be clear right away, even though much inside you has no name yet. Let one question stay open today, and write it down to come back to later."
+      }
+    },
+    "minor-swords-two": {
+      "love": {
+        "vi": "Áp lực phải chọn ngay có thể đang khiến bạn rối, nhất là khi ai cũng góp một lời khuyên. Tạm gác ý kiến của người ngoài, và hỏi mình một câu: điều gì đang làm mình chưa thể chọn?",
+        "en": "Pressure to choose right now may be overwhelming you, especially with everyone offering advice. Set others’ opinions aside for a moment and ask yourself one question: what is keeping me from choosing?"
+      },
+      "career": {
+        "vi": "Bạn có thể đang đọc quá nhiều so sánh và phương án đến mức không còn thấy rõ. Thu hẹp còn hai lựa chọn, rồi viết ra một dữ kiện còn thiếu khiến bạn chưa quyết được.",
+        "en": "You may be reading so many comparisons and options that nothing looks clear anymore. Narrow it down to two choices, then write down the one missing fact that keeps you from deciding."
+      },
+      "self": {
+        "vi": "Đầu óc bạn có thể đang quá tải vì phải cân nhắc mọi thứ cùng lúc. Dành mười phút không đọc thêm gì, chỉ ngồi yên và để ý cảm giác trong người khi nghĩ về từng hướng.",
+        "en": "Your mind may be overloaded from weighing everything at once. Take ten minutes without reading anything new, just sit still and notice how your body feels as you think about each path."
+      }
+    },
+    "minor-swords-three": {
+      "love": {
+        "vi": "Một nỗi đau có thể vẫn còn đó dù bạn đã cố cho qua. Không cần tha thứ hay quên ngay; chỉ cần thừa nhận nó còn đau.",
+        "en": "A hurt may still be there even though you tried to move past it. You do not need to forgive or forget yet; it is enough to admit it still hurts."
+      },
+      "career": {
+        "vi": "Một thất vọng ở công việc có thể chưa được nói ra. Chọn một người bạn tin để kể, hoặc viết nó ra, trước khi rút bài học.",
+        "en": "A disappointment at work may still be unspoken. Tell one person you trust, or write it down, before drawing a lesson from it."
+      },
+      "self": {
+        "vi": "Bạn có thể đang tự trách mình về một chuyện đã qua. Hãy nói với mình một câu dịu dàng như khi an ủi người khác.",
+        "en": "You may be blaming yourself for something in the past. Say one gentle sentence to yourself, as you would to comfort someone else."
+      }
+    },
+    "minor-swords-four": {
+      "love": {
+        "vi": "Bạn có thể đang quay lại một cuộc trò chuyện khó khi lòng chưa kịp lắng xuống. Hẹn một lúc cụ thể để nói tiếp, thay vì cố giải quyết hết trong lúc còn mệt.",
+        "en": "You may be returning to a hard conversation before you have had time to settle. Agree on a specific time to continue, rather than trying to resolve everything while you are still tired."
+      },
+      "career": {
+        "vi": "Bạn có thể đang quay lại guồng việc quá sớm, hoặc nghỉ mà đầu vẫn chạy theo hộp thư. Chọn một khoảng nghỉ thật trong ngày, tắt thông báo, rồi bắt đầu lại bằng một việc vừa sức.",
+        "en": "You may be returning to the grind too soon, or resting while your mind still chases your inbox. Choose one real break in your day, turn off notifications, then restart with one manageable task."
+      },
+      "self": {
+        "vi": "Sự bồn chồn có thể khiến bạn thấy nghỉ ngơi là có lỗi. Cho mình một khoảng nghỉ ngắn không cần lý do, và để ý xem điều gì làm bạn muốn đứng dậy.",
+        "en": "Restlessness may make resting feel like something to feel guilty about. Give yourself a short break that needs no reason, and notice what makes you want to get up."
+      }
+    },
+    "minor-swords-five": {
+      "love": {
+        "vi": "Một cuộc cãi vã có thể đã qua nhưng dư âm vẫn còn, và bạn có thể đang muốn làm lành. Nói một câu thật về điều bạn mong, đồng thời giữ rõ điều bạn không muốn lặp lại.",
+        "en": "An argument may be over while its echo remains, and you may be wanting to make peace. Say one honest sentence about what you hope for, while staying clear about what you do not want repeated."
+      },
+      "career": {
+        "vi": "Một va chạm cũ ở nơi làm việc có thể vẫn âm ỉ dù không ai nhắc lại. Đề nghị một cuộc trao đổi ngắn để thống nhất cách làm từ giờ, thay vì phân xử ai đúng ai sai.",
+        "en": "An old clash at work may still be simmering even though no one mentions it. Suggest a short talk to agree on how to work from now on, rather than settling who was right."
+      },
+      "self": {
+        "vi": "Bạn có thể đang tự hỏi liệu thắng một cuộc tranh cãi có đáng với những gì đã mất. Viết ra điều bạn thật sự cần giữ từ chuyện đó, và điều bạn sẵn sàng buông.",
+        "en": "You may be wondering whether winning an argument was worth what it cost. Write down what you truly need to keep from it, and what you are willing to let go."
+      }
+    },
+    "minor-swords-six": {
+      "love": {
+        "vi": "Bạn có thể đang muốn rời xa một chuyện cũ, nhưng vẫn còn điều chưa khép lại. Thay vì tự trách vì chưa bước tiếp, hãy gọi tên một điều bạn cần để thấy an toàn hơn.",
+        "en": "You may want to move away from something in the past, yet something is still unfinished. Instead of blaming yourself for not moving on, name one thing you need to feel safer."
+      },
+      "career": {
+        "vi": "Một bước chuyển việc hay chuyển hướng có thể đang khó hơn dự tính vì bạn chưa thật sẵn sàng. Hỏi một người từng đi qua chặng tương tự xem họ đã cần hỗ trợ gì.",
+        "en": "A job change or shift in direction may be harder than expected because you are not quite ready. Ask someone who has been through a similar stage what support they needed."
+      },
+      "self": {
+        "vi": "Bạn có thể đang mang một gánh nặng cũ vào chặng mới mà chưa kịp đặt xuống. Viết ra một điều bạn muốn mang theo và một điều bạn muốn để lại.",
+        "en": "You may be carrying an old weight into a new stage without having set it down. Write down one thing you want to bring with you and one thing you want to leave behind."
+      }
+    },
+    "minor-swords-seven": {
+      "love": {
+        "vi": "Có thể có một điều bạn vẫn đang giữ kín hoặc nói vòng, và nó dần tạo khoảng cách. Chọn một phần bạn sẵn sàng chia sẻ thật lòng, và giữ lại phần bạn cần riêng tư.",
+        "en": "There may be something you keep hidden or talk around, and it is slowly creating distance. Choose one part you are ready to share honestly, and keep the part you need private."
+      },
+      "career": {
+        "vi": "Bạn có thể đang né một trách nhiệm hay một lỗi nhỏ, mong nó tự trôi qua. Nói rõ phần việc của mình với người liên quan, kèm một cách bạn định khắc phục.",
+        "en": "You may be sidestepping a responsibility or a small mistake, hoping it will slip by. State your part clearly to the person involved, along with one way you plan to fix it."
+      },
+      "self": {
+        "vi": "Bạn có thể đang tự thuyết phục mình bằng một lý do nghe hợp lý nhưng chưa thật lòng. Viết ra lý do thật phía sau, chỉ để riêng mình đọc.",
+        "en": "You may be convincing yourself with a reason that sounds sensible but is not quite honest. Write down the real reason behind it, just for you to read."
+      }
+    },
+    "minor-swords-eight": {
+      "love": {
+        "vi": "Bạn có thể bắt đầu thấy mình có nhiều lựa chọn trong mối quan hệ này hơn bạn từng nghĩ. Viết ra một điều nhỏ bạn có thể tự quyết, dù chỉ là cách mình đáp lại một tin nhắn.",
+        "en": "You may be starting to see that you have more choices in this relationship than you thought. Write down one small thing you can decide yourself, even if it is only how you reply to a message."
+      },
+      "career": {
+        "vi": "Một lối ra khỏi tình thế bế tắc có thể đang lộ dần, dù bạn vẫn đi chậm. Hỏi một người bạn tin xem họ thấy lựa chọn nào mà bạn chưa nhìn ra.",
+        "en": "A way out of a stuck situation may be slowly appearing, even if you are still moving slowly. Ask someone you trust which options they see that you have not noticed."
+      },
+      "self": {
+        "vi": "Bạn có thể đang tự trách mình vì thoát ra quá chậm. Ghi nhận một bước nhỏ bạn đã làm tuần này, và xem nó là dấu hiệu rằng bạn vẫn đang đi.",
+        "en": "You may be blaming yourself for getting free too slowly. Note one small step you took this week, and count it as a sign that you are still moving."
+      }
+    },
+    "minor-swords-nine": {
+      "love": {
+        "vi": "Bạn có thể đang ôm một nỗi lo về mối quan hệ mà chưa biết mở lời thế nào. Thử nói ra chỉ một phần nhỏ của nó, bắt đầu bằng câu: dạo này mình hay nghĩ về…",
+        "en": "You may be holding a worry about the relationship without knowing how to bring it up. Try saying just a small part of it, starting with: lately I keep thinking about…"
+      },
+      "career": {
+        "vi": "Những lo lắng về công việc có thể đang theo bạn cả vào giờ nghỉ. Viết chúng ra giấy trước khi ngủ, rồi khoanh lại một điều bạn có thể hỏi ai đó vào ngày mai.",
+        "en": "Worries about work may be following you into your time off. Write them on paper before bed, then circle one thing you could ask someone about tomorrow."
+      },
+      "self": {
+        "vi": "Bạn có thể đang tìm cách chia sẻ một nỗi lo, nhưng vẫn ngại làm phiền người khác. Nhắn cho một người bạn tin một câu đơn giản: mình đang có chuyện hơi nặng lòng.",
+        "en": "You may be looking for a way to share a worry, yet still feel you would be a bother. Send one person you trust a simple message: I have something weighing on me."
+      }
+    },
+    "minor-swords-ten": {
+      "love": {
+        "vi": "Một kết thúc khó có thể vẫn chưa khép hẳn, và bạn có thể đang ép mình phải ổn lại thật nhanh. Cho mình thời gian, và tựa vào một người thân thay vì quay về điều từng làm bạn tổn thương.",
+        "en": "A hard ending may not be fully closed yet, and you may be pushing yourself to be okay quickly. Give yourself time, and lean on someone close rather than returning to what once hurt you."
+      },
+      "career": {
+        "vi": "Sau một giai đoạn kiệt sức, bạn có thể đang muốn bắt đầu lại trong khi vẫn còn rất mệt. Hôm nay chỉ cần một việc thật nhỏ, và hãy nói với một người bạn tin rằng bạn đang cần được đỡ một tay.",
+        "en": "After a draining stretch, you may want to start again while still very tired. Today one very small task is enough, and tell someone you trust that you could use a hand."
+      },
+      "self": {
+        "vi": "Bạn có thể đang chạm tới giới hạn chịu đựng của mình, dù vẫn cố tỏ ra ổn. Hôm nay hãy ưu tiên ngủ, ăn và nghỉ, rồi liên lạc với một người khiến bạn thấy an toàn.",
+        "en": "You may be at the edge of what you can carry, even while trying to seem fine. Today make sleep, food and rest the priority, then reach out to one person who makes you feel safe."
+      }
+    },
+    "minor-swords-page": {
+      "love": {
+        "vi": "Bạn có thể đang đặt câu hỏi quá dồn dập, hoặc đọc vội ý trong vài câu chữ ngắn. Nhắc lại điều bạn vừa nghe bằng lời của mình, rồi hỏi xem đã đúng ý chưa.",
+        "en": "You may be asking questions too quickly, or reading too much into a few short words. Repeat what you just heard in your own words, then ask whether you understood it right."
+      },
+      "career": {
+        "vi": "Bạn có thể đang chuyển tiếp một thông tin trước khi kịp kiểm tra nguồn. Dò lại một chi tiết quan trọng trước khi gửi đi hay đưa vào báo cáo.",
+        "en": "You may be passing on information before checking where it came from. Verify one important detail before you send it on or put it in a report."
+      },
+      "self": {
+        "vi": "Sự tò mò có thể đang biến thành lo lắng khi bạn đọc nhiều hơn mức mình kịp hiểu. Chọn một điều duy nhất muốn tìm hiểu hôm nay, và dừng lại khi đã có câu trả lời đủ dùng.",
+        "en": "Curiosity may be turning into worry as you read more than you can take in. Choose one single thing to learn about today, and stop once you have an answer that is good enough."
+      }
+    },
+    "minor-swords-knight": {
+      "love": {
+        "vi": "Trong lúc tranh luận, bạn có thể đang dùng lý lẽ để thắng hơn là để hiểu nhau. Lần tới, dừng một nhịp và hỏi thêm một câu để hiểu ý người kia trước khi phản bác.",
+        "en": "In an argument, you may be using reasoning to win rather than to understand each other. Next time, pause and ask one more question to understand the other person before you push back."
+      },
+      "career": {
+        "vi": "Bạn có thể đang lao vào giải pháp đầu tiên nghĩ ra và gạt đi những ý kiến chậm hơn. Trước khi chốt, mời một người chưa lên tiếng nói thử góc nhìn của họ.",
+        "en": "You may be charging toward the first solution you think of and brushing aside slower voices. Before you finalize, invite someone who has not spoken yet to share their view."
+      },
+      "self": {
+        "vi": "Tâm trí bạn có thể đang chạy nhanh hơn khả năng theo kịp của chính bạn. Viết ra một kết luận bạn vừa vội đưa ra, rồi để nó qua một đêm trước khi hành động.",
+        "en": "Your mind may be racing faster than you can keep up with. Write down one conclusion you reached in a hurry, and let it sit overnight before acting on it."
+      }
+    },
+    "minor-swords-queen": {
+      "love": {
+        "vi": "Bạn có thể đang tự bảo vệ bằng sự lạnh nhạt, hoặc ngại nói rõ vì sợ mất đi sự gần gũi. Nói ra một giới hạn của mình kèm một cảm xúc thật, để người kia nghe được cả hai.",
+        "en": "You may be protecting yourself with coolness, or holding back clarity for fear of losing closeness. State one of your limits together with one real feeling, so the other person can hear both."
+      },
+      "career": {
+        "vi": "Sự thẳng thắn của bạn có thể đang nghe sắc hơn bạn muốn, hoặc bạn đang giữ im lặng để tránh va chạm. Chọn một góp ý cần nói, và mở đầu bằng điều bạn trân trọng ở người nhận.",
+        "en": "Your directness may be landing sharper than you intend, or you may be staying quiet to avoid friction. Choose one piece of feedback that needs saying, and open with something you value in the person receiving it."
+      },
+      "self": {
+        "vi": "Bạn có thể đang nhìn bản thân bằng con mắt khắt khe, ít chừa chỗ cho cảm xúc. Viết ra một điều bạn đang cảm thấy mà không phân tích hay tìm cách sửa nó.",
+        "en": "You may be looking at yourself with a harsh eye that leaves little room for feeling. Write down one thing you are feeling without analyzing it or trying to fix it."
+      }
+    },
+    "minor-swords-king": {
+      "love": {
+        "vi": "Bạn có thể đang phân xử chuyện tình cảm như một vụ việc, chỉ nhìn đúng sai mà quên đi cảm xúc. Hỏi mình: nếu đứng ở vị trí người kia, điều gì có thể khiến mình phản ứng như vậy?",
+        "en": "You may be judging the relationship like a case, looking only at right and wrong and forgetting feelings. Ask yourself: if I stood where the other person stands, what might make me react that way?"
+      },
+      "career": {
+        "vi": "Một quyết định có thể đang dựa trên tiêu chí cứng nhắc hoặc dữ kiện chưa đủ. Trước khi chốt, tìm thêm một nguồn thông tin hoặc một góc nhìn trái chiều.",
+        "en": "A decision may rest on rigid criteria or incomplete evidence. Before you finalize it, look for one more source of information or one opposing view."
+      },
+      "self": {
+        "vi": "Bạn có thể đang giữ một nguyên tắc với mình quá cứng, dù hoàn cảnh đã khác. Xem lại một quy tắc bạn tự đặt ra, và hỏi nó còn giúp ích cho bạn không.",
+        "en": "You may be holding yourself to a rule too rigidly, even though circumstances have changed. Review one rule you set for yourself, and ask whether it still serves you."
+      }
+    },
+    "minor-pentacles-ace": {
+      "love": {
+        "vi": "Bạn có thể đang muốn một khởi đầu mới thành hình ngay, trong khi nền tảng giữa hai người còn chưa sẵn. Hãy chọn một việc nhỏ, đều đặn để vun cho mối quan hệ, thay vì chờ một bước ngoặt lớn.",
+        "en": "You may want a new beginning to take shape right away, while the ground between you is not ready yet. Choose one small, steady thing to tend the relationship, rather than waiting for a big turning point."
+      },
+      "career": {
+        "vi": "Một cơ hội có thể đang hấp dẫn bạn dù nguồn lực hiện có chưa theo kịp. Liệt kê ba điều kiện nó cần, đánh dấu điều nào đã sẵn, rồi mới quyết định bước tiếp.",
+        "en": "An opportunity may be pulling at you even though your current resources have not caught up. List three conditions it needs, mark which are already in place, then decide on the next step."
+      },
+      "self": {
+        "vi": "Bạn có thể đang tự trách vì chưa nắm được một khởi đầu, dù thời điểm hay điều kiện chưa phù hợp. Ghi lại một nguồn lực bạn đang có trong tay hôm nay, dù nhỏ.",
+        "en": "You may be blaming yourself for not seizing a beginning, even if the timing or conditions are not right. Write down one resource you already have in hand today, however small."
+      }
+    },
+    "minor-pentacles-two": {
+      "love": {
+        "vi": "Bạn có thể đang xoay xở giữa quá nhiều việc đến mức mối quan hệ chỉ còn nhận phần thời gian thừa. Chọn một khoảng ngắn trong tuần dành riêng cho nhau, và giữ nó như một cuộc hẹn thật.",
+        "en": "You may be juggling so much that the relationship only gets your leftover time. Pick one short window this week just for each other, and keep it like a real appointment."
+      },
+      "career": {
+        "vi": "Có thể bạn đang ôm nhiều việc cùng một mức ưu tiên nên việc nào cũng bị kéo căng. Bỏ bớt hoặc dời một việc khỏi danh sách tuần này, rồi xem nhịp làm việc nhẹ đi ra sao.",
+        "en": "You may be holding many tasks at the same priority, so every one of them is stretched. Drop or postpone one task from this week's list, and notice how the pace eases."
+      },
+      "self": {
+        "vi": "Bạn có thể đang bỏ qua nhịp nghỉ để giữ cho mọi thứ không rơi. Đặt một khoảng nghỉ ngắn vào lịch hôm nay, và xem nó quan trọng như mọi việc khác.",
+        "en": "You may be skipping rest to keep everything from falling. Put one short break in today's schedule, and treat it as seriously as any other task."
+      }
+    },
+    "minor-pentacles-three": {
+      "love": {
+        "vi": "Hai người có thể đang cùng vun đắp nhưng chưa rõ ai lo phần nào, nên dễ thấy mình bị xem nhẹ. Thử cùng nhau chia lại một việc cụ thể trong nhà hay trong lịch chung.",
+        "en": "You may both be building something without being clear on who handles what, so it is easy to feel overlooked. Try dividing one concrete task at home or in your shared schedule together."
+      },
+      "career": {
+        "vi": "Bạn có thể đang khó tiếp nhận góp ý, hoặc vai trò trong nhóm chưa được nói rõ. Hỏi một đồng đội xem phần việc này do ai quyết, và nói rõ bạn muốn nhận góp ý theo cách nào.",
+        "en": "You may be finding feedback hard to take, or your role in the team has not been made clear. Ask a teammate who decides on this part, and say how you would like to receive feedback."
+      },
+      "self": {
+        "vi": "Bạn có thể đang nghe lời góp ý như một lời phán xét về con người mình. Chọn một góp ý gần đây, tách phần nói về việc làm khỏi phần khiến bạn tổn thương, và giữ lại một ý dùng được.",
+        "en": "You may be hearing feedback as a verdict on who you are. Take one recent comment, separate what it says about the work from what stung, and keep one point you can use."
+      }
+    },
+    "minor-pentacles-four": {
+      "love": {
+        "vi": "Bạn có thể đang sẵn sàng nới tay, hoặc đang sợ mất cảm giác an toàn. Chọn một giới hạn rõ, thay vì phải giữ chặt hay buông hết.",
+        "en": "You may be ready to loosen your grip, or afraid of losing your sense of safety. Choose one clear limit instead of holding everything or letting go of it all."
+      },
+      "career": {
+        "vi": "Cách bạn giữ nguồn lực có thể cần xem lại: quá chặt hoặc quá lỏng. Viết ra một khoản thời gian hay tiền bạc bạn muốn sắp xếp lại.",
+        "en": "How you hold your resources may need a look: too tight or too loose. Write down one block of time or money you want to rearrange."
+      },
+      "self": {
+        "vi": "Bạn có thể đang buông dần một nỗi lo về sự thiếu. Hãy xem điều gì thật sự cần bảo vệ, và điều gì có thể thả ra.",
+        "en": "You may be letting go of a worry about not having enough. See what truly needs protecting, and what you can release."
+      }
+    },
+    "minor-pentacles-five": {
+      "love": {
+        "vi": "Bạn có thể đang ngại nói mình cần được quan tâm, vì sợ trở thành gánh nặng. Thử nói ra một nhu cầu nhỏ và cụ thể, như một lời hỏi han hay một buổi tối ở bên nhau.",
+        "en": "You may hesitate to say you need care, for fear of being a burden. Try voicing one small, specific need, like a check-in or an evening together."
+      },
+      "career": {
+        "vi": "Một nguồn hỗ trợ có thể đã xuất hiện nhưng bạn chưa tìm đến, hoặc việc tiếp cận vẫn còn vướng. Ghi ra một nơi hay một người có thể giúp, và tìm hiểu bước đầu tiên để liên hệ.",
+        "en": "Support may have appeared but you have not reached for it yet, or access is still blocked. Write down one place or person who could help, and find out the first step to contact them."
+      },
+      "self": {
+        "vi": "Bạn có thể đang tự trách mình vì chưa được giúp, như thể khó khăn là lỗi của bạn. Hãy nói với mình rằng cần giúp đỡ là điều bình thường, rồi nhận một sự giúp nhỏ đang có sẵn.",
+        "en": "You may be blaming yourself for not getting help, as if the hardship were your fault. Tell yourself that needing help is normal, then accept one small kind of help already within reach."
+      }
+    },
+    "minor-pentacles-six": {
+      "love": {
+        "vi": "Sự cho và nhận giữa hai người có thể đang lệch, và bạn có thể đang cho đi kèm một mong đợi thầm lặng. Nhận ra một điều bạn đang làm vì mong được đền đáp, rồi quyết định có tiếp tục hay không.",
+        "en": "Giving and receiving between you may be uneven, and you may be giving with a quiet hope of return. Notice one thing you do in hope of being repaid, then decide whether to keep doing it."
+      },
+      "career": {
+        "vi": "Bạn có thể đang nhận một sự hỗ trợ kèm điều kiện chưa nói rõ, hoặc đang giúp người khác quá sức mình. Hỏi rõ điều kiện đi kèm, hoặc đặt một giới hạn cụ thể cho phần bạn có thể giúp.",
+        "en": "You may be accepting support with unspoken conditions, or helping others beyond your capacity. Ask plainly about the conditions, or set one specific limit on how much you can help."
+      },
+      "self": {
+        "vi": "Bạn có thể đang thấy mình chỉ xứng đáng khi cho đi. Hôm nay, thử nhận một lời cảm ơn hay một sự giúp đỡ mà không vội đáp trả ngay.",
+        "en": "You may feel worthy only when you are giving. Today, try receiving a thank-you or a favor without rushing to pay it back."
+      }
+    },
+    "minor-pentacles-seven": {
+      "love": {
+        "vi": "Bạn có thể đang chờ mối quan hệ tự đơm hoa, hoặc nóng lòng muốn thấy kết quả của những gì đã vun đắp. Nhìn lại một dấu hiệu thật trong tháng qua, tách khỏi điều bạn mong sẽ có.",
+        "en": "You may be waiting for the relationship to bloom on its own, or be impatient to see results from what you have tended. Look back at one real sign from the past month, apart from what you hope for."
+      },
+      "career": {
+        "vi": "Có thể bạn đang tiếp tục một hướng chỉ vì đã bỏ vào đó quá nhiều công sức. Đặt một mốc đánh giá cụ thể, và ghi ra dấu hiệu nào sẽ cho thấy cần đổi cách làm.",
+        "en": "You may be continuing on a path only because you have put so much effort into it. Set one specific review date, and write down which signs would tell you to change approach."
+      },
+      "self": {
+        "vi": "Bạn có thể đang sốt ruột với nhịp lớn lên của chính mình, như thể mọi thứ phải đến nhanh hơn. Ghi lại một thay đổi nhỏ ở bạn so với vài tháng trước.",
+        "en": "You may be impatient with your own pace of growth, as if everything should arrive faster. Write down one small change in yourself compared with a few months ago."
+      }
+    },
+    "minor-pentacles-eight": {
+      "love": {
+        "vi": "Bạn có thể đang chăm chút mối quan hệ như làm cho tròn bổn phận, hoặc đòi hỏi mọi thứ phải thật hoàn hảo. Thử làm một điều nhỏ cho nhau theo cách mới, không cần chuẩn chỉnh.",
+        "en": "You may be tending the relationship as a routine duty, or expecting everything to be perfect. Try doing one small thing for each other in a new way, without needing it to be flawless."
+      },
+      "career": {
+        "vi": "Công việc có thể đang trở nên máy móc, hoặc bạn đang sửa mãi một chi tiết vì sợ chưa đủ tốt. Đặt một tiêu chuẩn đủ dùng cho việc đang làm, hoàn thành nó, rồi nghỉ một nhịp.",
+        "en": "Work may have become mechanical, or you may keep reworking one detail for fear it is not good enough. Set a good-enough standard for the current task, finish it, then take a pause."
+      },
+      "self": {
+        "vi": "Bạn có thể đang rèn luyện điều mình thích đến mức nó thành áp lực. Dành một buổi làm điều đó chỉ để vui, không đo đếm tiến bộ.",
+        "en": "You may be practicing something you love until it turns into pressure. Spend one session doing it just for fun, without measuring progress."
+      }
+    },
+    "minor-pentacles-nine": {
+      "love": {
+        "vi": "Bạn có thể đang giữ hình ảnh một người tự lo được mọi thứ, nên khó để ai bước lại gần. Thử để người thương giúp một việc nhỏ mà bạn vẫn quen tự làm.",
+        "en": "You may be keeping up the image of someone who handles everything alone, so it is hard to let anyone close. Try letting someone you love help with one small thing you usually do yourself."
+      },
+      "career": {
+        "vi": "Giá trị của bạn có thể đang bị gắn quá chặt với thành tích hay vẻ ngoài thành đạt. Viết ra một điều bạn thật sự cần trong công việc, khác với điều bạn cần để trông có vẻ ổn.",
+        "en": "Your worth may be tied too tightly to achievements or the look of success. Write down one thing you truly need at work, as distinct from what you need to appear fine."
+      },
+      "self": {
+        "vi": "Bạn có thể chỉ thấy mình ổn khi mọi thứ trông đủ đầy. Hôm nay, hãy tận hưởng một điều giản dị bạn đã có mà không cần lý do để xứng đáng.",
+        "en": "You may feel okay only when everything looks abundant. Today, enjoy one simple thing you already have, without needing a reason to deserve it."
+      }
+    },
+    "minor-pentacles-ten": {
+      "love": {
+        "vi": "Kỳ vọng từ gia đình hai bên có thể đang đè lên cách hai người xây dựng cuộc sống chung. Cùng nhau gọi tên một giá trị muốn giữ và một khuôn mẫu cũ muốn làm khác đi.",
+        "en": "Expectations from both families may be weighing on how you build a life together. Together, name one value you want to keep and one old pattern you want to do differently."
+      },
+      "career": {
+        "vi": "Bạn có thể đang theo một hướng đi vì kỳ vọng của gia đình hơn là vì điều mình muốn. Viết ra phần nào trong lựa chọn hiện tại là của bạn, phần nào là được trao lại.",
+        "en": "You may be following a path more because of family expectations than your own wishes. Write down which part of your current choice is yours and which part was handed down."
+      },
+      "self": {
+        "vi": "Cảm giác ổn định có thể chưa trọn vẹn vì bạn đang so mình với một khuôn mẫu cũ. Chọn một nếp nhà bạn muốn giữ, và cho phép mình buông một điều không còn hợp.",
+        "en": "Your sense of stability may feel incomplete because you are measuring yourself against an old template. Choose one family tradition you want to keep, and allow yourself to let go of one that no longer fits."
+      }
+    },
+    "minor-pentacles-page": {
+      "love": {
+        "vi": "Bạn có thể có nhiều dự định cho mối quan hệ nhưng khó biến chúng thành thói quen hằng ngày. Chọn một cử chỉ nhỏ, như một tin nhắn hỏi han buổi tối, và làm đều trong một tuần.",
+        "en": "You may have many plans for the relationship but find it hard to turn them into daily habits. Choose one small gesture, like an evening check-in message, and do it steadily for a week."
+      },
+      "career": {
+        "vi": "Một kế hoạch học hay làm có thể đang nằm yên vì bước đầu quá lớn. Chia nó thành một việc chỉ mất mười lăm phút, và làm việc đó ngay hôm nay.",
+        "en": "A plan for study or work may be sitting still because the first step is too big. Break it into one task that takes fifteen minutes, and do it today."
+      },
+      "self": {
+        "vi": "Bạn có thể đang nghĩ mình chưa bắt đầu được là vì thiếu khả năng. Hãy xem đó là dấu hiệu bước đi cần nhỏ hơn, rồi chọn một bước nhỏ đến mức khó mà không làm.",
+        "en": "You may be reading your trouble getting started as a lack of ability. See it as a sign the step needs to be smaller, then pick one so small it is hard not to take."
+      }
+    },
+    "minor-pentacles-knight": {
+      "love": {
+        "vi": "Mối quan hệ có thể đang đều đặn đến mức đứng yên, ngày nào cũng giống hệt ngày trước. Thay đổi một thói quen nhỏ khi ở bên nhau, như một bữa tối ở chỗ mới hay một lối đi dạo khác.",
+        "en": "The relationship may be so steady it has started to stand still, each day like the last. Change one small habit you share, like dinner somewhere new or a different walk."
+      },
+      "career": {
+        "vi": "Bạn có thể đang bám vào một quy trình cũ dù nó đã chậm lại, hoặc đang tự trách vì đi không nhanh. Chọn một bước trong quy trình để làm khác đi tuần này, giữ nguyên những phần còn lại.",
+        "en": "You may be holding onto an old routine even though it has slowed, or blaming yourself for not moving faster. Pick one step in the process to do differently this week, and keep the rest as it is."
+      },
+      "self": {
+        "vi": "Sự bền bỉ của bạn có thể đã thành cứng nhắc, khiến bạn thấy mình mắc kẹt. Cho phép mình đổi nhịp một ngày: dậy muộn hơn, đi chậm hơn, hoặc làm một việc không có trong kế hoạch.",
+        "en": "Your persistence may have turned rigid, leaving you feeling stuck. Allow yourself to change pace for one day: wake later, move slower, or do one thing that is not in the plan."
+      }
+    },
+    "minor-pentacles-queen": {
+      "love": {
+        "vi": "Bạn có thể đang chăm lo cho người kia nhiều đến mức quên mất nhu cầu của chính mình. Nói ra một việc bạn muốn được chia bớt, và để người kia nhận lấy theo cách của họ.",
+        "en": "You may be caring for the other person so much that you forget your own needs. Name one task you would like to share, and let them take it on in their own way."
+      },
+      "career": {
+        "vi": "Bạn có thể đang gánh phần chăm lo cho cả nhóm, bên cạnh phần việc chính của mình. Chọn một việc chăm sóc không thuộc vai trò của bạn, rồi trao lại hoặc chia sẻ nó.",
+        "en": "You may be carrying the care work for the whole team on top of your own tasks. Pick one caring task that is not part of your role, then hand it back or share it."
+      },
+      "self": {
+        "vi": "Không gian sống và cơ thể bạn có thể đang bị xếp cuối cùng trong danh sách chăm sóc. Dành mười phút hôm nay cho một việc nhỏ chỉ vì bạn, như dọn một góc bàn hay nấu một bữa đơn giản.",
+        "en": "Your living space and your body may be last on your list of care. Spend ten minutes today on one small thing just for you, like clearing a corner of your desk or cooking a simple meal."
+      }
+    },
+    "minor-pentacles-king": {
+      "love": {
+        "vi": "Bạn có thể đang muốn giữ mọi quyết định chung trong tay để thấy an toàn. Mời người kia cùng quyết một việc nhỏ, và lắng nghe trọn ý họ trước khi nói ý mình.",
+        "en": "You may want to keep shared decisions in your own hands to feel secure. Invite the other person to decide one small thing together, and hear them out fully before giving your view."
+      },
+      "career": {
+        "vi": "Thành tựu vật chất có thể đang đứng trên những nhu cầu khác, như nghỉ ngơi hay thời gian cho người thân. Viết ra ba điều bạn coi trọng nhất, rồi xem lịch tuần này có đang phản ánh chúng không.",
+        "en": "Material achievement may be standing above other needs, like rest or time with loved ones. Write down the three things you value most, then see whether this week's schedule reflects them."
+      },
+      "self": {
+        "vi": "Bạn có thể đang đo giá trị bản thân bằng những gì mình kiểm soát hay sở hữu. Nhắc mình về một phẩm chất bạn quý ở chính mình, không liên quan đến tài sản hay thành tích.",
+        "en": "You may be measuring your worth by what you control or own. Remind yourself of one quality you value in yourself that has nothing to do with possessions or achievements."
+      }
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Platform, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import DateTimePicker, { type DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -10,6 +10,74 @@ const digits = (value: string, max: number) => value.replace(/\D/g, "").slice(0,
 // "15", "3", "2000" → "2000-03-15"; empty until all three parts are present.
 export function composeBirthDate(day: string, month: string, year: string) {
   return day && month && year.length === 4 ? `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}` : "";
+}
+
+// Lô 1 (Bản đồ số, 24/11/2026): calendar validity for the shared birth-date boxes. Cases from
+// docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md: reject 29/02/1900, 29/02/2001,
+// 31/04/2000 and day 0; accept 29/02/2000 and 29/02/2004.
+export const minBirthYear = 1900;
+
+export function isLeapYear(year: number) {
+  return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+}
+
+// Without a full year February allows 29, so 29/02 waits for the year before it is judged.
+export function daysInMonth(month: number, year?: number) {
+  if (month === 2) return year === undefined || isLeapYear(year) ? 29 : 28;
+  return [4, 6, 9, 11].includes(month) ? 30 : 31;
+}
+
+export type BirthDateIssue =
+  | { field: "day"; kind: "range" }
+  | { field: "month"; kind: "range" }
+  | { field: "year"; kind: "range"; max: number }
+  | { field: "day"; kind: "monthLength"; month: number; year?: number; days: number }
+  | { field: "year"; kind: "future" };
+
+// Checks whatever boxes are filled so the message shows while typing, not only at the end.
+// A single "0" in the day or month box is still being typed (01-09), so it waits for the next digit.
+export function birthDateIssue(day: string, month: string, year: string, today = new Date()): BirthDateIssue | null {
+  const d = day ? Number(day) : undefined;
+  const m = month ? Number(month) : undefined;
+  const y = year.length === 4 ? Number(year) : undefined;
+  const thisYear = today.getFullYear();
+  if (d !== undefined && (d > 31 || (d === 0 && day.length === 2))) return { field: "day", kind: "range" };
+  if (m !== undefined && (m > 12 || (m === 0 && month.length === 2))) return { field: "month", kind: "range" };
+  if (y !== undefined && (y < minBirthYear || y > thisYear)) return { field: "year", kind: "range", max: thisYear };
+  if (d !== undefined && d >= 1 && m !== undefined && m >= 1) {
+    const days = daysInMonth(m, y);
+    if (d > days) return { field: "day", kind: "monthLength", month: m, year: y, days };
+  }
+  if (d && m && y) {
+    const todayKey = thisYear * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+    if (y * 10000 + m * 100 + d > todayKey) return { field: "year", kind: "future" };
+  }
+  return null;
+}
+
+export function birthDateIssueText(issue: BirthDateIssue, vi: boolean) {
+  switch (issue.kind) {
+    case "range":
+      if (issue.field === "day") return vi ? "Ngày chỉ từ 1 đến 31." : "Day must be from 1 to 31.";
+      if (issue.field === "month") return vi ? "Tháng chỉ từ 1 đến 12." : "Month must be from 1 to 12.";
+      return vi ? `Năm sinh từ ${minBirthYear} đến ${issue.max}.` : `Birth year must be from ${minBirthYear} to ${issue.max}.`;
+    case "monthLength":
+      if (issue.year !== undefined) {
+        return vi
+          ? `Tháng ${issue.month} năm ${issue.year} chỉ có ${issue.days} ngày. Kiểm tra lại ngày sinh nhé.`
+          : `Month ${issue.month} of ${issue.year} has only ${issue.days} days. Please check the birth date.`;
+      }
+      return vi
+        ? `Tháng ${issue.month} chỉ có ${issue.days} ngày. Kiểm tra lại ngày sinh nhé.`
+        : `Month ${issue.month} has only ${issue.days} days. Please check the birth date.`;
+    case "future":
+      return vi ? "Ngày sinh chưa thể ở tương lai. Kiểm tra lại năm nhé." : "A birth date cannot be in the future. Please check the year.";
+  }
+}
+
+// What the parent receives: a real past date as YYYY-MM-DD, otherwise "" so nothing invalid is saved.
+export function validBirthDate(day: string, month: string, year: string, today = new Date()) {
+  return birthDateIssue(day, month, year, today) ? "" : composeBirthDate(day, month, year);
 }
 
 // Hour box → "HH:mm" (24-hour) as the chart calculator expects (UX review K6/U3, 2026-11-15).
@@ -80,33 +148,45 @@ function DevicePicker({ mode, value, onPick, onClose, doneLabel }: { mode: "date
   );
 }
 
-function Box({ label, value, onChange, max, width }: { label: string; value: string; onChange: (value: string) => void; max: number; width: number }) {
+function Box({ label, value, onChange, max, width, invalid }: { label: string; value: string; onChange: (value: string) => void; max: number; width: number; invalid?: boolean }) {
   return (
     <View style={{ width }}>
       <Text style={s.boxLabel}>{label}</Text>
       <TextInput accessibilityLabel={label} value={value} onChangeText={(text) => onChange(digits(text, max))} keyboardType="number-pad" maxLength={max}
-        placeholderTextColor="#6E675F" style={s.box} />
+        placeholderTextColor="#6E675F" style={[s.box, invalid && s.boxInvalid]} />
     </View>
   );
 }
 
-export function BirthDateFields({ language, value, onChange }: { language: Language; value: string; onChange: (value: string) => void }) {
+// One birth-date input for onboarding, the chart and Profile (Lô 1): three boxes, a message under the
+// boxes when the date cannot exist, and the device calendar on Android and iOS.
+// `label={false}` when the screen already shows its own label.
+export function BirthDateFields({ language, value, onChange, label }: { language: Language; value: string; onChange: (value: string) => void; label?: string | false }) {
   const vi = language === "vi";
   const [initialYear = "", initialMonth = "", initialDay = ""] = value.split("-");
   const [day, setDay] = useState(initialDay);
   const [month, setMonth] = useState(initialMonth);
   const [year, setYear] = useState(initialYear);
   const [picking, setPicking] = useState(false);
-  const update = (d: string, m: string, y: string) => { setDay(d); setMonth(m); setYear(y); onChange(composeBirthDate(d, m, y)); };
-  const current = composeBirthDate(day, month, year);
+  const update = (d: string, m: string, y: string) => { setDay(d); setMonth(m); setYear(y); onChange(validBirthDate(d, m, y)); };
+  const current = validBirthDate(day, month, year);
+  // A saved date that arrives after the screen opened (Profile reads it from storage) fills the boxes.
+  useEffect(() => {
+    const match = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (match && value !== current) { setYear(match[1]); setMonth(match[2]); setDay(match[3]); }
+    // Only an outside change of `value` should refill the boxes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+  const issue = birthDateIssue(day, month, year);
   return (
     <View>
-      <Text style={s.label}>{vi ? "Ngày sinh" : "Birth date"}</Text>
+      {label === false ? null : <Text style={s.label}>{label ?? (vi ? "Ngày sinh (dương lịch)" : "Birth date (Gregorian)")}</Text>}
       <View style={s.row}>
-        <Box label={vi ? "Ngày" : "Day"} value={day} max={2} width={72} onChange={(d) => update(d, month, year)} />
-        <Box label={vi ? "Tháng" : "Month"} value={month} max={2} width={72} onChange={(m) => update(day, m, year)} />
-        <Box label={vi ? "Năm" : "Year"} value={year} max={4} width={104} onChange={(y) => update(day, month, y)} />
+        <Box label={vi ? "Ngày" : "Day"} value={day} max={2} width={72} invalid={issue?.field === "day" || issue?.kind === "future"} onChange={(d) => update(d, month, year)} />
+        <Box label={vi ? "Tháng" : "Month"} value={month} max={2} width={72} invalid={issue?.field === "month" || issue?.kind === "monthLength" || issue?.kind === "future"} onChange={(m) => update(day, m, year)} />
+        <Box label={vi ? "Năm" : "Year"} value={year} max={4} width={104} invalid={issue?.field === "year" || (issue?.kind === "monthLength" && issue.year !== undefined)} onChange={(y) => update(day, month, y)} />
       </View>
+      {issue ? <Text accessibilityRole="alert" style={s.issue}>{birthDateIssueText(issue, vi)}</Text> : null}
       {nativePicker ? <PickerButton label={vi ? "Chọn trên lịch" : "Pick on a calendar"} onPress={() => setPicking(true)} /> : null}
       {nativePicker && picking ? (
         <DevicePicker mode="date" value={current ? new Date(`${current}T12:00:00`) : new Date(2000, 0, 1, 12)} doneLabel={vi ? "Xong" : "Done"}
@@ -164,6 +244,7 @@ const s = StyleSheet.create({
   row: { flexDirection: "row", alignItems: "flex-end", gap: 10, flexWrap: "wrap" },
   boxLabel: { color: "#B8B0A4", fontFamily: typography.bodyFontFamily, fontSize: 12, marginBottom: 4 },
   box: { minHeight: layout.minimumTouchTarget + 4, borderRadius: radius.card, borderWidth: 1, borderColor: "rgba(201, 164, 92, 0.45)", backgroundColor: "#1F1C1E", color: colors.ivory, fontFamily: typography.bodyFontFamily, fontSize: 18, textAlign: "center" },
+  boxInvalid: { borderColor: "#E3B583", borderWidth: 1.5 },
   colon: { color: colors.ivory, fontSize: 20, paddingBottom: 12 },
   issue: { color: "#E7B7BE", fontFamily: typography.bodyFontFamily, fontSize: 13, marginTop: 8 },
   pickerButton: { flexDirection: "row", alignItems: "center", alignSelf: "flex-start", gap: 8, minHeight: layout.minimumTouchTarget, marginTop: 10, paddingHorizontal: 14, borderRadius: radius.pill, borderWidth: 1, borderColor: "rgba(201, 164, 92, 0.45)" },

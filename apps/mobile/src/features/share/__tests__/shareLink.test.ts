@@ -5,7 +5,7 @@ const parse = (url: string) => new URL(url);
 it("builds a card link with only public card ids, the surface and a random id", () => {
   const url = buildShareUrl({ language: "vi", surface: "tarot_reading", id: "abc12345", cardIds: ["major-00-fool", "major-17-the-star"] });
   const parsed = parse(url);
-  expect(`${parsed.origin}${parsed.pathname}`).toBe(`${SHARE_ORIGIN}/vi/share`);
+  expect(`${parsed.origin}${parsed.pathname}`).toBe(`${SHARE_ORIGIN}/vi/share/reading`);
   expect(parsed.searchParams.get("c")).toBe("major-00-fool,major-17-the-star");
   expect(parsed.searchParams.get("utm_source")).toBe("share");
   expect(parsed.searchParams.get("utm_medium")).toBe("card");
@@ -13,9 +13,9 @@ it("builds a card link with only public card ids, the surface and a random id", 
   expect(parsed.searchParams.get("utm_content")).toBe("abc12345");
 });
 
-it("drops malformed card ids and keeps at most three", () => {
-  const url = buildShareUrl({ language: "en", surface: "tarot_reading", id: "abc12345", cardIds: ["ok-one", "BAD ID", "<script>", "ok-two", "ok-three", "ok-four"] });
-  expect(parse(url).searchParams.get("c")).toBe("ok-one,ok-two,ok-three");
+it("drops malformed card ids and keeps at most four", () => {
+  const url = buildShareUrl({ language: "en", surface: "tarot_reading", id: "abc12345", cardIds: ["ok-one", "BAD ID", "<script>", "ok-two", "ok-three", "ok-four", "ok-five"] });
+  expect(parse(url).searchParams.get("c")).toBe("ok-one,ok-two,ok-three,ok-four");
 });
 
 it("omits the card parameter when no valid card remains", () => {
@@ -51,7 +51,7 @@ it("creates 8-character ids that depend only on the random source", () => {
   expect(newShareId()).toMatch(/^[a-z0-9]{8}$/);
 });
 
-const surfaces = ["today_card", "tarot_reading", "astro_big3", "astro_invite"] as const;
+const surfaces = ["today_card", "tarot_reading", "astro_big3", "astro_invite", "numerology_map", "daily_sky"] as const;
 const link = "https://x.test/a";
 
 it("writes a first-person message with the link on its own line for every surface and language", () => {
@@ -84,10 +84,10 @@ it("uses the public card name for the card of the day and falls back without one
   expect(plain).not.toContain("undefined");
 });
 
-it("lists up to three card names for a reading and clips long names", () => {
-  const vi = shareLinkMessage("vi", "tarot_reading", link, { cardNames: ["Quá Khứ", "Hiện Tại", "Tương Lai", "Lá Thứ Tư"] });
-  expect(vi).toContain("Quá Khứ, Hiện Tại và Tương Lai");
-  expect(vi).not.toContain("Lá Thứ Tư");
+it("lists up to four card names for a reading and clips long names", () => {
+  const vi = shareLinkMessage("vi", "tarot_reading", link, { cardNames: ["Quá Khứ", "Hiện Tại", "Tương Lai", "Lời Khuyên", "Lá Thứ Năm"] });
+  expect(vi).toContain("Quá Khứ, Hiện Tại, Tương Lai và Lời Khuyên");
+  expect(vi).not.toContain("Lá Thứ Năm");
   expect(shareLinkMessage("en", "tarot_reading", link, { cardNames: ["A", "B"] })).toContain("A and B");
   const long = shareLinkMessage("en", "today_card", link, { cardNames: ["x".repeat(200)] });
   expect(long).toContain("x".repeat(40));
@@ -105,4 +105,60 @@ it("carries nothing but the lead and the link, so no question, note or birth det
   const text = shareLinkMessage("vi", "tarot_reading", link, { cardNames: ["Ngôi Sao"], question: "Tôi có nên nghỉ việc không?", notes: "bí mật", birthDate: "1990-01-01" } as never);
   expect(text.split("\n")).toHaveLength(2);
   expect(text).not.toMatch(/nghỉ việc|bí mật|1990/);
+});
+
+test("each surface opens its own page, so the link preview matches what was shared", () => {
+  const paths = Object.fromEntries(surfaces.map((surface) => [surface, parse(buildShareUrl({ language: "en", surface, id: "abc12345" })).pathname]));
+  expect(paths).toEqual({
+    today_card: "/en/share/card",
+    tarot_reading: "/en/share/reading",
+    astro_big3: "/en/compare",
+    astro_invite: "/en/compare",
+    numerology_map: "/en/share/numbers",
+    daily_sky: "/en/share/sky"
+  });
+});
+
+test("a number-map link carries no number, name or date, even when card ids or a sign are passed", () => {
+  const url = buildShareUrl({ language: "vi", surface: "numerology_map", id: "abc12345", cardIds: ["major-00-fool"], sunSign: "leo" });
+  const parsed = parse(url);
+  expect(parsed.pathname).toBe("/vi/share/numbers");
+  expect([...parsed.searchParams.keys()].sort()).toEqual(["utm_campaign", "utm_content", "utm_medium", "utm_source"]);
+  expect(parsed.searchParams.get("utm_campaign")).toBe("numerology_map");
+  const message = shareLinkMessage("vi", "numerology_map", url);
+  expect(message).toContain("bản đồ số");
+  expect(message).not.toMatch(/\d{1,2}\/\d/);
+});
+
+const sky = { moonSign: "taurus", decan: "mid", phase: "waxing_gibbous", date: "2026-11-28" } as const;
+
+test("a daily-sky link carries only the public sky of the day", () => {
+  const parsed = parse(buildShareUrl({ language: "vi", surface: "daily_sky", id: "abc12345", sky, sunSign: "leo", cardIds: ["major-00-fool"] }));
+  expect(parsed.pathname).toBe("/vi/share/sky");
+  expect([...parsed.searchParams.keys()].sort()).toEqual(["d", "k", "m", "p", "utm_campaign", "utm_content", "utm_medium", "utm_source"]);
+  expect(parsed.searchParams.get("m")).toBe("taurus");
+  expect(parsed.searchParams.get("k")).toBe("mid");
+  expect(parsed.searchParams.get("p")).toBe("waxing_gibbous");
+  expect(parsed.searchParams.get("d")).toBe("2026-11-28");
+  expect(parsed.searchParams.get("utm_campaign")).toBe("daily_sky");
+});
+
+test("a daily-sky link drops the whole sky when any value is malformed", () => {
+  for (const bad of [
+    { ...sky, moonSign: "dragon" },
+    { ...sky, decan: "middle" },
+    { ...sky, phase: "blood_moon" },
+    { ...sky, date: "28/11/2026" },
+    { ...sky, date: "2026-11-28T10:00" }
+  ]) {
+    const parsed = parse(buildShareUrl({ language: "en", surface: "daily_sky", id: "abc12345", sky: bad as never }));
+    expect([...parsed.searchParams.keys()].sort()).toEqual(["utm_campaign", "utm_content", "utm_medium", "utm_source"]);
+  }
+});
+
+test("the daily-sky message invites without naming the sender's details", () => {
+  const vi = shareLinkMessage("vi", "daily_sky", link);
+  expect(vi).toContain("bầu trời");
+  expect(vi).not.toMatch(/\bsẽ\b|\bphải\b/);
+  expect(shareLinkMessage("en", "daily_sky", link)).toContain("today's sky");
 });

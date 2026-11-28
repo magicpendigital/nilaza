@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tarot-reader-suggest-note-mobile-2026-11-24",
+  "ownerAgent": "mobile_agent",
+  "lane": "Mobile + AI client: Tarot reader suggestion by intent and free personal note (batch C remainder, proposal sections 1-2, Owner approved 23/11)",
+  "goal": "Suggest the Tarot follow-up reader from the user's topic, question words and drawn cards instead of the deck alone, with an optional AI tie-break for signed-in users, a once-per-spread mismatch nudge, and show the free daily personal note (note mode of ai-tarot-reading) under the summary on the Tarot result screen, with privacy-safe product events.",
+  "successCriteria": [
+    "suggestTarotReader is a pure on-device rule engine: chosen topic (largest weight), Vietnamese with and without diacritics and English question keywords, card facts (Cups, Swords, Majors) and a small deck tie-breaker; it returns primary, two alternatives, confidence 0..1, matchedTopic, reason key/params and two openers.",
+    "The Owner's two failure cases are fixed: a work question no longer suggests Inner Child Healer and a love question no longer suggests Clear Strategist; at least 25 Jest cases pass.",
+    "When confidence is low and the user is signed in, the app asks ai-tarot-reading suggest_reader with a 4 s timeout; the slug is used only if it is a candidate and the user has not tapped yet; the rule result shows first and on any error.",
+    "The reader panel shows the detected topic chips, the main suggestion with a reason naming the question topic and 1-2 drawn cards, two match lines, two opener buttons, two alternatives, 'Xem tất cả người dẫn' and an AI-character footnote; vi and en.",
+    "Picking a reader whose themes do not match the detected topic shows a non-blocking sheet once per spread with 'Vẫn hỏi' / 'Đổi sang'.",
+    "Signed-in users get one note request after the reveal with states writing, note, guest, used today, error/offline, crisis (115 card); canned text is never shown as AI; the existing deep reading flow, quotas and paywall are unchanged.",
+    "sendProductEvent posts enumerated metadata only (no free text) to /share/events, fire-and-forget."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/backendClient.ts",
+    "apps/mobile/src/__tests__/backendClient.test.ts",
+    "apps/mobile/src/features/tarot/readerSuggest.ts",
+    "apps/mobile/src/features/tarot/ReaderSuggestPanel.tsx",
+    "apps/mobile/src/features/tarot/ReaderMismatchSheet.tsx",
+    "apps/mobile/src/features/tarot/TarotFreeNote.tsx",
+    "apps/mobile/src/features/tarot/tarotNote.ts",
+    "apps/mobile/src/features/tarot/__tests__/readerSuggest.test.ts",
+    "apps/mobile/src/features/tarot/__tests__/ReaderSuggestPanel.test.tsx",
+    "apps/mobile/src/features/tarot/__tests__/TarotFreeNote.test.tsx",
+    "apps/mobile/src/features/tarot/__tests__/tarotNote.test.ts"
+  ],
+  "untouchedSurfaces": [
+    "Edge Functions, SQL, migrations, routes, quotas, switches and secrets are unchanged; the note and suggest_reader server modes are built by another agent and need Owner-approved deploys.",
+    "The share-events server allowlist is extended by another agent; until then product events are rejected quietly.",
+    "Deep reading flow, Tarot quotas, paywall and the 9-part report (later batch) are unchanged.",
+    "Tarot card selection stays deterministic server/app logic; AI never chooses cards.",
+    "PLAN.md is updated by the coordinating agent, not in this task."
+  ],
+  "impact": {
+    "entryPoint": "Tarot > result screen: the note box under 'Tóm lại'; the reader panel replaces the deck-only guide selector under the result; 'Hỏi tiếp' in the dock uses the selected reader.",
+    "dataWrite": "Local component state only (note state per drawId, nudge shown per reading id). No AsyncStorage, seed or table changes on the device side.",
+    "backendContract": "ai-tarot-reading gains client calls {action:'note', drawId} and {action:'suggest_reader', drawId, candidates}; product events post {events:[{name, ...enumerated metadata}]} to /share/events. Both server sides are delivered separately.",
+    "adminVisibility": "Events land in usage_events once the server allowlist accepts them; Admin shows counts only.",
+    "privacySafety": "The rule engine runs on the device and sends nothing. The AI calls send only drawId and candidate slugs; the server already holds the question. Events carry enumerated values, never question text. Crisis responses show the existing 115 card.",
+    "observability": "reader_suggestion_shown/accepted, reader_mismatch_nudge_shown/switched, tarot_followup_started, tarot_note_feedback.",
+    "rollback": "Revert the app commit; server modes absent or failing leave the rule result and the note error state; no data migration."
+  },
+  "canonicalContracts": [
+    "packages/content/data/personas-archetypes.json stays the source of persona themes",
+    "apps/mobile/src/backendClient.ts stays the single mobile caller of ai-tarot-reading",
+    "apps/mobile/src/features/tarot/cardName.ts stays the localized card-name helper",
+    "apps/mobile/src/features/safety/CrisisSupportCard.tsx stays the crisis card"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Owner approval boundary.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile lane checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/TAROT_NOTE_READER_ROUTER_CAMPAIGNS_2026-11-23.vi.md",
+      "reason": "Owner-approved sections 1-2: note placement, states, two-tier reader suggestion, mismatch nudge, metrics without question text.",
+      "sha256": "4249d8e90fc8bba351a5973be969f62cf9a1b32a74b94fa93e38dea9005ef9a4"
+    },
+    {
+      "path": "packages/content/data/personas-archetypes.json",
+      "reason": "Persona themes used for reader scoring.",
+      "sha256": "8dc12fdcf91b5e7ad889adc6d66742945e0c4e7d4a10375f95dee24e6bf06e9e"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before edits; PLAN.md left to the coordinating agent per brief."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Client only: AI calls need sign-in, use the existing function; slug validated against candidates; canned text never shown as AI; crisis shows 115."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "New copy is accented Vietnamese plus English, reflective tone, AI-character footnote; existing theme tokens."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No auth or RLS change; AI calls send the user's existing bearer token to existing endpoints.",
+    "sensitiveData": "Question text never leaves the device in new requests (server already stores it with the draw); events have no free text.",
+    "secretsLogging": "No secrets read or logged; no .env access.",
+    "externalInput": "Server slug accepted only when it is in the client candidate list; note text rendered as plain Text.",
+    "dependencies": "No package or lockfile change.",
+    "migrationRelease": "No migration or deploy. Server modes and the event allowlist ship separately with Owner approval.",
+    "stopCondition": "Stop if the feature would need sending question text in events, a new dependency, or a change to quotas or the paywall.",
+    "unresolvedHighRisks": []
+  },
+  "validationCommands": [
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "npm run validate:data",
+    "npm run validate:brand",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Signed in: draw Công việc with the question 'Sếp mới hay soi, mình có nên xin chuyển nhóm?'. Under 'Tóm lại' the personal note box writes then shows; tap Đúng. Below, the reader panel suggests Clear Strategist with a reason naming công việc and a drawn card; tap Inner Child Healer in 'Xem tất cả người dẫn' and see the one-time nudge; tap an opener and chat opens with that text. Signed out: the note box invites sign-in.",
+  "residualRisk": "Server note and suggest_reader modes and the event allowlist are not deployed yet, so on staging the note shows its error state and events are dropped until they ship; device behaviour (TalkBack order, large text, reduce motion) is not verified on a phone.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  },
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing React Native components and repository content only."
+  },
+  "externalSourceReview": [],
+  "workingTreeReview": {
+    "paths": [],
+    "note": "Clean worktree cut from origin/main b5ea7a0; the untracked repo-root PaywallPanel.test.tsx is not part of this task."
+  }
+}

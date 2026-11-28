@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "taskId": "lo6-premium-benefits-2026-11-25",
+  "ownerAgent": "mobile_agent",
+  "lane": "Mobile: Lô 6 of the Bầu trời hôm nay / Bản đồ số / Tôi là ai plan (Premium benefits copy and 'Sắp có' labels)",
+  "goal": "Do Lô 6 from docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md section 8: rewrite the Premium benefit list in PaywallPanel so every line matches what the code and packages/agent-config/account-tier-policy.json actually give today, and show features that are planned but not built (Bản đồ số AI 'Lời nhắn riêng' / 'Báo cáo tổng hợp', 'Hai hệ cùng nhìn bạn') under a 'Sắp có' label during the closed test. Prices keep coming from Google Play only; no price is written in the app.",
+  "successCriteria": [
+    "Each available benefit line is backed by a code path or policy value named in the handoff; no line promises more Tarot draws, unlimited AI or fixed counts that the code does not enforce.",
+    "Planned features appear in a separate 'Sắp có' group with a visible label and accessibility text, never as purchasable now.",
+    "No price, currency or discount is hard-coded; the existing Google Play offer, renewal text and legal links are unchanged.",
+    "Vietnamese and English copy, accented, no command tone or banned words.",
+    "PaywallPanel tests updated; tsc, mobile jest suite, mobile:check pass."
+  ],
+  "writeScope": [
+    "apps/mobile/src/features/billing/PaywallPanel.tsx",
+    "apps/mobile/src/features/billing/__tests__/PaywallPanel.test.tsx",
+    "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "No change to RevenueCat, Play products, prices, entitlement checks, account-tier-policy.json or any Edge Function.",
+    "apps/mobile/App.tsx not changed.",
+    "Real prices stay an Owner decision in Play Console (design used 799.000đ/năm, 99.000đ/tháng, not matched)."
+  ],
+  "impact": {
+    "entryPoint": "Tôi -> Gói của bạn (only when billing is on) -> Premium panel; copy only.",
+    "dataWrite": "No storage, seed or table change; copy constants only.",
+    "backendContract": "No API, Edge Function or provider change.",
+    "adminVisibility": "No Admin field, metric or audit change.",
+    "privacySafety": "Store-review risk reduced: benefits no longer claim what the app does not do.",
+    "observability": "No new analytics event or counter.",
+    "rollback": "Revert the commit."
+  },
+  "canonicalContracts": [
+    "packages/agent-config/account-tier-policy.json",
+    "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile route and checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md",
+      "reason": "Lô 6 scope (section 8).",
+      "sha256": "f91941131ccd1ca1f91282564c1f6ae25adff5f192d051a7346ec98a3d20ca75"
+    },
+    {
+      "path": "apps/mobile/src/features/billing/PaywallPanel.tsx",
+      "reason": "Benefit list and Premium panel.",
+      "sha256": "0d8364051d7f0d633dde00fe4bbd6233f7206bde0b2caaa6811d066d5a7a2ee1"
+    },
+    {
+      "path": "supabase/functions/_shared/account-tier-policy.ts",
+      "reason": "What Premium actually changes server-side.",
+      "sha256": "e5fd84cb1f61167d955b185ff3454916c73e1835ca3f86a9ad569d87d95c0246"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before code edits."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Copy change checked against repository code and policy files only."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No access change.",
+    "sensitiveData": "None handled.",
+    "secretsLogging": "No secret read or written; .env not read.",
+    "externalInput": "No new user input; static copy only.",
+    "dependencies": "No package change.",
+    "migrationRelease": "No SQL, deploy or store change.",
+    "stopCondition": "Stop if a benefit cannot be confirmed in code; move it to 'Sắp có' or drop it rather than guess.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record written and preflight passed on a clean tree at origin/main 35c8f88 before any edit (25/11/2026); paths below were then edited inside this record's write scope (the branch also carries the sibling Lô 5 record's files).",
+    "paths": [
+      "PLAN.md",
+      "apps/mobile/src/features/billing/PaywallPanel.tsx",
+      "apps/mobile/src/features/billing/__tests__/PaywallPanel.test.tsx",
+      "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md"
+    ]
+  },
+  "validationCommands": [
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "npm run mobile:check"
+  ],
+  "managerTestPath": "Tôi -> Gói của bạn (khi bật trả phí) -> đọc danh sách lợi ích: mỗi dòng có thật trong app; nhóm 'Sắp có' tách riêng; giá vẫn lấy từ Google Play.",
+  "residualRisk": "Not checked on a phone; billing panel only visible when billing is enabled.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

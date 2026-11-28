@@ -18,7 +18,13 @@ export const FEATURE_DATA_CLASS: Record<string, DataClass> = {
   ai_council: "sensitive",
   daily_insight: "sensitive",
   astrology_report: "sensitive",
-  tarot_reading: "personal"
+  tarot_reading: "personal",
+  // Batch C (2026-11-24): the private note sends the same question and cards as the reading; the reader suggestion
+  // sends the question, topic and card names only.
+  tarot_note: "personal",
+  reader_router: "personal",
+  // 2026-11-25: computed numerology numbers and approved block ids only (no name, no birth date); kept sensitive.
+  numerology_private_message: "sensitive"
 };
 export function featureDataClass(feature: string): DataClass {
   return FEATURE_DATA_CLASS[feature] ?? "sensitive";
@@ -208,19 +214,97 @@ export async function reportProviderOutcome(provider: ModelProviderName, report:
 }
 
 /**
- * Reference list prices in micro-USD per token (input, output), for the per-turn cost cap of step chains. Only used to
- * project the worst case of a step before calling it; actual OpenRouter charges come from its billing receipt.
- * Reference values from the providers' public price pages, not verified for this account; unknown models project 0.
+ * P1-C (15/11/2026): reference list prices in micro-USD per token (= USD per million tokens), input then output.
+ * Used to project the worst case of a step before calling it (per-turn cost cap) and to estimate the cost of a call
+ * when no billing receipt is available. A receipt (OpenRouter usage.cost) always wins over these numbers.
+ * Every entry names its source and check date. `verified: false` marks a conservative guess that nobody checked
+ * against the provider; Admin shows that flag next to any number computed from it.
  */
-export const REFERENCE_PRICES_MICRO_PER_TOKEN: Record<string, [number, number]> = {
-  "anthropic:claude-haiku-4-5": [1, 5],
-  "anthropic:claude-sonnet-4-5": [3, 15],
-  "openai:gpt-4o-mini": [0.15, 0.6],
-  "openai:gpt-4.1-mini": [0.4, 1.6],
-  "gemini:gemini-2.5-flash": [0.3, 2.5],
-  "gemini:gemini-2.5-flash-lite": [0.1, 0.4],
-  "gemini:gemini-2.5-pro": [1.25, 10]
+export type ReferencePriceEntry = {
+  input: number;
+  output: number;
+  verified: boolean;
+  source: string;
+  checkedOn: string;
 };
+const OPENROUTER_API = "OpenRouter public models API (openrouter.ai/api/v1/models), list price";
+const OPENROUTER_MIRROR = "Provider list price as mirrored by the OpenRouter models API; provider page not cross-checked";
+export const REFERENCE_PRICE_BOOK: Record<string, ReferencePriceEntry> = {
+  // Default routes (all six features): primary and fallback.
+  "openrouter:deepseek/deepseek-v4.1-flash": { input: 0.0507, output: 0.2028, verified: true, source: `${OPENROUTER_API}; cheapest endpoint, others list up to 3/12`, checkedOn: "2026-11-15" },
+  "openrouter:xiaomi/mimo-v2.6-flash": { input: 0.14, output: 0.28, verified: true, source: `${OPENROUTER_API}; endpoints range 0.10-0.18 / 0.28-0.36`, checkedOn: "2026-11-15" },
+  // Other OpenRouter models offered in Admin (model-providers.js catalogue).
+  "openrouter:deepseek/deepseek-v4.1-flash-1017": { input: 0.02, output: 0.108, verified: true, source: OPENROUTER_API, checkedOn: "2026-11-15" },
+  "openrouter:openai/gpt-5.4-mini": { input: 0.75, output: 4.5, verified: true, source: OPENROUTER_API, checkedOn: "2026-11-15" },
+  "openrouter:openai/gpt-5.4": { input: 2.5, output: 15, verified: true, source: OPENROUTER_API, checkedOn: "2026-11-15" },
+  "openrouter:anthropic/claude-sonnet-4.6": { input: 3, output: 15, verified: true, source: OPENROUTER_API, checkedOn: "2026-11-15" },
+  "openrouter:google/gemini-3.5-flash": { input: 1.5, output: 9, verified: true, source: OPENROUTER_API, checkedOn: "2026-11-15" },
+  // Direct providers (off by default): values equal the OpenRouter mirror of the provider's list price on 15/11.
+  "anthropic:claude-haiku-4-5": { input: 1, output: 5, verified: true, source: OPENROUTER_MIRROR, checkedOn: "2026-11-15" },
+  "anthropic:claude-sonnet-4-5": { input: 3, output: 15, verified: true, source: OPENROUTER_MIRROR, checkedOn: "2026-11-15" },
+  "openai:gpt-4o-mini": { input: 0.15, output: 0.6, verified: true, source: OPENROUTER_MIRROR, checkedOn: "2026-11-15" },
+  "openai:gpt-4.1-mini": { input: 0.4, output: 1.6, verified: true, source: OPENROUTER_MIRROR, checkedOn: "2026-11-15" },
+  "gemini:gemini-2.5-flash": { input: 0.3, output: 2.5, verified: true, source: OPENROUTER_MIRROR, checkedOn: "2026-11-15" },
+  "gemini:gemini-2.5-flash-lite": { input: 0.1, output: 0.4, verified: true, source: OPENROUTER_MIRROR, checkedOn: "2026-11-15" },
+  "gemini:gemini-2.5-pro": { input: 1.25, output: 10, verified: true, source: OPENROUTER_MIRROR, checkedOn: "2026-11-15" },
+  // Direct DeepSeek: model ids are aliases not listed anywhere we could check. Conservative guess, chưa xác minh.
+  "deepseek:deepseek-flash": { input: 0.3, output: 1.2, verified: false, source: "Chưa xác minh: conservative guess (common OpenRouter endpoint price of deepseek-v4.1-flash)", checkedOn: "2026-11-15" },
+  "deepseek:deepseek-v4-pro": { input: 1.8, output: 3, verified: false, source: "Chưa xác minh: conservative guess, no public price found for this id", checkedOn: "2026-11-15" }
+};
+
+/** Same values as REFERENCE_PRICE_BOOK, in the original [input, output] shape (kept for existing callers). */
+export const REFERENCE_PRICES_MICRO_PER_TOKEN: Record<string, [number, number]> = Object.fromEntries(
+  Object.entries(REFERENCE_PRICE_BOOK).map(([key, entry]) => [key, [entry.input, entry.output]])
+);
 export function referencePrice(provider: ModelProviderName, model: string): [number, number] | undefined {
   return REFERENCE_PRICES_MICRO_PER_TOKEN[`${provider}:${model}`];
+}
+
+/** Book entry for a call; `resolvedModel` (the model OpenRouter actually answered with) is tried first. */
+export function referencePriceInfo(provider: ModelProviderName, model: string, resolvedModel?: string): ReferencePriceEntry | undefined {
+  if (resolvedModel && resolvedModel !== model) {
+    const resolved = REFERENCE_PRICE_BOOK[`${provider}:${resolvedModel}`];
+    if (resolved) return resolved;
+  }
+  return REFERENCE_PRICE_BOOK[`${provider}:${model}`];
+}
+
+/** Worst-case projection before a call: about 3 characters per input token plus the full output budget. 0 without a price. */
+export function projectCallCostMicro(price: [number, number] | undefined, inputChars: number, maxOutputTokens: number): number {
+  if (!price) return 0;
+  return Math.ceil(Math.ceil(Math.max(0, inputChars) / 3) * price[0] + Math.max(0, maxOutputTokens) * price[1]);
+}
+
+export type CostSource = "reported" | "estimated" | "unknown";
+export type CallCost = {
+  /** micro-USD; null when nothing is known (counted as 0 by the cost cap). */
+  costMicro: number | null;
+  costSource: CostSource;
+  /** Whether the reference price behind an estimate is verified; null when no reference price was used. */
+  priceVerified: boolean | null;
+};
+const finiteNonNegative = (value: unknown): value is number => typeof value === "number" && Number.isFinite(value) && value >= 0;
+
+/**
+ * Cost of one finished or failed call: the billing receipt when present ("reported"), else tokens x reference price
+ * ("estimated"), else unknown. Rounding of the receipt matches the step-chain cost cap (Math.round of USD x 1e6).
+ */
+export function callCost(input: {
+  provider: ModelProviderName;
+  model: string;
+  resolvedModel?: string;
+  receiptUsd?: number | null;
+  inputTokens?: number | null;
+  outputTokens?: number | null;
+}): CallCost {
+  if (finiteNonNegative(input.receiptUsd)) return { costMicro: Math.round(input.receiptUsd * 1_000_000), costSource: "reported", priceVerified: null };
+  const price = referencePriceInfo(input.provider, input.model, input.resolvedModel);
+  const tokensIn = finiteNonNegative(input.inputTokens) ? input.inputTokens : null;
+  const tokensOut = finiteNonNegative(input.outputTokens) ? input.outputTokens : null;
+  if (price && (tokensIn !== null || tokensOut !== null)) {
+    // Round away float noise first (100 x 0.28 = 28.000000000000004 must stay 28), then round up to whole micro-USD.
+    const raw = (tokensIn ?? 0) * price.input + (tokensOut ?? 0) * price.output;
+    return { costMicro: Math.ceil(Math.round(raw * 1e6) / 1e6), costSource: "estimated", priceVerified: price.verified };
+  }
+  return { costMicro: null, costSource: "unknown", priceVerified: price ? price.verified : null };
 }

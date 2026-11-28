@@ -37,14 +37,14 @@
 
   const tr = [r(f("ai-tarot-reading")), r(s("tarot-prompt.ts")), r(s("ai-request-guard.ts")), r(s("model-router.ts")), r("packages/content/data/tarot-cards.json"), r("packages/agent-config/prompt-library.json")];
   const tarot = g("tarot_reading", t("Diễn giải Tarot", "Tarot interpretation"), tr, [
-    n("request_guard", t("Auth + bounded JSON", "Auth + bounded JSON"), "guard", 0, 0, t("Auth trước body có giới hạn. App đã chọn lá; LLM không rút lá.", "Authenticate before bounded body reading. The app selected cards; the LLM does not draw them."), [tr[0], tr[2]], [p("request", "TarotInput", "POST ai-tarot-reading", pass, "personal")], [o("input", "TarotInput", "canonical_cards.input", pass, "personal"), o("userId", "UserId", "reading_save.userId", t("Owner đã xác thực", "Verified owner"))]),
+    n("request_guard", t("Auth + bounded JSON", "Auth + bounded JSON"), "guard", 0, 0, t("Auth trước body có giới hạn. Máy chủ rút lá bằng CSPRNG và khoá theo (tài khoản, kiểu trải, chủ đề, ngày UTC+7); app chỉ gửi drawId để diễn giải, lá khác bản đã lưu bị từ chối. Bài đã lưu được trả lại không gọi mô hình. LLM không rút lá.", "Authenticate before bounded body reading. The server draws cards with a CSPRNG and locks them per (account, spread, topic, UTC+7 day); the app sends only a drawId to interpret and cards that differ from the stored draw are refused. A stored reading is replayed without a model call. The LLM does not draw cards."), [tr[0], r("supabase/functions/ai-tarot-reading/handler.ts", "createTarotHandler"), r("supabase/functions/ai-tarot-reading/draw.ts", "drawServerCards"), tr[2]], [p("request", "TarotInput", "POST ai-tarot-reading", pass, "personal")], [o("input", "TarotInput", "canonical_cards.input", pass, "personal"), o("userId", "UserId", "reading_save.userId", t("Owner đã xác thực", "Verified owner"))]),
     n("canonical_cards", t("Đối chiếu lá bài chuẩn", "Canonical card enrichment"), "context", 1, 0, t("Kiểm spread/count, ID duy nhất và orientation theo 78 lá chuẩn; nghĩa lá và phong cách bộ bài lấy từ gói nội dung đã phát hành (get_published_content_bundle) khi hợp lệ, không thì từ tarot-cards.json (E4). Sai input kết thúc 400.", "Check spread/count, unique IDs and orientations against the 78 canonical cards; card meanings and the deck reading style come from the published content bundle (get_published_content_bundle) when valid, else from tarot-cards.json (E4). Invalid input ends with 400."), [r(s("tarot-prompt.ts"), "prepareTarotContext"), r(s("tarot-content.ts"), "readPublishedTarotContent"), tr[4]], [p("input", "TarotInput", "request_guard.input", pass, "personal")], [o("context", "CanonicalTarotContext", "prompt_messages.context", t("Lá chuẩn + câu hỏi", "Canonical cards and question"), "personal"), o("language", "Locale", "prompt_lookup.language", t("EN hoặc VI mặc định", "EN or default VI"))]),
     n("prompt_lookup", t("Đọc global prompt active", "Read active global prompt"), "prompt", 2, 0, t("Theo locale/published_at; thiếu, sai, lỗi hoặc timestamp cạnh tranh chuyển local degraded, giữ lý do.", "Select by locale/published_at; missing/invalid/unavailable or competing timestamps use local degraded mode with a reason."), [r(s("tarot-prompt.ts"), "resolveTarotPrompt")], [p("language", "Locale", "canonical_cards.language", pass)], [o("prompt", "PromptSelection", "prompt_messages.prompt", t("Prompt + provenance", "Prompt and provenance"))]),
     n("local_prompt", t("Prompt chuẩn local", "Canonical local prompt"), "prompt", 2, 1, t("Fallback pinned prompt-library; không phải bản cloud vừa publish.", "Pinned prompt-library fallback; not a newly published cloud version."), [tr[1], tr[5]], [], [o("prompt", "PromptSelection", "prompt_messages.prompt", t("Fallback + lý do", "Fallback and reason"))]),
     n("prompt_messages", t("System + user JSON", "System + user JSON"), "prompt", 3, 0, t("System thêm bounds Tarot bất biến; nghĩa lá/câu hỏi trong user JSON. Không retrieval/vector.", "System adds immutable Tarot bounds; meanings/question remain in user JSON. No retrieval/vector search."), [tr[0]], [p("context", "CanonicalTarotContext", "canonical_cards.context", pass, "personal"), p("prompt", "PromptSelection", "prompt_lookup or local_prompt", pass)], [o("exchange", "ModelExchange", "model_call.exchange", pass, "sensitive")]),
     n("model_call", t("Safety + Model Call", "Safety + Model Call"), "model", 4, 0, t("Shared active route; input safety trước provider. Route không có steps: primary/fallback theo lỗi được phép như cũ. Route có steps (A7, ≤ 4 bước): đi theo thứ tự, bỏ qua nhà cung cấp tắt/thiếu khóa/không được nhận loại dữ liệu/cầu dao mở, chuyển bước khi lỗi tạm thời, 429, 402, 401/403, 404, quá ngữ cảnh, sai định dạng (1 lần), không bao giờ khi bị chặn an toàn; trong tổng thời gian và trần chi phí. Output safety có thể thay bằng local fallback.", "Shared active route; input safety precedes providers. Routes without steps: allowed errors trigger primary/fallback as before. Routes with steps (A7, up to 4): walked in order, skipping providers that are off, lack a key, may not receive the data class or have an open circuit; move on for transient, 429, 402, 401/403, 404, context length and one format failure, never after a safety block; inside the total deadline and cost cap. Output safety can replace output with local fallback."), [tr[3]], [exchangeIn("prompt_messages.exchange")], [generationOut("parse_output.generation")], "implemented-source", true),
     n("parse_output", t("Parse có fallback", "Parse with fallback"), "output", 5, 0, t("JSON bắt buộc theo hợp đồng: giới hạn độ dài, locale, section key duy nhất và cardIds thuộc lá đã chọn. Từ chối output bị cắt; lỗi dùng fallback có nhãn. Không xác nhận chất lượng ngữ nghĩa.", "Strict JSON contract validates bounds, locale, unique section keys and selected cardIds. Truncated output is rejected; errors use labelled fallback. Structural validation does not certify semantic quality."), [r(f("ai-tarot-reading"), "parseTarotOutput"), r("packages/ai-contracts/tarot-output.ts")], [p("generation", "ModelGeneration", "model_call.generation", pass, "sensitive")], [o("reading", "TarotResult", "reading_save.reading", pass, "sensitive")]),
-    n("reading_save", t("Lưu reading + usage/safety", "Save reading + usage/safety"), "storage", 6, 0, t("Lưu reading kèm provenance; tách lỗi lưu bài khỏi telemetry. Finalize trace sau validation/lưu; ghi biên nhận metadata bằng service riêng. Biên nhận lỗi không làm mất bài.", "Save reading with provenance; telemetry failure is separate from reading persistence. Finalize trace after validation/save, then write a service-only metadata receipt. Receipt failure does not discard the answer."), [tr[0], r(s("answer-receipt.ts"))], [p("reading", "TarotResult", "parse_output.reading", pass, "sensitive"), p("userId", "UserId", "request_guard.userId", pass)], [o("response", "TarotResponse", "response.response", t("Reading + remoteId/status", "Reading and remoteId/status"), "sensitive")]),
+    n("reading_save", t("Lưu reading + usage/safety", "Save reading + usage/safety"), "storage", 6, 0, t("Ghi diễn giải vào đúng lượt rút đang giữ quyền (claim) kèm provenance và phiên bản prompt/route/nội dung; trigger cấm sửa diễn giải đã ghi. Lưu lỗi thì trả 503 có thể thử lại (không hiện bài chưa lưu) và nhả quyền giữ; câu trả lời dự phòng không tốn lượt. Finalize trace sau validation/lưu; biên nhận lỗi không làm mất bài.", "Write the interpretation into the claimed draw with provenance and prompt/route/content versions; a trigger forbids changing a written interpretation. A save failure returns a retryable 503 (no unsaved answer is shown) and releases the claim; a fallback answer does not use up the day. Finalize trace after validation/save; receipt failure does not discard the answer."), [tr[0], r("supabase/functions/ai-tarot-reading/handler.ts", "createTarotHandler"), r("supabase/functions/ai-tarot-reading/store.ts", "createSupabaseTarotStore"), r(s("answer-receipt.ts"))], [p("reading", "TarotResult", "parse_output.reading", pass, "sensitive"), p("userId", "UserId", "request_guard.userId", pass)], [o("response", "TarotResponse", "response.response", t("Reading + remoteId/status", "Reading and remoteId/status"), "sensitive")]),
     n("response", t("Trả reading + trạng thái", "Return reading + state"), "output", 7, 0, t("Trả interaction/attempt/request, phiên bản prompt/assembly/route/content, nguồn và trạng thái. Feedback chỉ category/IDs; server kiểm quyền sở hữu biên nhận. Trace cũ vẫn chưa xác minh nguồn ghi.", "Return interaction/attempt/request IDs, prompt/assembly/route/content versions, source and status. Feedback sends categories/IDs only; the server checks receipt ownership. Legacy trace writer origin remains unverified."), [tr[0], r("packages/ai-contracts/answer-provenance.ts"), r(f("ai-feedback")), r("supabase/functions/ai-feedback/handler.ts")], [p("response", "TarotResponse", "reading_save.response", pass, "sensitive")])
   ], [
     e("request_cards", "request_guard", "canonical_cards", t("Payload bounded", "Bounded payload"), [tr[0]], ["input", "input"]),
@@ -87,11 +87,11 @@
   const pr = [r(f("ai-persona-chat")), r(s("persona-prompt-assembler.ts")), r(s("ai-request-guard.ts")), r(s("model-router.ts"))];
   const persona = g("persona_chat", t("Chat với guide", "Guide chat"), pr, [
     n("request_guard", t("Auth + bounded JSON", "Auth + bounded JSON"), "guard", 0, 0, t("Shared guard rồi kiểm text không rỗng.", "Shared guard, then require nonempty text."), [pr[0], pr[2]], [p("request", "PersonaInput", "POST ai-persona-chat", pass, "personal")], [o("input", "PersonaInput", "history.input", pass, "personal")]),
-    n("history", t("History bounded", "Bounded history"), "context", 1, 0, t("8 item cuối, compact, guide→assistant, bỏ duplicate hiện tại. Chưa xác minh context consent như Oracle.", "Last8 items, compact text, guide→assistant, remove current duplicates. Context consent is not verified as in Oracle."), [pr[0]], [p("input", "PersonaInput", "request_guard.input", pass, "personal")], [o("input", "PersonaInput", "prompt_layers.input", pass, "personal")]),
+    n("history", t("History bounded", "Bounded history"), "context", 1, 0, t("Hạng Thường: 8 lượt cuối × 800 ký tự; hạng Tri thức sâu: tới 12 lượt × 2.500 ký tự (Admin › Hạng model người dẫn). Compact, guide→assistant, bỏ duplicate hiện tại. Chưa xác minh context consent như Oracle.", "Standard tier: last 8 turns × 800 chars; Deep knowledge tier: up to 12 turns × 2,500 chars (Admin › Persona model tiers). Compact text, guide→assistant, remove current duplicates. Context consent is not verified as in Oracle."), [pr[0]], [p("input", "PersonaInput", "request_guard.input", pass, "personal")], [o("input", "PersonaInput", "prompt_layers.input", pass, "personal")]),
     n("prompt_layers", t("Persona + global/skill prompt", "Persona + global/skill prompt"), "prompt", 2, 0, t("Persona active theo slug; global và persona skill active, locale yêu cầu→EN→VI; layer thiếu dùng fallback. Không book/chunk/vector retrieval.", "Active persona by slug; active global and persona skill prompts, requested locale→EN→VI; missing layers use fallback. No book/chunk/vector retrieval."), [r(s("persona-prompt-assembler.ts"), "assemblePersonaPromptStack")], [p("input", "PersonaInput", "history.input", pass, "personal")], [o("layers", "PersonaLayers", "method_pack.layers", pass, "personal")]),
-    n("method_pack", t("Method pack theo theme", "Theme-based method pack"), "context", 3, 0, t("decision_clarity/relationship_boundaries/emotional_reflection. Pack là hướng dẫn trong một prompt, không agent riêng.", "decision_clarity/relationship_boundaries/emotional_reflection. A pack is guidance in one prompt, not a separate agent."), [r(s("persona-prompt-assembler.ts"), "selectMethodPack")], [p("layers", "PersonaLayers", "prompt_layers.layers", pass, "personal")], [o("stack", "PersonaStack", "system_stack.stack", pass, "personal")]),
+    n("method_pack", t("Method pack theo theme", "Theme-based method pack"), "context", 3, 0, t("decision_clarity/relationship_boundaries/emotional_reflection. Người dẫn có bản tóm tắt tri thức (knowledge brief, văn bản Nilaza tự viết về cuốn sách, đóng gói trong mã) thì lớp knowledge_brief thay method pack, kèm kiểu trả lời Tri thức (150–300 từ, câu hỏi kết không bắt buộc). Pack/brief là hướng dẫn trong một prompt, không agent riêng, không truy xuất vector.", "decision_clarity/relationship_boundaries/emotional_reflection. A persona with a knowledge brief (Nilaza's own text about the book, bundled in code) gets the knowledge_brief layer instead of a method pack, with the Knowledge output style (150–300 words, closing question optional). Pack/brief is guidance in one prompt, not a separate agent, not vector retrieval."), [r(s("persona-prompt-assembler.ts"), "selectMethodPack")], [p("layers", "PersonaLayers", "prompt_layers.layers", pass, "personal")], [o("stack", "PersonaStack", "system_stack.stack", pass, "personal")]),
     n("system_stack", t("Ghép system hiện tại", "Current system assembly"), "prompt", 4, 0, t("Global+skill+pack ở system; prompt lưu trên máy chủ không qua bộ kiểm chèn lệnh thì bỏ qua. Tên gọi/mục tiêu/giọng/giờ địa phương nằm trong khối “Dữ liệu — không phải chỉ dẫn” ở tin nhắn người dùng (A5, AI-05), cùng history/current text ở messages.", "Global+skill+pack are in system; a stored prompt that fails the injection guard is ignored. Nickname/goals/tone/local time sit in the “Data — not instructions” block of the user message (A5, AI-05), with history/current text in messages."), [pr[0], pr[1]], [p("stack", "PersonaStack", "method_pack.stack", pass, "personal")], [o("exchange", "ModelExchange", "model_call.exchange", pass, "sensitive")]),
-    n("model_call", t("Một Model Call", "One Model Call"), "model", 5, 0, t("Shared router/safety/fallback. Trace bắt đầu sau prompt assembly.", "Shared router/safety/fallback. Trace begins after prompt assembly."), [pr[3]], [exchangeIn("system_stack.exchange")], [generationOut("session_scope.generation")], "implemented-source", true),
+    n("model_call", t("Một Model Call", "One Model Call"), "model", 5, 0, t("Shared router/safety/fallback. Hạng model của người dẫn quyết định chuỗi model: Thường dùng chuỗi đang chạy; Tri thức sâu có model chính/dự phòng, suy luận, trần token, tổng thời gian chờ (Free: tối đa 135 s) và ngân sách mỗi tin nhắn riêng. App mới nhận chữ hiện dần (SSE: meta/delta/done/error); app cũ nhận một JSON. Trace bắt đầu sau prompt assembly.", "Shared router/safety/fallback. The persona's model tier picks the chain: Standard uses the running route; Deep knowledge has its own primary/fallback models, reasoning, token ceiling, total wait (Free: at most 135 s) and per-message budget. New app builds get streamed text (SSE: meta/delta/done/error); old builds get one JSON reply. Trace begins after prompt assembly."), [pr[3]], [exchangeIn("system_stack.exchange")], [generationOut("session_scope.generation")], "implemented-source", true),
     n("session_scope", t("Safety log + session scope", "Safety log + session scope"), "branch", 6, 0, t("Sau generation ghi safety event nếu blocked, rồi kiểm UUID/owner/kind/not-deleted/persona membership; phù hợp thì reuse, ngược lại create.", "After generation, write a safety event if blocked, then check UUID/owner/kind/not-deleted/persona membership; reuse if appropriate, otherwise create."), [pr[0]], [p("generation", "ModelGeneration", "model_call.generation", pass, "sensitive")], [o("turn", "PersonaTurn", "session_reuse or session_new", pass, "sensitive")]),
     n("session_reuse", t("Reuse session", "Reuse session"), "storage", 7, 0, t("Cập nhật timestamp, upsert membership trong session đúng phạm vi.", "Update timestamp and upsert membership in the scoped session."), [pr[0]], [p("turn", "PersonaTurn", "session_scope.turn", pass, "sensitive")], [o("turn", "PersonaTurn", "messages_save.turn", pass, "sensitive")]),
     n("session_new", t("Create session", "Create session"), "storage", 7, 1, t("Tạo session mới; thành công thì timestamp/membership upsert như reuse. Lỗi session_error bỏ qua message insert và trả response.", "Create a session; success uses the same timestamp/membership upsert as reuse. session_error skips message insertion and returns a response."), [pr[0]], [p("turn", "PersonaTurn", "session_scope.turn", pass, "sensitive")], [o("turn", "PersonaTurn", "messages_save.turn", pass, "sensitive")]),
@@ -110,7 +110,7 @@
     e("new_save", "session_new", "messages_save", t("Session mới thành công", "New session succeeds"), [pr[0]], ["turn", "turn"], t("Không sessionError và session.id có giá trị; timestamp/membership chuẩn bị trước messages.", "No sessionError and a session.id exists; timestamp/membership preparation precedes messages.")),
     e("new_session_error", "session_new", "response", t("session_error, không insert messages", "session_error, no message insert"), [pr[0]], null, t("Create lỗi hoặc không có session.id: bỏ qua message insert, trả persistenceStatus=session_error.", "Create fails or no session.id: skip message insertion and return persistenceStatus=session_error.")),
     e("save_response", "messages_save", "response", t("Stored / lỗi", "Stored / error"), [pr[0]], ["response", "response"])
-  ], [traceNote, t("Chưa retrieval nguồn được cấp phép hoặc consent context theo từng lượt như Oracle; dữ liệu người dùng đã ra khỏi system (A5). Một persona prompt không chứng minh kiến thức sách đã truy xuất.", "Licensed-source retrieval and Oracle-style per-request context consent are absent; user data is out of the system prompt (A5). A persona prompt does not prove book retrieval.")], ["persona_chat"]);
+  ], [traceNote, t("Chưa retrieval nguồn được cấp phép hoặc consent context theo từng lượt như Oracle; dữ liệu người dùng đã ra khỏi system (A5). Knowledge brief là tóm tắt do Nilaza viết, không phải truy xuất sách. Hạng model và streaming chỉ chạy khi ai-persona-chat bản mới đã deploy và migration 20261125100000 đã áp.", "Licensed-source retrieval and Oracle-style per-request context consent are absent; user data is out of the system prompt (A5). A knowledge brief is a Nilaza-written summary, not book retrieval. Model tiers and streaming run only once the new ai-persona-chat is deployed and migration 20261125100000 is applied.")], ["persona_chat"]);
 
   const cr = [r(f("ai-council")), r(s("model-router.ts")), r("packages/agent-config/council-contract.json")];
   const council = g("ai_council", t("Council — một lần sinh nhiều voice", "Council — one generation, multiple voices"), cr, [
@@ -158,7 +158,7 @@
     e("zodiac_response", "zodiac_usage", "zodiac_response", t("Pulse + ACK", "Pulse and ACK"), [dr[1]], ["response", "response"])
   ], [traceNote, t("Hai subflow độc lập; không nối Zodiac vào LLM. Trace daily_insight không tô sáng Zodiac. Chưa lưu daily-card.", "Two independent subflows; Zodiac is not connected to an LLM. daily_insight traces cannot highlight Zodiac. Daily-card persistence is absent.")], ["daily_insight"]);
 
-  const ar = [r(f("ai-astrology-insight")), r(s("astrology-ai-insight.ts")), r(s("astrology-ai-insight-contract.ts")), r(s("model-router.ts")), r("packages/astrology-core/calculator.mjs"), r("packages/agent-config/astrology-ai-insight/invocation.schema.json"), r("packages/agent-config/astrology-ai-insight/response.schema.json")];
+  const ar = [r(f("ai-astrology-insight")), r("supabase/functions/ai-astrology-insight/handler.ts"), r(s("astrology-lock.ts")), r(s("astrology-ai-insight.ts")), r(s("astrology-ai-insight-contract.ts")), r(s("model-router.ts")), r("packages/astrology-core/calculator.mjs"), r("packages/agent-config/astrology-ai-insight/invocation.schema.json"), r("packages/agent-config/astrology-ai-insight/response.schema.json")];
   const astrology = g("astrology", t("Astrology AI — facts đã tính", "Astrology AI — calculated facts"), ar, [
     n("chart_dependency", t("Chart deterministic từ app", "App deterministic chart"), "context", 0, 0, t("App/core tính chart; AI Insight nhận facts/contracts/revision, không tính lại hay bịa placement.", "App/core calculates the chart; AI Insight receives facts/contracts/revision without recalculating/inventing placements."), [ar[4], ar[5]], [p("birthInput", "BirthInput", "app birth profile", t("Tính deterministic chart", "Calculate deterministic chart"), "sensitive")], [o("invocation", "AstrologyInvocation", "auth_contract.invocation", pass, "sensitive")]),
     n("auth_contract", t("Auth + invocation schema", "Auth + invocation schema"), "guard", 1, 0, t("GetUser trước body; contract/schema/question và environment gate. Body length kiểm sau full text, không streaming guard Oracle.", "GetUser precedes body; contract/schema/question and environment gate. Body length is checked after full text, not Oracle's streaming guard."), [ar[0], ar[1], ar[5]], [p("invocation", "AstrologyInvocation", "chart_dependency.invocation", pass, "sensitive")], [o("invocation", "AstrologyInvocation", "access_usage.invocation", pass, "sensitive")]),
@@ -215,6 +215,121 @@
     n("phase_three_gate", t("Chưa có backend execution", "No execution backend"), "gate", 1, 0, t("Consent/upload/image safety/vision/deletion là yêu cầu PRD chưa làm ở flow này. Không có ai-face-reading endpoint hoặc trace đã review.", "Consent/upload/image safety/vision/deletion are unimplemented PRD requirements in this flow. No reviewed ai-face-reading endpoint/trace exists."), [fr[1]], [], [], "deferred")
   ], [e("deferred_only", "disabled_preview", "phase_three_gate", t("Scope Phase3, không execution", "Phase3 scope, not execution"), fr, null, t("Card disabled; không phải executable path.", "Disabled card; not an executable path."))], [t("Không node provider hoặc kết quả giả; chỉ yêu cầu Phase3. Ngoài nghiệm thu MVP hiện tại.", "No provider node or fabricated result; Phase3 requirements only. Outside current MVP acceptance.")], [], "deferred");
 
+  // Batch C (2026-11-24): the free daily private note and the AI tier of the reader suggestion. Both read the stored
+  // draw only; neither sends the account id, nickname, history, Journal or birth data to a provider.
+  const hr = r("supabase/functions/ai-tarot-reading/handler.ts");
+  const nr2 = [r(f("ai-tarot-reading")), hr, r("supabase/functions/ai-tarot-reading/store.ts", "noteClaim"), r(s("tarot-note-prompt.ts")), r(s("model-router.ts"))];
+  const tarotNote = g("tarot_note", t("Ghi chú riêng Tarot — 1 lần/ngày", "Private Tarot note — once a day"), nr2, [
+    n("request_guard", t("Đăng nhập + drawId + công tắc", "Sign-in + drawId + switch"), "guard", 0, 0, t("Cần đăng nhập; app chỉ gửi drawId. Nghỉ khi công tắc Giải bài Tarot hoặc Ghi chú riêng Tarot tắt (503).", "Sign-in required; the app sends only drawId. Paused when the Tarot reading or private note switch is off (503)."), [nr2[0], nr2[1]],
+      [p("request", "TarotNoteRequest", "POST ai-tarot-reading {action: note, drawId}", t("Chỉ drawId của lượt rút đã lưu", "Only the drawId of a stored draw"), "metadata")],
+      [o("drawId", "uuid", "note_claim.drawId", t("Lượt rút của chính tài khoản", "The account's own draw"), "metadata")]),
+    n("note_claim", t("Giữ lượt ghi chú (RPC)", "Note claim (RPC)"), "gate", 1, 0, t("tarot_note_claim (service role): 1 ghi chú đã giao mỗi ngày giờ Việt Nam, tính riêng với bài giải; lỗi không tốn lượt nhưng tối đa 3 lần thử/ngày; đã có ghi chú thì trả lại miễn phí.", "tarot_note_claim (service role): 1 delivered note per Vietnam day, counted apart from the reading; a failure does not use it but attempts stop at 3 a day; an existing note is replayed for free."), [nr2[2]],
+      [p("drawId", "uuid", "request_guard.drawId", t("Khóa theo tài khoản", "Locked per account"), "metadata")],
+      [o("draw", "StoredTarotDraw", "safety_branch.draw", t("Câu hỏi, chủ đề, kiểu trải bài, lá đã rút", "Question, topic, spread, drawn cards"), "personal")]),
+    n("safety_branch", t("Nhánh an toàn", "Safety branch"), "branch", 2, 0, t("Câu hỏi khủng hoảng hoặc ngoài phạm vi: không gọi model, trả hướng dẫn hỗ trợ (115) và ghi safety event.", "Crisis or out-of-scope question: no model call; returns support guidance (115) and records a safety event."), [nr2[1]],
+      [p("draw", "StoredTarotDraw", "note_claim.draw", t("Kiểm câu hỏi trước khi gọi model", "Question checked before any model call"), "personal")],
+      [o("draw", "StoredTarotDraw", "note_prompt.draw", t("Chỉ khi an toàn", "Only when safe"), "personal"), o("redirect", "SafetyRedirect", "safety_reply.redirect", t("Khủng hoảng / ngoài phạm vi", "Crisis / out of scope"), "metadata")]),
+    n("safety_reply", t("Trả hỗ trợ, không ghi chú", "Support reply, no note"), "output", 2, 1, t("note: null, moderationStatus blocked; không tốn lượt.", "note: null, moderationStatus blocked; does not use the note."), [nr2[1]],
+      [p("redirect", "SafetyRedirect", "safety_branch.redirect", t("Cờ khủng hoảng", "Crisis flag"), "metadata")]),
+    n("note_prompt", t("Prompt ghi chú ngắn", "Short note prompt"), "prompt", 3, 0, t("System cố định trong mã (VI/EN) + JSON người dùng: câu hỏi, chủ đề, kiểu trải bài, tên và vị trí lá. Không có biệt danh, lịch sử, Nhật ký, ngày sinh.", "Code-pinned system (VI/EN) + user JSON: question, topic, spread, card names and positions. No nickname, history, Journal or birth data."), [nr2[3]],
+      [p("draw", "StoredTarotDraw", "safety_branch.draw", t("Dữ liệu lượt rút", "Draw data"), "personal")],
+      [o("exchange", "ModelExchange", "model_call.exchange", t("System + câu hỏi và lá bài", "System + question and cards"), "personal")]),
+    n("model_call", t("Model ghi chú", "Note model"), "model", 4, 0, t("Route tarot_note: OpenRouter DeepSeek v4.1 Flash, dự phòng MiMo v2.6 Flash, JSON, 700 token, 20 giây/bước. Kiểm định dạng {text, need, askThem} ngay trong router để lỗi định dạng chuyển model dự phòng; bị chặn vì an toàn thì không chuyển.", "tarot_note route: OpenRouter DeepSeek v4.1 Flash, MiMo v2.6 Flash fallback, JSON, 700 tokens, 20 s per step. The {text, need, askThem} check runs inside the router so a format failure tries the fallback; a safety block never falls through."), [nr2[4], nr2[3]],
+      [p("exchange", "ModelExchange", "note_prompt.exchange", t("Không gửi mã tài khoản", "No account id sent"), "personal")],
+      [o("generation", "ModelGeneration", "note_save.generation", t("Ghi chú đã kiểm hoặc lỗi", "Checked note or failure"), "personal")]),
+    n("note_save", t("Lưu một lần + usage", "Write once + usage"), "storage", 5, 0, t("noteFinalize ghi note + note_created_at một lần (trigger cấm sửa); usage tarot_note_generated không có nội dung câu hỏi. Lỗi model: nhả lượt, 503 note_unavailable, không có chữ soạn sẵn.", "noteFinalize writes note + note_created_at once (the trigger forbids edits); usage tarot_note_generated holds no question text. Model failure: claim released, 503 note_unavailable, never canned text."), [nr2[2], nr2[1]],
+      [p("generation", "ModelGeneration", "model_call.generation", t("Ghi chú đã qua kiểm", "Checked note"), "personal")],
+      [o("response", "TarotNoteResponse", "response.response", t("Ghi chú + nextNoteAt", "Note + nextNoteAt"), "personal")]),
+    n("response", t("Trả ghi chú", "Return the note"), "output", 6, 0, t("noteStatus created/replayed; 429 daily_limit_reached kèm nextNoteAt; 409 khi đang tạo.", "noteStatus created/replayed; 429 daily_limit_reached with nextNoteAt; 409 while in progress."), [nr2[1]],
+      [p("response", "TarotNoteResponse", "note_save.response", t("Trả cho app", "Returned to the app"), "personal")])
+  ], [
+    e("guard_claim", "request_guard", "note_claim", t("drawId", "drawId"), [nr2[1]], ["drawId", "drawId"]),
+    e("claim_safety", "note_claim", "safety_branch", t("Lượt rút đã giữ", "Claimed draw"), [nr2[2]], ["draw", "draw"], t("Đã giữ lượt; chưa có ghi chú hôm nay.", "Claimed; no note yet today.")),
+    e("safety_prompt", "safety_branch", "note_prompt", t("An toàn", "Safe"), [nr2[1]], ["draw", "draw"]),
+    e("safety_redirect", "safety_branch", "safety_reply", t("Khủng hoảng / ngoài phạm vi", "Crisis / out of scope"), [nr2[1]], ["redirect", "redirect"], t("Câu hỏi bị chặn trước model.", "Question blocked before the model.")),
+    e("prompt_model", "note_prompt", "model_call", t("System + JSON", "System + JSON"), [nr2[1]], ["exchange", "exchange"]),
+    e("model_save", "model_call", "note_save", t("Đạt / lỗi / bị chặn", "Passed / failed / blocked"), [nr2[1]], ["generation", "generation"]),
+    e("save_response", "note_save", "response", t("Đã lưu", "Stored"), [nr2[1]], ["response", "response"])
+  ], [t("Chưa nối ai trace riêng cho ghi chú; số liệu chỉ ở usage_events. Migration 20261124090000 cần Owner áp trước khi chạy.", "No dedicated AI trace for the note yet; numbers live in usage_events only. Migration 20261124090000 must be applied by the Owner first.")]);
+
+  const rr = [r(f("ai-tarot-reading")), hr, r(s("reader-router.ts")), r(s("providers/decisions.ts")), r("packages/content/data/personas-archetypes.json")];
+  const readerRouter = g("reader_router", t("Gợi ý người đọc — tầng AI", "Reader suggestion — AI tier"), rr, [
+    n("request_guard", t("Đăng nhập + ứng viên + hạn mức", "Sign-in + candidates + quota"), "guard", 0, 0, t("Cần đăng nhập; drawId + 1–7 slug người đọc miễn phí trong danh sách cho phép (khác: 400). Công tắc reader_router; 20 lần/ngày.", "Sign-in required; drawId + 1–7 free reader slugs from the allowlist (otherwise 400). reader_router switch; 20 a day."), [rr[0], rr[1]],
+      [p("request", "ReaderSuggestRequest", "POST ai-tarot-reading {action: suggest_reader, drawId, candidates}", t("drawId và slug ứng viên", "drawId and candidate slugs"), "metadata")],
+      [o("draw", "StoredTarotDraw", "reader_state.draw", t("Lượt rút đã lưu", "Stored draw"), "personal")]),
+    n("reader_state", t("Trạng thái gửi đi (tối thiểu)", "Outgoing state (minimal)"), "context", 1, 0, t("Chỉ câu hỏi, chủ đề, kiểu trải bài, tên lá (tiếng Anh) và mô tả người đọc ứng viên. Không mã tài khoản, biệt danh, lịch sử, Nhật ký hay ngày sinh. Câu hỏi khủng hoảng: dừng, slug null.", "Only question, topic, spread, card names (English) and candidate reader descriptions. No account id, nickname, history, Journal or birth data. Crisis question: stop, slug null."), [rr[2], rr[4]],
+      [p("draw", "StoredTarotDraw", "request_guard.draw", t("Dữ liệu lượt rút", "Draw data"), "personal")],
+      [o("state", "ReaderState", "decision_call.state", t("Câu hỏi + lá + ứng viên", "Question + cards + candidates"), "personal"), o("fallbackState", "ReaderState", "chat_fallback.state", t("Cùng dữ liệu cho bước chat", "Same data for the chat step"), "personal")]),
+    n("decision_call", t("API quyết định (jev)", "Decision API (jev)"), "model", 2, 0, t("Bước 1: OpenRouter Decisions typesafe/jev-1.14, 3 giây; chỉ trả một lựa chọn, không có văn bản. Hình dạng API theo tài liệu, chưa gọi thật; chính sách dữ liệu của jev chưa được kiểm chứng.", "Step 1: OpenRouter Decisions typesafe/jev-1.14, 3 s; returns one choice, no text. API shape from the docs, not yet called live; jev's data policy is unverified."), [rr[3], rr[2]],
+      [p("state", "ReaderState", "reader_state.state", t("Gửi tới nhà cung cấp quyết định", "Sent to the decision provider"), "personal")],
+      [o("choice", "ReaderChoice", "choice_check.choice", t("slug + độ tin cậy", "slug + confidence"), "metadata")]),
+    n("chat_fallback", t("Model chat dự phòng", "Chat fallback"), "model", 2, 1, t("Bước 2 khi bước 1 lỗi: OpenRouter DeepSeek v4.1 Flash, JSON {slug, intent, confidence}, 3 giây.", "Step 2 when step 1 fails: OpenRouter DeepSeek v4.1 Flash, JSON {slug, intent, confidence}, 3 s."), [rr[2]],
+      [p("state", "ReaderState", "reader_state.fallbackState", t("Cùng dữ liệu tối thiểu", "Same minimal data"), "personal")],
+      [o("choice", "ReaderChoice", "choice_check.fallbackChoice", t("slug + ý định", "slug + intent"), "metadata")]),
+    n("choice_check", t("Kiểm lựa chọn + 4 giây", "Choice check + 4 s"), "branch", 3, 0, t("slug phải nằm trong danh sách ứng viên; tổng ngân sách 4 giây (áp trong mã). Sai, hết giờ hoặc lỗi: slug null, source none — app dùng gợi ý theo luật.", "The slug must be one of the candidates; total budget 4 s (enforced in code). Wrong, late or failed: slug null, source none — the app keeps its rule-based suggestion."), [rr[2]],
+      [p("choice", "ReaderChoice", "decision_call.choice", t("Lựa chọn bước 1", "Step 1 choice"), "metadata"), p("fallbackChoice", "ReaderChoice", "chat_fallback.choice", t("Lựa chọn bước 2", "Step 2 choice"), "metadata")],
+      [o("suggestion", "ReaderSuggestion", "usage_log.suggestion", t("slug/null + nguồn", "slug/null + source"), "metadata")]),
+    n("usage_log", t("Ghi usage", "Usage record"), "storage", 4, 0, t("usage reader_router_suggested: nguồn, model, slug, độ trễ; không có nội dung câu hỏi.", "usage reader_router_suggested: source, model, slug, latency; no question text."), [rr[1]],
+      [p("suggestion", "ReaderSuggestion", "choice_check.suggestion", t("Kết quả", "Result"), "metadata")],
+      [o("response", "ReaderSuggestion", "response.response", t("Trả cho app", "Returned to the app"), "metadata")]),
+    n("response", t("Trả gợi ý", "Return suggestion"), "output", 5, 0, t("{slug, confidence, intent, source}; 429 reader_router_daily; 503 khi tạm nghỉ.", "{slug, confidence, intent, source}; 429 reader_router_daily; 503 when paused."), [rr[1]],
+      [p("response", "ReaderSuggestion", "usage_log.response", t("Gợi ý", "Suggestion"), "metadata")])
+  ], [
+    e("guard_state", "request_guard", "reader_state", t("Lượt rút", "Draw"), [rr[1]], ["draw", "draw"]),
+    e("state_decision", "reader_state", "decision_call", t("Trạng thái tối thiểu", "Minimal state"), [rr[2]], ["state", "state"]),
+    e("state_chat", "reader_state", "chat_fallback", t("Khi bước 1 lỗi", "When step 1 fails"), [rr[2]], ["fallbackState", "state"], t("Bước quyết định lỗi hoặc hết giờ.", "Decision step failed or timed out.")),
+    e("decision_check", "decision_call", "choice_check", t("Lựa chọn", "Choice"), [rr[2]], ["choice", "choice"]),
+    e("chat_check", "chat_fallback", "choice_check", t("Lựa chọn dự phòng", "Fallback choice"), [rr[2]], ["choice", "fallbackChoice"]),
+    e("check_usage", "choice_check", "usage_log", t("Gợi ý hoặc null", "Suggestion or null"), [rr[1]], ["suggestion", "suggestion"]),
+    e("usage_response", "usage_log", "response", t("Trả về", "Return"), [rr[1]], ["response", "response"])
+  ], [t("Chi phí API quyết định chỉ ghi trong usage metadata, chưa có trong bảng giá hay ai trace. Khóa OPENAI_API_KEY / GEMINI_API_KEY cần Owner đặt nếu dùng hai nhà cung cấp đó.", "Decision API cost is only in usage metadata, not in the price book or AI traces. OPENAI_API_KEY / GEMINI_API_KEY must be set by the Owner to use those providers.")]);
+
+  // 2026-11-25 (B1-B8): Numerology "Lời nhắn riêng". Premium, signed-in, one delivered message a Vietnam day (3 attempts).
+  // The app sends computed numbers and block ids only; the name and birth date never leave the phone. Switch seeded off.
+  const nm = [r(f("ai-numerology-message")), r("supabase/functions/ai-numerology-message/handler.ts", "createNumerologyMessageHandler"),
+    r(s("feature-switch.ts"), "featureEnabledStrict"), r(s("daily-attempts.ts"), "claimDeliveredAttempt"), r(s("numerology-blocks.ts"), "resolveNumerologyBlocks"),
+    r(s("numerology-message-prompt.ts"), "checkNumerologyMessageText"), r(s("model-router.ts")), r("packages/content/data/numerology-blocks.json")];
+  const numerologyMessage = g("numerology_private_message", t("Lời nhắn riêng Thần số học — Premium, 1 lần/ngày", "Numerology private message — Premium, once a day"), nm, [
+    n("request_guard", t("Đăng nhập (không ẩn danh)", "Sign-in (not anonymous)"), "guard", 0, 0, t("Cần tài khoản đã đăng nhập, không ẩn danh (401). Thân yêu cầu chưa được đọc ở bước này.", "A signed-in, non-anonymous account is required (401). The body is not read yet."), [nm[0], nm[1]],
+      [p("request", "NumerologyMessageRequest", "POST ai-numerology-message", t("Chỉ con số đã tính + mã khối nội dung, sau hộp đồng ý trên app", "Computed numbers + content block ids only, after the in-app consent box"), "personal")],
+      [o("userId", "UserId", "access_gate.userId", t("Tài khoản đã xác thực", "Verified account"))]),
+    n("access_gate", t("Công tắc + duyệt nội dung + Premium", "Switch + content review + Premium"), "gate", 1, 0, t("Đọc công tắc kiểu nghiêm (thiếu dòng hoặc lỗi = tắt): 503 feature_paused. Nội dung numerology-blocks chưa duyệt (review khác approved hoặc chưa có người duyệt): 503 content_not_approved. Không phải Premium: 403 premium_required. Không tốn lượt.", "Strict switch read (missing row or error = off): 503 feature_paused. Numerology blocks not approved (review not approved or no reviewer): 503 content_not_approved. Not Premium: 403 premium_required. No attempt is used."), [nm[1], nm[2], nm[4]],
+      [p("userId", "UserId", "request_guard.userId", t("Tài khoản", "Account"))],
+      [o("userId", "UserId", "attempt_claim.userId", t("Chỉ khi được phép", "Only when allowed"))]),
+    n("attempt_claim", t("Giữ lượt trong ngày", "Daily attempt claim"), "gate", 2, 0, t("usage_events numerology_message_attempted bằng JWT của chính người dùng: 1 lời nhắn đã giao + tối đa 3 lần thử mỗi ngày giờ Việt Nam; hết lượt: 429 daily_limit_reached kèm nextMessageAt.", "usage_events numerology_message_attempted with the caller's own JWT: 1 delivered message + at most 3 attempts per Vietnam day; otherwise 429 daily_limit_reached with nextMessageAt."), [nm[3]],
+      [p("userId", "UserId", "access_gate.userId", t("Tài khoản", "Account"))],
+      [o("userId", "UserId", "block_resolve.userId", t("Đã ghi một lần thử", "One attempt recorded"))]),
+    n("block_resolve", t("Kiểm yêu cầu + lấy khối nội dung", "Request check + block lookup"), "context", 3, 0, t("Đọc thân có giới hạn rồi kiểm hợp đồng chặt: version 1, chỉ khóa cho phép, con số đúng dạng, tối đa 16 mã khối không lặp (sai: 400, lần thử đã tính). Chữ của từng khối lấy từ numerology-blocks.json theo ngôn ngữ; không có họ tên, ngày sinh hay tuổi.", "Bounded body read, then a strict contract: version 1, allowed keys only, well-formed numbers, at most 16 distinct block ids (otherwise 400, attempt counted). Each block's text comes from numerology-blocks.json in the chosen language; no name, birth date or age."), [nm[1], nm[4], nm[7]],
+      [p("userId", "UserId", "attempt_claim.userId", t("Tài khoản", "Account"))],
+      [o("blocks", "ResolvedBlock[]", "message_prompt.blocks", t("Con số + chữ của các khối đã gửi", "Numbers + text of the sent blocks"), "personal")]),
+    n("message_prompt", t("Prompt lời nhắn", "Message prompt"), "prompt", 4, 0, t("Hướng dẫn trong prompt-library (numerology_private_message_system, chưa sửa được ở Admin) + luật khóa trong mã. Dữ liệu người dùng là một khối JSON ghi rõ không phải chỉ dẫn.", "Guide from prompt-library (numerology_private_message_system, not Admin-editable yet) + code-locked rules. User data is one JSON block labelled as not instructions."), [nm[5], r("packages/agent-config/prompt-library.json")],
+      [p("blocks", "ResolvedBlock[]", "block_resolve.blocks", t("Khối đã duyệt", "Approved blocks"), "personal")],
+      [o("exchange", "ModelExchange", "model_call.exchange", t("System + JSON dữ liệu", "System + data JSON"), "personal")]),
+    n("model_call", t("Model lời nhắn", "Message model"), "model", 5, 0, t("Route numerology_private_message: OpenRouter DeepSeek v4.1 Flash, dự phòng MiMo v2.6 Flash, JSON, 600 token, 20 giây/bước, tổng 40 giây. Không thuộc chiến dịch model. Kiểm đầu ra chạy trong router để lỗi định dạng thử model dự phòng.", "numerology_private_message route: OpenRouter DeepSeek v4.1 Flash, MiMo v2.6 Flash fallback, JSON, 600 tokens, 20 s per step, 40 s total. Not part of model campaigns. The output check runs inside the router so a format failure tries the fallback."), [nm[6], nm[1]],
+      [p("exchange", "ModelExchange", "message_prompt.exchange", t("Không gửi mã tài khoản", "No account id sent"), "personal")],
+      [o("generation", "ModelGeneration", "output_check.generation", t("Văn bản + metadata", "Text + metadata"), "personal")]),
+    n("output_check", t("Kiểm lời nhắn", "Message check"), "branch", 6, 0, t("JSON {message, blockIds}: 3–5 mã trong số đã gửi, 20–140 từ, không từ cấm (tiền, bệnh, định mệnh, hợp, sẽ…). Không đạt: 503 message_unavailable, không có chữ soạn sẵn. Bị chặn an toàn: ghi safety event, không thử lại.", "JSON {message, blockIds}: 3–5 ids from those sent, 20–140 words, no banned words (money, illness, destiny, compatible, will…). Failure: 503 message_unavailable, never canned text. Safety block: safety event, no retry."), [nm[5], nm[1]],
+      [p("generation", "ModelGeneration", "model_call.generation", t("Đầu ra model", "Model output"), "personal")],
+      [o("message", "NumerologyMessage", "usage_log.message", t("Lời nhắn đã kiểm", "Checked message"), "personal"), o("blocked", "SafetyBlock", "safety_event.blocked", t("Bị chặn an toàn", "Safety block"))]),
+    n("safety_event", t("Ghi safety event", "Safety event"), "storage", 6, 1, t("safety_events (feature chat, blocked_topic) với tóm tắt không có nội dung; 503 retryable false.", "safety_events (feature chat, blocked_topic) with a content-free summary; 503 retryable false."), [nm[1]],
+      [p("blocked", "SafetyBlock", "output_check.blocked", t("Lý do chặn", "Block reason"))]),
+    n("usage_log", t("Ghi usage, không lưu lời nhắn", "Usage record, message not stored"), "storage", 7, 0, t("usage numerology_message_generated: phiên bản prompt, ngôn ngữ, số khối, model. Không lưu lời nhắn, con số hay mã khối; không có bảng lưu lời nhắn.", "usage numerology_message_generated: prompt version, language, block count, model. No message, numbers or block ids are stored; there is no message table."), [nm[1]],
+      [p("message", "NumerologyMessage", "output_check.message", t("Chỉ đếm", "Counts only"), "personal")],
+      [o("response", "NumerologyMessageResponse", "response.response", t("Lời nhắn + nextMessageAt", "Message + nextMessageAt"), "personal")]),
+    n("response", t("Trả lời nhắn", "Return the message"), "output", 8, 0, t("{message, blockIds, language, model, nextMessageAt}; app hiện một lần, không lưu.", "{message, blockIds, language, model, nextMessageAt}; the app shows it once and keeps nothing."), [nm[1]],
+      [p("response", "NumerologyMessageResponse", "usage_log.response", t("Trả cho app", "Returned to the app"), "personal")])
+  ], [
+    e("guard_access", "request_guard", "access_gate", t("Tài khoản", "Account"), [nm[1]], ["userId", "userId"]),
+    e("access_claim", "access_gate", "attempt_claim", t("Được phép", "Allowed"), [nm[1]], ["userId", "userId"], t("Công tắc bật, nội dung đã duyệt, Premium.", "Switch on, content approved, Premium.")),
+    e("claim_blocks", "attempt_claim", "block_resolve", t("Đã giữ lượt", "Attempt claimed"), [nm[3]], ["userId", "userId"]),
+    e("blocks_prompt", "block_resolve", "message_prompt", t("Khối đã duyệt", "Approved blocks"), [nm[4]], ["blocks", "blocks"]),
+    e("prompt_model", "message_prompt", "model_call", t("System + JSON", "System + JSON"), [nm[1]], ["exchange", "exchange"]),
+    e("model_check", "model_call", "output_check", t("Đầu ra", "Output"), [nm[1]], ["generation", "generation"]),
+    e("check_safety", "output_check", "safety_event", t("Bị chặn", "Blocked"), [nm[1]], ["blocked", "blocked"], t("moderationStatus blocked.", "moderationStatus blocked.")),
+    e("check_usage", "output_check", "usage_log", t("Đạt", "Passed"), [nm[1]], ["message", "message"]),
+    e("usage_response", "usage_log", "response", t("Trả về", "Return"), [nm[1]], ["response", "response"])
+  ], [t("Công tắc numerology_private_message tắt sẵn; migration 20261125090000 và việc deploy ai-numerology-message cần Owner duyệt. Nội dung numerology-blocks còn bản nháp nên hàm trả content_not_approved. Trace ghi theo feature numerology_private_message nhưng chưa gắn vào sơ đồ này.", "The numerology_private_message switch is seeded off; migration 20261125090000 and deploying ai-numerology-message need Owner approval. The numerology blocks are still a draft, so the function answers content_not_approved. Traces are written under numerology_private_message but are not bound to this graph.")]);
+
   // Field-level ports supplement aggregates; these names describe data use only,
   // never expose example private values or turn the graph into an executor.
   const fieldNode = (feature, id) => feature.nodes.find((item) => item.id === id);
@@ -240,8 +355,11 @@
   tarotPrompt.inputs.push(p("selectedCards", "CanonicalTarotCard[]", "canonical_cards.selectedCards", t("Giữ đúng nghĩa theo orientation; LLM không thêm/đổi/rút lá", "Use meanings for the given orientation; the LLM cannot add/change/draw cards"), "personal"));
   const requestCardsEdge = tarot.edges.find((item) => item.id === "request_cards");
   for (const name of ["selectedCards", "spread", "question", "language", "deck", "topic"]) requestCardsEdge.mappings.push({ from: name, to: name, usage: tarotCards.inputs.find((port) => port.name === name).usage });
+  // Batch C1 (22/11): server-built reading guide, derived from the drawn cards and bundled content only.
+  tarotCards.outputs.push(o("readingGuide", "TarotReadingGuide", "prompt_messages.readingGuide", t("Máy chủ tự dựng từ lá đã rút: spreadGuide (mỗi vị trí hỏi gì, quan hệ giữa các vị trí, hai lá đáng chú ý nhất), cardFacts (đếm lá Ẩn chính, lá ngược, bộ, nguyên tố, số lặp, lá cung đình, lá Át), topicMeanings (nghĩa theo chủ đề Tình cảm/Công việc/Bản thân của từng lá theo chiều đã rút). Không có lịch sử, nhật ký hay ngày sinh", "Built by the server from the drawn cards: spreadGuide (what each position asks, how positions relate, the two cards that matter most), cardFacts (counts of Major Arcana, reversed cards, suits, elements, repeated numbers, court cards, aces), topicMeanings (each card's love/career/self meaning in its drawn orientation). No history, journal or birth data")));
+  tarotPrompt.inputs.push(p("readingGuide", "TarotReadingGuide", "canonical_cards.readingGuide", t("Giúp AI đọc các lá thành một câu chuyện và trả lời thẳng câu hỏi; không đổi lá hay nghĩa lá", "Helps the model read the cards as one story and answer the question directly; never changes cards or meanings")));
   const cardsPromptEdge = tarot.edges.find((item) => item.id === "cards_to_prompt");
-  for (const name of ["selectedCards", "spread", "question", "language", "deck", "topic"]) cardsPromptEdge.mappings.push({ from: name, to: name, usage: tarotPrompt.inputs.find((port) => port.name === name).usage });
+  for (const name of ["selectedCards", "spread", "question", "language", "deck", "topic", "readingGuide"]) cardsPromptEdge.mappings.push({ from: name, to: name, usage: tarotPrompt.inputs.find((port) => port.name === name).usage });
   for (const [feature, composerId, edgeId] of [[tarot, "prompt_messages", "prompt_to_model"], [persona, "system_stack", "system_model"], [council, "roster", "roster_model"], [daily, "hardcoded_prompt", "daily_model"], [astrology, "selected_facts", "facts_model"]]) {
     const composer = fieldNode(feature, composerId), model = fieldNode(feature, "model_call"), link = feature.edges.find((item) => item.id === edgeId);
     for (const [name, type, usage] of [
@@ -271,8 +389,8 @@
     o("messages", "ModelMessage[]", "compiled.preview.messages; no provider dispatch", t("Chỉ context được cho phép và current question; không có Model Call", "Only permitted context and current question; no Model Call"), "sensitive")
   );
   const catalog = {
-    schemaVersion: 1, version: "nilaza-admin-workflow-source-v1", reviewedAt: "2026-10-16",
-    features: [oracle, persona, council, tarot, daily, notifications, astrology, face],
+    schemaVersion: 1, version: "nilaza-admin-workflow-source-v1", reviewedAt: "2026-11-25",
+    features: [oracle, persona, council, tarot, daily, notifications, astrology, face, tarotNote, readerRouter, numerologyMessage],
     sourceDigests: [
   {
     "path": "supabase/migrations/20260909014614_ai_trace_observability.sql",
@@ -280,7 +398,7 @@
   },
   {
     "path": "apps/mobile/App.tsx",
-    "sha256": "ceaef322106a531c25f92df3551790960cfa38ad79312263e637909713bcdea0"
+    "sha256": "078de8f5a53fe6ef10e58d33c574ec622f140b6187a74fd5b30ea26afcd31226"
   },
   {
     "path": "docs/FEATURE_PRD.md",
@@ -300,7 +418,7 @@
   },
   {
     "path": "packages/agent-config/prompt-library.json",
-    "sha256": "6e24285ae847c2ee01ff6949ef3b6fd36c5933d31376a185c32b244d97f29bd3"
+    "sha256": "eb64e7ae297c122c119dc24f879217e986f80463a25c4113cf263e5885e5daa6"
   },
   {
     "path": "packages/astrology-core/calculator.mjs",
@@ -312,15 +430,19 @@
   },
   {
     "path": "supabase/functions/_shared/ai-request-guard.ts",
-    "sha256": "1fbf5ab7723ebb1d4f9ca55b099a275f53ca1fd7163c4d519054af7519532abb"
+    "sha256": "cf1204cae48dac9cfc718dd93f5b4d2a93efffefef03b12fae0f73f680dae056"
   },
   {
     "path": "supabase/functions/_shared/ai-trace.ts",
-    "sha256": "78f27f581fc4ec10ea0507d0c169787e89a12dbb034b4704761b93880c664221"
+    "sha256": "1a251f9d6ce09b12d87313e1af353d90a9d69f495908e14b564765cc48c96fdc"
   },
   {
     "path": "supabase/functions/_shared/astrology-ai-insight-contract.ts",
     "sha256": "1f92e788cb4027d2c1b2d76b29a690a68160e10f8a0634b20a380b91435d9eda"
+  },
+  {
+    "path": "supabase/functions/_shared/astrology-lock.ts",
+    "sha256": "7173a2c2fe5aa4841c64dea77f4c981e104b4ce800adc3559e069ec46a94d59d"
   },
   {
     "path": "supabase/functions/_shared/astrology-ai-insight.ts",
@@ -328,11 +450,11 @@
   },
   {
     "path": "supabase/functions/_shared/model-provider.ts",
-    "sha256": "8cdc5dc83a831984f55d355deafb2460c1f0842f1bdd434d1209c04d8bb8ecde"
+    "sha256": "94c4ccb76841da405d0d596b2345617ad74ef3c559fe1b44e3ed10ce595f84cf"
   },
   {
     "path": "supabase/functions/_shared/model-router.ts",
-    "sha256": "87de02f1978911d8ab0abc791f827b8cb3f16e18bfcc2eb3bea10ef304d89d96"
+    "sha256": "6df41b89af38cf2622aed394a02e3c8b401af2e720ee68964aab04785c790140"
   },
   {
     "path": "supabase/functions/_shared/notification-provider.ts",
@@ -344,7 +466,7 @@
   },
   {
     "path": "supabase/functions/_shared/persona-prompt-assembler.ts",
-    "sha256": "98c102f9282c5aae829693e65c029f1c3e0b7c5d4b0ee2fed8b76778b184718d"
+    "sha256": "d49e0f7eb32844619c1db0bf73db44ace3bf1419006782d62b19347dc1af4f06"
   },
   {
     "path": "supabase/functions/_shared/prompt-composition/compose.mjs",
@@ -356,11 +478,15 @@
   },
   {
     "path": "supabase/functions/_shared/tarot-prompt.ts",
-    "sha256": "b010d4c3475e5463d149f1a567b1a8f5931af22d063e67b71959be0caee0da53"
+    "sha256": "42572eadba66265c51e3780c974152609cd5a7402f4a37f8321898eff9719d80"
+  },
+  {
+    "path": "supabase/functions/ai-astrology-insight/handler.ts",
+    "sha256": "5e61a25a019758269508560a2222b27c40216c549a496c6b698c57e6c5e7a0a8"
   },
   {
     "path": "supabase/functions/ai-astrology-insight/index.ts",
-    "sha256": "ff803fe6198867e7ca38277743eae2450b2fd7850e00d4667c9df95c122cfa66"
+    "sha256": "23a5851267a3e11ed6d693ed063ba61c097263567ca62ef8c85dbf9208cfaa6c"
   },
   {
     "path": "supabase/functions/ai-council/index.ts",
@@ -384,11 +510,23 @@
   },
   {
     "path": "supabase/functions/ai-persona-chat/index.ts",
-    "sha256": "d57101a6298288b3af795ce7db5461236babd67b427bf651be00f91a895ddf55"
+    "sha256": "1d43b4b2c299a007d786cfc1153a10187029428b816c803e57f9b0fab7e3f180"
+  },
+  {
+    "path": "supabase/functions/ai-tarot-reading/draw.ts",
+    "sha256": "82a5e91a377a382842a967d1af13d7cfa7bd4656312043db916b4f084e601abd"
+  },
+  {
+    "path": "supabase/functions/ai-tarot-reading/handler.ts",
+    "sha256": "eb9d33b8c69f57a74018136b616ad27231569a41a502353eb55411477b276f75"
   },
   {
     "path": "supabase/functions/ai-tarot-reading/index.ts",
-    "sha256": "970272d16521c6f4f5988a9896ad97067e93af972d8004db26307d3667477b91"
+    "sha256": "6fb84138cd806b64830509ccc94e817a8e0d2fbb4466638d547bad7359cbd3ac"
+  },
+  {
+    "path": "supabase/functions/ai-tarot-reading/store.ts",
+    "sha256": "67402a934c6bc406d392a5917e86f3964f44a2406cd1dd3684b2811b8054d391"
   },
   {
     "path": "supabase/functions/notification-dispatch/index.ts",
@@ -429,6 +567,50 @@
   {
     "path": "supabase/functions/ai-feedback/handler.ts",
     "sha256": "76a4bb3c3f7e4e5662fe1b4a6ddd9aa70f8d3750f5d5db226da394b78cdcd9e1"
+  },
+  {
+    "path": "supabase/functions/_shared/tarot-note-prompt.ts",
+    "sha256": "dbc1e65625887629d9be95a9d657736b2ab0058e14405e919cb78623037aae6a"
+  },
+  {
+    "path": "supabase/functions/_shared/reader-router.ts",
+    "sha256": "f2831ee724126991cb28bdacd55ec8f5c87deb81aba552509f142a1293307291"
+  },
+  {
+    "path": "supabase/functions/_shared/providers/decisions.ts",
+    "sha256": "0979ea6db0bb25eb89af171c4d44a2a947a93cd71131408e487a5d5e91bb538a"
+  },
+  {
+    "path": "packages/content/data/personas-archetypes.json",
+    "sha256": "8dc12fdcf91b5e7ad889adc6d66742945e0c4e7d4a10375f95dee24e6bf06e9e"
+  },
+  {
+    "path": "supabase/functions/ai-numerology-message/index.ts",
+    "sha256": "e66d9d11438aa696d30af4b0ec4f022ecb6f53961f2d4fec517f9b118c1fcf5a"
+  },
+  {
+    "path": "supabase/functions/ai-numerology-message/handler.ts",
+    "sha256": "6f27c82c6a8545618fc7ca5558ff873617b1d47d8bf76a48084ab209e3ddeb52"
+  },
+  {
+    "path": "supabase/functions/_shared/feature-switch.ts",
+    "sha256": "45b6f6c4a320b9cf1fa95091e346418860b6bc47406822288eb8f16a53569731"
+  },
+  {
+    "path": "supabase/functions/_shared/daily-attempts.ts",
+    "sha256": "1f9473c14d8b165750f0a12f06466f7a2517127c00a5f7b4e10dd265fbccef7d"
+  },
+  {
+    "path": "supabase/functions/_shared/numerology-blocks.ts",
+    "sha256": "afa58748e822b7b27a0fa94d639f154324f696bf5d70008c07ed2973ce71b059"
+  },
+  {
+    "path": "supabase/functions/_shared/numerology-message-prompt.ts",
+    "sha256": "7363accc84bd37c274bbfc0bbb3f2be7541c8b455b42f97b40be487160abfe6b"
+  },
+  {
+    "path": "packages/content/data/numerology-blocks.json",
+    "sha256": "918d9cea12a8c34a18edd969c0a45f2b76507bf6c77206a5c929ba243f3d84a8"
   }
 ]
   };

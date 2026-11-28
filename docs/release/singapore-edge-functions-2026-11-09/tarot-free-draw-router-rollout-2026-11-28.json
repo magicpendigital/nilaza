@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "title": "Tarot free draw split (pack 0) applied, ai-tarot-reading and admin-model-router-config redeployed",
+  "date": "2026-11-28",
+  "target": {
+    "projectRef": "etfajmrwyywokgafzxsb",
+    "label": "production (Owner decision 2026-11-12)"
+  },
+  "ownerApproval": "Owner approved in chat on 2026-11-28: '14. Tiến hành áp bổ sung.' (apply 20261116100000, then deploy ai-tarot-reading) and '12. Đồng ý deploy lại hàm admin-model-router-config để trang quản trị thấy tuyến model này.'",
+  "records": [
+    "docs/feature-plans/astro-numerology-group-a-2026-11-28.json"
+  ],
+  "sourceCommit": "fb847f6",
+  "preApplyChecks": [
+    "LF SHA-256 of supabase/migrations/20261116100000_tarot_draw_claim_free_draw.sql = 6b37fdac84e012eb0e3c1f60dc204ae2052b9528dbfab176b38519bdf76bfb8d (matches the hash recorded in PLAN.md since 16/11)",
+    "remote migration list before: 20261116090000 and 20261116100000 unapplied, everything else applied up to 20261127090000",
+    "20261116100000 only replaces the body of public.tarot_draw_claim (from the applied 20261115100000) and restates its grants; it references nothing from 20261116090000",
+    "Deno tests for ai-tarot-reading and admin-model-router-config: 41 passed, 0 failed"
+  ],
+  "migrations": {
+    "method": "npx --yes supabase@3.1.0 db query --yes --remote=etfajmrwyywokgafzxsb -f <file> (run by Claude), exit 0; then npx supabase@3.1.0 migration repair --status applied 20261116100000 --remote=etfajmrwyywokgafzxsb --yes.",
+    "files": [
+      { "file": "supabase/migrations/20261116100000_tarot_draw_claim_free_draw.sql", "sha256": "6b37fdac84e012eb0e3c1f60dc204ae2052b9528dbfab176b38519bdf76bfb8d" }
+    ]
+  },
+  "postApplyChecks": {
+    "readOnlyQuery": "supabase db query --read-only: the live tarot_draw_claim body no longer contains the 'delivered' limit reason and still checks draw_cap; role authenticated has no execute on it; supabase_migrations.schema_migrations has row 20261116100000.",
+    "securityAdvisor": "not run"
+  },
+  "functions": {
+    "method": "npx --yes supabase@3.1.0 functions deploy <name> --remote=etfajmrwyywokgafzxsb --use-api --yes (run by Claude), from origin/main fb847f6",
+    "deployed": [
+      { "name": "ai-tarot-reading", "version": 16, "verifyJwt": true, "note": "Previous v15 from ddebc58 (24/11). Shared router/provider code since then was already live in ai-persona-chat v13 and ai-numerology-message v1." },
+      { "name": "admin-model-router-config", "version": 9, "verifyJwt": true, "note": "Now includes the numerology_private_message route in its contract." }
+    ]
+  },
+  "verification": {
+    "done": [
+      "migration exited 0 and the read-only check above passed",
+      "functions list shows both ACTIVE with verify_jwt true",
+      "unauthenticated POST to both returns 401"
+    ],
+    "notDone": [
+      "signed-in Free draw on a phone (3 draws per day, AI reading only on tap)",
+      "Admin 'Model' page listing numerology_private_message with the Owner signed in",
+      "20261116090000_revenuecat_entitlements.sql is still unapplied (not in this approval)",
+      "Supabase security advisor after this rollout"
+    ]
+  },
+  "rollback": "SQL: re-run the create or replace of tarot_draw_claim from 20261115100000_tarot_reading_lock.sql (Owner-approved). Functions: redeploy ai-tarot-reading from ddebc58 and admin-model-router-config from its previous commit."
+}

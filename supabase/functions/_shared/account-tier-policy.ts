@@ -5,12 +5,15 @@ export type PolicyMode = "all_premium" | "new_account_trial" | "free";
 export type TierPolicy = {
   mode: PolicyMode;
   trialHours: number;
+  /** False while nothing is sold: no deck is locked to Premium. Same flag as the app's premiumOnSale. */
+  premiumOnSale?: boolean;
   astrologyAi: { dailyLimit: number; dayOffsetMinutes: number };
   council?: { dailyCouncils: number; followUpsPerCouncil: number };
   dailyInsight?: { dailyLimit: number };
   astrologyPreview?: { dailyLimit: number };
   personaChat?: { dailyLimit: number };
   tarotAi?: { dailyLimit: number; failedAttemptAllowance: number };
+  numerologyMessage?: { dailyLimit: number; failedAttemptAllowance: number };
 };
 
 export const accountTierPolicy = policy as TierPolicy;
@@ -36,6 +39,13 @@ export function localDayStart(now = new Date(), offsetMinutes = accountTierPolic
 // like Astrology AI; failed attempts on top are capped so provider failures cannot run up cost.
 export function tarotDailyLimits(current: TierPolicy = accountTierPolicy): { delivered: number; attempts: number } {
   const limits = current.tarotAi ?? { dailyLimit: 1, failedAttemptAllowance: 2 };
+  return { delivered: limits.dailyLimit, attempts: limits.dailyLimit + limits.failedAttemptAllowance };
+}
+
+// Numerology private message (Owner 2026-11-25): Premium, 1 delivered message per Vietnam day plus 2 failed attempts.
+// A missing policy key keeps the same numbers, never more.
+export function numerologyMessageDailyLimits(current: TierPolicy = accountTierPolicy): { delivered: number; attempts: number } {
+  const limits = current.numerologyMessage ?? { dailyLimit: 1, failedAttemptAllowance: 2 };
   return { delivered: limits.dailyLimit, attempts: limits.dailyLimit + limits.failedAttemptAllowance };
 }
 

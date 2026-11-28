@@ -113,5 +113,100 @@
       "Invite email end to end",
       "Admin staging still points at the old QA project"
     ]
+  },
+  "followUp2026-11-15b": {
+    "ownerApproval": "Owner chat 15/11: '1. Đồng ý duyệt gộp vào main. 2. Đồng ý chuyển sang domain chính thức ... 4. Đồng ý.' (item 4 = delete deployed ai-astrology-report after merge)",
+    "merge": {
+      "pr": 38,
+      "mergeCommit": "f3ca06e83bfc5a8ed18ae8131e37e10504eb5b26",
+      "ci": "5/5 passing before merge"
+    },
+    "functionDeleted": {
+      "name": "ai-astrology-report",
+      "command": "npx supabase@3.1.0 functions delete ai-astrology-report --remote=etfajmrwyywokgafzxsb --yes",
+      "result": "Deleted Edge Function.",
+      "readBack": "list_edge_functions no longer lists ai-astrology-report"
+    },
+    "emailDomain": {
+      "resendDomain": "auth.nilaza.magicpendigital.com",
+      "region": "ap-northeast-1",
+      "tracking": "open and click tracking off",
+      "receiving": "not enabled (no MX)",
+      "dnsRecordsCloudflare": [
+        {
+          "type": "TXT",
+          "name": "resend._domainkey.auth.nilaza",
+          "value": "DKIM public key from Resend"
+        },
+        {
+          "type": "CNAME",
+          "name": "send.auth.nilaza",
+          "target": "send.forge.rmta.net",
+          "proxy": "DNS only"
+        },
+        {
+          "type": "CNAME",
+          "name": "rsend.auth.nilaza",
+          "target": "rsend-apne1.forge.rmta.net",
+          "proxy": "DNS only"
+        }
+      ],
+      "publicDnsCheck": "all three resolved via cloudflare-dns.com DoH",
+      "resendStatus": "Verified (DKIM, SPF records Verified)",
+      "apiKey": "existing key nilaza-auth-smtp re-scoped from auth-qa to auth.nilaza domain; key value unchanged and never read by the agent",
+      "supabaseSender": "no-reply@auth.nilaza.magicpendigital.com (saved; 'Successfully updated settings')"
+    },
+    "signups": {
+      "allowNewUsersToSignUp": true,
+      "confirmEmail": true,
+      "readBack": "both switches on after page reload"
+    },
+    "notVerified": [
+      "A real email arriving in an inbox (sign-up confirmation, password reset)",
+      "Admin as role admin seeing publish and AI switch controls disabled in the browser"
+    ],
+    "ownerOnlyMigration": {
+      "ownerApproval": "Owner chat 15/11 item 3 'Đồng ý', clarified: 'Chỉ Owner giữ quyền tắt AI khẩn cấp.'",
+      "file": "supabase/migrations/20261115090000_owner_only_publish.sql",
+      "sha256": "a645540632c79f342d76d9fdd3199d27abf808f39ee1537b8f328e5eb689cd0a",
+      "method": "npx supabase@3.1.0 db query --yes --remote=etfajmrwyywokgafzxsb -f <file>; migration repair --status applied 20261115090000",
+      "readBack": "pg_get_functiondef(nilaza_private.roles_have_capability): ai.manage and content.publish map to owner only; comment names 20261115090000"
+    }
+  },
+  "followUp2026-11-15c": {
+    "ownerApproval": "Owner 15/11: \"Tiến hành gắn admin.nilaza.magicpendigital.com cho trang quản trị.\"",
+    "adminDomain": {
+      "vercel": "Domain admin.nilaza.magicpendigital.com added to project nilaza-admin-staging (Production); Vercel reports verified.",
+      "cloudflare": "CNAME admin.nilaza -> Vercel target recommended by Vercel, DNS only (not proxied).",
+      "https": "GET https://admin.nilaza.magicpendigital.com/recovery.html returned 200 after the certificate was issued.",
+      "supabaseRedirectUrls": "Added https://admin.nilaza.magicpendigital.com/recovery.html to Auth Redirect URLs; dashboard shows 4 URLs, old nilaza-admin-staging.vercel.app URL kept.",
+      "inviteRedirectSecret": "ADMIN_INVITE_REDIRECT_URL set to https://admin.nilaza.magicpendigital.com/recovery.html with supabase@3.1.0 secrets set --remote=etfajmrwyywokgafzxsb; confirmed by name in secrets list (value not read back)."
+    },
+    "notVerified": [
+      "Admin sign-in on the new domain: Admin staging still points to the old QA Supabase project, so sign-in there uses QA accounts.",
+      "A real invite email opening the new domain."
+    ],
+    "localeProposal": "docs/proposals/APP_LOCALE_AUTO_DETECT_2026-11-15.vi.md (research only, nothing applied)."
+  },
+  "followUp2026-11-15d": {
+    "ownerApproval": "Owner 15/11: \"Tôi thấy nội dung email tiếng Việt ok, hãy áp dụng. Đồng ý đổi site URL, hãy triển khai đổi giúp tôi. Đồng ý chuyển Admin staging sang project Singapore. Commit, merge và push.\"",
+    "siteUrl": "Supabase Singapore Auth Site URL changed from http://localhost:3000 to https://nilaza.magicpendigital.com (public site returned 200); read back after reload. Redirect URLs unchanged (4).",
+    "adminStagingBackend": "Vercel project nilaza-admin-staging env NILAZA_QA_SUPABASE_URL set to https://etfajmrwyywokgafzxsb.supabase.co and NILAZA_QA_SUPABASE_PUBLISHABLE_KEY set to the Singapore publishable (public) key; takes effect on the deploy triggered by the merge to main.",
+    "emailTemplates": "Templates confirmation, recovery and invite pasted into Supabase Singapore Authentication > Emails (subject + body, English branch on user_metadata.locale, Vietnamese default); each read back after reload. password_changed_notification prepared in repo, not enabled. Link expiry MAILER_OTP_EXP = 3600 s matches the 1-hour wording.",
+    "appLocale": "App reads the phone language on a fresh install (vi -> Vietnamese, any other -> English), shows the language menu on sign-up and sign-in, sends locale at sign-up and updates it when a signed-in person changes language. Needs a new Android build.",
+    "notVerified": [
+      "Real inbox delivery and templated subject rendering in Gmail.",
+      "Admin sign-in on admin.nilaza.magicpendigital.com against Singapore (Owner account) after the redeploy.",
+      "App language detection on a real phone (needs the next Android build)."
+    ]
+  },
+  "followUp2026-11-16": {
+    "issue": "Admin forgot-password showed a generic error. Auth logs on 15/11 at 17:34Z and 17:37Z: POST /recover returned 500 with SMTP error 535 Authentication credentials invalid. SMTP host, port, user and sender were correct; Resend showed key nilaza-auth-smtp with no activity, so no auth email had ever been sent from Singapore.",
+    "fix": "Owner created a new Resend sending key and pasted it into Supabase Singapore SMTP Password (agent did not handle the value), then deleted the old nilaza-auth-smtp key in Resend.",
+    "verified": "Auth logs 15/11 17:59Z: POST /recover from admin.nilaza.magicpendigital.com/recovery.html returned 200 with no error; Owner reported it works.",
+    "notVerified": [
+      "Sign-up confirmation email from the app with the new key.",
+      "Gmail placement (inbox vs spam) and rendering of the applied templates."
+    ]
   }
 }

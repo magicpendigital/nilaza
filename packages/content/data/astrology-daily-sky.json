@@ -1,0 +1,1190 @@
+{
+  "version": "2026-11-28-approved1",
+  "status": "approved",
+  "reviewedBy": "Owner",
+  "approval": "AI-drafted 2026-11-24 for Lô 2, then read and approved by the Owner on 28/11/2026 for the app and the public Daily Sky share card and web page. Not reviewed by an external astrology expert. The Owner plans better versions later; any edit needs a new Owner review. Follows the banned-phrase list in ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23 section 6.2.",
+  "scope": "Bầu trời hôm nay: text keyed by today's Moon sign x decan (early 0-10°, mid 10-20°, late 20-30°), the Moon-Sun relation for users without a birth time, and the four main phase moments.",
+  "labels": {
+    "lean": {
+      "vi": "Nghiêng về",
+      "en": "Lean toward"
+    },
+    "ease": {
+      "vi": "Nhẹ tay với",
+      "en": "Go easy on"
+    },
+    "topics": {
+      "love": {
+        "vi": "Tình cảm",
+        "en": "Love"
+      },
+      "work": {
+        "vi": "Công việc",
+        "en": "Work"
+      },
+      "self": {
+        "vi": "Bản thân",
+        "en": "Self"
+      }
+    }
+  },
+  "moonSign": {
+    "aries": {
+      "tone": {
+        "early": {
+          "vi": "Nhịp hôm nay nhanh và thẳng, ý muốn bắt tay vào việc đến sớm",
+          "en": "Today's pace is quick and direct; the urge to begin shows up early"
+        },
+        "mid": {
+          "vi": "Nhịp hôm nay nóng và dứt khoát, điều còn treo dễ được nói ra",
+          "en": "Today's pace is warm and decisive; what was left hanging gets said"
+        },
+        "late": {
+          "vi": "Nhịp hôm nay còn lửa nhưng bắt đầu chậm lại, đủ để nhìn điều vừa làm",
+          "en": "Today still has fire but begins to slow, enough to look at what you just did"
+        }
+      },
+      "body": {
+        "vi": "Trăng ở Bạch Dương thường gợi cảm giác muốn hành động ngay và nói thẳng điều mình nghĩ. Mặt còn lại, sự sốt ruột có thể làm một câu nói ngắn nghe gắt hơn ý mình.",
+        "en": "A Moon in Aries often brings the wish to act now and say what you think. On the other side, impatience can make a short sentence sound harsher than you mean."
+      },
+      "lean": [
+        {
+          "id": "aries-lean-1",
+          "vi": "Một việc nhỏ làm xong trong một lần ngồi",
+          "en": "One small task finished in a single sitting"
+        },
+        {
+          "id": "aries-lean-2",
+          "vi": "Nói ra một mong muốn bằng câu ngắn và rõ",
+          "en": "Saying one wish in a short, clear sentence"
+        },
+        {
+          "id": "aries-lean-3",
+          "vi": "Dồn sức bật vào một buổi đi bộ nhanh",
+          "en": "Putting the extra spark into a brisk walk"
+        },
+        {
+          "id": "aries-lean-4",
+          "vi": "Chọn trước, chỉnh sau với việc ít quan trọng",
+          "en": "Choosing first and adjusting later on low-stakes things"
+        }
+      ],
+      "ease": [
+        {
+          "id": "aries-ease-1",
+          "vi": "Việc trả lời ngay khi đang bực",
+          "en": "Replying right away while irritated"
+        },
+        {
+          "id": "aries-ease-2",
+          "vi": "Việc mở thêm ba việc mới cùng lúc",
+          "en": "Opening three new tasks at once"
+        },
+        {
+          "id": "aries-ease-3",
+          "vi": "Việc coi chậm là thua",
+          "en": "Treating slow as losing"
+        },
+        {
+          "id": "aries-ease-4",
+          "vi": "Việc ngắt lời người khác vì đã đoán ra ý",
+          "en": "Cutting people off because you guessed their point"
+        }
+      ],
+      "topics": {
+        "love": {
+          "vi": "Trong chuyện tình cảm, sự thẳng thắn có thể làm không khí rõ ràng hơn. Một câu hỏi trực tiếp, nói nhẹ nhàng, thường đi xa hơn một lời bóng gió.",
+          "en": "In love, directness can clear the air. A direct question, said gently, often goes further than a hint."
+        },
+        "work": {
+          "vi": "Trong công việc, đây là nhịp hợp với việc khởi động: gửi email đầu tiên, viết dòng mở đầu. Phần hoàn thiện có thể đợi một nhịp chậm hơn.",
+          "en": "At work this pace suits starting things: the first email, the opening line. Polishing can wait for a slower day."
+        },
+        "self": {
+          "vi": "Với bản thân, bạn có thể thấy rõ điều mình muốn hơn thường lệ. Thử ghi lại nó trước khi sự hăng hái qua đi.",
+          "en": "For yourself, you may see what you want more clearly than usual. Try writing it down before the rush passes."
+        }
+      },
+      "journal": {
+        "vi": "Hôm nay mình muốn bắt đầu điều gì, và điều gì đang giữ mình lại?",
+        "en": "What do I want to begin today, and what is holding me back?"
+      }
+    },
+    "taurus": {
+      "tone": {
+        "early": {
+          "vi": "Nhịp hôm nay chậm lại, điều quen thuộc dễ làm bạn yên lòng",
+          "en": "Today's pace slows down; familiar things feel settling"
+        },
+        "mid": {
+          "vi": "Nhịp hôm nay chậm và chắc, cơ thể muốn được để ý",
+          "en": "Today's pace is slow and steady; the body asks for attention"
+        },
+        "late": {
+          "vi": "Nhịp hôm nay bền nhưng hơi ì, một thay đổi nhỏ có thể làm bạn khó chịu",
+          "en": "Today's pace is steady but heavy; a small change can feel irritating"
+        }
+      },
+      "body": {
+        "vi": "Trăng ở Kim Ngưu thường gợi nhu cầu yên ổn, nhịp đều và những niềm vui chạm được bằng giác quan. Mặt còn lại, một thay đổi nhỏ cũng có thể làm bạn khó chịu hơn thường lệ.",
+        "en": "A Moon in Taurus often brings a need for calm, steady rhythm and pleasures you can touch. On the other side, even a small change can bother you more than usual."
+      },
+      "lean": [
+        {
+          "id": "taurus-lean-1",
+          "vi": "Làm tiếp việc đang dở thay vì mở thêm việc mới",
+          "en": "Continuing what is unfinished instead of opening something new"
+        },
+        {
+          "id": "taurus-lean-2",
+          "vi": "Một bữa ăn nấu chậm, một góc phòng gọn gàng",
+          "en": "A slow-cooked meal, one tidy corner of the room"
+        },
+        {
+          "id": "taurus-lean-3",
+          "vi": "Một khoảng nghỉ có chủ ý giữa hai việc",
+          "en": "A deliberate pause between two tasks"
+        },
+        {
+          "id": "taurus-lean-4",
+          "vi": "Giữ lời hẹn nhỏ với chính mình",
+          "en": "Keeping a small promise to yourself"
+        }
+      ],
+      "ease": [
+        {
+          "id": "taurus-ease-1",
+          "vi": "Việc từ chối mọi thay đổi chỉ vì chưa quen",
+          "en": "Refusing every change just because it is unfamiliar"
+        },
+        {
+          "id": "taurus-ease-2",
+          "vi": "Việc tự trách khi muốn đi chậm lại",
+          "en": "Blaming yourself for wanting to slow down"
+        },
+        {
+          "id": "taurus-ease-3",
+          "vi": "Việc mua thêm đồ để thấy yên tâm",
+          "en": "Buying more things to feel reassured"
+        },
+        {
+          "id": "taurus-ease-4",
+          "vi": "Việc ôm việc của người khác vì ngại nói không",
+          "en": "Taking on others' tasks because saying no feels awkward"
+        }
+      ],
+      "topics": {
+        "love": {
+          "vi": "Trong chuyện tình cảm, sự gần gũi có thể đến từ những điều quen thuộc: một bữa ăn chung, một tin nhắn đúng giờ. Sự đều đặn nói nhiều hơn lời hứa lớn.",
+          "en": "In love, closeness can come from familiar things: a shared meal, a message on time. Steadiness says more than big promises."
+        },
+        "work": {
+          "vi": "Trong công việc, nhịp này hợp với việc cần kiên nhẫn và tay nghề. Làm chậm mà chắc có thể tiết kiệm công sửa về sau.",
+          "en": "At work this pace suits tasks that need patience and craft. Slow and sure can save fixing later."
+        },
+        "self": {
+          "vi": "Với bản thân, cơ thể có thể lên tiếng rõ hơn: mỏi, đói, muốn ngồi yên. Lắng nghe nó là một cách chăm sóc mình.",
+          "en": "For yourself, the body may speak up more clearly: tired, hungry, wanting to sit still. Listening is a way of caring for yourself."
+        }
+      },
+      "journal": {
+        "vi": "Điều gì quen thuộc hôm nay làm mình thấy yên, và điều gì mình đang bám quá chặt?",
+        "en": "What familiar thing steadies me today, and what am I holding too tightly?"
+      }
+    },
+    "gemini": {
+      "tone": {
+        "early": {
+          "vi": "Nhịp hôm nay nhẹ và nhiều chuyện, đầu óc muốn được trò chuyện",
+          "en": "Today's pace is light and chatty; the mind wants conversation"
+        },
+        "mid": {
+          "vi": "Nhịp hôm nay nhanh và tò mò, nhiều ý nhảy ra cùng lúc",
+          "en": "Today's pace is fast and curious; many ideas show up at once"
+        },
+        "late": {
+          "vi": "Nhịp hôm nay còn nhiều chữ nhưng bắt đầu rối, cần chọn bớt",
+          "en": "Today still has many words but starts to scatter; time to choose fewer"
+        }
+      },
+      "body": {
+        "vi": "Trăng ở Song Tử thường gợi nhu cầu nói ra, hỏi han và học một điều mới. Mặt còn lại, đầu óc có thể nhảy qua nhiều việc mà chưa xong việc nào.",
+        "en": "A Moon in Gemini often brings the need to talk, ask and learn something new. On the other side, the mind can jump between many things without finishing one."
+      },
+      "lean": [
+        {
+          "id": "gemini-lean-1",
+          "vi": "Một cuộc trò chuyện ngắn với người lâu chưa gặp",
+          "en": "A short chat with someone you have not seen in a while"
+        },
+        {
+          "id": "gemini-lean-2",
+          "vi": "Ghi nhanh các ý ra giấy trước khi chọn",
+          "en": "Jotting ideas on paper before choosing"
+        },
+        {
+          "id": "gemini-lean-3",
+          "vi": "Đọc vài trang về một chủ đề lạ",
+          "en": "Reading a few pages on an unfamiliar topic"
+        },
+        {
+          "id": "gemini-lean-4",
+          "vi": "Hỏi lại một câu cho rõ thay vì đoán",
+          "en": "Asking again to be clear instead of guessing"
+        }
+      ],
+      "ease": [
+        {
+          "id": "gemini-ease-1",
+          "vi": "Việc mở quá nhiều tab, cả trên máy lẫn trong đầu",
+          "en": "Opening too many tabs, on screen and in your head"
+        },
+        {
+          "id": "gemini-ease-2",
+          "vi": "Việc trả lời mọi tin nhắn ngay lập tức",
+          "en": "Answering every message instantly"
+        },
+        {
+          "id": "gemini-ease-3",
+          "vi": "Việc nói thay cảm xúc bằng câu đùa",
+          "en": "Replacing feelings with jokes"
+        },
+        {
+          "id": "gemini-ease-4",
+          "vi": "Việc kết luận khi mới nghe một nửa câu chuyện",
+          "en": "Concluding after hearing half the story"
+        }
+      ],
+      "topics": {
+        "love": {
+          "vi": "Trong chuyện tình cảm, lời nói là cầu nối hôm nay. Một câu hỏi tò mò về ngày của người kia có thể mở ra nhiều hơn bạn nghĩ.",
+          "en": "In love, words are today's bridge. A curious question about the other person's day can open more than you expect."
+        },
+        "work": {
+          "vi": "Trong công việc, nhịp này hợp với trao đổi, động não và gửi bản nháp. Việc cần tập trung sâu có thể dễ bị ngắt quãng.",
+          "en": "At work this pace suits exchanges, brainstorming and sending drafts. Deep-focus work may get interrupted more easily."
+        },
+        "self": {
+          "vi": "Với bản thân, bạn có thể thấy tò mò và hơi bồn chồn. Viết ra các ý đang chạy trong đầu giúp chúng bớt ồn.",
+          "en": "For yourself, you may feel curious and a little restless. Writing down the thoughts in your head can make them quieter."
+        }
+      },
+      "journal": {
+        "vi": "Hôm nay mình đã nghe được điều gì mới, và mình muốn hỏi thêm ai?",
+        "en": "What new thing did I hear today, and whom do I want to ask more?"
+      }
+    },
+    "cancer": {
+      "tone": {
+        "early": {
+          "vi": "Nhịp hôm nay mềm và hướng về nhà, cảm xúc lên tiếng sớm",
+          "en": "Today's pace is soft and homeward; feelings speak early"
+        },
+        "mid": {
+          "vi": "Nhịp hôm nay sâu và dịu, nhu cầu được che chở rõ hơn",
+          "en": "Today's pace is deep and tender; the need to feel held is clearer"
+        },
+        "late": {
+          "vi": "Nhịp hôm nay còn nhạy nhưng muốn khép lại, một góc riêng thấy quý",
+          "en": "Today is still sensitive but wants to close in; a private corner feels precious"
+        }
+      },
+      "body": {
+        "vi": "Trăng ở Cự Giải thường gợi nhu cầu an toàn, gần gũi và chăm sóc. Mặt còn lại, bạn có thể dễ chạnh lòng với một câu nói vô tình.",
+        "en": "A Moon in Cancer often brings a need for safety, closeness and care. On the other side, a careless remark can sting more easily."
+      },
+      "lean": [
+        {
+          "id": "cancer-lean-1",
+          "vi": "Gọi cho một người làm bạn thấy như ở nhà",
+          "en": "Calling someone who feels like home"
+        },
+        {
+          "id": "cancer-lean-2",
+          "vi": "Nấu hoặc pha một thứ ấm cho mình",
+          "en": "Making something warm for yourself"
+        },
+        {
+          "id": "cancer-lean-3",
+          "vi": "Dọn một góc nhỏ thành chỗ nghỉ",
+          "en": "Turning a small corner into a resting place"
+        },
+        {
+          "id": "cancer-lean-4",
+          "vi": "Gọi tên cảm xúc trước khi giải thích nó",
+          "en": "Naming a feeling before explaining it"
+        }
+      ],
+      "ease": [
+        {
+          "id": "cancer-ease-1",
+          "vi": "Việc chăm người khác mà quên mình",
+          "en": "Caring for others and forgetting yourself"
+        },
+        {
+          "id": "cancer-ease-2",
+          "vi": "Việc đọc một tin nhắn ngắn thành lời trách",
+          "en": "Reading a short message as a reproach"
+        },
+        {
+          "id": "cancer-ease-3",
+          "vi": "Việc rút vào vỏ mà không nói lý do",
+          "en": "Withdrawing into your shell without saying why"
+        },
+        {
+          "id": "cancer-ease-4",
+          "vi": "Việc ôm chuyện cũ để giải thích chuyện hôm nay",
+          "en": "Using old hurts to explain today"
+        }
+      ],
+      "topics": {
+        "love": {
+          "vi": "Trong chuyện tình cảm, những cử chỉ nhỏ có thể nói nhiều: một cái ôm, một câu hỏi thăm. Nói rõ mình cần gì giúp người kia biết cách ở bên.",
+          "en": "In love, small gestures can say a lot: a hug, a check-in. Saying what you need helps the other person know how to be there."
+        },
+        "work": {
+          "vi": "Trong công việc, bạn có thể nhạy với không khí chung hơn là con số. Nhịp này hợp với việc chăm lo đội nhóm hoặc sắp xếp lại chỗ làm.",
+          "en": "At work you may sense the mood more than the numbers. This pace suits looking after a team or rearranging your workspace."
+        },
+        "self": {
+          "vi": "Với bản thân, cảm xúc có thể lên xuống như thủy triều. Cho mình một khoảng yên để cảm mà không cần sửa gì ngay.",
+          "en": "For yourself, feelings may rise and fall like tides. Give yourself a quiet space to feel without fixing anything yet."
+        }
+      },
+      "journal": {
+        "vi": "Hôm nay điều gì làm mình thấy an toàn, và mình đang cần được chăm sóc ở đâu?",
+        "en": "What made me feel safe today, and where do I need care?"
+      }
+    },
+    "leo": {
+      "tone": {
+        "early": {
+          "vi": "Nhịp hôm nay ấm và sáng, mong muốn được nhìn thấy đến tự nhiên",
+          "en": "Today's pace is warm and bright; the wish to be seen comes naturally"
+        },
+        "mid": {
+          "vi": "Nhịp hôm nay rộng lòng và nhiều cảm hứng, niềm vui dễ lan",
+          "en": "Today's pace is generous and inspired; joy spreads easily"
+        },
+        "late": {
+          "vi": "Nhịp hôm nay còn ấm nhưng hơi mỏi, lời khen nhỏ có giá trị",
+          "en": "Today is still warm but a little tired; small praise matters"
+        }
+      },
+      "body": {
+        "vi": "Trăng ở Sư Tử thường gợi nhu cầu được ghi nhận, sáng tạo và chơi. Mặt còn lại, sự im lặng của người khác có thể bị hiểu là thờ ơ.",
+        "en": "A Moon in Leo often brings a need to be recognised, to create and to play. On the other side, others' silence can feel like indifference."
+      },
+      "lean": [
+        {
+          "id": "leo-lean-1",
+          "vi": "Làm một điều chỉ vì nó vui",
+          "en": "Doing something just because it is fun"
+        },
+        {
+          "id": "leo-lean-2",
+          "vi": "Khen thật lòng một người cụ thể",
+          "en": "Giving a sincere compliment to someone specific"
+        },
+        {
+          "id": "leo-lean-3",
+          "vi": "Chia sẻ một thứ bạn tự làm",
+          "en": "Sharing something you made"
+        },
+        {
+          "id": "leo-lean-4",
+          "vi": "Mặc hoặc dùng một thứ làm bạn thấy sáng lên",
+          "en": "Wearing or using something that makes you feel bright"
+        }
+      ],
+      "ease": [
+        {
+          "id": "leo-ease-1",
+          "vi": "Việc đo giá trị bản thân bằng lượt thích",
+          "en": "Measuring your worth in likes"
+        },
+        {
+          "id": "leo-ease-2",
+          "vi": "Việc giành phần nói trong mọi cuộc trò chuyện",
+          "en": "Taking over every conversation"
+        },
+        {
+          "id": "leo-ease-3",
+          "vi": "Việc giận vì không ai nhận ra nỗ lực",
+          "en": "Resenting that no one noticed your effort"
+        },
+        {
+          "id": "leo-ease-4",
+          "vi": "Việc hứa lớn khi đang hứng",
+          "en": "Making big promises on a high"
+        }
+      ],
+      "topics": {
+        "love": {
+          "vi": "Trong chuyện tình cảm, sự hào phóng và vui tươi có thể làm hai người gần nhau hơn. Một lời ghi nhận cụ thể thường chạm hơn lời khen chung chung.",
+          "en": "In love, generosity and playfulness can bring two people closer. Specific appreciation often lands better than general praise."
+        },
+        "work": {
+          "vi": "Trong công việc, nhịp này hợp với trình bày, dẫn dắt hoặc thử ý tưởng sáng tạo. Ghi công cho người cùng làm giữ được không khí tốt.",
+          "en": "At work this pace suits presenting, leading or trying a creative idea. Crediting collaborators keeps the mood good."
+        },
+        "self": {
+          "vi": "Với bản thân, bạn có thể muốn được nhìn thấy. Thử tự ghi nhận một điều mình đã làm tốt, trước khi chờ người khác nói.",
+          "en": "For yourself, you may want to be seen. Try acknowledging one thing you did well before waiting for someone else to say it."
+        }
+      },
+      "journal": {
+        "vi": "Hôm nay mình tự hào về điều gì, dù nhỏ, và mình muốn ai biết điều đó?",
+        "en": "What am I proud of today, however small, and who do I want to know?"
+      }
+    },
+    "virgo": {
+      "tone": {
+        "early": {
+          "vi": "Nhịp hôm nay gọn và tỉ mỉ, mắt dễ thấy điều cần sắp lại",
+          "en": "Today's pace is neat and careful; your eye catches what needs sorting"
+        },
+        "mid": {
+          "vi": "Nhịp hôm nay thực tế và chăm chút, việc nhỏ làm xong thấy nhẹ",
+          "en": "Today's pace is practical and attentive; finished small tasks feel light"
+        },
+        "late": {
+          "vi": "Nhịp hôm nay còn kỹ nhưng dễ khắt khe, cần chừa chỗ cho chưa hoàn hảo",
+          "en": "Today is still careful but can turn strict; leave room for imperfect"
+        }
+      },
+      "body": {
+        "vi": "Trăng ở Xử Nữ thường gợi nhu cầu sắp xếp, giúp ích và làm cho đúng. Mặt còn lại, sự kỹ tính có thể quay sang tự chê mình.",
+        "en": "A Moon in Virgo often brings a need to organise, be useful and get it right. On the other side, carefulness can turn into self-criticism."
+      },
+      "lean": [
+        {
+          "id": "virgo-lean-1",
+          "vi": "Một danh sách ngắn ba việc cho hôm nay",
+          "en": "A short list of three things for today"
+        },
+        {
+          "id": "virgo-lean-2",
+          "vi": "Dọn một ngăn kéo hoặc một thư mục",
+          "en": "Clearing one drawer or one folder"
+        },
+        {
+          "id": "virgo-lean-3",
+          "vi": "Giúp một người theo cách cụ thể",
+          "en": "Helping someone in a concrete way"
+        },
+        {
+          "id": "virgo-lean-4",
+          "vi": "Một thói quen nhỏ cho cơ thể, như uống nước đều",
+          "en": "A small habit for the body, like drinking water regularly"
+        }
+      ],
+      "ease": [
+        {
+          "id": "virgo-ease-1",
+          "vi": "Việc sửa đi sửa lại một việc đã đủ tốt",
+          "en": "Reworking something that is already good enough"
+        },
+        {
+          "id": "virgo-ease-2",
+          "vi": "Việc góp ý khi người khác chưa hỏi",
+          "en": "Giving feedback nobody asked for"
+        },
+        {
+          "id": "virgo-ease-3",
+          "vi": "Việc lo trước mọi tình huống có thể xảy ra",
+          "en": "Worrying through every possible scenario"
+        },
+        {
+          "id": "virgo-ease-4",
+          "vi": "Việc tự chấm điểm mình quá thấp",
+          "en": "Grading yourself too harshly"
+        }
+      ],
+      "topics": {
+        "love": {
+          "vi": "Trong chuyện tình cảm, sự quan tâm có thể hiện qua việc làm hơn lời nói. Để ý điều người kia cần, và cũng để họ được chăm bạn.",
+          "en": "In love, care can show through actions more than words. Notice what the other person needs, and let them care for you too."
+        },
+        "work": {
+          "vi": "Trong công việc, nhịp này hợp với rà soát, chỉnh sửa và sắp xếp quy trình. Đặt giới hạn thời gian giúp sự tỉ mỉ không kéo dài vô tận.",
+          "en": "At work this pace suits reviewing, editing and tidying processes. A time limit keeps attention to detail from running forever."
+        },
+        "self": {
+          "vi": "Với bản thân, bạn có thể thấy dễ chịu khi mọi thứ có chỗ của nó. Thử nhận ra một điều mình làm tốt, không chỉ điều còn thiếu.",
+          "en": "For yourself, it may feel good when things have their place. Try noticing one thing you did well, not just what is missing."
+        }
+      },
+      "journal": {
+        "vi": "Hôm nay mình đã chăm chút điều gì, và điều gì mình có thể để ở mức đủ tốt?",
+        "en": "What did I tend to carefully today, and what can I leave at good enough?"
+      }
+    },
+    "libra": {
+      "tone": {
+        "early": {
+          "vi": "Nhịp hôm nay mềm mỏng và hướng về người khác, sự hài hòa thấy quan trọng",
+          "en": "Today's pace is gentle and turned toward others; harmony feels important"
+        },
+        "mid": {
+          "vi": "Nhịp hôm nay cân nhắc và tinh tế, cái đẹp dễ chạm vào lòng",
+          "en": "Today's pace is considered and refined; beauty touches easily"
+        },
+        "late": {
+          "vi": "Nhịp hôm nay còn dịu nhưng dễ lưỡng lự, một lựa chọn nhỏ có thể chờ lâu",
+          "en": "Today is still gentle but hesitant; a small choice may wait too long"
+        }
+      },
+      "body": {
+        "vi": "Trăng ở Thiên Bình thường gợi nhu cầu cân bằng, đồng hành và không khí dễ chịu. Mặt còn lại, mong giữ hòa khí có thể làm bạn nuốt lại điều cần nói.",
+        "en": "A Moon in Libra often brings a need for balance, company and a pleasant atmosphere. On the other side, keeping the peace can mean swallowing what needs saying."
+      },
+      "lean": [
+        {
+          "id": "libra-lean-1",
+          "vi": "Một cuộc gặp nhẹ nhàng với người thân quen",
+          "en": "A relaxed meeting with someone familiar"
+        },
+        {
+          "id": "libra-lean-2",
+          "vi": "Sắp lại một góc cho dễ nhìn hơn",
+          "en": "Arranging a corner so it looks nicer"
+        },
+        {
+          "id": "libra-lean-3",
+          "vi": "Hỏi ý người khác rồi tự quyết",
+          "en": "Asking others' views, then deciding yourself"
+        },
+        {
+          "id": "libra-lean-4",
+          "vi": "Nghe một bản nhạc hoặc ngắm một thứ đẹp",
+          "en": "Listening to music or looking at something beautiful"
+        }
+      ],
+      "ease": [
+        {
+          "id": "libra-ease-1",
+          "vi": "Việc nói đồng ý chỉ để tránh va chạm",
+          "en": "Saying yes just to skip friction"
+        },
+        {
+          "id": "libra-ease-2",
+          "vi": "Việc chờ người khác chọn thay mình",
+          "en": "Waiting for someone else to choose for you"
+        },
+        {
+          "id": "libra-ease-3",
+          "vi": "Việc so sánh mình với người bên cạnh",
+          "en": "Comparing yourself with the person next to you"
+        },
+        {
+          "id": "libra-ease-4",
+          "vi": "Việc giữ bực bội trong lòng để không khí êm",
+          "en": "Holding in irritation to keep things smooth"
+        }
+      ],
+      "topics": {
+        "love": {
+          "vi": "Trong chuyện tình cảm, sự tinh tế và lắng nghe được đề cao. Một lời nói thật, nói tử tế, giữ cân bằng tốt hơn sự im lặng.",
+          "en": "In love, tact and listening are valued. An honest word, said kindly, keeps balance better than silence."
+        },
+        "work": {
+          "vi": "Trong công việc, nhịp này hợp với thương lượng, phối hợp và hoàn thiện phần trình bày. Quyết định lớn có thể cần thêm một nhịp để chín.",
+          "en": "At work this pace suits negotiating, coordinating and polishing presentation. Big decisions may need another beat to settle."
+        },
+        "self": {
+          "vi": "Với bản thân, bạn có thể nhạy với điều gì đang lệch. Thử hỏi: mình đang cho đi nhiều hơn mình nhận ở đâu?",
+          "en": "For yourself, you may sense what is off balance. Try asking: where am I giving more than I receive?"
+        }
+      },
+      "journal": {
+        "vi": "Hôm nay mình đã nhường ở đâu, và ở đâu mình muốn giữ ý mình hơn?",
+        "en": "Where did I give way today, and where do I want to hold my view more?"
+      }
+    },
+    "scorpio": {
+      "tone": {
+        "early": {
+          "vi": "Nhịp hôm nay sâu và kín, cảm xúc mạnh nhưng ít lời",
+          "en": "Today's pace is deep and private; feelings are strong but few words"
+        },
+        "mid": {
+          "vi": "Nhịp hôm nay tập trung và dồn nén, điều dưới bề mặt muốn lên",
+          "en": "Today's pace is focused and intense; what lies beneath wants to surface"
+        },
+        "late": {
+          "vi": "Nhịp hôm nay còn đậm nhưng muốn buông, một điều cũ có thể được thả",
+          "en": "Today is still intense but wants to release; something old can be let go"
+        }
+      },
+      "body": {
+        "vi": "Trăng ở Bọ Cạp thường gợi nhu cầu thật lòng, sâu sắc và riêng tư. Mặt còn lại, sự nghi ngờ có thể lớn hơn bằng chứng.",
+        "en": "A Moon in Scorpio often brings a need for honesty, depth and privacy. On the other side, suspicion can grow bigger than the evidence."
+      },
+      "lean": [
+        {
+          "id": "scorpio-lean-1",
+          "vi": "Viết thật về một cảm xúc khó gọi tên",
+          "en": "Writing honestly about a feeling that is hard to name"
+        },
+        {
+          "id": "scorpio-lean-2",
+          "vi": "Một việc cần tập trung sâu, không bị ngắt",
+          "en": "One task that needs deep, uninterrupted focus"
+        },
+        {
+          "id": "scorpio-lean-3",
+          "vi": "Dọn bỏ một thứ đã giữ quá lâu",
+          "en": "Clearing out something kept too long"
+        },
+        {
+          "id": "scorpio-lean-4",
+          "vi": "Một cuộc trò chuyện riêng, ít người",
+          "en": "A private conversation with few people"
+        }
+      ],
+      "ease": [
+        {
+          "id": "scorpio-ease-1",
+          "vi": "Việc đoán ý người khác qua dấu hiệu nhỏ",
+          "en": "Reading others' minds from small signs"
+        },
+        {
+          "id": "scorpio-ease-2",
+          "vi": "Việc giữ kín đến mức người thân không hiểu",
+          "en": "Keeping so private that loved ones cannot understand"
+        },
+        {
+          "id": "scorpio-ease-3",
+          "vi": "Việc ôm một chuyện cũ để thử lòng người",
+          "en": "Using an old matter to test someone"
+        },
+        {
+          "id": "scorpio-ease-4",
+          "vi": "Việc đi đến cùng một chuyện không đáng",
+          "en": "Pursuing something to the end when it is not worth it"
+        }
+      ],
+      "topics": {
+        "love": {
+          "vi": "Trong chuyện tình cảm, bạn có thể muốn sự thật lòng hơn là lời dễ nghe. Nói rõ điều mình lo ngại thường giúp hơn là thử thách người kia.",
+          "en": "In love, you may want sincerity more than pleasant words. Saying what worries you usually helps more than testing the other person."
+        },
+        "work": {
+          "vi": "Trong công việc, nhịp này hợp với nghiên cứu, phân tích và việc cần bền bỉ. Bạn có thể nhìn ra điều người khác bỏ sót.",
+          "en": "At work this pace suits research, analysis and tasks that need persistence. You may see what others miss."
+        },
+        "self": {
+          "vi": "Với bản thân, cảm xúc có thể đậm và khó nói. Viết ra, kể cả không gửi cho ai, giúp chúng có chỗ đi.",
+          "en": "For yourself, feelings may be intense and hard to say. Writing them down, even unsent, gives them somewhere to go."
+        }
+      },
+      "journal": {
+        "vi": "Điều gì hôm nay đậm hơn mọi khi, và mình muốn làm gì với nó?",
+        "en": "What feels stronger than usual today, and what do I want to do with it?"
+      }
+    },
+    "sagittarius": {
+      "tone": {
+        "early": {
+          "vi": "Nhịp hôm nay rộng và háo hức, đầu óc muốn đi xa",
+          "en": "Today's pace is wide and eager; the mind wants to roam"
+        },
+        "mid": {
+          "vi": "Nhịp hôm nay lạc quan và thẳng thắn, ý nghĩa lớn dễ hiện ra",
+          "en": "Today's pace is hopeful and frank; bigger meaning comes into view"
+        },
+        "late": {
+          "vi": "Nhịp hôm nay còn hăng nhưng hơi phân tán, cần một hướng chính",
+          "en": "Today is still eager but scattered; one main direction helps"
+        }
+      },
+      "body": {
+        "vi": "Trăng ở Nhân Mã thường gợi nhu cầu tự do, học hỏi và tìm ý nghĩa. Mặt còn lại, sự hào hứng có thể làm bạn hứa nhiều hơn mình làm được.",
+        "en": "A Moon in Sagittarius often brings a need for freedom, learning and meaning. On the other side, enthusiasm can promise more than you can deliver."
+      },
+      "lean": [
+        {
+          "id": "sagittarius-lean-1",
+          "vi": "Đi một con đường khác thường ngày",
+          "en": "Taking a different route than usual"
+        },
+        {
+          "id": "sagittarius-lean-2",
+          "vi": "Đọc hoặc nghe về một nơi xa",
+          "en": "Reading or listening about a faraway place"
+        },
+        {
+          "id": "sagittarius-lean-3",
+          "vi": "Hỏi một câu lớn: điều này để làm gì",
+          "en": "Asking a big question: what is this for"
+        },
+        {
+          "id": "sagittarius-lean-4",
+          "vi": "Đi bộ ngoài trời, dù chỉ mười phút",
+          "en": "Moving outdoors, even for ten minutes"
+        }
+      ],
+      "ease": [
+        {
+          "id": "sagittarius-ease-1",
+          "vi": "Việc nhận thêm lời mời khi lịch đã kín",
+          "en": "Accepting more invitations when the calendar is full"
+        },
+        {
+          "id": "sagittarius-ease-2",
+          "vi": "Việc nói thẳng mà quên hỏi người nghe",
+          "en": "Being blunt and forgetting to check with the listener"
+        },
+        {
+          "id": "sagittarius-ease-3",
+          "vi": "Việc bỏ dở việc chán để tìm việc vui hơn",
+          "en": "Dropping a dull task for a more exciting one"
+        },
+        {
+          "id": "sagittarius-ease-4",
+          "vi": "Việc giảng giải khi người khác chỉ cần được nghe",
+          "en": "Lecturing when someone just wants to be heard"
+        }
+      ],
+      "topics": {
+        "love": {
+          "vi": "Trong chuyện tình cảm, không gian và tiếng cười có thể làm hai người gần nhau. Một kế hoạch nhỏ cùng nhau, như đi một chỗ mới, thường được đón nhận.",
+          "en": "In love, space and laughter can bring two people closer. A small shared plan, like going somewhere new, is often welcome."
+        },
+        "work": {
+          "vi": "Trong công việc, nhịp này hợp với nhìn bức tranh lớn, học kỹ năng mới hoặc đề xuất hướng đi. Chi tiết có thể cần người khác soát giúp.",
+          "en": "At work this pace suits the big picture, learning a new skill or proposing a direction. Details may need someone else's check."
+        },
+        "self": {
+          "vi": "Với bản thân, bạn có thể thấy cần thêm khoảng thở. Hỏi mình: điều gì đang làm mình thấy chật?",
+          "en": "For yourself, you may want more room to breathe. Ask yourself: what is making me feel cramped?"
+        }
+      },
+      "journal": {
+        "vi": "Hôm nay mình muốn hiểu thêm điều gì về thế giới, hay về chính mình?",
+        "en": "What do I want to understand better today, about the world or about myself?"
+      }
+    },
+    "capricorn": {
+      "tone": {
+        "early": {
+          "vi": "Nhịp hôm nay nghiêm túc và có kế hoạch, việc dài hạn dễ được nhìn tới",
+          "en": "Today's pace is serious and planned; long-term work comes into view"
+        },
+        "mid": {
+          "vi": "Nhịp hôm nay bền bỉ và tiết chế, từng bước nhỏ thấy có ích",
+          "en": "Today's pace is steady and restrained; small steps feel useful"
+        },
+        "late": {
+          "vi": "Nhịp hôm nay còn chắc nhưng nặng vai, cần chỗ để đặt bớt xuống",
+          "en": "Today is still solid but heavy on the shoulders; set something down"
+        }
+      },
+      "body": {
+        "vi": "Trăng ở Ma Kết thường gợi nhu cầu có cấu trúc, trách nhiệm và kết quả thấy được. Mặt còn lại, bạn có thể gồng lên và quên rằng mình cũng cần nghỉ.",
+        "en": "A Moon in Capricorn often brings a need for structure, responsibility and visible results. On the other side, you may push through and forget you need rest too."
+      },
+      "lean": [
+        {
+          "id": "capricorn-lean-1",
+          "vi": "Chia một việc lớn thành bước đầu tiên làm được hôm nay",
+          "en": "Breaking a big task into a first step you can do today"
+        },
+        {
+          "id": "capricorn-lean-2",
+          "vi": "Xem lại lịch tuần và bỏ bớt một việc",
+          "en": "Reviewing the week and dropping one task"
+        },
+        {
+          "id": "capricorn-lean-3",
+          "vi": "Ghi nhận một tiến bộ chậm nhưng thật",
+          "en": "Noticing slow but real progress"
+        },
+        {
+          "id": "capricorn-lean-4",
+          "vi": "Hỏi lời khuyên từ người đi trước",
+          "en": "Asking advice from someone more experienced"
+        }
+      ],
+      "ease": [
+        {
+          "id": "capricorn-ease-1",
+          "vi": "Việc coi nghỉ ngơi là lười",
+          "en": "Treating rest as laziness"
+        },
+        {
+          "id": "capricorn-ease-2",
+          "vi": "Việc ôm hết trách nhiệm về mình",
+          "en": "Taking all the responsibility on yourself"
+        },
+        {
+          "id": "capricorn-ease-3",
+          "vi": "Việc giấu mệt để trông vững vàng",
+          "en": "Hiding tiredness to look steady"
+        },
+        {
+          "id": "capricorn-ease-4",
+          "vi": "Việc đặt chuẩn cho mình cao hơn cho người khác",
+          "en": "Holding yourself to a higher standard than others"
+        }
+      ],
+      "topics": {
+        "love": {
+          "vi": "Trong chuyện tình cảm, sự đáng tin và giữ lời có thể là cách bạn nói thương. Nói thành lời một chút cũng giúp người kia hiểu.",
+          "en": "In love, reliability and keeping your word may be how you say you care. Putting a little of it into words helps the other person understand."
+        },
+        "work": {
+          "vi": "Trong công việc, nhịp này hợp với lập kế hoạch, sắp thứ tự ưu tiên và việc cần kỷ luật. Thành quả có thể đến chậm nhưng bền.",
+          "en": "At work this pace suits planning, setting priorities and disciplined tasks. Results may come slowly but last."
+        },
+        "self": {
+          "vi": "Với bản thân, bạn có thể thấy rõ mục tiêu của mình. Hỏi thêm: mình đang mang gánh nào không cần mang một mình?",
+          "en": "For yourself, your goals may feel clear. Ask too: which load am I carrying that I need not carry alone?"
+        }
+      },
+      "journal": {
+        "vi": "Hôm nay mình đã tiến được bước nào, và gánh nào mình muốn đặt xuống?",
+        "en": "What step forward did I take today, and which load do I want to put down?"
+      }
+    },
+    "aquarius": {
+      "tone": {
+        "early": {
+          "vi": "Nhịp hôm nay thoáng và khác lạ, ý tưởng mới dễ ghé qua",
+          "en": "Today's pace is airy and unusual; new ideas drop by"
+        },
+        "mid": {
+          "vi": "Nhịp hôm nay độc lập và hướng về nhóm, bạn bè thấy gần",
+          "en": "Today's pace is independent and group-minded; friends feel close"
+        },
+        "late": {
+          "vi": "Nhịp hôm nay còn tỉnh táo nhưng hơi xa cách, cảm xúc dễ bị đẩy ra sau",
+          "en": "Today is still clear-headed but distant; feelings get pushed aside"
+        }
+      },
+      "body": {
+        "vi": "Trăng ở Bảo Bình thường gợi nhu cầu tự do, bạn bè và nhìn mọi việc theo cách mới. Mặt còn lại, bạn có thể lý trí hóa cảm xúc thay vì để mình cảm.",
+        "en": "A Moon in Aquarius often brings a need for freedom, friendship and fresh perspectives. On the other side, you may intellectualise feelings instead of letting yourself feel."
+      },
+      "lean": [
+        {
+          "id": "aquarius-lean-1",
+          "vi": "Thử một cách làm khác cho việc quen",
+          "en": "Trying a different way to do a familiar task"
+        },
+        {
+          "id": "aquarius-lean-2",
+          "vi": "Nhắn cho một người bạn trong nhóm",
+          "en": "Messaging a friend from your group"
+        },
+        {
+          "id": "aquarius-lean-3",
+          "vi": "Ghi lại một ý tưởng dù còn lạ",
+          "en": "Writing down an idea even if it seems odd"
+        },
+        {
+          "id": "aquarius-lean-4",
+          "vi": "Góp một chút sức cho việc chung",
+          "en": "Contributing a little to something shared"
+        }
+      ],
+      "ease": [
+        {
+          "id": "aquarius-ease-1",
+          "vi": "Việc phân tích cảm xúc thay vì cảm nó",
+          "en": "Analysing a feeling instead of feeling it"
+        },
+        {
+          "id": "aquarius-ease-2",
+          "vi": "Việc tách mình ra khi cần được ở gần",
+          "en": "Pulling away when you need closeness"
+        },
+        {
+          "id": "aquarius-ease-3",
+          "vi": "Việc khác người chỉ để khác",
+          "en": "Being different just to be different"
+        },
+        {
+          "id": "aquarius-ease-4",
+          "vi": "Việc bỏ qua nhu cầu của người thân vì chuyện lớn hơn",
+          "en": "Overlooking loved ones' needs for a bigger cause"
+        }
+      ],
+      "topics": {
+        "love": {
+          "vi": "Trong chuyện tình cảm, tình bạn và sự tôn trọng khoảng riêng có thể là nền tảng. Nói rõ bạn cần bao nhiêu không gian giúp người kia không đoán sai.",
+          "en": "In love, friendship and respect for personal space can be the foundation. Saying how much space you need keeps the other person from guessing wrong."
+        },
+        "work": {
+          "vi": "Trong công việc, nhịp này hợp với ý tưởng mới, công nghệ và việc nhóm. Một góc nhìn khác thường có thể gỡ được chỗ đang kẹt.",
+          "en": "At work this pace suits new ideas, technology and teamwork. An unusual angle can unlock a stuck spot."
+        },
+        "self": {
+          "vi": "Với bản thân, bạn có thể muốn đứng lùi lại để nhìn toàn cảnh. Thử hỏi thêm: dưới các ý nghĩ, mình đang cảm thấy gì?",
+          "en": "For yourself, you may want to step back to see the whole. Try asking too: under the thoughts, what am I feeling?"
+        }
+      },
+      "journal": {
+        "vi": "Hôm nay mình muốn thử khác đi ở đâu, và mình đang giữ khoảng cách với cảm xúc nào?",
+        "en": "Where do I want to try something different today, and which feeling am I keeping at a distance?"
+      }
+    },
+    "pisces": {
+      "tone": {
+        "early": {
+          "vi": "Nhịp hôm nay mơ màng và mềm, trực giác lên tiếng nhẹ nhàng",
+          "en": "Today's pace is dreamy and soft; intuition speaks quietly"
+        },
+        "mid": {
+          "vi": "Nhịp hôm nay nhạy và đầy tưởng tượng, ranh giới dễ mờ",
+          "en": "Today's pace is sensitive and imaginative; boundaries blur easily"
+        },
+        "late": {
+          "vi": "Nhịp hôm nay lắng xuống, cần nghỉ trước khi bắt đầu chu kỳ mới",
+          "en": "Today's pace settles; rest is needed before a new cycle begins"
+        }
+      },
+      "body": {
+        "vi": "Trăng ở Song Ngư thường gợi nhu cầu nghỉ, mơ và cảm thông. Mặt còn lại, bạn có thể thấm cả cảm xúc của người khác như của mình.",
+        "en": "A Moon in Pisces often brings a need to rest, dream and empathise. On the other side, you may absorb others' feelings as if they were your own."
+      },
+      "lean": [
+        {
+          "id": "pisces-lean-1",
+          "vi": "Một khoảng yên không màn hình",
+          "en": "A quiet stretch without screens"
+        },
+        {
+          "id": "pisces-lean-2",
+          "vi": "Nghe nhạc, vẽ hoặc viết tự do",
+          "en": "Listening to music, drawing or free writing"
+        },
+        {
+          "id": "pisces-lean-3",
+          "vi": "Ghi lại một giấc mơ hay một linh cảm",
+          "en": "Writing down a dream or a hunch"
+        },
+        {
+          "id": "pisces-lean-4",
+          "vi": "Một việc tử tế nhỏ không cần ai biết",
+          "en": "A small kindness nobody needs to know about"
+        }
+      ],
+      "ease": [
+        {
+          "id": "pisces-ease-1",
+          "vi": "Việc nhận hết cảm xúc của người khác về mình",
+          "en": "Taking on everyone else's feelings"
+        },
+        {
+          "id": "pisces-ease-2",
+          "vi": "Việc trốn vào màn hình để khỏi nghĩ",
+          "en": "Hiding in screens to stop thinking"
+        },
+        {
+          "id": "pisces-ease-3",
+          "vi": "Việc nói có khi lòng đang muốn nói không",
+          "en": "Saying yes when you mean no"
+        },
+        {
+          "id": "pisces-ease-4",
+          "vi": "Việc mơ hồ về điều mình thật sự cần",
+          "en": "Staying vague about what you really need"
+        }
+      ],
+      "topics": {
+        "love": {
+          "vi": "Trong chuyện tình cảm, sự dịu dàng và thấu hiểu có thể đến tự nhiên. Giữ một chút ranh giới giúp bạn thương người mà không mất mình.",
+          "en": "In love, tenderness and understanding may come naturally. Keeping a little boundary helps you care without losing yourself."
+        },
+        "work": {
+          "vi": "Trong công việc, nhịp này hợp với việc sáng tạo, chăm sóc hoặc lắng nghe. Việc cần con số chính xác có thể cần kiểm lại một lần nữa.",
+          "en": "At work this pace suits creative, caring or listening work. Tasks with exact numbers may need a second check."
+        },
+        "self": {
+          "vi": "Với bản thân, trực giác có thể rõ hơn lý lẽ. Ghi lại linh cảm rồi để vài ngày sau xem lại.",
+          "en": "For yourself, intuition may be clearer than logic. Note the hunch and look at it again in a few days."
+        }
+      },
+      "journal": {
+        "vi": "Hôm nay mình linh cảm điều gì, và cảm xúc nào thật sự là của mình?",
+        "en": "What do I sense today, and which feelings are truly mine?"
+      }
+    }
+  },
+  "relation": {
+    "conjunction": {
+      "degrees": 0,
+      "label": {
+        "vi": "cùng cung",
+        "en": "in the same sign as"
+      },
+      "body": {
+        "vi": "Trăng đi qua cung Mặt Trời của bạn: cảm xúc và ý muốn có thể cùng một hướng, vì vậy điều bạn cảm thấy dễ hiện ra ngoài hơn.",
+        "en": "The Moon is crossing your Sun sign: feelings and intentions may point the same way, so what you feel shows more easily."
+      }
+    },
+    "semisextile": {
+      "degrees": 30,
+      "label": {
+        "vi": "đứng kề (30°)",
+        "en": "next to (30°)"
+      },
+      "body": {
+        "vi": "Trăng ở cung kề cung Mặt Trời của bạn: một chút lệch nhịp, như hai người hàng xóm có thói quen khác nhau. Điều chỉnh nhỏ thường đủ.",
+        "en": "The Moon is in the sign next to your Sun: a slight mismatch, like neighbours with different habits. Small adjustments usually do."
+      }
+    },
+    "sextile": {
+      "degrees": 60,
+      "label": {
+        "vi": "hợp góc thuận (60°)",
+        "en": "in an easy angle (60°) with"
+      },
+      "body": {
+        "vi": "Trăng hợp góc thuận với Mặt Trời của bạn: nhịp hôm nay và tính bạn dễ đi cùng nhau, một cơ hội nhỏ có thể mở ra nếu bạn bước tới.",
+        "en": "The Moon makes an easy angle with your Sun: today's rhythm and your nature move together; a small opening may appear if you step toward it."
+      }
+    },
+    "square": {
+      "degrees": 90,
+      "label": {
+        "vi": "tạo góc vuông (90°)",
+        "en": "square (90°) to"
+      },
+      "body": {
+        "vi": "Trăng tạo góc vuông với Mặt Trời của bạn: điều bạn cảm và điều bạn muốn có thể kéo hai hướng. Sự cọ xát này cũng là chỗ để hiểu mình rõ hơn.",
+        "en": "The Moon squares your Sun: what you feel and what you want may pull two ways. That friction is also a place to understand yourself."
+      }
+    },
+    "trine": {
+      "degrees": 120,
+      "label": {
+        "vi": "hợp góc hài hòa (120°)",
+        "en": "in a flowing angle (120°) with"
+      },
+      "body": {
+        "vi": "Trăng hợp góc hài hòa với Mặt Trời của bạn: mọi thứ có thể trôi dễ hơn thường lệ. Sự dễ dàng này hợp với việc nghỉ ngơi lẫn việc sáng tạo.",
+        "en": "The Moon flows with your Sun: things may move more easily than usual. That ease suits both rest and creative work."
+      }
+    },
+    "quincunx": {
+      "degrees": 150,
+      "label": {
+        "vi": "lệch góc (150°)",
+        "en": "at an awkward angle (150°) to"
+      },
+      "body": {
+        "vi": "Trăng ở góc lệch với Mặt Trời của bạn: có thể có cảm giác lấn cấn khó gọi tên, như mặc vừa nhưng chưa thoải mái. Chỉnh từng chút một thường dễ hơn sửa lớn.",
+        "en": "The Moon sits at an awkward angle to your Sun: a hard-to-name unease, like clothes that fit but do not feel right. Adjusting bit by bit is easier than a big fix."
+      }
+    },
+    "opposition": {
+      "degrees": 180,
+      "label": {
+        "vi": "đối diện (180°)",
+        "en": "opposite (180°)"
+      },
+      "body": {
+        "vi": "Trăng đối diện Mặt Trời của bạn: người khác và nhu cầu của họ có thể hiện rõ hơn, như một tấm gương. Đây là dịp nhìn mình qua mối quan hệ.",
+        "en": "The Moon is opposite your Sun: other people and their needs may stand out, like a mirror. A chance to see yourself through relationships."
+      }
+    }
+  },
+  "phaseNote": {
+    "new": {
+      "vi": "Trăng mới lúc {time}: trăng gần như không thấy trên trời. Nhiều người dùng dịp này để đặt một ý định nhỏ.",
+      "en": "New Moon at {time}: the Moon is almost invisible. Many people use it to set one small intention."
+    },
+    "first_quarter": {
+      "vi": "Trăng thượng huyền lúc {time}: nửa vầng trăng sáng, nửa chu kỳ tăng đã qua.",
+      "en": "First quarter at {time}: half the disc is lit, halfway through the waxing cycle."
+    },
+    "full": {
+      "vi": "Trăng tròn lúc {time}: cả vầng trăng sáng. Nhiều người thấy cảm xúc rõ hơn quanh thời điểm này.",
+      "en": "Full Moon at {time}: the whole disc is lit. Many people find feelings clearer around this time."
+    },
+    "last_quarter": {
+      "vi": "Trăng hạ huyền lúc {time}: nửa vầng trăng sáng, chu kỳ đang giảm dần về trăng mới.",
+      "en": "Last quarter at {time}: half the disc is lit as the cycle wanes toward the new Moon."
+    }
+  },
+  "templates": {
+    "source": {
+      "vi": "Từ: Trăng ở {moon}, {relation} với Mặt Trời của bạn ({sun})",
+      "en": "From: Moon in {moon}, {relation} your Sun ({sun})"
+    },
+    "sourceMoonOnly": {
+      "vi": "Từ: Trăng ở {moon}, nội dung chung theo cung Trăng",
+      "en": "From: Moon in {moon}, general text for the Moon's sign"
+    },
+    "sourceChosen": {
+      "vi": "(bạn chọn)",
+      "en": "(your choice)"
+    },
+    "sourceHouse": {
+      "vi": "Từ: Trăng ở {moon}, đi qua nhà {house} trong lá số của bạn",
+      "en": "From: Moon in {moon}, crossing house {house} of your chart"
+    },
+    "houseLabel": {
+      "vi": "Theo lá số của bạn",
+      "en": "From your chart"
+    },
+    "relationLabel": {
+      "vi": "Ước theo cung Mặt Trời",
+      "en": "Estimated from your Sun sign"
+    },
+    "ingressFuture": {
+      "vi": "Trăng chuyển sang {sign} lúc {time}",
+      "en": "The Moon moves into {sign} at {time}"
+    },
+    "ingressPast": {
+      "vi": "Trăng đã chuyển sang {sign} lúc {time}",
+      "en": "The Moon moved into {sign} at {time}"
+    },
+    "boundary": {
+      "vi": "Bạn sinh đúng ngày Mặt Trời chuyển từ {from} sang {to} ({date} lúc {time}, giờ trên máy). Chưa biết giờ sinh thì chưa chắc cung nào, vì vậy nội dung hôm nay tạm chỉ theo Trăng. Thêm giờ sinh để biết chắc, hoặc chọn tạm cung bạn quen dùng.",
+      "en": "You were born on the day the Sun moved from {from} into {to} ({date} at {time}, device time). Without a birth time the sign is uncertain, so today's text follows the Moon only. Add your birth time to know for sure, or pick the sign you usually use."
+    },
+    "noChart": {
+      "vi": "Thêm ngày sinh để xem Trăng hôm nay gặp Mặt Trời của bạn ra sao.",
+      "en": "Add your birth date to see how today's Moon meets your Sun."
+    },
+    "noBirthTime": {
+      "vi": "Khi chưa có giờ sinh, nội dung vẫn đủ, chỉ nói theo cung.",
+      "en": "Without a birth time the text is still complete; it just follows the signs."
+    },
+    "weekNote": {
+      "vi": "Mỗi ô là cung của Trăng lúc 12:00. Ngày Trăng đổi cung có mũi tên và giờ đổi.",
+      "en": "Each day shows the Moon's sign at 12:00. Days when it changes sign show an arrow and the time."
+    },
+    "howTitle": {
+      "vi": "Về cách tính",
+      "en": "How this is calculated"
+    },
+    "how": [
+      {
+        "vi": "Vị trí Mặt Trăng được tính ngay trên máy, không cần mạng, theo tâm Trái Đất (chuẩn chiêm tinh), không theo nơi bạn đứng.",
+        "en": "The Moon's position is calculated on this device, offline, from the Earth's centre (the astrological standard), not from where you stand."
+      },
+      {
+        "vi": "“Hôm nay” là ngày theo múi giờ của máy. Giờ hiển thị tới phút, bỏ phần giây.",
+        "en": "“Today” follows this device's time zone. Times are shown to the minute, seconds dropped."
+      },
+      {
+        "vi": "Bốn pha chính (trăng mới, thượng huyền, trăng tròn, hạ huyền) là một thời điểm, gắn vào đúng ngày có thời điểm đó. Các ngày khác gọi là trăng lưỡi liềm hoặc trăng gần tròn.",
+        "en": "The four main phases (new, first quarter, full, last quarter) are single moments, shown on the day they happen. Other days are crescent or gibbous."
+      },
+      {
+        "vi": "Nhà trong lá số dùng hệ nhà theo cung nguyên (Whole Sign). Giờ sinh lệch khoảng một giờ có thể đổi cung mọc ở khoảng một phần tư số người, vì vậy phần theo nhà có thể khác nếu giờ sinh chưa chắc.",
+        "en": "Chart houses use the Whole Sign system. A birth time off by about an hour can change the rising sign for roughly a quarter of people, so the house text may differ if your time is uncertain."
+      },
+      {
+        "vi": "Đây là gợi ý để tự soi chiếu, không là lời dự đoán.",
+        "en": "This is a prompt for self-reflection, not a prediction."
+      }
+    ]
+  }
+}

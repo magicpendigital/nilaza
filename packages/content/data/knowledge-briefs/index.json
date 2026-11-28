@@ -1,0 +1,72 @@
+[
+  {
+    "slug": "binh-phap-ton-tu",
+    "personaId": "book-strategic-thinker",
+    "titleVi": "Binh pháp Tôn Tử",
+    "titleEn": "The Art of War",
+    "author": "Tôn Tử (Tôn Vũ), theo truyền thống",
+    "era": "Cuối Xuân Thu theo truyền thống; nhiều học giả cho rằng văn bản định hình thời Chiến Quốc",
+    "copyright": "public_domain_original",
+    "status": "owner_approved",
+    "version": "2026-11-25-v1",
+    "file": "binh-phap-ton-tu.vi.md",
+    "oneLine": "Binh thư cổ 13 thiên về thắng trước khi đánh: tính tương quan, tránh đối đầu khi có thể, chọn thời và thế, giữ tiết chế khi nóng giận.",
+    "evalQuestionCount": 20
+  },
+  {
+    "slug": "dao-duc-kinh",
+    "personaId": "book-harmony-guide",
+    "titleVi": "Đạo Đức Kinh",
+    "titleEn": "Tao Te Ching (Daodejing)",
+    "author": "Lão Tử, theo truyền thống (tính lịch sử còn tranh luận)",
+    "era": "Xuân Thu đến Chiến Quốc (khoảng thế kỷ 6 đến 3 TCN)",
+    "copyright": "public_domain_original",
+    "status": "owner_approved",
+    "version": "2026-11-25-v1",
+    "file": "dao-duc-kinh.vi.md",
+    "oneLine": "Cổ thư 81 chương về Đạo, vô vi và sống thuận lẽ tự nhiên: mềm mà bền, ít mà đủ, buông bám víu và đừng gượng ép.",
+    "evalQuestionCount": 20
+  },
+  {
+    "slug": "suy-tuong",
+    "personaId": "book-stoic-journal",
+    "titleVi": "Suy tưởng",
+    "titleEn": "Meditations",
+    "author": "Marcus Aurelius",
+    "era": "Thế kỷ 2 sau Công nguyên (hoàng đế La Mã 161 đến 180)",
+    "copyright": "public_domain_original",
+    "status": "owner_approved",
+    "version": "2026-11-25-v1",
+    "file": "suy-tuong.vi.md",
+    "oneLine": "Ghi chép riêng của một hoàng đế Khắc kỷ gửi chính mình trong 12 quyển: giữ tâm vững trước điều không kiểm soát được, đối xử với người khó, nhìn thời gian và cái chết.",
+    "evalQuestionCount": 20
+  },
+  {
+    "slug": "kinh-phap-cu",
+    "personaId": "book-dhammapada",
+    "titleVi": "Kinh Pháp Cú",
+    "titleEn": "Dhammapada",
+    "author": "Tuyển tập kệ, truyền thống gán phần lớn cho Đức Phật",
+    "era": "Phật giáo sơ kỳ (Đức Phật khoảng thế kỷ 5 đến 4 TCN; niên đại tuyển tập còn tranh luận)",
+    "copyright": "public_domain_original",
+    "status": "owner_approved",
+    "version": "2026-11-25-v1",
+    "file": "kinh-phap-cu.vi.md",
+    "oneLine": "Tuyển tập 423 kệ trong 26 phẩm (bản Pāli) về tâm, hành động và con đường bớt khổ: tỉnh thức, không hận thù, tự nỗ lực; đọc phi giáo phái, không truyền đạo.",
+    "evalQuestionCount": 20
+  },
+  {
+    "slug": "kinh-dich",
+    "personaId": "book-i-ching",
+    "titleVi": "Kinh Dịch",
+    "titleEn": "I Ching (Yijing, Book of Changes)",
+    "author": "Nhiều lớp, nhiều người; truyền thống gán cho Phục Hy, Văn Vương, Chu Công, Khổng Tử",
+    "era": "Phần Kinh khoảng Tây Chu; phần Truyện (Thập Dực) khoảng Chiến Quốc đến đầu Hán (còn tranh luận)",
+    "copyright": "public_domain_original",
+    "status": "owner_approved",
+    "version": "2026-11-27-v2",
+    "file": "kinh-dich.vi.md",
+    "oneLine": "Cổ thư về biến đổi với 64 quẻ, âm dương, thời và vị; đọc như triết lý và tấm gương để suy ngẫm, không phải dự đoán tương lai.",
+    "evalQuestionCount": 24
+  }
+]

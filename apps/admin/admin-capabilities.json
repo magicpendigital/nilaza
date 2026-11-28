@@ -39,6 +39,7 @@
       "description": "Workflows, prompts, personas, models, tests, and audit",
       "routes": [
         { "id": "features", "label": "AI Features" },
+        { "id": "access", "label": "Feature Access (Free / Premium)" },
         { "id": "context", "label": "AI Context Data" },
         { "id": "workflow", "label": "Workflow" },
         { "id": "prompt", "label": "Prompt Composer" },
@@ -46,6 +47,8 @@
         { "id": "council-builder", "label": "Council Builder" },
         { "id": "model-router", "label": "Model Router" },
         { "id": "providers", "label": "Providers & Model Chains" },
+        { "id": "campaigns", "label": "Model Campaigns" },
+        { "id": "model-tiers", "label": "Persona Model Tiers" },
         { "id": "trace-explorer", "label": "Trace Explorer" },
         { "id": "feedback", "label": "Feedback Inbox" },
         { "id": "test", "label": "Test Runs" },

@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "title": "Free/Premium switch migration applied; ai-persona-chat (Van 9) and admin-documentation redeployed",
+  "date": "2026-11-27/28",
+  "target": {
+    "projectRef": "etfajmrwyywokgafzxsb",
+    "label": "production (Owner decision 2026-11-12)"
+  },
+  "ownerApproval": "Owner approved in chat on 2026-11-27: '3. Đồng ý chạy SQL migration 20261127090000_feature_access_configs.sql, mã kiểm SHA-256 c1156e0d…3b08cf8. * Đồng ý triển khai lại tài liệu quản trị và tính năng ai-persona-chat.' The file was briefly changed (signed-in-only reads), then returned to the approved content after the Owner chose guest reads; the hash was re-checked before applying.",
+  "records": [
+    "docs/feature-plans/feature-access-switch-2026-11-27.json",
+    "docs/feature-plans/van9-kinh-dich-brief-2026-11-27.json"
+  ],
+  "sourceCommits": {
+    "ai-persona-chat": "b735535 (origin/main after PR 78)",
+    "migration and admin-documentation": "78ce965 (origin/main after PR 80)"
+  },
+  "preApplyChecks": [
+    "LF SHA-256 of supabase/migrations/20261127090000_feature_access_configs.sql = c1156e0d9e618bcfdbf22623804f54bca2d1302d692073b3e7913423a3b08cf8 (matches the approved hash)",
+    "remote migration list: 20261127090000 not applied; 20261116090000 and 20261116100000 still unapplied, and 20261127090000 references none of their objects (it uses public.subscriptions and nilaza_private.has_capability, both from applied migrations)"
+  ],
+  "migrations": {
+    "method": "npx --yes supabase@3.1.0 db query --yes --remote=etfajmrwyywokgafzxsb -f <file> (run by Claude), exit 0; then migration repair --status applied 20261127090000",
+    "files": [
+      { "file": "supabase/migrations/20261127090000_feature_access_configs.sql", "sha256": "c1156e0d9e618bcfdbf22623804f54bca2d1302d692073b3e7913423a3b08cf8" }
+    ]
+  },
+  "postApplyChecks": {
+    "readOnlyQuery": "public.feature_access_configs exists with RLS on and 0 rows (nothing published, app keeps built-in defaults); anon and authenticated can execute get_feature_access_config; anon cannot execute publish_feature_access_config; schema_migrations has 20261127090000.",
+    "securityAdvisor": "not run"
+  },
+  "functions": {
+    "method": "npx --yes supabase@3.1.0 functions deploy <name> --remote=etfajmrwyywokgafzxsb --use-api --yes (run by Claude)",
+    "deployed": [
+      { "name": "ai-persona-chat", "version": 13, "verifyJwt": true, "note": "Kinh Dich brief with the Van 9 section" },
+      { "name": "admin-documentation", "version": 6, "verifyJwt": true, "note": "Owner guide section 4.3 Free/Premium switch" }
+    ]
+  },
+  "verification": {
+    "done": [
+      "migration exited 0 and the read-only check above passed",
+      "functions list shows both ACTIVE with verify_jwt true",
+      "unauthenticated calls to both functions return 401"
+    ],
+    "notDone": [
+      "Van 9 eval questions 21-24 with a signed-in test account",
+      "Admin Free/Premium tab saving a draft and publishing on staging (needs the Owner signed in)",
+      "no app screen reads the switch yet; publishing changes nothing for users until the startup-gate work",
+      "Supabase security advisor after this rollout"
+    ]
+  },
+  "rollback": "Functions: redeploy the previous commit. SQL: additive (new table, functions, grants); with no published row the app uses built-in defaults, so leaving it unused has no user effect."
+}

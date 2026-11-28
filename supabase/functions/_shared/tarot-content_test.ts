@@ -46,7 +46,7 @@ Deno.test("E4: published deck card edits and the deck reading style reach the mo
   equal(context.selectedCards[2].orientation, "reversed");
   equal(context.deck, { id: "moon-garden", slug: "moon-garden", readingStyle: "Dịu êm, kết bằng một câu hỏi mở." });
   const message = JSON.parse(tarotModelMessage(context));
-  equal(Object.keys(message), ["language", "deck", "topic", "spread", "question", "selectedCards"]);
+  equal(Object.keys(message), ["language", "deck", "topic", "spread", "question", "selectedCards", "readingGuide"]);
   equal(message.deck.readingStyle, "Dịu êm, kết bằng một câu hỏi mở.");
   equal(tarotPromptMetadata({ promptText: "x", promptVersionId: "p", promptRecordId: null, promptVersion: "v", promptLocale: "vi", promptSource: "local_canonical", promptStatus: "local_degraded", promptFallbackReason: "missing_active" }, context.cardContextSource).cardContextSource, "published_content_bundle");
 });
@@ -89,7 +89,7 @@ Deno.test("E4: the reading-style rule is immutable and versioned", async () => {
   const system = assembleTarotSystem(prompt, "vi");
   assert(system.includes("deck.readingStyle, when present, is the editorial tone of the chosen deck"));
   assert(system.indexOf("deck.readingStyle") > system.indexOf("IMMUTABLE TAROT BOUNDARIES"));
-  equal(TAROT_PROMPT_ASSEMBLY_VERSION, "2026-11-13-tarot-prompt-v5");
+  equal(TAROT_PROMPT_ASSEMBLY_VERSION, "2026-11-22-tarot-prompt-v6");
 });
 
 Deno.test("E4: readPublishedTarotContent calls get_published_content_bundle, caches a minute and never throws", async () => {

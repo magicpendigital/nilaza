@@ -44,3 +44,26 @@ Deno.test("A7 contract: invalid chains are refused before the database", () => {
   throws(() => modelRouteRpcPayload({ ...legacy, steps: [step("openrouter", "a/b")] }), /note is required/, "active chain without note");
   throws(() => modelRouteRpcPayload({ ...legacy, note: "short" }), /10-500/, "short note");
 });
+
+Deno.test("Batch C contract: decision steps only for reader_router; primary/fallback are the chat steps", () => {
+  const decision = step("openrouter_decisions", "typesafe/jev-1.14", { timeoutMs: 3000, maxTokens: 64, temperature: 0, reasoning: null });
+  const chat = step("openrouter", "deepseek/deepseek-v4.1-flash", { timeoutMs: 3000, maxTokens: 200, temperature: 0.2, jsonMode: true });
+  const reader = { ...legacy, feature: "reader_router", responseSchema: "reader_router_choice_v1", totalDeadlineMs: 5000, note: "Bộ chọn người đọc" };
+  const payload = modelRouteRpcPayload({ ...reader, steps: [decision, chat] });
+  assert(payload.primary.provider === "openrouter" && payload.fallback === null, "primary is the first chat step, no chat fallback");
+  assert(payload.temperature === 0.2 && payload.max_output_tokens === 200, "limits from the chat step");
+  assert((payload as any).steps[0].provider === "openrouter_decisions", "decision step kept in order");
+  throws(() => modelRouteRpcPayload({ ...reader, steps: [decision] }), /at least one chat step/, "decision-only chain");
+  throws(() => modelRouteRpcPayload({ ...legacy, steps: [decision, chat], note: "Ghi chú hợp lệ" }), /only allowed for reader_router/, "decision step on tarot_reading");
+  throws(() => modelRouteRpcPayload({ ...legacy, feature: "tarot_note", steps: [step("openai_decisions", "gpt-5-mini"), chat], note: "Ghi chú hợp lệ" }), /only allowed for reader_router/, "decision step on tarot_note");
+  throws(() => modelRouteRpcPayload({ ...reader, steps: undefined, primary: { provider: "gemini_decisions", model: "x" }, fallback: null }), /only allowed for reader_router/, "decision provider as legacy primary");
+  const note = modelRouteRpcPayload({ ...legacy, feature: "tarot_note", responseSchema: "tarot_note_output_v1", maxTokens: 700 });
+  assert(note.feature === "tarot_note", "tarot_note accepted");
+});
+
+Deno.test("2026-11-25 contract: numerology_private_message routes publish like any chat feature, without decision steps", () => {
+  const chat = step("openrouter", "deepseek/deepseek-v4.1-flash", { timeoutMs: 20000, maxTokens: 600, temperature: 0.6, jsonMode: true });
+  const numerology = { ...legacy, feature: "numerology_private_message", responseSchema: "numerology_private_message_v1", maxTokens: 600, temperature: 0.6 };
+  assert(modelRouteRpcPayload(numerology).feature === "numerology_private_message", "numerology_private_message accepted");
+  throws(() => modelRouteRpcPayload({ ...numerology, steps: [step("openrouter_decisions", "typesafe/jev-1.14"), chat], note: "Ghi chú hợp lệ" }), /only allowed for reader_router/, "decision step on numerology");
+});

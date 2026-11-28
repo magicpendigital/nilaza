@@ -182,6 +182,20 @@ When Supabase Auth env is present, the app uses Supabase email/password auth, st
 
 Release builds fail closed when those online variables are missing instead of silently creating device-only local accounts. Development builds may still use the local-first preview path.
 
+## Premium purchase (Google Play)
+
+The in-app purchase screen reads two public variables (names only; set values in the EAS environment, never in the repo):
+
+```text
+EXPO_PUBLIC_REVENUECAT_ANDROID_KEY=<public Android SDK key from the billing dashboard, starts with goog_>
+EXPO_PUBLIC_BILLING_TEST=true
+```
+
+- The Android SDK key is a public client key. Never put the billing secret API key or the webhook secret in an `EXPO_PUBLIC_*` variable.
+- `EXPO_PUBLIC_BILLING_TEST=true` shows the purchase screen while `premiumOnSale` is still `false`, for internal/closed testing with license testers only. Leave it unset for production builds.
+- Purchases need an EAS development or store build installed from Google Play (internal testing track). Expo Go, web and iOS show "purchases not available".
+- The app never decides Premium on its own for server features: Astrology AI still checks the `subscriptions` row written by the webhook.
+
 Do not put OpenAI, astrology provider, Supabase service role, or other secret keys in Expo public environment variables.
 
 ## Current notes

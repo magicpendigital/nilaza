@@ -1,0 +1,1402 @@
+{
+  "schemaVersion": 1,
+  "book": "dao-duc-kinh",
+  "personaId": "book-harmony-guide",
+  "title": {
+    "vi": "Đạo Đức Kinh",
+    "en": "Tao Te Ching"
+  },
+  "source": {
+    "original": "Đạo Đức Kinh (bản Vương Bật, 81 chương)",
+    "englishBase": "James Legge 1891 (public domain)",
+    "vietnamese": "Nilaza dịch từ nguyên văn"
+  },
+  "review": {
+    "status": "approved",
+    "reviewer": "Owner (after nilaza-content-review panel)",
+    "reviewedAt": "2026-11-27"
+  },
+  "items": [
+    {
+      "id": "ddk-001",
+      "ref": {
+        "vi": "Chương 1",
+        "en": "Chapter 1"
+      },
+      "quote": {
+        "vi": "Đạo mà nói ra được thì không phải đạo thường hằng; tên mà gọi ra được thì không phải tên thường hằng. Chưa có tên là buổi đầu của trời đất; có tên là mẹ của muôn vật.",
+        "en": "The Tao that can be spoken is not the enduring Tao; the name that can be named is not the enduring name. Without a name, it is the beginning of heaven and earth; with a name, it is the mother of all things."
+      },
+      "gloss": {
+        "vi": "Câu mở đầu của sách cho biết lời nói chỉ tay về phía đạo chứ không chứa trọn được nó. Câu này có nhiều cách đọc, và cách nào cũng nhắc rằng cái tên chưa chính là sự vật. Trong đời thường, ta cũng hay lẫn nhãn dán lên một việc hay một người với chính việc, chính người ấy.",
+        "en": "The book opens by saying that words point toward the Tao without holding all of it. The line can be read in several ways, and each reminds us that a name is not the thing itself. In daily life we also tend to confuse the label we put on a situation or a person with the situation or person."
+      },
+      "question": {
+        "vi": "Có điều gì trong đời bạn mà cái tên bạn gọi nó đang che bớt phần còn lại?",
+        "en": "Is there something in your life where the name you give it hides part of what it is?"
+      },
+      "tags": [
+        "dao",
+        "naming",
+        "mystery"
+      ]
+    },
+    {
+      "id": "ddk-002",
+      "ref": {
+        "vi": "Chương 2",
+        "en": "Chapter 2"
+      },
+      "quote": {
+        "vi": "Có và không sinh ra nhau, khó và dễ làm nên nhau, dài và ngắn đo nhau, cao và thấp nương nhau.",
+        "en": "Being and non-being give birth to each other; hard and easy complete each other; long and short measure each other; high and low lean on each other."
+      },
+      "gloss": {
+        "vi": "Chương này nói rằng mỗi khái niệm chỉ có nghĩa nhờ cái đối lập của nó: không có thấp thì không ai gọi là cao. Một việc \"khó\" cũng là khó so với điều ta đã quen. Nhìn như thế, một cặp đối lập trong bạn có thể bớt giống hai phe, và giống hai đầu của cùng một sợi dây hơn.",
+        "en": "This chapter says each idea has meaning only through its opposite: without low there is no one to call anything high. A task is \"hard\" only compared with what we are used to. Seen this way, a pair of opposites inside you may look less like two sides at war and more like two ends of one rope."
+      },
+      "question": {
+        "vi": "Điều bạn đang gọi là \"khó\" hôm nay, bạn đang đem so với cái gì?",
+        "en": "What are you comparing against when you call something \"hard\" today?"
+      },
+      "tags": [
+        "opposites",
+        "balance"
+      ]
+    },
+    {
+      "id": "ddk-004",
+      "ref": {
+        "vi": "Chương 4",
+        "en": "Chapter 4"
+      },
+      "quote": {
+        "vi": "Đạo như chiếc bình rỗng mà dùng mãi không đầy; sâu thẳm như cội nguồn của muôn vật.",
+        "en": "The Tao is like a vessel that stands empty, yet however it is used it never fills; how deep it is, as if it were the ancestor of all things."
+      },
+      "gloss": {
+        "vi": "Chương này lấy chiếc bình rỗng để nói về đạo: chỗ trống ở đây không hề là thiếu, mà là chỗ để mọi thứ đi vào. Trong một ngày, một buổi chiều trống lịch hay một khoảng lặng giữa cuộc trò chuyện cũng có thể là chỗ cho điều mới xuất hiện.",
+        "en": "The chapter uses the empty vessel to speak of the Tao: the emptiness is not a lack but the room where things can enter. In a day, a free afternoon or a pause in conversation can likewise be the room where something new appears."
+      },
+      "question": {
+        "vi": "Trong ngày của bạn, khoảng trống nào đang bị lấp đầy quá nhanh?",
+        "en": "Which empty space in your day is being filled too quickly?"
+      },
+      "tags": [
+        "emptiness",
+        "dao"
+      ]
+    },
+    {
+      "id": "ddk-005",
+      "ref": {
+        "vi": "Chương 5",
+        "en": "Chapter 5"
+      },
+      "quote": {
+        "vi": "Nói nhiều thì chóng cùng đường, chẳng bằng giữ lấy chỗ giữa.",
+        "en": "Much speech leads quickly to exhaustion; better to hold to the center."
+      },
+      "gloss": {
+        "vi": "Đây là câu kết của chương 5, đứng sau đoạn nói rằng trời đất đối xử với muôn vật như nhau, không thiên vị. Ý của nó là lời nói dùng nhiều thì cạn, và bên trong ta có một chỗ quân bình để quay về. Sau một ngày nhiều tin nhắn và cuộc gặp, bạn có thể nhận ra lúc mình đã nói xa hơn điều mình thật sự nghĩ.",
+        "en": "This is the closing line of chapter 5, which follows a passage saying heaven and earth treat all things alike, without favorites. Its point is that speech used too freely runs dry, while inside us there is a balanced place to return to. After a day of messages and meetings, you may recall a moment when you said more than you really think."
+      },
+      "question": {
+        "vi": "Khi nào trong ngày bạn thấy lời nói của mình đã đi xa hơn điều bạn thật sự muốn nói?",
+        "en": "When in your day do you notice your words going further than what you really mean?"
+      },
+      "tags": [
+        "words",
+        "center"
+      ]
+    },
+    {
+      "id": "ddk-006",
+      "ref": {
+        "vi": "Chương 6",
+        "en": "Chapter 6"
+      },
+      "quote": {
+        "vi": "Thần thung lũng không chết, ấy gọi là mẹ huyền diệu. Cửa của mẹ huyền diệu ấy gọi là gốc của trời đất. Liên miên như còn mãi, dùng mà không nhọc.",
+        "en": "The spirit of the valley never dies; this is called the mysterious mother. The gate of the mysterious mother is called the root of heaven and earth. Continuous, it seems to remain, and it is used without effort."
+      },
+      "gloss": {
+        "vi": "Chương này nói về một nguồn lặng lẽ và liên tục, như khe suối hay lòng người mẹ, dùng hoài mà không cạn. Chữ đáng để ý là \"không nhọc\": sức bền ở đây đến từ chỗ không gắng. Bạn thử nghĩ đến những nguồn nuôi mình ngầm lâu nay.",
+        "en": "This chapter speaks of a quiet, continuous source, like a mountain stream or a mother's care, used again and again without running dry. The phrase worth noticing is \"without effort\": the endurance here comes from not straining. You might think of the sources that have quietly fed you for a long time."
+      },
+      "question": {
+        "vi": "Nguồn lặng lẽ nào đã nuôi bạn lâu nay mà bạn ít khi nhắc tên?",
+        "en": "Which quiet source has fed you for a long time without you often naming it?"
+      },
+      "tags": [
+        "source",
+        "endurance"
+      ]
+    },
+    {
+      "id": "ddk-007",
+      "ref": {
+        "vi": "Chương 7",
+        "en": "Chapter 7"
+      },
+      "quote": {
+        "vi": "Trời dài đất lâu. Trời đất dài lâu được vì không sống riêng cho mình. Vì thế bậc thánh đặt mình ra sau mà thành đứng trước, để thân ngoài cuộc mà thân còn.",
+        "en": "Heaven endures and earth lasts. They can last because they do not live for themselves. So the sage puts himself last and finds himself in front; he sets himself outside, and yet he remains."
+      },
+      "gloss": {
+        "vi": "Chương này lấy trời đất làm ví dụ: thứ không sống riêng cho mình thì bền. Ý không hề là xóa bỏ bản thân, mà là bớt đặt mình làm trung tâm của mọi việc. Bạn thử để ý một lần mình lùi lại một bước, và điều gì diễn ra quanh mình.",
+        "en": "The chapter takes heaven and earth as its example: what does not live only for itself lasts. The point is not to erase yourself but to put yourself a little less at the center of everything. You might notice a time you stepped back, and what unfolded around you."
+      },
+      "question": {
+        "vi": "Có việc nào gần đây mà bạn lùi lại một bước, và điều đó cho bạn thấy gì?",
+        "en": "Was there a recent moment when you stepped back, and what did it show you?"
+      },
+      "tags": [
+        "selflessness",
+        "humility"
+      ]
+    },
+    {
+      "id": "ddk-008",
+      "ref": {
+        "vi": "Chương 8",
+        "en": "Chapter 8"
+      },
+      "quote": {
+        "vi": "Điều thiện cao nhất như nước. Nước khéo làm lợi cho muôn vật mà không tranh, ở nơi người ta chê, nên gần với đạo.",
+        "en": "The highest excellence is like water. Water benefits all things and does not strive; it rests in the low places that people dislike, and so it is near to the Tao."
+      },
+      "gloss": {
+        "vi": "Nước trong chương này không phô trương: nó đi vào chỗ thấp, nuôi mọi thứ và không đòi chỗ nổi bật. Hình ảnh ấy mời bạn nghĩ về những việc mình làm âm thầm mà giữ cho mọi thứ còn chạy tiếp. Đó là một cách nhìn về sức bền của sự mềm, chứ không đặt ra một quy tắc.",
+        "en": "The water in this chapter does not show off: it flows to low places, feeds everything, and asks for no prominent place. The image invites you to think of the things you do quietly that keep everything running. It is a way of seeing the endurance of softness, not a rule."
+      },
+      "question": {
+        "vi": "Việc âm thầm nào của bạn đang nuôi dưỡng người khác hoặc chính bạn?",
+        "en": "Which quiet task of yours is feeding other people, or yourself?"
+      },
+      "tags": [
+        "water",
+        "humility"
+      ]
+    },
+    {
+      "id": "ddk-009",
+      "ref": {
+        "vi": "Chương 9",
+        "en": "Chapter 9"
+      },
+      "quote": {
+        "vi": "Cầm cho đầy mãi, chẳng bằng dừng đúng lúc; mài cho nhọn mãi, không giữ được lâu. … Công thành thì thân lui, ấy là đạo của trời.",
+        "en": "To keep filling a vessel to the brim is not as good as to stop in time. A blade sharpened again and again cannot be kept sharp for long. … When the work is done, to withdraw is the way of heaven."
+      },
+      "gloss": {
+        "vi": "Chương này nhắc về điểm vừa đủ: chén rót đầy thì khó bưng, lưỡi mài mãi thì mòn. \"Công thành thì thân lui\" không có nghĩa là bỏ cuộc, mà là biết lúc nào việc đã đủ. Đời thường cho ta nhiều dịp thử điều này, từ một dự án đến một cuộc tranh luận.",
+        "en": "This chapter reminds us of the point of enough: a cup filled to the brim is hard to carry, and a blade honed endlessly wears away. \"Withdraw when the work is done\" does not mean giving up; it means knowing when a task has reached enough. Daily life offers many chances to try this, from a project to an argument."
+      },
+      "question": {
+        "vi": "Có việc nào bạn đang làm tiếp, và với việc ấy, thế nào là \"đủ\" đối với bạn?",
+        "en": "Is there something you are still pushing on, and what would \"enough\" look like for it?"
+      },
+      "tags": [
+        "moderation",
+        "stopping"
+      ]
+    },
+    {
+      "id": "ddk-010",
+      "ref": {
+        "vi": "Chương 10",
+        "en": "Chapter 10"
+      },
+      "quote": {
+        "vi": "Sinh ra, nuôi dưỡng; sinh mà không chiếm giữ, làm mà không cậy công, đứng đầu mà không sai khiến: ấy gọi là đức huyền.",
+        "en": "It produces and rears; it produces without claiming ownership, acts without boasting, and presides without controlling. This is called the mysterious virtue."
+      },
+      "gloss": {
+        "vi": "Đoạn này tả cách nuôi dưỡng mà không chiếm hữu, như cách một người chăm sóc, dạy dỗ hay dẫn dắt điều gì mà không giữ nó làm của riêng. Nó đặt ra một khoảng cách dịu dàng giữa việc cho đi và việc đòi lại.",
+        "en": "This passage describes nurturing without possessing, the way someone cares for, teaches, or guides something without keeping it as their own. It sets a gentle distance between giving and asking back."
+      },
+      "question": {
+        "vi": "Với ai hoặc việc gì bạn đang nuôi dưỡng, và bạn để nó đi theo hướng riêng của nó đến mức nào?",
+        "en": "Whom or what are you nurturing, and how much room does it have to go its own way?"
+      },
+      "tags": [
+        "nurture",
+        "letting-go"
+      ]
+    },
+    {
+      "id": "ddk-011",
+      "ref": {
+        "vi": "Chương 11",
+        "en": "Chapter 11"
+      },
+      "quote": {
+        "vi": "Ba mươi nan hoa chụm vào một bầu bánh, nhờ chỗ trống mà xe dùng được. Nặn đất làm bình, nhờ chỗ rỗng mà bình dùng được. Đục cửa làm nhà, nhờ chỗ trống mà nhà dùng được. Cái có đem lại lợi, cái không làm nên dụng.",
+        "en": "Thirty spokes unite in one hub, and it is on the empty space that the use of the wheel depends. Clay is fashioned into vessels, and it is on their hollowness that their use depends. Doors and windows are cut out to make a room, and it is on the empty space within that the use of the room depends. So what exists gives profit, and what is empty gives use."
+      },
+      "gloss": {
+        "vi": "Chương này chỉ ra điều dễ bị bỏ quên: ta nhìn thấy nan hoa, thành bình, bức tường, còn công dụng lại nằm ở khoảng trống. Trong một ngày của bạn, khoảng trống cũng tạo ra công dụng, như giờ nghỉ giữa hai việc hay một phút không làm gì.",
+        "en": "This chapter points out what is easy to forget: we see the spokes, the walls of the bowl, the room's walls, while the use lies in the empty space. In your own day, empty space also makes things useful, like a pause between two tasks or a minute of doing nothing."
+      },
+      "question": {
+        "vi": "Khoảng trống nào trong ngày đang giữ cho mọi thứ của bạn còn chạy được?",
+        "en": "Which empty space in your day is keeping everything else able to run?"
+      },
+      "tags": [
+        "emptiness",
+        "usefulness"
+      ]
+    },
+    {
+      "id": "ddk-012",
+      "ref": {
+        "vi": "Chương 12",
+        "en": "Chapter 12"
+      },
+      "quote": {
+        "vi": "Năm màu làm mắt người mờ đi, năm âm làm tai người nặng đi, năm vị làm miệng người tê đi.",
+        "en": "The five colors leave the eye dimmed; the five notes leave the ear hard of hearing; the five flavors leave the mouth numbed."
+      },
+      "gloss": {
+        "vi": "Ý của chương là quá nhiều kích thích làm giác quan cùn đi, thay vì làm nó nhạy hơn. Thói quen cuộn màn hình hay mở âm thanh nền cả ngày làm câu này vẫn còn gần với đời sống hôm nay.",
+        "en": "The idea is that too much stimulation dulls the senses instead of sharpening them. The habits of endless scrolling or keeping sound on all day keep this line close to life today."
+      },
+      "question": {
+        "vi": "Giác quan nào của bạn đang bị tải quá nhiều, và điều gì xảy ra khi bạn cho nó nghỉ một lúc?",
+        "en": "Which of your senses is overloaded, and what happens when you let it rest for a while?"
+      },
+      "tags": [
+        "senses",
+        "simplicity"
+      ]
+    },
+    {
+      "id": "ddk-013",
+      "ref": {
+        "vi": "Chương 13",
+        "en": "Chapter 13"
+      },
+      "quote": {
+        "vi": "Được sủng ái là đã ở thế dưới: được thì giật mình, mất thì giật mình.",
+        "en": "Favor puts one in a lower place: gaining it brings a start of fear, and losing it brings a start of fear."
+      },
+      "gloss": {
+        "vi": "Chương này nói rằng khi niềm vui của ta dựa vào sự ưu ái của người khác thì cả lúc được lẫn lúc mất đều làm ta chao đảo. Đây là câu về chỗ đặt trung tâm của mình, không hề là lời chê ai muốn được công nhận.",
+        "en": "This chapter says that when our contentment rests on someone else's favor, both gaining and losing it unsettle us. It is a line about where we place our center, not a criticism of wanting to be recognized."
+      },
+      "question": {
+        "vi": "Có sự công nhận nào bạn đang chờ, và điều gì giữ bạn đứng vững trong lúc chờ?",
+        "en": "Is there some recognition you are waiting for, and what keeps you steady while you wait?"
+      },
+      "tags": [
+        "approval",
+        "steadiness"
+      ]
+    },
+    {
+      "id": "ddk-015",
+      "ref": {
+        "vi": "Chương 15",
+        "en": "Chapter 15"
+      },
+      "quote": {
+        "vi": "Ai có thể để nước đục lặng yên mà dần dần trong? Ai có thể từ chỗ yên ổn mà chuyển động, để sự sống dần dần nảy ra?",
+        "en": "Who can let muddy water be still until it slowly clears? Who can move out of calm so that life slowly stirs?"
+      },
+      "gloss": {
+        "vi": "Hình ảnh nước đục cho thấy có những điều không giải quyết được bằng cách khuấy thêm: để yên thì bùn tự lắng. Câu thứ hai đi theo chiều ngược lại, rằng từ sự yên mà sự sống mới bắt đầu chuyển động. Bạn thử nhớ một lần đầu óc rối rắm của mình dịu đi nhờ ngừng làm gì đó.",
+        "en": "The muddy water shows that some things are not solved by stirring them more: left alone, the silt settles. The second sentence runs the other way, saying life begins to move out of that calm. You might recall a time when a tangled mind eased because you stopped doing something."
+      },
+      "question": {
+        "vi": "Chuyện gì trong bạn đang đục, và bạn đã thử để nó lặng chưa?",
+        "en": "What in you is muddy right now, and have you tried letting it settle?"
+      },
+      "tags": [
+        "stillness",
+        "patience"
+      ]
+    },
+    {
+      "id": "ddk-016",
+      "ref": {
+        "vi": "Chương 16",
+        "en": "Chapter 16"
+      },
+      "quote": {
+        "vi": "Đưa lòng đến chỗ trống rỗng tột cùng, giữ cho yên tĩnh thật vững. Muôn vật cùng nảy nở, ta nhìn chúng trở về. Vật nào cũng sum suê rồi mỗi vật trở về cội của mình.",
+        "en": "Reach the utmost emptiness; hold to stillness with devotion. All things arise together, and I watch them return. Each flourishes in its abundance, then goes back to its root."
+      },
+      "gloss": {
+        "vi": "Chương này mô tả một chu kỳ quen thuộc: mọi thứ nảy nở rồi trở về cội. Người đọc được mời làm trống lòng và đứng nhìn nhịp ấy, thay vì chen vào từng đợt. Bạn có thể thấy nhịp đó trong một tuần làm việc, một mối quan hệ, hay chính tâm trạng của mình.",
+        "en": "This chapter describes a familiar cycle: things bloom, then return to their root. The reader is invited to empty the heart and watch the rhythm instead of pushing into each wave. You may see this rhythm in a working week, in a relationship, or in your own moods."
+      },
+      "question": {
+        "vi": "Điều gì trong bạn đang muốn trở về chỗ gốc sau một thời gian chạy ra ngoài?",
+        "en": "What in you is wanting to return to its root after a time of running outward?"
+      },
+      "tags": [
+        "return",
+        "stillness"
+      ]
+    },
+    {
+      "id": "ddk-017",
+      "ref": {
+        "vi": "Chương 17",
+        "en": "Chapter 17"
+      },
+      "quote": {
+        "vi": "Bậc dẫn đầu cao nhất, dân chỉ biết là có người ấy. … Việc xong, công thành, trăm họ đều nói: chúng ta tự nhiên mà thành.",
+        "en": "Those who lead best are hardly known to the people. … When the work is done and their undertakings succeed, the people all say: we are as we are of ourselves."
+      },
+      "gloss": {
+        "vi": "Chương này tả người dẫn dắt để lại ít dấu vết, để mọi người thấy chính mình đã làm ra việc. Ý này cũng gần với cha mẹ, người hướng dẫn hay người đứng đầu một nhóm nhỏ. Cái quý ở đây là chỗ người khác được làm chủ thành quả của họ.",
+        "en": "This chapter describes a guide who leaves few traces, so that everyone feels they did the work themselves. The idea is also close to parents, mentors, or the head of a small group. What is valued here is the room others have to own their results."
+      },
+      "question": {
+        "vi": "Khi giúp ai đó, bạn có để họ cảm thấy việc ấy là của chính họ không?",
+        "en": "When you help someone, do you leave them feeling the work is their own?"
+      },
+      "tags": [
+        "leadership",
+        "ownership"
+      ]
+    },
+    {
+      "id": "ddk-019",
+      "ref": {
+        "vi": "Chương 19",
+        "en": "Chapter 19"
+      },
+      "quote": {
+        "vi": "Hiện vẻ tơ sống chưa nhuộm, ôm lấy khối gỗ chưa đẽo, bớt lòng riêng, giảm ham muốn.",
+        "en": "Show the plainness of raw silk, hold to the uncarved block, have little self-interest, and few desires."
+      },
+      "gloss": {
+        "vi": "Hai hình ảnh, tơ sống và khúc gỗ chưa đẽo, đều nói về trạng thái chưa bị tô vẽ. Bớt lòng riêng và giảm ham muốn ở đây là cách làm nhẹ bớt gánh, không hề là lời kêu gọi chịu thiếu thốn. Giữa một ngày đầy so sánh, bạn có thể thử xem phần nào của mình chưa cần ai tô vẽ.",
+        "en": "The two images, raw silk and an uncarved block, both speak of a state not yet decorated. Having less self-interest and fewer desires is here a way to lighten the load, not a call to endure lack. In a day full of comparison, you might look at which part of you needs no decoration."
+      },
+      "question": {
+        "vi": "Có điều gì ở bản thân mà bạn đang chỉnh lại cho vừa với cái nhìn của người khác, và điều gì ở bạn không cần chỉnh?",
+        "en": "Is there something in yourself you are adjusting to fit other people's eyes, and what in you needs no adjusting?"
+      },
+      "tags": [
+        "simplicity",
+        "desire"
+      ]
+    },
+    {
+      "id": "ddk-020",
+      "ref": {
+        "vi": "Chương 20",
+        "en": "Chapter 20"
+      },
+      "quote": {
+        "vi": "Mọi người rộn ràng như dự tiệc lớn, như lên đài ngắm xuân; riêng ta lặng lẽ chưa lộ dấu gì, như đứa trẻ chưa biết cười.",
+        "en": "Other people are merry, as if at a great feast, as if climbing a tower in spring; I alone am still, showing no sign yet, like an infant who has not yet smiled."
+      },
+      "gloss": {
+        "vi": "Người viết tự tả mình như người đứng ngoài một buổi tiệc, không vui theo nhịp đám đông. Câu này không than phiền mà chỉ ghi lại cảm giác lệch nhịp. Nhiều người từng có những lúc như thế, giữa một nhóm đang hào hứng còn mình thì lặng.",
+        "en": "The writer describes standing outside a feast, not joyful at the crowd's pace. The line does not complain; it simply records the feeling of being out of step. Many people have known such moments, in a group full of excitement while they stay quiet."
+      },
+      "question": {
+        "vi": "Lần gần nhất bạn thấy mình lệch nhịp với đám đông, bạn đã đối xử với cảm giác ấy thế nào?",
+        "en": "The last time you felt out of step with a crowd, how did you treat that feeling?"
+      },
+      "tags": [
+        "solitude",
+        "difference"
+      ]
+    },
+    {
+      "id": "ddk-022",
+      "ref": {
+        "vi": "Chương 22",
+        "en": "Chapter 22"
+      },
+      "quote": {
+        "vi": "Cong thì được vẹn, oằn thì được thẳng, trũng thì được đầy, cũ thì được mới, ít thì được, nhiều thì rối.",
+        "en": "The partial becomes whole; the crooked, straight; the hollow, full; the worn, new. Having little, one gains; having much, one is confused."
+      },
+      "gloss": {
+        "vi": "Chuỗi nghịch lý này nói rằng chịu cong, chịu trũng, chịu cũ lại là con đường giữ được vẹn, được đầy, được mới; vế cuối đặt ít bên cạnh nhiều: ít thì được, nhiều thì rối. Bạn thử nhìn một điều mình đang coi là khiếm khuyết, xem nó đang chừa chỗ cho điều gì.",
+        "en": "This chain of paradoxes says that yielding, being hollow and being worn are the way to wholeness, fullness and renewal; the last clause sets little beside much: having little, one gains; having much, one is confused. You might look at something you count as a shortcoming and see what it leaves room for."
+      },
+      "question": {
+        "vi": "Điều nào ở bạn mà bạn đang coi là khiếm khuyết, và nó đang chừa chỗ cho điều gì?",
+        "en": "Which trait of yours do you count as a flaw, and what is it leaving room for?"
+      },
+      "tags": [
+        "paradox",
+        "acceptance"
+      ]
+    },
+    {
+      "id": "ddk-023",
+      "ref": {
+        "vi": "Chương 23",
+        "en": "Chapter 23"
+      },
+      "quote": {
+        "vi": "Ít lời là lẽ tự nhiên. Gió lốc không kéo dài hết một buổi sáng, mưa rào không kéo dài hết một ngày.",
+        "en": "To say little is natural. A violent wind does not last a whole morning; a sudden rain does not last a whole day."
+      },
+      "gloss": {
+        "vi": "Hai hình ảnh cơn gió lốc và cơn mưa rào nói rằng những thứ dữ dội thì ngắn. Câu này có thể được đọc như một lời an ủi nhẹ: một cơn cảm xúc mạnh cũng có độ dài của nó. Bạn thử nhớ lại một cơn bực hoặc lo gần đây và xem nó đã kéo dài bao lâu.",
+        "en": "The two images of a violent wind and a sudden rain say that intense things are brief. The line can be read as a gentle comfort: a strong wave of feeling also has its own length. You might recall a recent surge of irritation or worry and see how long it actually lasted."
+      },
+      "question": {
+        "vi": "Cơn cảm xúc mạnh gần đây của bạn đã kéo dài bao lâu, và nó đã đổi hình dạng thế nào theo thời gian?",
+        "en": "How long did your recent strong emotion last, and how did it change shape over time?"
+      },
+      "tags": [
+        "nature",
+        "emotion"
+      ]
+    },
+    {
+      "id": "ddk-024",
+      "ref": {
+        "vi": "Chương 24",
+        "en": "Chapter 24"
+      },
+      "quote": {
+        "vi": "Kiễng chân thì không đứng vững, sải bước quá thì không đi xa. Ai tự phô thì không sáng, ai tự cho mình đúng thì không rõ, ai tự khoe công thì không có công, ai tự đề cao thì không lâu dài.",
+        "en": "He who stands on tiptoe does not stand firm; he who strides too wide does not go far. He who displays himself does not shine; he who asserts himself is not clear; he who boasts has no merit; he who exalts himself does not last."
+      },
+      "gloss": {
+        "vi": "Hình ảnh kiễng chân rất cụ thể: cố cao thêm một chút thì mất thăng bằng. Chương này nói rằng việc cố phô mình lại tạo ra chính điều nó muốn tránh. Bạn thử nghĩ về lúc mình giải thích hay chứng minh nhiều hơn mức cần thiết.",
+        "en": "The image of standing on tiptoe is very concrete: reaching a little higher costs balance. The chapter says that trying to display oneself produces the very thing it wants to avoid. You might think of a time you explained or proved yourself more than was needed."
+      },
+      "question": {
+        "vi": "Khi nào bạn thấy mình đang kiễng chân, và bên dưới đó là mong muốn gì?",
+        "en": "When do you notice yourself on tiptoe, and what wish is underneath?"
+      },
+      "tags": [
+        "humility",
+        "self-display"
+      ]
+    },
+    {
+      "id": "ddk-025",
+      "ref": {
+        "vi": "Chương 25",
+        "en": "Chapter 25"
+      },
+      "quote": {
+        "vi": "Người theo đất, đất theo trời, trời theo đạo, đạo theo tự nhiên.",
+        "en": "Man takes his law from the earth; the earth takes its law from heaven; heaven takes its law from the Tao; the Tao's law is its being what it is."
+      },
+      "gloss": {
+        "vi": "Đây là một chuỗi nối từ gần đến xa, kết thúc ở \"tự nhiên\", nghĩa là tính tự thân của mọi thứ. Nó cho thấy sách không đặt con người ở đỉnh mà đặt ở đầu một sợi dây nối với cái rộng lớn hơn. Bạn thử nhìn xem trong một ngày mình đang theo nhịp của điều gì.",
+        "en": "This is a chain running from near to far and ending in \"its being what it is\" (ziran, the self-so quality of things). It shows the book placing people not at the top but at the start of a line linking them to something larger. You might look at what rhythm you are following in a day."
+      },
+      "question": {
+        "vi": "Hôm nay bạn đang theo nhịp của điều gì: người xung quanh, đồng hồ, hay cơ thể mình?",
+        "en": "Whose rhythm are you following today: the people around you, the clock, or your own body?"
+      },
+      "tags": [
+        "nature",
+        "following"
+      ]
+    },
+    {
+      "id": "ddk-026",
+      "ref": {
+        "vi": "Chương 26",
+        "en": "Chapter 26"
+      },
+      "quote": {
+        "vi": "Nặng là gốc của nhẹ; tĩnh là chủ của vội vàng.",
+        "en": "Gravity is the root of lightness; stillness is the ruler of haste."
+      },
+      "gloss": {
+        "vi": "Cái \"nặng\" ở đây là sự bình thản, vững chỗ, còn cái \"nhẹ\" là sự nông nổi. Chương này nói rằng bình tĩnh là nền đỡ cho mọi chuyển động nhanh. Khi bạn thấy mình đang vội, có thể hỏi xem điều gì đang đỡ phía dưới.",
+        "en": "The \"heavy\" here is composure and a settled place, while the \"light\" is shallowness. The chapter says calm is the base that holds up every quick movement. When you notice yourself rushing, you can ask what is holding you up underneath."
+      },
+      "question": {
+        "vi": "Khi vội, bạn dựa vào điều gì bên trong để khỏi bị cuốn đi?",
+        "en": "When you are rushing, what do you lean on inside so you are not swept away?"
+      },
+      "tags": [
+        "calm",
+        "haste"
+      ]
+    },
+    {
+      "id": "ddk-027",
+      "ref": {
+        "vi": "Chương 27",
+        "en": "Chapter 27"
+      },
+      "quote": {
+        "vi": "Khéo đi thì không để dấu bánh xe, khéo nói thì không để lỗi cho người bắt bẻ, khéo tính thì không cần thẻ đếm.",
+        "en": "The skilled traveler leaves no track of wheels; the skilled speaker leaves no fault to be blamed; the skilled reckoner needs no counting tallies."
+      },
+      "gloss": {
+        "vi": "Ý của chương là sự thành thạo có thể trở thành vô hình: người làm giỏi nhất thường không để lại dấu vết của cố gắng. Đọc theo cách này, mục tiêu không hề là phô tài mà là làm cho việc diễn ra tự nhiên. Bạn có thể nhớ một việc mình đã làm đến mức người khác không để ý đến công sức.",
+        "en": "The idea is that mastery can become invisible: the most skilled often leave no trace of effort. Read this way, the aim is not to show off talent but to let the work flow naturally. You might recall something you did so smoothly that no one noticed the effort."
+      },
+      "question": {
+        "vi": "Kỹ năng nào của bạn đã quen tay đến mức bạn không còn thấy mình đang cố?",
+        "en": "Which skill of yours has become so familiar that you no longer feel yourself trying?"
+      },
+      "tags": [
+        "skill",
+        "effortlessness"
+      ]
+    },
+    {
+      "id": "ddk-028",
+      "ref": {
+        "vi": "Chương 28",
+        "en": "Chapter 28"
+      },
+      "quote": {
+        "vi": "Biết cái mạnh mà giữ lấy cái dịu, làm khe suối cho thiên hạ. Làm khe suối cho thiên hạ thì đức thường không rời, lại trở về như đứa trẻ sơ sinh.",
+        "en": "Know the strong, yet hold to the gentle, and be a valley for the world. Being a valley for the world, constant virtue does not leave you, and you return to the state of the infant."
+      },
+      "gloss": {
+        "vi": "Chương này mời bạn biết cả hai cực rồi chọn ở lại với cực mềm khi cần. Hình ảnh khe suối là chỗ trũng, vì thế mọi dòng chảy về. Đọc theo đời thường, đó là có sức mạnh mà vẫn chừa chỗ cho người khác.",
+        "en": "The chapter invites you to know both poles and choose to stay with the gentle one when called for. The valley is a low place, so every stream flows into it. In daily terms, it means having strength and still leaving room for others."
+      },
+      "question": {
+        "vi": "Chỗ nào bạn có sức mạnh mà vẫn chọn để người khác đi trước?",
+        "en": "Where do you have strength and still choose to let others go first?"
+      },
+      "tags": [
+        "softness",
+        "strength"
+      ]
+    },
+    {
+      "id": "ddk-029",
+      "ref": {
+        "vi": "Chương 29",
+        "en": "Chapter 29"
+      },
+      "quote": {
+        "vi": "Vật thì có lúc đi trước, có lúc theo sau; có lúc thổi ấm, có lúc thổi lạnh; có lúc mạnh, có lúc yếu; có lúc được nâng, có lúc bị đổ. Vì vậy bậc thánh bỏ cái quá độ, cái xa hoa, cái thái quá.",
+        "en": "Some things go ahead, some follow; some blow warm, some blow cold; some are strong, some weak; some are raised up, some brought down. So the sage puts away excess, extravagance, and indulgence."
+      },
+      "gloss": {
+        "vi": "Chương này nhìn mọi việc như một chuỗi thay phiên, chẳng trạng thái nào đứng yên mãi. Từ đó ý kết luận là bớt đi chỗ thái quá trong cách ta sống. Nhịp lên xuống là có thật, và ta không cần ép nó đi một chiều.",
+        "en": "The chapter sees everything as a chain of alternation, no state staying fixed forever. From there it concludes with trimming the excess in how we live. The rise and fall are real, and we need not force them to run in one direction."
+      },
+      "question": {
+        "vi": "Chỗ nào trong đời bạn đang bị ép đi một chiều, trong khi thực ra nó cần lúc lên lúc xuống?",
+        "en": "Where in your life are you forcing a single direction, when it actually needs both rising and falling?"
+      },
+      "tags": [
+        "moderation",
+        "cycles"
+      ]
+    },
+    {
+      "id": "ddk-033",
+      "ref": {
+        "vi": "Chương 33",
+        "en": "Chapter 33"
+      },
+      "quote": {
+        "vi": "Biết người là trí, biết mình là sáng. Thắng người là có sức, thắng mình mới là mạnh. Biết đủ là giàu, kiên trì bước đi là có chí.",
+        "en": "He who knows others is discerning; he who knows himself is clear-sighted. He who overcomes others is strong; he who overcomes himself is mighty. He who is content with his lot is rich; he who goes on with energy has a firm purpose."
+      },
+      "gloss": {
+        "vi": "Chương này tách hai loại hiểu và hai loại thắng: hướng ra người khác và hướng vào mình. \"Biết đủ\" được nhắc như một sự dư dả bên trong. Bạn có thể dùng câu này để xem sức lực của mình đang dành cho bên nào nhiều hơn.",
+        "en": "This chapter separates two kinds of understanding and two kinds of overcoming: one aimed at others, one at oneself. \"Being content\" is named as an inner abundance. You can use the line to see which side your energy is mostly going to."
+      },
+      "question": {
+        "vi": "Gần đây bạn đã nỗ lực để hiểu người khác nhiều hơn, hay hiểu chính mình nhiều hơn?",
+        "en": "Lately, have you put more effort into understanding others, or into understanding yourself?"
+      },
+      "tags": [
+        "self-knowledge",
+        "contentment"
+      ]
+    },
+    {
+      "id": "ddk-034",
+      "ref": {
+        "vi": "Chương 34",
+        "en": "Chapter 34"
+      },
+      "quote": {
+        "vi": "Đạo lớn tràn khắp, bên trái bên phải đều đến được. Muôn vật nhờ đó mà sinh, chẳng bị từ chối; công thành mà không nhận là của mình; nuôi muôn vật mà không làm chủ.",
+        "en": "The great Tao flows everywhere, to the left and to the right. All things depend on it for life, and none is refused; when its work is done, it does not claim it; it clothes and feeds all things without being their lord."
+      },
+      "gloss": {
+        "vi": "Chương này tả đạo như thứ tràn khắp mà không đòi đứng tên. Người đọc được mời nhìn một kiểu lớn lao im lặng: nuôi dưỡng nhưng không làm chủ. Nó gần với những người lặng lẽ giữ cho một nhóm hay một gia đình luôn đủ chỗ cho mọi người.",
+        "en": "This chapter portrays the Tao as something that fills everything without asking for credit. Readers are invited to see a quiet kind of greatness: nourishing without lording over. It is close to the people who quietly keep a group or a family with room for everyone."
+      },
+      "question": {
+        "vi": "Ai đã nuôi dưỡng bạn mà không đòi ghi tên, và bạn đã bao giờ nói điều đó với họ chưa?",
+        "en": "Who nourished you without asking for credit, and have you ever told them so?"
+      },
+      "tags": [
+        "greatness",
+        "quiet-support"
+      ]
+    },
+    {
+      "id": "ddk-035",
+      "ref": {
+        "vi": "Chương 35",
+        "en": "Chapter 35"
+      },
+      "quote": {
+        "vi": "Đạo nói ra thì nhạt như không vị. Nhìn thì không đủ để thấy, nghe thì không đủ để nghe, nhưng dùng thì không bao giờ cạn.",
+        "en": "When the Tao is spoken, it is bland and without flavor. Looked at, it is not enough to see; listened to, it is not enough to hear; yet used, it is never exhausted."
+      },
+      "gloss": {
+        "vi": "Chương này nói rằng điều gốc rễ thường nhạt: không rực rỡ, không ồn ào. Trong đời ta cũng có những thứ như thế, như một bữa cơm quen hay một người vẫn ở đó. Câu này mời nhìn lại những thứ nhạt mà bền.",
+        "en": "This chapter says that what is fundamental is often plain: not brilliant, not loud. Our lives have such things too, like a familiar meal or a person who is simply still there. The line invites a second look at the plain things that last."
+      },
+      "question": {
+        "vi": "Thứ \"nhạt\" nào trong đời bạn lại đang nuôi bạn bền nhất?",
+        "en": "Which \"plain\" thing in your life is nourishing you most steadily?"
+      },
+      "tags": [
+        "plainness",
+        "endurance"
+      ]
+    },
+    {
+      "id": "ddk-037",
+      "ref": {
+        "vi": "Chương 37",
+        "en": "Chapter 37"
+      },
+      "quote": {
+        "vi": "Đạo thường không gượng làm mà không việc gì không thành. … Không ham muốn thì yên, và thiên hạ sẽ tự ổn.",
+        "en": "The Tao constantly does nothing forced, and yet there is nothing it leaves undone. … Without desire there is stillness, and the world will settle of itself."
+      },
+      "gloss": {
+        "vi": "\"Vô vi\" thường bị hiểu là không làm gì, nhưng ở đây nó là không ép, để việc đi theo thế của nó. Ý nối với câu sau: bớt ham muốn thì bên trong yên, và quanh mình cũng dần yên. Đây là một góc nhìn để thử, không hề là công thức.",
+        "en": "\"Non-action\" is often taken to mean doing nothing, but here it means not forcing, letting things follow their own shape. The idea links to the next line: with less craving it grows still inside, and around us too. It is a view to try out, not a formula."
+      },
+      "question": {
+        "vi": "Việc nào bạn đang ép, và khi bớt một chút sức ép thì bạn nhìn thấy gì?",
+        "en": "What are you forcing right now, and what do you see when you ease the pressure a little?"
+      },
+      "tags": [
+        "non-forcing",
+        "stillness"
+      ]
+    },
+    {
+      "id": "ddk-038",
+      "ref": {
+        "vi": "Chương 38",
+        "en": "Chapter 38"
+      },
+      "quote": {
+        "vi": "Người có tầm vóc lớn ở chỗ dày, chẳng ở chỗ mỏng; ở chỗ thực, chẳng ở chỗ hoa mỹ.",
+        "en": "The great person dwells in what is solid, not in what is thin; in the fruit, not in the flower."
+      },
+      "gloss": {
+        "vi": "Hai cặp hình ảnh, dày và mỏng, trái và hoa, mời ta so giữa điều vững bên trong với điều chỉ để bày ra bên ngoài. Trong chương này, \"hoa\" là phần phô bày không có gốc; câu hỏi là ta đặt nhiều sức vào đâu hơn. Một buổi sáng dành cho việc thật có thể nặng ký hơn một buổi sáng dành cho dáng vẻ.",
+        "en": "The two pairs of images, thick and thin, fruit and flower, invite us to compare what is solid inside with what is only put on display. In this chapter the \"flower\" is showiness without a root; the question is where we put most of our energy. A morning given to real work can weigh more than a morning given to appearances."
+      },
+      "question": {
+        "vi": "Hôm nay bạn đang dồn sức vào phần \"trái\" hay phần \"hoa\" trong việc mình làm?",
+        "en": "Today, are you putting your energy into the \"fruit\" or the \"flower\" of what you do?"
+      },
+      "tags": [
+        "substance",
+        "sincerity"
+      ]
+    },
+    {
+      "id": "ddk-039",
+      "ref": {
+        "vi": "Chương 39",
+        "en": "Chapter 39"
+      },
+      "quote": {
+        "vi": "Cái quý lấy cái thấp làm gốc, cái cao lấy cái thấp làm nền.",
+        "en": "The noble has the lowly as its root; the high has the low as its foundation."
+      },
+      "gloss": {
+        "vi": "Hình ảnh nền móng ở đây rất cụ thể: tòa nhà cao nhờ phần chìm bên dưới. Chương này nhắc ta nhớ những thứ giản dị đang đỡ cho điều mình tự hào. Bạn thử xem phần nền nào của đời mình ít được nhắc đến.",
+        "en": "The image of a foundation is very concrete: a tall building stands thanks to what is buried below. The chapter reminds us of the simple things holding up what we are proud of. You might look at which part of your foundation is rarely mentioned."
+      },
+      "question": {
+        "vi": "Điều gì giản dị và ít được nhắc đến đang đỡ cho phần bạn tự hào?",
+        "en": "What simple, little-mentioned thing is holding up the part of you that you are proud of?"
+      },
+      "tags": [
+        "foundation",
+        "humility"
+      ]
+    },
+    {
+      "id": "ddk-040",
+      "ref": {
+        "vi": "Chương 40",
+        "en": "Chapter 40"
+      },
+      "quote": {
+        "vi": "Quay về là chuyển động của đạo; mềm yếu là công dụng của đạo. Muôn vật trong thiên hạ sinh từ có, có sinh từ không.",
+        "en": "Reversion is the movement of the Tao; weakness is the manner of its working. All things under heaven spring from being, and being springs from non-being."
+      },
+      "gloss": {
+        "vi": "Chữ \"phản\" có thể là quay về hoặc đảo chiều: mọi thứ đi đến cực thì chuyển hướng. Chương này cũng nói rằng sự mềm mại là cách đạo làm việc. Bạn thử nhìn một điều mình đang đẩy đến cực xem nó đã có dấu hiệu đổi chiều chưa.",
+        "en": "The word \"fǎn\" can mean returning or reversing: when things reach their extreme, they turn. The chapter also says softness is how the Tao works. You might look at something you are pushing to an extreme and see whether it is already showing signs of turning."
+      },
+      "question": {
+        "vi": "Điều gì bạn đang đẩy rất mạnh theo một hướng, và có dấu hiệu nào cho thấy nó muốn quay lại không?",
+        "en": "What are you pushing hard in one direction, and is there any sign it wants to turn back?"
+      },
+      "tags": [
+        "reversal",
+        "softness"
+      ]
+    },
+    {
+      "id": "ddk-041",
+      "ref": {
+        "vi": "Chương 41",
+        "en": "Chapter 41"
+      },
+      "quote": {
+        "vi": "Đạo sáng thì như mờ, đạo tiến thì như lùi, đạo phẳng thì như gồ ghề. … Đồ lớn thành muộn, tiếng lớn ít âm, hình lớn không dạng.",
+        "en": "The bright Tao seems dim; the advancing Tao seems to retreat; the level Tao seems rough. … The greatest vessel is the last finished; the greatest sound is faint; the greatest form has no shape."
+      },
+      "gloss": {
+        "vi": "Chuỗi nghịch lý này nói rằng cái lớn thường không giống điều ta mong đợi: chậm, lặng, chưa thành hình. Với ai đang làm một việc dài hơi, câu \"đồ lớn thành muộn\" là lời nhắc về nhịp riêng của việc ấy. Nó không hứa điều gì, chỉ mời nhìn chậm hơn.",
+        "en": "This chain of paradoxes says that what is great often looks unlike what we expect: slow, quiet, not yet formed. For anyone on a long task, the line \"the greatest vessel is the last finished\" is a reminder of the task's own pace. It promises nothing; it only invites a slower look."
+      },
+      "question": {
+        "vi": "Việc nào của bạn đang đi chậm hơn bạn mong, và nhịp chậm ấy cho bạn thấy điều gì?",
+        "en": "Which of your tasks is moving slower than you hoped, and what does that slow pace show you?"
+      },
+      "tags": [
+        "slowness",
+        "paradox"
+      ]
+    },
+    {
+      "id": "ddk-042",
+      "ref": {
+        "vi": "Chương 42",
+        "en": "Chapter 42"
+      },
+      "quote": {
+        "vi": "Đạo sinh một, một sinh hai, hai sinh ba, ba sinh muôn vật. Muôn vật cõng âm mà ôm dương, khí xung hòa giữa hai bên làm nên sự hòa.",
+        "en": "The Tao gives rise to one, one to two, two to three, and three to all things. All things carry yin on their backs and embrace yang, and the blending of their breath makes harmony."
+      },
+      "gloss": {
+        "vi": "Chương này vẽ ra cách một cái nguyên sơ chia thành đối cực rồi thành vạn vật, và sự hòa đến từ hơi khí quyện vào nhau giữa hai bên. Trong đời sống, âm và dương gần với những cặp như nghỉ và làm, nói và nghe. Chỗ \"hòa\" nằm ở sự giao quyện giữa hai bên, chứ không ở việc chọn một bên.",
+        "en": "The chapter pictures how something primal divides into opposites and then into all things, with harmony coming from the breath that blends between the two. In daily life, yin and yang are close to pairs like rest and work, speaking and listening. The \"harmony\" lies in the blending of the two, not in choosing one side."
+      },
+      "question": {
+        "vi": "Cặp đối cực nào trong đời bạn đang cần được quyện vào nhau thay vì chọn một bên?",
+        "en": "Which pair of opposites in your life needs blending rather than a choice of one side?"
+      },
+      "tags": [
+        "yin-yang",
+        "harmony"
+      ]
+    },
+    {
+      "id": "ddk-043",
+      "ref": {
+        "vi": "Chương 43",
+        "en": "Chapter 43"
+      },
+      "quote": {
+        "vi": "Cái mềm nhất thiên hạ chạy xuyên qua cái cứng nhất thiên hạ; cái không có hình thì lách vào được chỗ không kẽ hở.",
+        "en": "The softest thing in the world runs through the hardest; what has no substance enters where there is no gap."
+      },
+      "gloss": {
+        "vi": "Hình ảnh nước xuyên đá và gió lọt khe là cách nói về sức bền của sự mềm. Câu này không khuyên ai yếu đi mà gợi rằng sự kiên nhẫn dịu dàng có sức riêng. Bạn có thể nhớ một lần một lời nói nhỏ nhẹ làm được điều mà sự cứng rắn không làm được.",
+        "en": "The image of water boring through stone and wind slipping through cracks speaks of the endurance of softness. The line does not urge anyone to be weak; it suggests gentle patience has a strength of its own. You might recall a time a quiet word did what hardness could not."
+      },
+      "question": {
+        "vi": "Có lúc nào cách nói nhẹ nhàng của bạn đi vào được chỗ mà cách nói cứng không đi vào được?",
+        "en": "Was there a moment when your gentle way of speaking reached somewhere a hard tone could not?"
+      },
+      "tags": [
+        "softness",
+        "patience"
+      ]
+    },
+    {
+      "id": "ddk-044",
+      "ref": {
+        "vi": "Chương 44",
+        "en": "Chapter 44"
+      },
+      "quote": {
+        "vi": "Danh với thân, cái nào gần hơn? Thân với của cải, cái nào nặng hơn? Được với mất, cái nào hại hơn? … Biết đủ thì không nhục, biết dừng thì không nguy, nhờ vậy mà lâu dài.",
+        "en": "Fame or the self: which is nearer to you? The self or possessions: which counts for more? Gain or loss: which does more harm? … One who knows contentment is not disgraced; one who knows when to stop is not endangered, and so can last long."
+      },
+      "gloss": {
+        "vi": "Ba câu hỏi đầu không đưa đáp án, chỉ đặt những thứ ta hay chạy theo lên cùng một cái cân với chính mình. Đoạn kết nói về một kiểu bình yên đến từ việc biết lúc nào là đủ. Bạn thử nhìn xem mình đang tích lũy điều gì chỉ vì chưa dám đặt nó xuống.",
+        "en": "The first three questions give no answer; they simply put what we chase on the same scale as ourselves. The ending speaks of a calm that comes from knowing when enough is enough. You might look at what you are gathering only because you have not dared set it down."
+      },
+      "question": {
+        "vi": "Nếu đặt thân mình lên cân cùng một điều bạn đang theo đuổi, bên nào nặng hơn lúc này?",
+        "en": "If you set yourself on a scale beside something you are pursuing, which side is heavier right now?"
+      },
+      "tags": [
+        "enough",
+        "attachment"
+      ]
+    },
+    {
+      "id": "ddk-045",
+      "ref": {
+        "vi": "Chương 45",
+        "en": "Chapter 45"
+      },
+      "quote": {
+        "vi": "Thành lớn như thiếu, dùng mãi không hao; đầy lớn như rỗng, dùng mãi không cạn. Thẳng lớn như cong, khéo lớn như vụng, tài ăn nói lớn như ngập ngừng.",
+        "en": "Great completion seems incomplete, yet its use never wears out; great fullness seems empty, yet its use never runs dry. Great straightness seems crooked, great skill seems clumsy, great eloquence seems stammering."
+      },
+      "gloss": {
+        "vi": "Chương này nói rằng cái lớn thật sự thường mang dáng vẻ ngược lại: thành mà như thiếu, đầy mà như rỗng, khéo mà như vụng. Chính chỗ \"như thiếu\", \"như rỗng\" là chỗ công dụng không hao. Đây là một góc nhìn nhẹ để xem lại cảm giác \"chưa đủ\" của chính bạn, chứ không hứa rằng cứ thiếu rồi cũng lớn.",
+        "en": "This chapter says that what is truly great often wears the opposite look: complete yet seeming lacking, full yet seeming empty, skilled yet seeming clumsy. The place that seems lacking or empty is where its use never wears out. It offers a gentle angle on your own sense of \"not enough,\" not a promise that lacking leads to growth."
+      },
+      "question": {
+        "vi": "Điều nào ở bạn trông như còn thiếu hay chưa trọn, và nó có đang làm được việc gì mà bạn ít để ý không?",
+        "en": "What in you looks incomplete or lacking, and might it be doing something you rarely notice?"
+      },
+      "tags": [
+        "humility",
+        "paradox"
+      ]
+    },
+    {
+      "id": "ddk-046",
+      "ref": {
+        "vi": "Chương 46",
+        "en": "Chapter 46"
+      },
+      "quote": {
+        "vi": "Không có tai họa nào lớn hơn không biết đủ, không có lỗi nào lớn hơn muốn có thêm. Cho nên cái đủ của người biết đủ là cái đủ lâu dài.",
+        "en": "No calamity is greater than not knowing contentment; no fault is greater than the desire to gain. Therefore the contentment of knowing enough is enduring contentment."
+      },
+      "gloss": {
+        "vi": "Ở đây chữ \"đủ\" không hề là mức mà ai đó đặt cho bạn, mà là cảm giác bạn tự nhận ra. Câu cuối cho thấy đủ là một trạng thái ta có thể quay lại. Bạn thử để ý lúc mình đang muốn thêm một thứ, rồi hỏi cái muốn ấy đến từ thiếu hay từ thói quen.",
+        "en": "Here \"enough\" is not a level someone sets for you but a feeling you recognize yourself. The last sentence shows that enough is a state we can come back to. You might notice a moment when you want something more, and ask whether the wanting comes from a lack or from habit."
+      },
+      "question": {
+        "vi": "Điều bạn đang muốn thêm lúc này, đến từ chỗ thiếu thật hay từ thói quen?",
+        "en": "The thing you want more of right now, does it come from a real lack or from habit?"
+      },
+      "tags": [
+        "contentment",
+        "desire"
+      ]
+    },
+    {
+      "id": "ddk-047",
+      "ref": {
+        "vi": "Chương 47",
+        "en": "Chapter 47"
+      },
+      "quote": {
+        "vi": "Không ra khỏi cửa mà biết thiên hạ; không ngó ra cửa sổ mà thấy đạo trời. Đi càng xa thì biết càng ít.",
+        "en": "Without going out the door, one knows the world; without looking out the window, one sees the Tao of heaven. The farther one goes, the less one knows."
+      },
+      "gloss": {
+        "vi": "Chương này không bảo ai ở yên trong nhà. Nó nói về chiều sâu bên trong: có những điều ta không tìm ra bằng cách đi thêm mà bằng cách ngồi lại với những gì mình đã gặp. Nó mời một lần đảo hướng: thay vì tìm thêm thông tin, thử xem mình đã nhìn kỹ điều đang có chưa.",
+        "en": "This chapter does not tell anyone to stay home. It speaks of inner depth: some things are found not by going further but by sitting with what we have already met. It invites a reversal: instead of gathering more information, see whether you have looked closely at what is already here."
+      },
+      "question": {
+        "vi": "Điều bạn đang tìm ở bên ngoài, có phần nào đã nằm sẵn trong những gì bạn biết về chính mình?",
+        "en": "Of what you are searching for outside, how much already lies in what you know about yourself?"
+      },
+      "tags": [
+        "inner-sight",
+        "attention"
+      ]
+    },
+    {
+      "id": "ddk-048",
+      "ref": {
+        "vi": "Chương 48",
+        "en": "Chapter 48"
+      },
+      "quote": {
+        "vi": "Học thì mỗi ngày thêm, theo đạo thì mỗi ngày bớt. Bớt rồi lại bớt, cho đến khi không gượng làm. Không gượng làm mà không việc gì không thành.",
+        "en": "In learning one gains daily; in following the Tao one loses daily. Loses and loses again, until one reaches non-forcing. With non-forcing, there is nothing left undone."
+      },
+      "gloss": {
+        "vi": "Chương này đặt hai cách tiến song song: thêm kiến thức và bớt gượng ép. Cái \"bớt\" ở đây là bớt những thứ không cần, như thói quen lo xa hay nỗi cần chứng minh. Nó không phủ nhận việc học, chỉ thêm một chiều khác cho nó.",
+        "en": "This chapter sets two ways of progress side by side: adding knowledge and dropping force. The \"losing\" here means dropping what is not needed, like the habit of worrying ahead or the need to prove oneself. It does not deny learning; it adds another dimension to it."
+      },
+      "question": {
+        "vi": "Có thứ nào bạn có thể bớt đi hôm nay mà không làm mất điều quan trọng với mình?",
+        "en": "Is there something you could let go of today without losing what matters to you?"
+      },
+      "tags": [
+        "letting-go",
+        "learning"
+      ]
+    },
+    {
+      "id": "ddk-052",
+      "ref": {
+        "vi": "Chương 52",
+        "en": "Chapter 52"
+      },
+      "quote": {
+        "vi": "Thấy được điều nhỏ bé gọi là sáng; giữ được sự mềm dịu gọi là mạnh.",
+        "en": "To see the small is called clarity; to hold to the gentle is called strength."
+      },
+      "gloss": {
+        "vi": "Chương này nhấn vào cái nhỏ: thấy dấu hiệu từ sớm và giữ sự mềm trong lúc va chạm. Đó là kiểu sáng suốt của người để ý chi tiết, không hề là của người nhìn thấy hết. Bạn thử nhớ một dấu hiệu nhỏ mình từng để ý được, và nó đã giúp gì.",
+        "en": "This chapter focuses on the small: noticing signs early and keeping softness in friction. It is the clarity of someone who notices details, not of someone who sees everything. You might recall a small sign you once noticed, and what it helped with."
+      },
+      "question": {
+        "vi": "Dấu hiệu nhỏ nào gần đây bạn đã bỏ qua, và nó đang nói điều gì?",
+        "en": "What small sign have you overlooked lately, and what is it saying?"
+      },
+      "tags": [
+        "attention",
+        "gentleness"
+      ]
+    },
+    {
+      "id": "ddk-054",
+      "ref": {
+        "vi": "Chương 54",
+        "en": "Chapter 54"
+      },
+      "quote": {
+        "vi": "Khéo dựng thì không bị nhổ, khéo ôm thì không tuột. … Sửa mình thì đức nơi mình mới chân thật; sửa nhà thì đức nơi nhà mới dư dả; sửa làng xóm thì đức nơi làng xóm mới lâu dài.",
+        "en": "What is well planted is not uprooted; what is well held does not slip away. … Cultivate it in yourself and your virtue is genuine; in the family, and it overflows; in the village, and it endures."
+      },
+      "gloss": {
+        "vi": "Chương này đi từ gốc ra ngoài: dựng cho vững, rồi từ thân đến nhà đến làng. Thứ tự ấy gợi rằng điều ta chăm sóc nơi mình lan ra những vòng xung quanh. Bạn thử xem vòng nào gần mình nhất đang nhận được phần chăm sóc của bạn.",
+        "en": "The chapter moves from the root outward: plant firmly, then from the self to the family to the village. That order suggests that what we tend in ourselves spreads to the circles around us. You might see which nearby circle is receiving your care."
+      },
+      "question": {
+        "vi": "Vòng nào quanh bạn, từ bản thân đến gia đình đến cộng đồng, đang cần bạn để mắt tới nhất?",
+        "en": "Which circle around you, from yourself to your family to your community, most needs your attention?"
+      },
+      "tags": [
+        "cultivation",
+        "community"
+      ]
+    },
+    {
+      "id": "ddk-055",
+      "ref": {
+        "vi": "Chương 55",
+        "en": "Chapter 55"
+      },
+      "quote": {
+        "vi": "Người ôm đức dày giống như đứa trẻ sơ sinh. … Nó gào cả ngày mà không khàn tiếng, vì hòa khí đã đến mức tột cùng.",
+        "en": "One who holds virtue in abundance is like a newborn child. … It cries all day without becoming hoarse, because its harmony is at its fullest."
+      },
+      "gloss": {
+        "vi": "Chương này mượn hình ảnh đứa trẻ để nói về sự không gồng: cảm xúc đến thì tỏ ra, rồi qua đi. Người lớn không cần quay lại tuổi ấy, nhưng có thể hỏi mình đã gồng ở đâu.",
+        "en": "The chapter borrows the image of a child to speak of not clenching: feeling arrives, is shown, and passes. Adults do not need to return to that age, but they can ask where they have been clenching."
+      },
+      "question": {
+        "vi": "Chỗ nào trong người hoặc trong ngày của bạn đang gồng, dù không ai yêu cầu?",
+        "en": "Where in your body or your day are you clenching, even though no one asked you to?"
+      },
+      "tags": [
+        "childlike",
+        "tension"
+      ]
+    },
+    {
+      "id": "ddk-056",
+      "ref": {
+        "vi": "Chương 56",
+        "en": "Chapter 56"
+      },
+      "quote": {
+        "vi": "Người biết thì không nói, người nói thì không biết. … Mài bớt mũi nhọn, gỡ bớt rối rắm, dịu bớt ánh sáng, hòa vào bụi đời: ấy gọi là huyền đồng.",
+        "en": "Those who know do not speak; those who speak do not know. … Blunt your own sharpness, unravel what is tangled, temper your brightness, and join in the dust of the world: this is called the mysterious agreement."
+      },
+      "gloss": {
+        "vi": "Câu đầu hay bị hiểu quá tay thành \"đừng nói\"; ở đây nó chỉ nhắc rằng lời không chứa hết điều thật sự biết. Phần sau nói về cách sống bớt gai góc và hòa vào người xung quanh mà vẫn là mình. Đó là lời mời đến sự mềm đi, không hề là lời bảo giấu mình.",
+        "en": "The first sentence is often over-read as \"do not speak\"; here it only reminds us that words do not hold all that is truly known. The rest speaks of living with fewer sharp edges, blending in with those around while staying oneself. It invites softening, not hiding."
+      },
+      "question": {
+        "vi": "Có lúc nào bạn nói nhiều để tỏ ra mình biết, và nếu nói ít đi thì điều gì lộ ra?",
+        "en": "Was there a time you spoke a lot to seem knowledgeable, and what would show if you said less?"
+      },
+      "tags": [
+        "words",
+        "softening"
+      ]
+    },
+    {
+      "id": "ddk-057",
+      "ref": {
+        "vi": "Chương 57",
+        "en": "Chapter 57"
+      },
+      "quote": {
+        "vi": "Ta không gượng làm mà dân tự đổi, ta chuộng tĩnh mà dân tự ngay, ta không sinh sự mà dân tự đủ đầy, ta không tham muốn mà dân tự mộc mạc.",
+        "en": "I do not force, and the people transform themselves; I love stillness, and the people straighten themselves; I make no trouble, and the people prosper themselves; I have no desires, and the people become simple of themselves."
+      },
+      "gloss": {
+        "vi": "Đoạn này là lời của một người cầm quyền hiền: bớt ép thì người khác tự tìm ra nhịp. Ngoài chính trị, nó cũng nói về cách ta ở cạnh người khác trong nhà hay trong nhóm. Lối này không hề là bỏ mặc, mà là bớt can thiệp đến mức người khác còn chỗ làm chủ.",
+        "en": "This passage is the voice of a gentle ruler: press less and others find their own rhythm. Beyond politics, it speaks of how we stand beside others at home or in a group. It is not neglect, but intervening less so that others still have room to take charge."
+      },
+      "question": {
+        "vi": "Với ai quanh bạn, việc bạn bớt can thiệp có thể mở ra chỗ để họ tự làm?",
+        "en": "With whom around you could stepping back open space for them to do it themselves?"
+      },
+      "tags": [
+        "leadership",
+        "non-interference"
+      ]
+    },
+    {
+      "id": "ddk-058",
+      "ref": {
+        "vi": "Chương 58",
+        "en": "Chapter 58"
+      },
+      "quote": {
+        "vi": "Họa là chỗ phúc dựa vào, phúc là chỗ họa nấp. Ai biết được điểm cùng cực của chúng?",
+        "en": "Misfortune is what fortune leans on; fortune is what misfortune hides in. Who knows where it all ends?"
+      },
+      "gloss": {
+        "vi": "Câu này không dự báo gì: nó chỉ nói rằng một lúc khó và một lúc thuận có thể chứa mầm của nhau, và ta ít khi thấy hết. Nó mời ta bớt vội trong việc gắn nhãn cho một sự kiện, vì cái nhìn của ta bị giới hạn.",
+        "en": "This line predicts nothing: it only says that a hard moment and an easy one can hold the seeds of each other, and we rarely see the whole. It invites us to be slower to label an event, since our view is limited."
+      },
+      "question": {
+        "vi": "Có sự kiện nào mà bạn đã vội gắn nhãn là mất hay được, và hôm nay nhìn lại thì thấy thế nào?",
+        "en": "Is there an event you were quick to label as a loss or a gain, and how does it look to you today?"
+      },
+      "tags": [
+        "opposites",
+        "perspective"
+      ]
+    },
+    {
+      "id": "ddk-060",
+      "ref": {
+        "vi": "Chương 60",
+        "en": "Chapter 60"
+      },
+      "quote": {
+        "vi": "Cai trị nước lớn cũng như nấu cá nhỏ.",
+        "en": "Governing a great state is like cooking small fish."
+      },
+      "gloss": {
+        "vi": "Cá nhỏ mà trở đi trở lại thì nát: hình ảnh nói về mức can thiệp vừa đủ. Câu này thường được dẫn trong chuyện lãnh đạo, nhưng cũng gần với việc nuôi dạy trẻ, chăm một dự án hay một mối quan hệ.",
+        "en": "Small fish that are turned again and again fall apart: the image speaks of just enough intervention. The line is often quoted about leadership, but it is also close to raising a child, tending a project, or nurturing a relationship."
+      },
+      "question": {
+        "vi": "Việc nào bạn đang đảo đi đảo lại quá nhiều, và chạm ít hơn thì thế nào?",
+        "en": "Which thing are you turning over and over too much, and what would touching it less look like?"
+      },
+      "tags": [
+        "restraint",
+        "care"
+      ]
+    },
+    {
+      "id": "ddk-062",
+      "ref": {
+        "vi": "Chương 62",
+        "en": "Chapter 62"
+      },
+      "quote": {
+        "vi": "Đạo là chỗ sâu kín của muôn vật, là báu của người hiền, là nơi nương tựa của người chẳng hiền. … Người chẳng hiền thì sao lại bỏ họ đi?",
+        "en": "The Tao is the hidden depth of all things: the treasure of the good, the refuge of the not-good. … Why would the not-good be cast away?"
+      },
+      "gloss": {
+        "vi": "Câu cuối là một câu hỏi, không hề là một câu trả lời, và nó nghiêng về việc không loại ai khỏi vòng của đạo. Đọc theo đời thường, nó mời ta để ý cách mình nhìn người đang làm mình khó chịu. Điều đó không buộc ai lại gần ai, và không thay cho việc giữ mình an toàn; nó chỉ mở thêm một khoảng nhìn.",
+        "en": "The last line is a question, not an answer, and it leans toward leaving no one outside the reach of the Tao. In daily life it invites us to notice how we look at someone who troubles us. It does not oblige anyone to come closer, and it does not replace keeping oneself safe; it only opens a little more room for seeing."
+      },
+      "question": {
+        "vi": "Có ai đang làm bạn khó chịu lúc này, và điều gì ở bạn cần được giữ gìn khi nghĩ đến họ?",
+        "en": "Is there someone troubling you right now, and what in you needs protecting when you think of them?"
+      },
+      "tags": [
+        "compassion",
+        "belonging"
+      ]
+    },
+    {
+      "id": "ddk-063",
+      "ref": {
+        "vi": "Chương 63",
+        "en": "Chapter 63"
+      },
+      "quote": {
+        "vi": "Làm điều khó từ lúc nó còn dễ, làm điều lớn từ lúc nó còn nhỏ. Việc khó trong thiên hạ ắt khởi từ chỗ dễ, việc lớn trong thiên hạ ắt khởi từ chỗ nhỏ.",
+        "en": "Deal with the difficult while it is still easy; do the great while it is still small. All difficult things in the world begin in what is easy; all great things begin in what is small."
+      },
+      "gloss": {
+        "vi": "Chương này nói về việc nhìn từ đầu: điều khó hiện ra là kết quả của nhiều bước nhỏ. Với một việc đang lớn dần trong đời bạn, câu này mời quay lại xem bước nhỏ nhất đang ở đâu. Nó nói về sự chú ý, không hề về tốc độ.",
+        "en": "This chapter is about looking from the start: what looks hard now is the result of many small steps. For something growing in your life, the line invites you to look back and find the smallest step. It speaks of attention, not of speed."
+      },
+      "question": {
+        "vi": "Với một việc lớn của bạn, bước nhỏ nhất lúc này có thể là gì?",
+        "en": "For one of your large tasks, what might the smallest first step be?"
+      },
+      "tags": [
+        "small-steps",
+        "attention"
+      ]
+    },
+    {
+      "id": "ddk-064",
+      "ref": {
+        "vi": "Chương 64",
+        "en": "Chapter 64"
+      },
+      "quote": {
+        "vi": "Cây to một ôm sinh từ mầm nhỏ như sợi lông; đài chín tầng khởi từ nắm đất đắp lên; đường nghìn dặm bắt đầu dưới chân.",
+        "en": "A tree that fills the arms grows from a tiny sprout; a tower of nine stories rises from a heap of earth; a journey of a thousand miles begins beneath the feet."
+      },
+      "gloss": {
+        "vi": "Ba hình ảnh đều đi từ cái nhỏ đến cái lớn. Chữ \"dưới chân\" nhắc rằng điểm bắt đầu là chỗ ta đang đứng, không hề là chỗ ta chưa đến. Với bất kỳ việc dài hơi nào, câu này mời hỏi mình đang đứng ở đâu.",
+        "en": "All three images move from the small to the large. The words \"beneath the feet\" remind us that the starting point is where we stand, not where we have yet to reach. For any long undertaking, the line invites us to ask where we are standing."
+      },
+      "question": {
+        "vi": "Nếu việc dài hơi của bạn bắt đầu từ chỗ bạn đang đứng, thì bước kế tiếp gần nhất là gì?",
+        "en": "If your long undertaking begins from where you are standing, what is the nearest next step?"
+      },
+      "tags": [
+        "beginnings",
+        "small-steps"
+      ]
+    },
+    {
+      "id": "ddk-064b",
+      "ref": {
+        "vi": "Chương 64",
+        "en": "Chapter 64"
+      },
+      "quote": {
+        "vi": "Người ta làm việc thường hỏng ở lúc gần thành. Cẩn trọng ở lúc cuối như lúc đầu thì không hỏng việc.",
+        "en": "In handling affairs people often fail when they are on the verge of success. Being as careful at the end as at the beginning, nothing is ruined."
+      },
+      "gloss": {
+        "vi": "Câu này nhận ra một mẫu hình quen: càng gần xong thì càng dễ lơi. Nó không đòi căng thẳng, chỉ nhắc rằng sự chú ý ở phần cuối cũng quan trọng như ở phần đầu. Bạn thử nhớ một việc mình làm cẩn thận từ đầu, rồi đến cuối thì ra sao.",
+        "en": "The line notices a familiar pattern: the closer we are to finishing, the easier it is to slacken. It does not ask for tension, only reminds us that attention at the end matters as much as at the start. You might recall something you did carefully from the start, and how the ending went."
+      },
+      "question": {
+        "vi": "Ở việc nào bạn đang gần xong mà thấy sự chú ý của mình đang lơi ra?",
+        "en": "In which task, nearly finished, do you notice your attention loosening?"
+      },
+      "tags": [
+        "finishing",
+        "attention"
+      ]
+    },
+    {
+      "id": "ddk-066",
+      "ref": {
+        "vi": "Chương 66",
+        "en": "Chapter 66"
+      },
+      "quote": {
+        "vi": "Sông và biển làm chủ của trăm khe suối vì khéo ở chỗ thấp. … Chính vì bậc thánh không tranh, nên thiên hạ không ai tranh nổi với người ấy.",
+        "en": "Rivers and seas receive the homage of all the valley streams because they are skilled at being lower than they. … Because the sage does not strive, no one in the world can strive with the sage."
+      },
+      "gloss": {
+        "vi": "Dòng nước nhận về mình mọi dòng nhỏ chỉ vì nằm thấp hơn. Chương này đặt khiêm nhường như một nền tảng để người khác muốn lại gần. Bạn thử nhìn nơi mình đang đứng cao hơn mức cần, và tự hỏi ai đang ngước lên.",
+        "en": "The river gathers every small stream only because it lies lower. The chapter sets humility as a foundation that makes others want to come near. You might look at where you stand higher than needed, and ask who is having to look up."
+      },
+      "question": {
+        "vi": "Có chỗ nào bạn đang đứng cao hơn cần thiết, và điều gì diễn ra nếu bước xuống?",
+        "en": "Is there a place where you are standing higher than needed, and what would happen if you stepped down?"
+      },
+      "tags": [
+        "humility",
+        "water"
+      ]
+    },
+    {
+      "id": "ddk-067",
+      "ref": {
+        "vi": "Chương 67",
+        "en": "Chapter 67"
+      },
+      "quote": {
+        "vi": "Ta có ba báu, giữ gìn và quý trọng: một là từ ái, hai là tiết độ, ba là không dám đứng trước thiên hạ.",
+        "en": "I have three treasures that I hold and prize: the first is gentleness, the second is restraint, the third is not daring to put myself ahead of the world."
+      },
+      "gloss": {
+        "vi": "Ba báu là sự dịu dàng, sự tiết độ và sự khiêm nhường khi đi trước. Chúng là ba điều rất đời thường: cách ta đối đãi, cách ta dùng sức, cách ta chiếm chỗ. Bạn thử xem mỗi điều hôm nay đang nằm ở đâu.",
+        "en": "The three treasures are gentleness, restraint, and humility about going first. They are very everyday matters: how we treat others, how we spend our strength, how we take up space. You might see where each one stands for you today."
+      },
+      "question": {
+        "vi": "Trong ba điều ấy, điều nào bạn đang giữ được rõ nhất và điều nào còn mờ nhất?",
+        "en": "Of these three, which do you hold most clearly right now, and which is dimmest?"
+      },
+      "tags": [
+        "three-treasures",
+        "gentleness"
+      ]
+    },
+    {
+      "id": "ddk-070",
+      "ref": {
+        "vi": "Chương 70",
+        "en": "Chapter 70"
+      },
+      "quote": {
+        "vi": "Lời ta rất dễ hiểu, rất dễ làm, mà thiên hạ chẳng ai hiểu nổi, chẳng ai làm nổi. … Người hiểu ta thì ít, người noi theo ta thì quý. Vì vậy bậc thánh mặc áo vải thô mà ôm ngọc trong lòng.",
+        "en": "My words are very easy to understand and very easy to practice, yet no one in the world can understand or practice them. … Those who know me are few, and those who follow me are rare. So the sage wears coarse cloth and carries jade within."
+      },
+      "gloss": {
+        "vi": "Người viết nhận rằng lời mình giản dị nhưng ít ai theo. Hình ảnh áo vải thô giấu ngọc nói về giá trị không cần phô ra. Câu này cũng như một lời an ủi cho những ai làm điều giản dị mà ít được thấy.",
+        "en": "The writer admits that the words are simple, yet few follow them. The image of coarse cloth hiding jade speaks of worth that needs no display. The line also reads as comfort for anyone doing simple things that few notice."
+      },
+      "question": {
+        "vi": "Điều gì ở bạn có giá trị mà bạn chưa thấy cần phô ra?",
+        "en": "What in you has worth that you do not feel the need to display?"
+      },
+      "tags": [
+        "simplicity",
+        "unseen-worth"
+      ]
+    },
+    {
+      "id": "ddk-071",
+      "ref": {
+        "vi": "Chương 71",
+        "en": "Chapter 71"
+      },
+      "quote": {
+        "vi": "Biết mà tự thấy mình chưa biết, ấy là bậc trên; không biết mà tưởng mình biết, ấy là tật. Chỉ vì biết lo cái tật ấy nên mới không mắc tật.",
+        "en": "To know and yet feel one does not know is the highest; not to know and yet think one knows is a flaw. Only by being troubled by this flaw does one become free of it."
+      },
+      "gloss": {
+        "vi": "Chương này gọi sự tưởng mình biết là một \"tật\", và gọi việc nhận ra nó là cách thoát. Đó là một hình thức khiêm tốn rất thực tế: kiểm tra lại chỗ mình cho là chắc. Bạn thử chọn một niềm tin của mình và hỏi nó đến từ đâu.",
+        "en": "This chapter calls thinking one knows a \"flaw\" and names noticing it as the way out. It is a very practical form of humility: checking again where we feel sure. You might pick one of your beliefs and ask where it came from."
+      },
+      "question": {
+        "vi": "Điều gì bạn đang cho là mình biết rõ, và bằng chứng của bạn là gì?",
+        "en": "What do you currently take yourself to know well, and what is your evidence?"
+      },
+      "tags": [
+        "humility",
+        "knowing"
+      ]
+    },
+    {
+      "id": "ddk-073",
+      "ref": {
+        "vi": "Chương 73",
+        "en": "Chapter 73"
+      },
+      "quote": {
+        "vi": "Đạo của trời: không tranh mà khéo thắng, không nói mà khéo đáp, không gọi mà tự đến, thong thả mà khéo sắp đặt.",
+        "en": "The way of heaven: it does not strive yet overcomes well; it does not speak yet answers well; it does not call yet things come of themselves; it is unhurried yet plans well."
+      },
+      "gloss": {
+        "vi": "Bốn vế đều là một kiểu ảnh hưởng không dùng sức: không giành, không ra lệnh, không thúc giục. Đọc theo đời thường, đó là sức của sự kiên nhẫn và sự rõ ràng bên trong. Câu này không nói về chiến thắng hơn người, mà về cách một thứ thành hình khi không bị ép.",
+        "en": "All four clauses describe influence without force: no grabbing, no commanding, no pressing. In daily terms, that is the strength of patience and inner clarity. The line is not about beating others but about how something takes shape when it is not forced."
+      },
+      "question": {
+        "vi": "Điều gì trong đời bạn đã tự đến khi bạn thôi cố ép nó?",
+        "en": "What in your life came of its own accord once you stopped trying to force it?"
+      },
+      "tags": [
+        "effortless-influence",
+        "patience"
+      ]
+    },
+    {
+      "id": "ddk-077",
+      "ref": {
+        "vi": "Chương 77",
+        "en": "Chapter 77"
+      },
+      "quote": {
+        "vi": "Đạo trời giống như giương cung: chỗ cao thì hạ xuống, chỗ thấp thì nâng lên; chỗ thừa thì bớt đi, chỗ thiếu thì bù vào.",
+        "en": "The way of heaven is like drawing a bow: what is high is lowered, what is low is raised; what is in excess is reduced, what is lacking is supplied."
+      },
+      "gloss": {
+        "vi": "Hình ảnh giương cung là sự cân bằng liên tục: chỗ nào quá thì bớt, chỗ nào thiếu thì thêm. Câu này nói về nhịp của tự nhiên, không hề là luật cho con người, vì chính chương đó phân biệt đạo trời với cách người ta thường làm. Bạn thử hỏi chỗ nào trong ngày mình đang quá và chỗ nào đang thiếu.",
+        "en": "The image of drawing a bow is continuous balancing: where there is too much, reduce; where there is too little, add. The line describes nature's rhythm, not a law for people, since the chapter itself contrasts heaven's way with how people usually act. You might ask where in your day there is too much and where too little."
+      },
+      "question": {
+        "vi": "Phần nào trong nhịp sống của bạn đang quá, và phần nào đang thiếu?",
+        "en": "Which part of your life's rhythm is in excess, and which part is lacking?"
+      },
+      "tags": [
+        "balance",
+        "adjustment"
+      ]
+    },
+    {
+      "id": "ddk-078",
+      "ref": {
+        "vi": "Chương 78",
+        "en": "Chapter 78"
+      },
+      "quote": {
+        "vi": "Trong thiên hạ không gì mềm yếu hơn nước, mà phá cái cứng mạnh thì không gì hơn được nước, vì không có gì thay thế được nó. Yếu thắng mạnh, mềm thắng cứng, ai cũng biết, nhưng chẳng mấy ai làm được.",
+        "en": "Nothing in the world is softer or weaker than water, yet nothing surpasses it in attacking the hard and strong, because nothing can take its place. The weak overcomes the strong and the soft overcomes the hard; everyone knows it, but no one practices it."
+      },
+      "gloss": {
+        "vi": "Chương này nói thẳng một điều ai cũng biết mà ít ai làm: mềm thắng cứng. Câu \"chẳng mấy ai làm được\" khiến nó thành một lời tự nhìn lại hơn là một khẩu hiệu. Bạn có thể nhớ một lần mình biết cần mềm đi mà vẫn gồng lên.",
+        "en": "This chapter says plainly something everyone knows and few do: the soft overcomes the hard. The phrase \"no one practices it\" makes it more a prompt for self-reflection than a slogan. You might recall a time you knew you needed to soften and still held on tight."
+      },
+      "question": {
+        "vi": "Điều gì giữ bạn lại khi bạn thử nghĩ đến một cách mềm hơn, và bạn thấy gì khi nới ra một chút?",
+        "en": "What holds you back when you think of a softer way, and what do you notice when you ease off a little?"
+      },
+      "tags": [
+        "water",
+        "softness"
+      ]
+    },
+    {
+      "id": "ddk-080",
+      "ref": {
+        "vi": "Chương 80",
+        "en": "Chapter 80"
+      },
+      "quote": {
+        "vi": "Để dân thấy ngon với bữa ăn của mình, thấy đẹp với áo mình mặc, thấy yên với nơi mình ở, thấy vui với tục lệ của mình.",
+        "en": "Let the people find their food sweet, their clothes beautiful, their homes peaceful, and their customs a joy."
+      },
+      "gloss": {
+        "vi": "Đoạn này vẽ một đời sống nhỏ mà trọn: thấy ngon, đẹp, yên, vui với những gì mình có. Đó là một hình ảnh về sự đủ, không hề là bản vẽ xã hội cho hôm nay. Nó mời ta để ý những thứ sẵn có mà mình đã thôi thấy.",
+        "en": "This passage paints a small but complete life: finding things sweet, beautiful, peaceful, and joyful in what one has. It is an image of enough, not a social blueprint for today. It invites us to notice what is already here but no longer seen."
+      },
+      "question": {
+        "vi": "Điều gì sẵn có quanh bạn mà bạn đã thôi để ý, dù nó vẫn đang nuôi bạn?",
+        "en": "What around you has been there so long you stopped noticing it, even though it still sustains you?"
+      },
+      "tags": [
+        "contentment",
+        "simple-life"
+      ]
+    },
+    {
+      "id": "ddk-081",
+      "ref": {
+        "vi": "Chương 81",
+        "en": "Chapter 81"
+      },
+      "quote": {
+        "vi": "Lời chân thật thì không hoa mỹ, lời hoa mỹ thì không chân thật. … Đạo của trời là làm lợi mà không hại; đạo của thánh nhân là làm mà không tranh.",
+        "en": "Sincere words are not beautiful; beautiful words are not sincere. … The way of heaven is to benefit and not to harm; the way of the sage is to act and not to contend."
+      },
+      "gloss": {
+        "vi": "Chương cuối của sách quay lại với sự giản dị: lời thật không cần tô vẽ, việc làm không cần tranh giành. Hai vế sau tách rõ làm với tranh: ta có thể làm mà không cần thắng ai. Bạn thử nhận ra một việc mình làm vì chính nó chứ không để hơn người khác.",
+        "en": "The book's final chapter returns to simplicity: true words need no decoration, and action needs no contention. The last two clauses separate acting from contending: we can act without needing to beat anyone. You might notice something you do for its own sake and not to outdo others."
+      },
+      "question": {
+        "vi": "Có việc nào bạn đang làm chỉ vì giá trị của nó chứ không để hơn ai?",
+        "en": "Is there something you are doing purely for its own worth, not to outdo anyone?"
+      },
+      "tags": [
+        "sincerity",
+        "non-contention"
+      ]
+    }
+  ]
+}

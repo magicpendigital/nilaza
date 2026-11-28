@@ -5,6 +5,14 @@ import {
   generateOracleTurn,
   generateAiCouncilTurn,
   generateTarotReading,
+  requestTarotClarifier,
+  requestTarotNote,
+  requestNumerologyMessage,
+  requestTarotReaderSuggestion,
+  sendProductEvent,
+  requestGuestTarotDraw,
+  requestTarotDraw,
+  TarotLimitError,
   generateDailyInsight,
   generateDailyZodiacPulse,
   registerNotificationDevice,
@@ -449,6 +457,239 @@ describe("backendClient", () => {
     });
   });
 
+  describe("P1-A server-drawn Tarot (nil-p1-tarot-lock-2026-11-15)", () => {
+    const signedIn = { ...backendOptions, authToken: "fake-test-token" };
+    const drawId = "11111111-2222-4333-8444-555555555555";
+    const serverCards = [{ id: "major-00-the-fool", positionKey: "today", reversed: true }];
+    const drawInput = { language: "vi" as const, deck: { id: "deck-1", slug: "nilaza-classic" }, topic: "love", spread: "daily-one", question: "Hôm nay?" };
+    const input: TarotInterpretationInput = {
+      language: "vi",
+      deck: { id: "deck-1", slug: "nilaza-classic", name: "Deck", readingStyle: "style", accessTier: "free" },
+      topic: "love", spread: "daily-one", question: "Hôm nay?",
+      selectedCards: [{ id: "major-00-the-fool", reversed: true } as TarotInterpretationInput["selectedCards"][number]],
+      drawId
+    };
+    const fallback = jest.fn().mockReturnValue({ summary: "fallback", reflection: "fallback", moderationStatus: "fallback" });
+    const sections = [{ key: "today", title: { vi: "Hôm nay", en: "Today" }, body: { vi: "Chi tiết", en: "Detail" }, cardIds: ["major-00-the-fool"] }];
+    const original = { interactionId: "interaction_old", attemptId: "attempt_old", clientRequestId: "request_old" };
+    const storedProvenance = { schemaVersion: "nilaza.answer-provenance.v1", feature: "tarot_reading", ...original, locale: "vi", sourceKind: "ai",
+      generatedAt: "2026-11-15T03:00:00.000Z", validationStatus: "validated", persistenceStatus: "stored", remoteId: drawId };
+
+    it("asks the server to draw and never sends cards; limits and locks carry the reason and opening time", async () => {
+      mockFetch.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ drawId, status: "queued", replayed: false, spread: "daily-one", topic: "love",
+        lockDate: "2026-11-16", nextDrawAt: "2026-11-16T17:00:00.000Z", cards: serverCards }) });
+      await expect(requestTarotDraw(drawInput, signedIn)).resolves.toMatchObject({ drawId, cards: serverCards, nextDrawAt: "2026-11-16T17:00:00.000Z" });
+      const body = JSON.parse(String((mockFetch.mock.calls[0][1] as RequestInit).body));
+      expect(body).toEqual({ action: "draw", language: "vi", deck: { id: "deck-1", slug: "nilaza-classic" }, topic: "love", spread: "daily-one", question: "Hôm nay?" });
+      expect(body.selectedCards).toBeUndefined();
+
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 429, json: async () => ({ error: "daily_limit_reached", reason: "draw_cap", nextDrawAt: "2026-11-16T17:00:00.000Z" }) });
+      const limit = await requestTarotDraw(drawInput, signedIn).catch(error => error);
+      expect(limit).toBeInstanceOf(TarotLimitError);
+      expect(limit).toMatchObject({ code: "daily_limit_reached", reason: "draw_cap", nextDrawAt: "2026-11-16T17:00:00.000Z" });
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 409, json: async () => ({ error: "tarot_reading_locked", reason: "deleted", nextDrawAt: "2026-11-16T17:00:00.000Z" }) });
+      await expect(requestTarotDraw(drawInput, signedIn)).rejects.toMatchObject({ code: "tarot_reading_locked", reason: "deleted" });
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 503, json: async () => ({ error: "feature_paused" }) });
+      await expect(requestTarotDraw(drawInput, signedIn)).rejects.toMatchObject({ code: "feature_paused" });
+      // Tarot v2 pack 0: a Premium deck for an account without Premium (only once Premium is on sale) is a limit the app can word.
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 403, json: async () => ({ error: "premium_required", reason: "premium_deck" }) });
+      await expect(requestTarotDraw(drawInput, signedIn)).rejects.toMatchObject({ code: "premium_required", status: 403 });
+    });
+
+    it("pack 1: a guest asks the public function with only the install id, spread and topic, and never sends an account or a question", async () => {
+      const guestCards = [{ id: "major-00-the-fool", positionKey: "daily", reversed: true }];
+      mockFetch.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ status: "guest_draw", spread: "daily-one", topic: "open", lockDate: "2026-11-16",
+        nextDrawAt: "2026-11-16T17:00:00.000Z", cards: guestCards }) });
+      const guestOptions = { baseUrl: "https://abc.supabase.co/functions/v1", apiKey: "anon-key-for-tests", authToken: "must-not-be-sent", timeoutMs: 1000 };
+      const deviceId = "8d2b6f1e-5c3a-4e7b-9a10-2f4c6d8e0a13";
+      await expect(requestGuestTarotDraw({ deviceId, spread: "daily-one", topic: "open" }, guestOptions)).resolves.toEqual({
+        spread: "daily-one", topic: "open", lockDate: "2026-11-16", nextDrawAt: "2026-11-16T17:00:00.000Z", cards: guestCards });
+      const [url, init] = mockFetch.mock.calls[0] as [string, RequestInit];
+      expect(url).toBe("https://abc.supabase.co/functions/v1/tarot-guest-draw");
+      expect(JSON.parse(String(init.body))).toEqual({ deviceId, spread: "daily-one", topic: "open" });
+      const headers = init.headers as Record<string, string>;
+      expect(headers.apikey).toBe("anon-key-for-tests");
+      expect(headers.Authorization).toBeUndefined();
+    });
+
+    it("pack 1: a guest draw that the server cannot give (secret not set, busy, malformed, offline) is a BackendUnavailableError, never local cards", async () => {
+      const guestInput = { deviceId: "8d2b6f1e-5c3a-4e7b-9a10-2f4c6d8e0a13", spread: "daily-one", topic: "open" };
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 503, json: async () => ({ error: "guest_draw_unavailable" }) });
+      await expect(requestGuestTarotDraw(guestInput, backendOptions)).rejects.toBeInstanceOf(BackendUnavailableError);
+      mockFetch.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ status: "guest_draw", spread: "daily-one", topic: "open", lockDate: "2026-11-16",
+        cards: [{ id: "a", positionKey: "daily", reversed: false }, { id: "a", positionKey: "x", reversed: false }] }) });
+      await expect(requestGuestTarotDraw(guestInput, backendOptions)).rejects.toBeInstanceOf(BackendUnavailableError);
+      mockFetch.mockRejectedValueOnce(new Error("network"));
+      await expect(requestGuestTarotDraw(guestInput, backendOptions)).rejects.toMatchObject({ reason: "offline" });
+      await expect(requestGuestTarotDraw(guestInput, { timeoutMs: 1000 })).rejects.toMatchObject({ reason: "offline" });
+    });
+
+    it("pack 1: after sign-in the draw sends the install id and reads whether the guest's cards were kept", async () => {
+      mockFetch.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ drawId, status: "queued", replayed: false, guestAdopted: true, spread: "daily-one", topic: "love",
+        lockDate: "2026-11-16", nextDrawAt: "2026-11-16T17:00:00.000Z", cards: serverCards }) });
+      const deviceId = "8d2b6f1e-5c3a-4e7b-9a10-2f4c6d8e0a13";
+      await expect(requestTarotDraw({ ...drawInput, guestDeviceId: deviceId }, signedIn)).resolves.toMatchObject({ drawId, guestAdopted: true });
+      expect(JSON.parse(String((mockFetch.mock.calls[0][1] as RequestInit).body))).toMatchObject({ action: "draw", guestDeviceId: deviceId });
+      mockFetch.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ drawId, status: "queued", replayed: false, spread: "daily-one", topic: "love", cards: serverCards }) });
+      await expect(requestTarotDraw(drawInput, signedIn)).resolves.toMatchObject({ guestAdopted: false });
+      expect(JSON.parse(String((mockFetch.mock.calls[1][1] as RequestInit).body))).not.toHaveProperty("guestDeviceId");
+    });
+
+    it("refuses a malformed draw and says offline instead of drawing cards on the device", async () => {
+      mockFetch.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ drawId, status: "queued", spread: "daily-one", topic: "love",
+        cards: [serverCards[0], serverCards[0]] }) });
+      await expect(requestTarotDraw(drawInput, signedIn)).rejects.toMatchObject({ reason: "busy" });
+      mockFetch.mockRejectedValueOnce(new TypeError("Network request failed"));
+      await expect(requestTarotDraw(drawInput, signedIn)).rejects.toEqual(new BackendUnavailableError("offline"));
+    });
+
+    it("guests never reach the server draw", async () => {
+      const session = { active: true, userId: undefined, accessToken: undefined, controller: new AbortController() };
+      await expect(requestTarotDraw(drawInput, { ...backendOptions, session } as never)).rejects.toMatchObject({ reason: "auth" });
+      expect(mockFetch).not.toHaveBeenCalled();
+    });
+
+    it("interprets only the drawId and keeps a replayed answer with its original provenance", async () => {
+      mockFetch.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ summary: "Đã lưu", reflection: "Câu hỏi?", sections, moderationStatus: "passed",
+        provenance: storedProvenance, persistenceStatus: "stored", remoteId: drawId, drawId, replayed: true, status: "completed", language: "vi",
+        nextDrawAt: "2026-11-16T17:00:00.000Z", cards: serverCards }) });
+      const result = await generateTarotReading(input, fallback, signedIn);
+      expect(result).toMatchObject({ summary: "Đã lưu", moderationStatus: "passed", drawId, replayed: true, nextDrawAt: "2026-11-16T17:00:00.000Z",
+        provenance: { sourceKind: "ai", attemptId: "attempt_old" } });
+      const body = JSON.parse(String((mockFetch.mock.calls[0][1] as RequestInit).body));
+      expect(body).toEqual({ action: "interpret", drawId, language: "vi", selectedCards: [{ id: "major-00-the-fool", reversed: true }] });
+      expect(fallback).not.toHaveBeenCalled();
+    });
+
+    it("waits once when another device is interpreting the same draw, then shows the stored answer", async () => {
+      jest.useFakeTimers();
+      try {
+        mockFetch.mockResolvedValueOnce({ ok: false, status: 409, json: async () => ({ error: "reading_in_progress", drawId, retryAfterSeconds: 1 }) });
+        mockFetch.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ summary: "Đã lưu", reflection: "Câu hỏi?", sections, moderationStatus: "passed",
+          provenance: storedProvenance, drawId, replayed: true, language: "vi", cards: serverCards }) });
+        const pending = generateTarotReading(input, fallback, signedIn);
+        await jest.advanceTimersByTimeAsync(1000);
+        await expect(pending).resolves.toMatchObject({ replayed: true, drawId });
+        expect(mockFetch).toHaveBeenCalledTimes(2);
+      } finally {
+        jest.useRealTimers();
+      }
+    });
+
+    it("an AI failure keeps the same drawId on the labelled fallback; limits still surface", async () => {
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 503, json: async () => ({ error: "reading_not_saved", drawId, retryable: true }) });
+      await expect(generateTarotReading(input, fallback, signedIn)).resolves.toMatchObject({ summary: "fallback", drawId, replayed: false,
+        provenance: { sourceKind: "fallback" } });
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 429, json: async () => ({ error: "daily_limit_reached", reason: "attempts", nextDrawAt: "2026-11-16T17:00:00.000Z" }) });
+      await expect(generateTarotReading(input, fallback, signedIn)).rejects.toMatchObject({ code: "daily_limit_reached", reason: "attempts" });
+    });
+
+    it("the clarifier is one server card with its library meaning", async () => {
+      const clarifier = { cardId: "major-01-the-magician", reversed: false, orientation: "upright", positionKey: "clarifier", source: "server_csprng",
+        name: { vi: "Nhà Ảo Thuật", en: "The Magician" }, meaning: { vi: "Ý nghĩa", en: "Meaning" }, reflectionQuestion: { vi: "Hỏi?", en: "Ask?" },
+        contentVersion: "v1", drawnAt: "2026-11-16T03:00:00.000Z" };
+      mockFetch.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ drawId, clarifier, replayed: false }) });
+      await expect(requestTarotClarifier(drawId, signedIn)).resolves.toMatchObject({ cardId: "major-01-the-magician", reversed: false, name: { vi: "Nhà Ảo Thuật" } });
+      expect(JSON.parse(String((mockFetch.mock.calls[0][1] as RequestInit).body))).toEqual({ action: "clarify", drawId });
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 409, json: async () => ({ error: "reading_not_ready", drawId }) });
+      await expect(requestTarotClarifier(drawId, signedIn)).rejects.toMatchObject({ reason: "busy", status: 409 });
+    });
+  });
+
+  describe("batch C: personal note, reader suggestion and product events", () => {
+    const signedIn = { ...backendOptions, authToken: "fake-test-token" };
+    const drawId = "11111111-2222-4333-8444-555555555555";
+    const ok = (body: unknown, status = 200) => ({ ok: status < 300, status, json: async () => body });
+
+    it("asks for the note with only the draw id and maps the answer", async () => {
+      mockFetch.mockResolvedValueOnce(ok({ note: { text: "Đoạn một. Đoạn hai.", need: "Bạn cần được nghe.", askThem: "Bạn thấy sao?" }, noteStatus: "stored",
+        moderationStatus: "passed", model: "m", experiment: { campaignId: "c1", variant: "b" }, nextNoteAt: "2026-11-25T17:00:00.000Z" }));
+      await expect(requestTarotNote(drawId, signedIn)).resolves.toMatchObject({ kind: "note", note: { need: "Bạn cần được nghe." }, experiment: { campaignId: "c1", variant: "b" } });
+      expect(JSON.parse(String((mockFetch.mock.calls[0][1] as RequestInit).body))).toEqual({ action: "note", drawId });
+    });
+
+    it("maps the daily limit, crisis, unavailable and missing sign-in without inventing text", async () => {
+      mockFetch.mockResolvedValueOnce(ok({ error: "daily_limit_reached", reason: "note_daily", nextNoteAt: "2026-11-25T17:00:00.000Z" }, 429));
+      await expect(requestTarotNote(drawId, signedIn)).resolves.toEqual({ kind: "used_today", nextNoteAt: "2026-11-25T17:00:00.000Z" });
+      mockFetch.mockResolvedValueOnce(ok({ note: null, moderationStatus: "blocked", safety: { crisis: true } }));
+      await expect(requestTarotNote(drawId, signedIn)).resolves.toEqual({ kind: "crisis" });
+      mockFetch.mockResolvedValueOnce(ok({ error: "note_unavailable" }, 503));
+      await expect(requestTarotNote(drawId, signedIn)).resolves.toEqual({ kind: "unavailable", reason: "busy" });
+      mockFetch.mockRejectedValueOnce(new TypeError("Network request failed"));
+      await expect(requestTarotNote(drawId, signedIn)).resolves.toEqual({ kind: "unavailable", reason: "offline" });
+      await expect(requestTarotNote(drawId, backendOptions)).resolves.toEqual({ kind: "unavailable", reason: "auth" });
+    });
+
+    it("retries a note in progress at most three times", async () => {
+      jest.useFakeTimers();
+      try {
+        mockFetch.mockResolvedValue(ok({ error: "note_in_progress", retryAfterSeconds: 1 }, 409));
+        const pending = requestTarotNote(drawId, signedIn);
+        await jest.advanceTimersByTimeAsync(5000);
+        await expect(pending).resolves.toEqual({ kind: "unavailable", reason: "busy" });
+        expect(mockFetch).toHaveBeenCalledTimes(3);
+      } finally {
+        jest.useRealTimers();
+        mockFetch.mockReset();
+      }
+    });
+
+    it("uses the AI reader only when the slug is a candidate", async () => {
+      const candidates = ["the-love-oracle", "the-clear-strategist"];
+      mockFetch.mockResolvedValueOnce(ok({ slug: "the-love-oracle", confidence: 0.8, intent: "love", source: "llm", model: "m", experiment: null }));
+      await expect(requestTarotReaderSuggestion(drawId, candidates, signedIn)).resolves.toMatchObject({ slug: "the-love-oracle", source: "llm" });
+      expect(JSON.parse(String((mockFetch.mock.calls[0][1] as RequestInit).body))).toEqual({ action: "suggest_reader", drawId, candidates });
+      mockFetch.mockResolvedValueOnce(ok({ slug: "someone-else", confidence: 0.9, intent: null, source: "llm" }));
+      await expect(requestTarotReaderSuggestion(drawId, candidates, signedIn)).resolves.toBeNull();
+      mockFetch.mockResolvedValueOnce(ok({ slug: null, confidence: 0, intent: null, source: "none" }));
+      await expect(requestTarotReaderSuggestion(drawId, candidates, signedIn)).resolves.toBeNull();
+      mockFetch.mockRejectedValueOnce(new TypeError("Network request failed"));
+      await expect(requestTarotReaderSuggestion(drawId, candidates, signedIn)).resolves.toBeNull();
+      // The handler refuses more than 7 or repeated candidates (400), so the client dedupes and caps the list.
+      mockFetch.mockClear();
+      mockFetch.mockResolvedValueOnce(ok({ slug: null, confidence: null, intent: null, source: "none", model: null, experiment: null }));
+      const many = ["a", "b", "a", "c", "d", "e", "f", "g", "h"];
+      await requestTarotReaderSuggestion(drawId, many, signedIn);
+      expect(JSON.parse(String((mockFetch.mock.calls[0][1] as RequestInit).body)).candidates).toEqual(["a", "b", "c", "d", "e", "f", "g"]);
+    });
+
+    it("sends product events with enumerated values only and never throws", async () => {
+      mockFetch.mockResolvedValueOnce(ok({}, 202));
+      sendProductEvent("reader_suggestion_shown", { slug: "the-love-oracle", topic: "love", source: "rule", question: "Người ấy có thật lòng?" }, signedIn);
+      await Promise.resolve();
+      const body = JSON.parse(String((mockFetch.mock.calls[0][1] as RequestInit).body));
+      expect(String(mockFetch.mock.calls[0][0])).toMatch(/share-events|share\/events/);
+      // The share-events product-event shape: {name, metadata}; a key outside the allowlist (question) is dropped.
+      expect(body).toEqual({ events: [{ name: "reader_suggestion_shown", metadata: { slug: "the-love-oracle", topic: "love", source: "rule" } }] });
+      mockFetch.mockResolvedValueOnce(ok({}, 202));
+      sendProductEvent("tarot_note_feedback", { value: "yes", campaignId: "6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e5f6", variant: "B", question: "will-he-call" }, signedIn);
+      await Promise.resolve();
+      // The same payload is asserted as accepted by supabase/functions/share-events/handler_test.ts.
+      expect(JSON.parse(String((mockFetch.mock.calls[1][1] as RequestInit).body))).toEqual({
+        events: [{ name: "tarot_note_feedback", metadata: { campaignId: "6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e5f6", variant: "B", value: "yes" } }]
+      });
+      mockFetch.mockResolvedValueOnce(ok({}, 202));
+      sendProductEvent("tarot_report_opened", { campaignId: "6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e5f6", variant: "A", question: "x" }, signedIn);
+      await Promise.resolve();
+      expect(JSON.parse(String((mockFetch.mock.calls[2][1] as RequestInit).body))).toEqual({
+        events: [{ name: "tarot_report_opened", metadata: { campaignId: "6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e5f6", variant: "A" } }]
+      });
+      mockFetch.mockResolvedValueOnce(ok({}, 202));
+      sendProductEvent("tarot_followup_started", { slug: "the-mystic", campaignId: "6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e5f6", variant: "C" }, signedIn);
+      await Promise.resolve();
+      expect(JSON.parse(String((mockFetch.mock.calls[3][1] as RequestInit).body)).events[0].metadata)
+        .toEqual({ campaignId: "6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e5f6", variant: "C", slug: "the-mystic" });
+      mockFetch.mockClear();
+      sendProductEvent("tarot_note_feedback", { campaignId: "not-a-uuid", variant: "B" }, signedIn);
+      expect(mockFetch).not.toHaveBeenCalled();
+      mockFetch.mockRejectedValueOnce(new Error("down"));
+      expect(() => sendProductEvent("tarot_followup_started", { slug: "the-mystic" }, signedIn)).not.toThrow();
+      mockFetch.mockClear();
+      sendProductEvent("tarot_followup_started", { slug: "the-mystic" }, backendOptions);
+      expect(mockFetch).not.toHaveBeenCalled();
+    });
+  });
+
   describe("generateDailyInsight", () => {
     const input: DailyInsightInput = {
       language: "en",
@@ -473,6 +714,47 @@ describe("backendClient", () => {
       mockFetch.mockRejectedValueOnce(new Error("Network Error"));
       const result = await generateDailyInsight(input, fallback, backendOptions);
       expect(result).toEqual({ id: "fallback", dateKey: "2023-01-01", theme: "fallback" });
+    });
+  });
+
+  describe("requestNumerologyMessage", () => {
+    const signedIn = { baseUrl: "https://project.supabase.co/functions/v1", timeoutMs: 1000, authToken: "fake-test-token" };
+    const ok = (body: unknown, status = 200) => ({ ok: status < 300, status, json: async () => body });
+    const payload = {
+      version: 1 as const, feature: "numerology_private_message" as const, language: "vi" as const,
+      numbers: { lifePath: "7", birthday: "3", personalYear: "1", personalMonth: "2", pinnacle: { stage: 1 as const, number: "5" }, challenge: "2" },
+      blockIds: ["numbers.7", "numbers.3", "personalYear.1"]
+    };
+
+    it("posts only the payload to ai-numerology-message and maps the message", async () => {
+      mockFetch.mockResolvedValueOnce(ok({ message: "  Lời nhắn.  ", blockIds: ["numbers.7", "numbers.3", "personalYear.1"], nextMessageAt: "2026-11-25T17:00:00.000Z" }));
+      await expect(requestNumerologyMessage(payload, signedIn)).resolves.toEqual({
+        kind: "message", message: "Lời nhắn.", blockIds: ["numbers.7", "numbers.3", "personalYear.1"], nextMessageAt: "2026-11-25T17:00:00.000Z"
+      });
+      expect(String(mockFetch.mock.calls[0][0])).toBe("https://project.supabase.co/functions/v1/ai-numerology-message");
+      expect(JSON.parse(String((mockFetch.mock.calls[0][1] as RequestInit).body))).toEqual(payload);
+    });
+
+    it("maps pauses, Premium, limits, blocks and failures without inventing text", async () => {
+      const cases: Array<[unknown, number, unknown]> = [
+        [{ error: "feature_paused" }, 503, { kind: "soon" }],
+        [{ error: "content_not_approved" }, 503, { kind: "soon" }],
+        [{ error: "premium_required" }, 403, { kind: "premium_required" }],
+        [{ error: "daily_limit_reached", reason: "delivered", nextMessageAt: "2026-11-25T17:00:00.000Z" }, 429, { kind: "daily_limit", nextMessageAt: "2026-11-25T17:00:00.000Z" }],
+        [{ error: "message_unavailable", moderationStatus: "blocked", retryable: false }, 503, { kind: "blocked" }],
+        [{ error: "message_unavailable", retryable: true }, 503, { kind: "unavailable", reason: "busy" }],
+        [{ error: "invalid_jwt" }, 401, { kind: "unavailable", reason: "auth" }],
+        [{ message: "   ", blockIds: [] }, 200, { kind: "unavailable", reason: "busy" }]
+      ];
+      for (const [body, status, expected] of cases) {
+        mockFetch.mockResolvedValueOnce(ok(body, status));
+        await expect(requestNumerologyMessage(payload, signedIn)).resolves.toEqual(expected);
+      }
+      mockFetch.mockRejectedValueOnce(new TypeError("Network request failed"));
+      await expect(requestNumerologyMessage(payload, signedIn)).resolves.toEqual({ kind: "unavailable", reason: "offline" });
+      mockFetch.mockClear();
+      await expect(requestNumerologyMessage(payload, backendOptions)).resolves.toEqual({ kind: "unavailable", reason: "auth" });
+      expect(mockFetch).not.toHaveBeenCalled();
     });
   });
 

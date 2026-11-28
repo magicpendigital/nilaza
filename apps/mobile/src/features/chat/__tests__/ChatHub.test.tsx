@@ -66,3 +66,37 @@ test("relative day labels", () => {
   expect(relativeDayLabel("2026-10-30T23:00:00", now, "vi")).toBe("hôm qua");
   expect(relativeDayLabel("2026-10-27T09:00:00", now, "vi")).toBe("4 ngày trước");
 });
+
+test("the Books chip filters to books and more than one book is featured", () => {
+  const books = new Set(hubFeaturedIds.filter((id) => id.startsWith("book-")));
+  expect(books.size).toBeGreaterThan(1);
+  expect(hubFeaturedIds).toHaveLength(8);
+  const { screen } = renderHub({ matches: (id, category) => category === "all" || (category === "books" && id.startsWith("book-")) });
+  fireEvent.press(screen.getByText("Sách"));
+  expect(screen.getByText("book-communication-mentor")).toBeTruthy();
+  expect(screen.getByText("book-calm-living-mentor")).toBeTruthy();
+  expect(screen.queryByText("archetype-the-mystic")).toBeNull();
+});
+
+test("book cards say they are books without relying on colour, and borrowed art is tinted", () => {
+  const bookGuides: HubGuide[] = [
+    { id: "book-strategic-thinker", name: "Binh pháp Tôn Tử", tagline: "Nhìn rõ thế cục", thumbnail: { uri: "a.png" }, comingSoon: false, kind: "book" },
+    { id: "book-i-ching", name: "Kinh Dịch", tagline: "Nhìn thay đổi như chu kỳ", thumbnail: { uri: "b.png" }, comingSoon: false, kind: "book", artTint: "#7FA6A3" },
+    { id: "figure-laozi", name: "Lão Tử", tagline: "Thuận tự nhiên", thumbnail: { uri: "c.png" }, comingSoon: false, kind: "guide" }
+  ];
+  const { screen } = renderHub({ guides: bookGuides, matches: (id, category) => category !== "books" || id.startsWith("book-") });
+  // Any non-"all" chip shows the full filtered grid.
+  fireEvent.press(screen.getByText("Triết gia"));
+  expect(screen.getByLabelText("Sách: Binh pháp Tôn Tử. Nhìn rõ thế cục")).toBeTruthy();
+  expect(screen.getByLabelText("Lão Tử. Thuận tự nhiên")).toBeTruthy();
+  expect(screen.getByTestId("hub-book-badge-book-i-ching")).toBeTruthy();
+  expect(screen.queryByTestId("hub-book-badge-figure-laozi")).toBeNull();
+  expect(screen.getByTestId("hub-art-tint-book-i-ching")).toBeTruthy();
+  expect(screen.queryByTestId("hub-art-tint-book-strategic-thinker")).toBeNull();
+});
+
+test("the Books chip has its own empty message", () => {
+  const { screen } = renderHub({ matches: (id, category) => category === "all" });
+  fireEvent.press(screen.getByText("Sách"));
+  expect(screen.getByText("Chưa có sách phù hợp. Thử từ khóa khác hoặc xem Tất cả.")).toBeTruthy();
+});

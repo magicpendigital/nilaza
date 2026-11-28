@@ -41,7 +41,7 @@ test("each card says whether its paragraph is the reading for this question or t
   );
   expect(screen.getByText("Vì sao lá này ở vị trí Bạn")).toBeTruthy();
   fireEvent.press(screen.getByRole("button", { name: /Mối quan hệ · Xuôi/ }));
-  expect(screen.getByText("Nghĩa chung của lá · chưa có diễn giải riêng cho câu hỏi này")).toBeTruthy();
+  expect(screen.getByText("Ý nghĩa truyền thống của lá")).toBeTruthy();
 });
 
 test("the original card name is the title with the Vietnamese name under it (Owner decision 2026-11-02)", () => {

@@ -6,7 +6,7 @@ import { CardLibrary, type LibraryCard } from "../../tarot/CardLibrary";
 const image = { uri: "https://example.com/card.png" };
 
 test("Explore follows the design and keeps face reading as coming soon", () => {
-  const handlers = { onTarot: jest.fn(), onLibrary: jest.fn(), onAstrology: jest.fn(), onAllDecks: jest.fn(), onAllGuides: jest.fn() };
+  const handlers = { onTarot: jest.fn(), onLibrary: jest.fn(), onAstrology: jest.fn(), onNumerology: jest.fn(), onAllDecks: jest.fn(), onAllGuides: jest.fn() };
   const onDeck = jest.fn();
   const onCouncil = jest.fn();
   const screen = render(
@@ -20,6 +20,8 @@ test("Explore follows the design and keeps face reading as coming soon", () => {
   fireEvent.press(screen.getByText("Xem 8 bộ"));
   fireEvent.press(screen.getByLabelText("Tình yêu: Rose Mirror"));
   fireEvent.press(screen.getByText("Hội đồng 3 góc nhìn"));
+  fireEvent.press(screen.getByText("Những con số của bạn"));
+  expect(handlers.onNumerology).toHaveBeenCalled();
   expect(handlers.onTarot).toHaveBeenCalled();
   expect(handlers.onLibrary).toHaveBeenCalled();
   expect(handlers.onAllDecks).toHaveBeenCalled();
@@ -28,6 +30,16 @@ test("Explore follows the design and keeps face reading as coming soon", () => {
   expect(screen.getByLabelText("Xem tướng mặt, sắp có")).toBeTruthy();
   // The approved synastry wording never promises whether two people "match".
   expect(screen.queryByText(/hợp nhau/)).toBeNull();
+});
+
+test("Explore shows today's sky when it can open it", () => {
+  const onSky = jest.fn();
+  const base = { onTarot: jest.fn(), onLibrary: jest.fn(), onAstrology: jest.fn(), onAllDecks: jest.fn(), onAllGuides: jest.fn(), decks: [], guides: [] };
+  const screen = render(<ExploreHome language="vi" deckCount={8} {...base} onSky={onSky} now={new Date("2026-11-23T12:00:00+07:00")} />);
+  expect(screen.getByText("Bầu trời hôm nay")).toBeTruthy();
+  fireEvent.press(screen.getByText("Trăng ở Kim Ngưu"));
+  expect(onSky).toHaveBeenCalledTimes(1);
+  expect(render(<ExploreHome language="vi" deckCount={8} {...base} />).queryByText("Bầu trời hôm nay")).toBeNull();
 });
 
 test("the library counts learned cards and filters by group", () => {

@@ -5,7 +5,10 @@ export const publicAnalyticsEvents = [
   "waitlist_cta_click",
   "waitlist_success",
   "share_link_opened",
-  "signup_from_share"
+  "signup_from_share",
+  // A visitor tried the page's own tool (drew a card, worked out a number, compared signs). Carries the variant only:
+  // never the card, the number, the date or anything typed.
+  "share_landing_try"
 ] as const;
 
 export type PublicAnalyticsEvent = (typeof publicAnalyticsEvents)[number];
@@ -23,7 +26,8 @@ const propertyNames = new Set([
   "result_type",
   "source",
   "surface",
-  "target"
+  "target",
+  "variant"
 ]);
 
 type ZarazWindow = Window & {

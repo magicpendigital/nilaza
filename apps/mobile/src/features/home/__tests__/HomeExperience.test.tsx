@@ -58,11 +58,21 @@ it("personalizes the suggestion by the first goal and shows sky and streak", () 
     zodiac={{ hasBirthDate: true, sign: "Song Ngư", line: "Một lời nhắn nhẹ." }} />);
   fireEvent.press(screen.getByLabelText("Trải bài tình yêu. Một câu hỏi về mối quan hệ"));
   expect(onGoalSuggestion).toHaveBeenCalledWith("love");
-  expect(screen.getByText("Trăng tròn")).toBeTruthy();
+  // The sky tile names the Moon's sign and how lit it is; it opens "Bầu trời hôm nay".
+  expect(screen.getByText(/^Trăng ở /)).toBeTruthy();
+  expect(screen.getByText(/% sáng$/)).toBeTruthy();
   expect(screen.getByText("Song Ngư · hôm nay")).toBeTruthy();
   expect(screen.getByLabelText("Chuỗi 3 ngày")).toBeTruthy();
   fireEvent.press(screen.getByText("Một lời nhắn nhẹ."));
   expect(onAstrology).toHaveBeenCalledTimes(1);
+});
+
+it("opens today's sky from the sky tile", () => {
+  const onSky = jest.fn(), onAstrology = jest.fn();
+  const screen = render(<HomeExperience {...baseProps} onSky={onSky} onAstrology={onAstrology} />);
+  fireEvent.press(screen.getByText("Xem bầu trời →"));
+  expect(onSky).toHaveBeenCalledTimes(1);
+  expect(onAstrology).not.toHaveBeenCalled();
 });
 
 it("falls back to a self reading for goals without their own suggestion", () => {
@@ -74,19 +84,19 @@ it("falls back to a self reading for goals without their own suggestion", () => 
 it("changes topic locally and routes the rail cards to tarot, Oracle prefill and a journal prompt", () => {
   const onGoalSuggestion = jest.fn(), onAsk = jest.fn(), onWritePrompt = jest.fn();
   const screen = render(<HomeExperience {...baseProps} primaryGoal="love" onGoalSuggestion={onGoalSuggestion} onAsk={onAsk} onWritePrompt={onWritePrompt} />);
-  expect(screen.getByText("Dành cho bạn · Tình yêu")).toBeTruthy();
+  expect(screen.getByText("Dành cho bạn · Tình cảm")).toBeTruthy();
   fireEvent.press(screen.getByLabelText("Hỏi về một người. Kể Nilaza nghe về người ấy"));
   expect(onAsk).toHaveBeenLastCalledWith("Mình đang nghĩ về một người và muốn hiểu rõ cảm xúc của mình.");
   fireEvent.press(screen.getByText("Viết về một mối quan hệ"));
   expect(onWritePrompt).toHaveBeenLastCalledWith("Viết về một mối quan hệ");
   fireEvent.press(screen.getByText("Đổi chủ đề"));
-  expect(screen.getByText("Dành cho bạn · Sự nghiệp")).toBeTruthy();
+  expect(screen.getByText("Dành cho bạn · Công việc")).toBeTruthy();
   fireEvent.press(screen.getByLabelText("Trải bài sự nghiệp. Một câu hỏi về công việc"));
   expect(onGoalSuggestion).toHaveBeenLastCalledWith("career");
   fireEvent.press(screen.getByText("Đổi chủ đề"));
   expect(screen.getByText("Dành cho bạn · Bản thân")).toBeTruthy();
   fireEvent.press(screen.getByText("Đổi chủ đề"));
-  expect(screen.getByText("Dành cho bạn · Tình yêu")).toBeTruthy();
+  expect(screen.getByText("Dành cho bạn · Tình cảm")).toBeTruthy();
 });
 
 it("matches the subtitle to the time of day", () => {
@@ -103,4 +113,28 @@ it("shows one next step card that runs its action (analysis HO-05)", () => {
   expect(onPress).toHaveBeenCalledTimes(1);
   screen.rerender(<HomeExperience {...baseProps} revealed />);
   expect(screen.queryByText("Bước tiếp theo")).toBeNull();
+});
+
+it("shows today's book quote card after the two tiles and the whole card opens it", () => {
+  const onPress = jest.fn();
+  const screen = render(<HomeExperience {...baseProps} bookQuote={{ book: "Suy tưởng", quote: "Bạn có quyền với tâm mình.", onPress }} />);
+  expect(screen.getByText("MỘT CÂU CHO HÔM NAY")).toBeTruthy();
+  expect(screen.getByText("Suy tưởng")).toBeTruthy();
+  expect(screen.getByText("“Bạn có quyền với tâm mình.”")).toBeTruthy();
+  expect(screen.getByText("Đọc lời bình và câu hỏi →")).toBeTruthy();
+  fireEvent.press(screen.getByLabelText("Một câu cho hôm nay. Suy tưởng. Bạn có quyền với tâm mình. Đọc lời bình và câu hỏi"));
+  expect(onPress).toHaveBeenCalledTimes(1);
+  expect(render(<HomeExperience {...baseProps} />).queryByTestId("home-book-quote")).toBeNull();
+});
+
+it("every Home card has a target and a visible action label", () => {
+  const onAstrology = jest.fn(), onWritePrompt = jest.fn();
+  const screen = render(<HomeExperience {...baseProps} onAstrology={onAstrology} onWritePrompt={onWritePrompt} primaryGoal="love" />);
+  fireEvent.press(screen.getByLabelText("Bầu trời của bạn. Thêm ngày sinh để nhận lời nhắn theo cung mỗi ngày. Xem bầu trời của bạn"));
+  expect(onAstrology).toHaveBeenCalledTimes(1);
+  expect(screen.getByText("Trải bài →")).toBeTruthy();
+  expect(screen.getByText("Hỏi Nilaza →")).toBeTruthy();
+  expect(screen.getByText("Viết →")).toBeTruthy();
+  fireEvent.press(screen.getByLabelText("Viết về một mối quan hệ. Viết vào nhật ký"));
+  expect(onWritePrompt).toHaveBeenCalledWith("Viết về một mối quan hệ");
 });

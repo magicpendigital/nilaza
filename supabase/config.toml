@@ -30,6 +30,16 @@ enabled = false
 [functions.marketing-waitlist]
 verify_jwt = false
 
+# Tarot v2 pack 1 (16/11): the signed-out guest draw. A guest has no account, so there is no JWT to verify. The function
+# computes cards only (no database, no model) from TAROT_GUEST_DRAW_SECRET, validates every field and bounds the body.
+[functions.tarot-guest-draw]
+verify_jwt = false
+
+# Billing lot 1 (15/11): called by RevenueCat servers, which cannot send a Supabase JWT. The function
+# itself refuses every request whose Authorization header does not match REVENUECAT_WEBHOOK_AUTH.
+[functions.revenuecat-webhook]
+verify_jwt = false
+
 [functions.account-delete]
 verify_jwt = true
 
@@ -45,6 +55,11 @@ verify_jwt = true
 verify_jwt = true
 
 [functions.ai-astrology-insight]
+verify_jwt = true
+
+# Numerology private message (25/11): signed-in Premium accounts only; the function checks the JWT again, refuses anonymous
+# accounts and stays off (switch seeded enabled = false) until the Owner turns it on.
+[functions.ai-numerology-message]
 verify_jwt = true
 # Paths to self-signed certificate pair.
 # cert_path = "../certs/my-cert.pem"

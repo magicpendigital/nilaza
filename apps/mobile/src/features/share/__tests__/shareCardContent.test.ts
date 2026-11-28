@@ -1,4 +1,17 @@
-import { big3Model, readingModel, singleSunSign, todayCardModel } from "../shareCardContent";
+import { big3Model, dailySkyModel, numerologyModel, readingModel, singleSunSign, todayCardModel } from "../shareCardContent";
+
+it("builds the daily-sky card from the public sky only", () => {
+  const model = dailySkyModel({ language: "vi", moonSign: "taurus", phaseName: "Trăng tròn", headline: "Một ngày để chậm lại. " + "x".repeat(300) });
+  expect(model.surface).toBe("daily_sky");
+  expect(model.eyebrow).toBe("Bầu trời hôm nay");
+  expect(model.title).toBe("Trăng ở Kim Ngưu");
+  expect(model.rows).toEqual([{ glyph: "☽", label: "Pha trăng", value: "Trăng tròn" }]);
+  expect(model.message.length).toBeLessThanOrEqual(150);
+  expect(model.images).toEqual([]);
+  expect(model.signName).toBeUndefined();
+  expect(model.cardNames).toBeUndefined();
+  expect(dailySkyModel({ language: "en", moonSign: "leo", phaseName: "", headline: "A slow day." }).title).toBe("Moon in Leo");
+});
 
 const image = { uri: "card" };
 const everyText = (model: ReturnType<typeof todayCardModel>) =>
@@ -31,6 +44,18 @@ it("prints card names and positions for a reading and marks reversed cards", () 
   expect(model.lines).toEqual(["Past · The Fool", "Present · The Star · Reversed"]);
   expect(model.images.map((item) => item.reversed)).toEqual([false, true]);
   expect(model.message).toBe("A gentle shift is possible when you slow down.");
+});
+
+it("keeps all four cards of the largest spread and no more", () => {
+  const card = (n: number) => ({ position: `P${n}`, name: `Card ${n}`, reversed: n % 2 === 0, image });
+  const four = readingModel({ language: "en", cards: [1, 2, 3, 4].map(card), summary: "Hold steady." });
+  expect(four.images).toHaveLength(4);
+  expect(four.lines).toHaveLength(4);
+  expect(four.title).toBe("4 cards");
+  expect(four.cardNames).toEqual(["Card 1", "Card 2", "Card 3", "Card 4"]);
+  const five = readingModel({ language: "vi", cards: [1, 2, 3, 4, 5].map(card), summary: "Hold steady." });
+  expect(five.images).toHaveLength(4);
+  expect(five.title).toBe("4 lá bài");
 });
 
 it("keeps the question, notes and mood out of the reading card even when the input carries them", () => {
@@ -84,4 +109,15 @@ it("exposes only public names for the share message: card names for cards, one c
   expect(JSON.stringify(reading.cardNames)).not.toContain("nghỉ việc");
   expect(big3Model({ language: "en", sun: ["leo"], moon: [], timeKnown: false }).signName).toBe("Leo");
   expect(big3Model({ language: "en", sun: ["leo", "virgo"], moon: [], timeKnown: false }).signName).toBeUndefined();
+});
+
+test("the number-map card shows numbers only and keeps the reflection note", () => {
+  const model = numerologyModel({ language: "vi", lifePath: "11/2", birthday: "6", expression: "8", lifePathTitle: "Người lắng nghe" });
+  expect(model.surface).toBe("numerology_map");
+  expect(model.rows.map((row) => row.value)).toEqual(["11/2", "6", "8"]);
+  expect(model.title).toBe("Người lắng nghe");
+  expect(model.note).toContain("không phải dự đoán");
+  expect(model.cardNames).toBeUndefined();
+  expect(model.signName).toBeUndefined();
+  expect(numerologyModel({ language: "en", lifePath: "7", birthday: "3" }).rows).toHaveLength(2);
 });

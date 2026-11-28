@@ -19,11 +19,15 @@ export type ProfileHomeProps = {
   reminder: DailyReminder;
   onReminderChange: (next: DailyReminder) => void;
   onEdit: () => void;
+  /** Lô 4: the name card opens "Tôi là ai". */
+  onWhoAmI?: () => void;
   onPreferences: () => void;
   onBirth: () => void;
   onNotifications: () => void;
   onPrivacy: () => void;
   onUsage: () => void;
+  /** "Gói của bạn" row (Lô 1): plan status such as Premium or free; shown only while the paywall is on. */
+  plan?: string;
   onAccount: () => void;
   onHelp: () => void;
   onLegal: () => void;
@@ -75,11 +79,16 @@ export function ProfileHome(props: ProfileHomeProps) {
     <View style={s.root}>
       <Text style={s.title} accessibilityRole="header">{vi ? "Tôi" : "Me"}</Text>
       <View style={s.identity}>
-        <View style={s.avatar}><Text style={s.avatarText}>{props.name.slice(0, 1).toUpperCase()}</Text></View>
-        <View style={s.flex}>
-          <Text style={s.name}>{props.name}</Text>
-          {subtitle ? <Text style={s.rowDetail}>{subtitle}</Text> : null}
-        </View>
+        <Pressable accessibilityRole={props.onWhoAmI ? "button" : undefined} disabled={!props.onWhoAmI} onPress={props.onWhoAmI}
+          accessibilityLabel={props.onWhoAmI ? (vi ? `${props.name}, mở Tôi là ai` : `${props.name}, open Who am I`) : undefined}
+          style={s.identityCard}>
+          <View style={s.avatar}><Text style={s.avatarText}>{props.name.slice(0, 1).toUpperCase()}</Text></View>
+          <View style={s.flex}>
+            <Text style={s.name}>{props.name}</Text>
+            {subtitle ? <Text style={s.rowDetail}>{subtitle}</Text> : null}
+            {props.onWhoAmI ? <Text style={s.whoAmI}>{vi ? "Tôi là ai ›" : "Who am I ›"}</Text> : null}
+          </View>
+        </Pressable>
         <Pressable accessibilityRole="button" accessibilityLabel={vi ? "Sửa tên và ngôn ngữ" : "Edit name and language"} onPress={props.onEdit} style={s.edit}>
           <Text style={s.editText}>{vi ? "Sửa" : "Edit"}</Text>
         </Pressable>
@@ -107,7 +116,7 @@ export function ProfileHome(props: ProfileHomeProps) {
       <Section title={vi ? "Cá nhân hóa" : "Personalisation"}>
         <Row icon="sparkles-outline" title={vi ? "Mục tiêu" : "Goals"} detail={props.goals} onPress={props.onPreferences} />
         <Row icon="chatbubble-ellipses-outline" title={vi ? "Giọng trò chuyện" : "Conversation tone"} detail={props.tone} onPress={props.onPreferences} />
-        <Row icon="planet-outline" title={vi ? "Ngày sinh & lá số" : "Birth date & chart"} detail={props.birth} onPress={props.onBirth} />
+        <Row icon="planet-outline" title={vi ? "Ngày sinh, tên & bản đồ" : "Birth date, name & maps"} detail={props.birth} onPress={props.onBirth} />
         <Row icon="language-outline" title={vi ? "Ngôn ngữ" : "Language"} detail={props.languageLabel} onPress={props.onEdit} />
       </Section>
 
@@ -138,7 +147,9 @@ export function ProfileHome(props: ProfileHomeProps) {
       </Section>
 
       <Section title={vi ? "Tài khoản" : "Account"}>
-        <Row icon="pulse-outline" title={vi ? "Lượt dùng hôm nay" : "Today's usage"} onPress={props.onUsage} />
+        {props.plan ? <Row icon="diamond-outline" title={vi ? "Gói của bạn" : "Your plan"} detail={props.plan} onPress={props.onUsage} /> : null}
+        <Row icon="flash-outline" title={vi ? "Năng lượng hôm nay" : "Today's energy"}
+          detail={vi ? "Lượt dùng AI còn lại trong ngày" : "AI uses left today"} onPress={props.onUsage} />
         <Row icon="help-circle-outline" title={vi ? "Trợ giúp" : "Help"} onPress={props.onHelp} />
         <Row icon="document-text-outline" title={vi ? "Điều khoản & Quyền riêng tư" : "Terms & Privacy"} onPress={props.onLegal} />
         {props.onAdmin ? <Row icon="construct-outline" title={vi ? "Trung tâm quản trị" : "Admin centre"} onPress={props.onAdmin} /> : null}
@@ -157,6 +168,8 @@ const s = StyleSheet.create({
   flex: { flex: 1, minWidth: 0 },
   title: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 36, lineHeight: 40 },
   identity: { flexDirection: "row", alignItems: "center", gap: 14 },
+  identityCard: { flex: 1, minWidth: 0, minHeight: layout.minimumTouchTarget, flexDirection: "row", alignItems: "center", gap: 14 },
+  whoAmI: { color: colors.gold, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 12.5, marginTop: 4 },
   avatar: { width: 56, height: 56, borderRadius: 28, backgroundColor: "rgba(201, 164, 92, 0.18)", alignItems: "center", justifyContent: "center" },
   avatarText: { color: colors.gold, fontFamily: typography.headlineRegularFontFamily, fontSize: 26 },
   name: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 24 },

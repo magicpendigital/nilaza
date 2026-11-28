@@ -9,6 +9,7 @@ import { astrologySignIds } from "./contracts";
 import type { AstrologyAiInsightResponse } from "./astrologyAiInsight";
 import { validAstrologyAiResponse, type AstrologyAiSavedContext } from "./astrologyAiValidation";
 import { parseAnswerProvenance, type AnswerProvenance } from "../../../../../packages/ai-contracts/answer-provenance";
+import { clearBirthProfileLock, validBirthProfileLock, type BirthProfileLock } from "./birthProfileLock";
 export const astrologyStorageKey = "nilaza.astrology.v2";
 export interface AstrologyPersistence {
   loadJson<T>(key: string, fallback: T): Promise<T>;
@@ -67,6 +68,8 @@ export type AstrologyData = {
   reports: SavedChart[];
   /** Optional so records saved before synastry stay valid. */
   people?: SavedPerson[];
+  /** Nil P1-B: local lock on the user's own birth details (hashes only). Optional for older records. */
+  birthProfileLock?: BirthProfileLock;
   notes: {
     id: string;
     title: string;
@@ -158,6 +161,7 @@ export function validAstrologyData(value: unknown): value is AstrologyData {
             validateChart(p.chart).length === 0 &&
             validStoredInput(p),
         ))) &&
+    (d.birthProfileLock === undefined || validBirthProfileLock(d.birthProfileLock)) &&
     Array.isArray(d.notes) &&
     d.notes.length <= 100 &&
     d.notes.every(
@@ -190,6 +194,18 @@ function validStoredInput(report: Pick<SavedChart, "input" | "chart">) {
     return false;
   }
 }
+// Tôi là ai > Báo cáo đã lưu: same local effect as the Chiêm tinh delete (the chart and its notes go).
+// The caller deletes any synced AI report first. Invalid stored data is never overwritten.
+export async function removeSavedChart(storage: AstrologyPersistence, chartId: string) {
+  const data = await storage.loadJson<unknown>(astrologyStorageKey, freshAstrologyData());
+  if (!validAstrologyData(data)) throw new Error("Invalid stored astrology data");
+  if (!data.reports.some((chart) => chart.id === chartId)) return;
+  await storage.saveJsonOrThrow(astrologyStorageKey, {
+    ...data,
+    reports: data.reports.filter((chart) => chart.id !== chartId),
+    notes: data.notes.filter((note) => note.id !== chartId),
+  });
+}
 export async function clearAstrologyBirthData(storage: AstrologyPersistence) {
   const data = await storage.loadJson<unknown>(
     astrologyStorageKey,
@@ -197,5 +213,9 @@ export async function clearAstrologyBirthData(storage: AstrologyPersistence) {
   );
   if (!validAstrologyData(data))
     throw new Error("Invalid stored astrology data");
-  await storage.saveJsonOrThrow(astrologyStorageKey, { ...data, reports: [], people: [] });
+  // The birth-profile lock keeps its edit history but forgets the current details (new salt).
+  const birthProfileLock = clearBirthProfileLock(data.birthProfileLock);
+  await storage.saveJsonOrThrow(astrologyStorageKey, {
+    ...data, reports: [], people: [], ...(birthProfileLock ? { birthProfileLock } : {}),
+  });
 }

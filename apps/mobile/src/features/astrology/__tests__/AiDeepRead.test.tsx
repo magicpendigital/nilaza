@@ -6,7 +6,7 @@ const base = { language: "vi" as const, premiumOnSale: false, onWrite: jest.fn()
 
 test("while Premium is not on sale a locked account sees a plain note, never \"Sắp ra mắt\" (UX review K4)", () => {
   const screen = render(<AiDeepRead {...base} available={false} status="locked" />);
-  expect(screen.getByText(/Một bài đọc riêng nối Mặt Trời/)).toBeTruthy();
+  expect(screen.getByText(/bài đọc riêng nối Mặt Trời/)).toBeTruthy();
   expect(screen.getByText("Bài đọc sâu chưa mở cho tài khoản này.")).toBeTruthy();
   expect(screen.queryByText("Có trong Premium")).toBeNull();
   expect(screen.queryByText(/Sắp ra mắt/)).toBeNull();
@@ -42,4 +42,18 @@ test("a crisis answer shows the 115 support card instead of a plain error (UX re
   const screen = render(<AiDeepRead {...base} available status="error" crisis error="ignored" />);
   expect(screen.getByText("Gọi 115")).toBeTruthy();
   expect(screen.getByText(/hãy gọi 115/)).toBeTruthy();
+});
+
+test("while Premium is offered the Premium button opens the Premium section", () => {
+  const onOpenPremium = jest.fn();
+  const screen = render(<AiDeepRead {...base} premiumOnSale available={false} status="locked" onOpenPremium={onOpenPremium} />);
+  fireEvent.press(screen.getByText("Có trong Premium"));
+  expect(onOpenPremium).toHaveBeenCalledTimes(1);
+  expect(screen.queryByText("Mở mục Tôi để xem gói Premium.")).toBeNull();
+});
+
+test("without a Premium destination the button still explains where to go", () => {
+  const screen = render(<AiDeepRead {...base} premiumOnSale available={false} status="locked" />);
+  fireEvent.press(screen.getByText("Có trong Premium"));
+  expect(screen.getByText("Mở mục Tôi để xem gói Premium.")).toBeTruthy();
 });

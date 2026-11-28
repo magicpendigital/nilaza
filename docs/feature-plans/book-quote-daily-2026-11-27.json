@@ -1,0 +1,199 @@
+{
+  "schemaVersion": 1,
+  "taskId": "book-quote-daily-2026-11-27",
+  "ownerAgent": "mobile_agent",
+  "lane": "Mobile + content data: \"Một câu cho hôm nay\" (daily book quote), v1 on-device and free (proposal NEW_REFLECTION_MODALITIES_2026-11-27 section 2, batch 2; Owner approved the design and asked to start coding 27/11/2026)",
+  "goal": "Add the daily book quote feature: one file per book under packages/content/data/book-quotes/ (Đạo Đức Kinh, Kinh Dịch, Suy tưởng, Kinh Pháp Cú, Binh pháp Tôn Tử) with 3 clearly-marked draft sample items each; a typed loader and a deterministic pick by local calendar date plus book; a screen \"Một câu cho hôm nay\" with book tabs, quote, attribution, gloss, question and three actions (ask the book guide with the quote as chat context, write in the Journal with the question as prompt, save locally); entry points on Home (card after the two-tile row), on the five book guide pages and in Explore under a new \"Soi chiếu\" group; saved quotes in the account's local storage, included in the data export and removed by \"Xóa dữ liệu\"; validate:data checks for the new files; and the Home audit that every card-looking element has a real target and an action label.",
+  "successCriteria": [
+    "Five JSON files under packages/content/data/book-quotes/ follow the agreed schema, each with 3 draft sample items marked sample: true, and every personaId exists in personas-books.json and matches knowledge-briefs/index.json.",
+    "The same local date and book always give the same item (unit test), different books can differ, the Home card rotates the book by date, and reopening the screen within a day shows the same quote.",
+    "The screen shows tabs for the five books, date line, ref, serif quote, attribution with \"Nilaza dịch\", LỜI BÌNH, CÂU HỎI CHO BẠN, the three actions, \"Các sách khác hôm nay\" and the footnote, in Vietnamese and English, with accessibility labels and Android Back returning to the screen it came from.",
+    "\"Hỏi tiếp\" opens the existing persona chat room for the book's guide with a book_quote hand-off context (sourceLabel, userQuestion, safeSummary only); no Edge Function changes.",
+    "Saved quotes persist under nilaza.bookQuotes.saved.v1 in account storage, appear in the local export, and are removed by the existing account-prefix wipe (test).",
+    "Every card-looking element on Home has a target and a visible action label; static info does not look like a card.",
+    "validate:data checks schema, unique ids, accented vi + en, review block (status draft | reviewed | approved; a sample file must not be approved), 64 Kinh Dịch items when not sample, persona ids, and the banned-word list on gloss and question (quotes exempt); the sample files pass.",
+    "Feature id book_quote lives in one exported constant. Draft gate closed (SHOW_DRAFT_BOOK_QUOTES = false, coordinator QA round 1): only files with review.status \"approved\" (content review passed AND Owner approved) reach users; samples are never approved. Every entry point respects the gate: no Home card, no Explore row, no persona-page button while nothing is approved; the screen itself shows a calm empty state with a working Back.",
+    "Mobile tsc, mobile jest and validate:data pass.",
+    "Ship step: the five files hold the reviewed content (DDK 60, Kinh Dịch 64, Suy tưởng 59, Pháp Cú 60, Binh pháp 60), review.status approved with reviewer and date, no sample flag; tests prove the shipped books are visible with the gate closed and that a non-approved file stays hidden on every entry point."
+  ],
+  "writeScope": [
+    "packages/content/data/book-quotes/",
+    "apps/mobile/src/features/bookQuote/",
+    "apps/mobile/src/features/home/HomeExperience.tsx",
+    "apps/mobile/src/features/home/__tests__/HomeExperience.test.tsx",
+    "apps/mobile/src/features/explore/ExploreHome.tsx",
+    "apps/mobile/src/features/explore/__tests__/",
+    "apps/mobile/src/features/privacy/localExport.ts",
+    "apps/mobile/src/features/privacy/__tests__/localExport.test.ts",
+    "apps/mobile/src/types.ts",
+    "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
+    "apps/mobile/App.tsx",
+    "scripts/validate-data.mjs",
+    "docs/content-reviews/book-quotes-ddk-kd-2026-11-27.json",
+    "docs/content-reviews/book-quotes-b2-2026-11-27.json",
+    "PLAN.md",
+    "apps/admin/workflow-catalog.js"
+  ],
+  "untouchedSurfaces": [
+    "No Edge Function, prompt, model route, SQL, migration, Admin or Supabase change; the hand-off uses the generic fields the existing chat-handoff block already reads.",
+    "useFeatureAccess and the Admin Free/Premium switch are built by another agent; this batch only exports the feature id constant.",
+    "Bói Kiều and Rune tiles are not added; Explore's Soi chiếu group has one item and a documented extension point.",
+    "Ship step (27/11/2026, Owner approved content and merge): the sample files are replaced by the 303 reviewed items from the content branches (book-quotes-content-a/-b), each file marked approved; both review records and both content plan records travel with this PR. No Edge Function, SQL or Admin change.",
+    "Admin: only the App.tsx source digest in apps/admin/workflow-catalog.js is refreshed (CI contract check); no Admin behaviour change."
+  ],
+  "impact": {
+    "entryPoint": "Home card \"MỘT CÂU CHO HÔM NAY\" after the sky/sign tile row; a button on the five book guide detail pages; Explore → Soi chiếu → Một câu cho hôm nay. New Screen value bookQuote with its own return screen; Android Back and the on-screen back return there.",
+    "dataWrite": "Saved quotes (id, book, date key, saved time and the shown text snapshot) in account-scoped AsyncStorage key nilaza.bookQuotes.saved.v1 through the existing createAccountStorage; guests keep them in memory only. Included in buildLocalExport; removed by the existing account-prefix clear. No Supabase writes.",
+    "backendContract": "No new API. \"Hỏi tiếp\" reuses openChat(room, personaId, handoffContext) and the existing persona chat Edge Function, which reads only sourceLabel, userQuestion and safeSummary from the hand-off context; sourceType book_quote is a new client-side enum value used in local events.",
+    "adminVisibility": "None in v1. Usage events book_quote_opened / book_quote_saved / book_quote_chat_opened / book_quote_journal_opened go to the existing local recordEvent; Admin gating comes with the later Free/Premium switch (feature id book_quote).",
+    "privacySafety": "Quotes are curated public-domain text; gloss and question pass the banned-word check (no prediction, no luck, no instructions). Saved quotes are not sensitive and never leave the device except through the user's own export. No journal or chat content is read by the feature.",
+    "observability": "Local usage events above; validate:data reports book-quote schema and banned-word failures in CI.",
+    "rollback": "Remove the Home card, Explore group and guide button props (or revert the commit); saved data stays harmless under its own key and is still wiped by Xóa dữ liệu."
+  },
+  "canonicalContracts": [
+    "packages/content/data/book-quotes/*.json schema (schemaVersion 1, as given by the coordinating agent)",
+    "apps/mobile/src/features/bookQuote/content.ts (loader, gate and deterministic pick)",
+    "apps/mobile/src/features/bookQuote/savedQuotes.ts (storage key and shape)"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries: no push, merge, deploy, SQL or secrets in this batch.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile and content routes and required checks.",
+      "sha256": "e508d09a9fdffc78da809a4f1449f1d77999186b9bd371870bd8582e132075e1"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules for the record and allowlisted commands.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/NEW_REFLECTION_MODALITIES_2026-11-27.vi.md",
+      "reason": "Approved design: sections 0 (principles), 2 (feature) and 7 (entry points); Marcus sample text.",
+      "sha256": "2832cbbc50375f2109b7d6bdac5caa8e9f789c197a8e33a712ef273ecf08bb18"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Screen routing, Android Back, openChat hand-off, journal prompt flow, persona detail page, export and delete wiring.",
+      "sha256": "c1029bd631572afced1f961e20af1e9baab21e60f0bc2c8e51ce8583ec1d917b"
+    },
+    {
+      "path": "apps/mobile/src/features/home/HomeExperience.tsx",
+      "reason": "Home layout for the new card and the card/action-label audit.",
+      "sha256": "47d346620db6a7e1efe937e10f57181fbc4385c96d9c131f5a446d84e6db2488"
+    },
+    {
+      "path": "apps/mobile/src/features/explore/ExploreHome.tsx",
+      "reason": "Explore groups for the new Soi chiếu group.",
+      "sha256": "37d5a8b8a13a1c16be56a45ee24fde2239921959999bf211f801c63709fe9817"
+    },
+    {
+      "path": "apps/mobile/src/features/privacy/localExport.ts",
+      "reason": "Export key list to extend with saved quotes.",
+      "sha256": "9b88c3c848ebe0173f7f4111d0096670d8ba9c4b4bbd48d2d5e6d8aa9cf6e0da"
+    },
+    {
+      "path": "apps/mobile/src/auth/accountStorage.ts",
+      "reason": "Account-scoped storage and the prefix wipe used by Xóa dữ liệu.",
+      "sha256": "330a0213be9886821b4efe38983116adb9941188153de192edfae0d0c9797cd2"
+    },
+    {
+      "path": "supabase/functions/_shared/chat-handoff.ts",
+      "reason": "Confirms the server reads only generic hand-off fields, so a new client sourceType needs no deploy.",
+      "sha256": "79adfd151c6518a4b2618426dfda99e04c7e0ee40a967ffc5358c2df9ff26927"
+    },
+    {
+      "path": "scripts/validate-data.mjs",
+      "reason": "Existing data checks and banned-word pattern style to extend.",
+      "sha256": "90938ab66ea20664685df3af57dfd3a7f8bb92a2c8659b7378bf059d74c8076d"
+    },
+    {
+      "path": "packages/content/data/knowledge-briefs/index.json",
+      "reason": "Book slug to persona id mapping.",
+      "sha256": "fb47a35ebb8ae2309ff08ea67433aae426c3747a43869c6c867a61e656dea4b2",
+      "note": "Re-hashed 27/11 after Vận 9 (PR #78) changed this file; the change does not affect this feature."
+    },
+    {
+      "path": "packages/content/data/personas-books.json",
+      "reason": "Persona ids the quote files reference.",
+      "sha256": "cbe90366e58bb7eccc40a7ea37bfd6202044dda2e73447a89b6217169f3f88d8"
+    },
+    {
+      "path": "apps/mobile/src/types.ts",
+      "reason": "ChatHandoffContext sourceType union to extend with book_quote.",
+      "sha256": "7b04ebf44e2852d8333c7457cc6c410d62935d7f2e5e568aaff0baf4a0220364"
+    },
+    {
+      "path": "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
+      "reason": "Hand-off banner icon and title map, which need a book_quote entry for the new sourceType.",
+      "sha256": "63b88404e5ad780cd635ad1b11acc500c98416ab950df13f1f3ac8857f8638b8"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Followed: impact brief, preflight before the first edit, required mobile checks, no push or merge without Owner approval."
+    },
+    {
+      "name": "nilaza-content-review",
+      "decision": "verified-current",
+      "evidence": "Sample items are placeholders marked draft and sample; the real quote sets go through this skill on the content branches before Owner review."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "New UI uses existing theme tokens (colors, radius, typography: EB Garamond for the quote, Hanken Grotesk for body) and no new imagery or brand asset."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "No prompt, route or Edge Function change; Hỏi tiếp reuses the persona chat hand-off block, which reads only sourceLabel, userQuestion and safeSummary."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No library or API added; uses AsyncStorage through the existing storage layer and existing React Native components."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No server access change; storage stays account-scoped through createAccountStorage.",
+    "sensitiveData": "Saved quotes hold curated text and ids only; no journal, chat or birth data is read or written by the feature.",
+    "secretsLogging": "No secret read, written or logged; .env not read.",
+    "externalInput": "All content is bundled JSON validated by validate:data; the loader skips malformed items instead of crashing.",
+    "dependencies": "No package added or upgraded.",
+    "migrationRelease": "No SQL, no deploy, no store release; Android users need a new build to see it.",
+    "stopCondition": "Stop if tsc, jest or validate:data fail and cannot be fixed inside the write scope, or if an Edge Function change turns out to be needed.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record written on branch claude/book-quote-daily cut from origin/main 9ddf635 before any feature edit (27/11/2026) and passed preflight then. During implementation the scope grew by one file, apps/mobile/src/features/persona/PersonaChatRoom.tsx (its hand-off banner map needs a book_quote entry or tsc fails); sourceReview hashes were refreshed to the final reviewed versions and preflight was rerun. The paths below are this batch's own edits. QA round 1 (coordinator, 27/11/2026): draft gate closed, entry points gated, empty state, review statuses draft/reviewed/approved; hashes refreshed again and the paths below are the QA round 1 edits on top of commit 1639d48.",
+    "paths": [
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/features/bookQuote/BookQuoteScreen.tsx",
+      "apps/mobile/src/features/bookQuote/__tests__/BookQuoteScreen.test.tsx",
+      "apps/mobile/src/features/bookQuote/__tests__/content.test.ts",
+      "apps/mobile/src/features/bookQuote/content.ts",
+      "apps/mobile/src/features/explore/__tests__/ExploreHome.test.tsx",
+      "scripts/validate-data.mjs"
+    ]
+  },
+  "validationCommands": [
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "npm run validate:data"
+  ],
+  "managerTestPath": "Bản hiện tại: nội dung mẫu chưa được duyệt nên người dùng KHÔNG thấy tính năng — Hôm nay không có thẻ \"Một câu cho hôm nay\", Khám phá không có nhóm Soi chiếu, trang người dẫn sách không có nút. Khi một sách được duyệt (review.status = approved sau content review và Owner duyệt): Hôm nay → thẻ \"Một câu cho hôm nay\" → câu trích, Lời bình, Câu hỏi → \"Lưu câu này\" → Back của Android về Hôm nay → mở lại: vẫn câu cũ; Trò chuyện → người dẫn sách đó → nút \"Một câu cho hôm nay\"; Khám phá → Soi chiếu; Hồ sơ → Xuất dữ liệu có mục bookQuotesSaved.",
+  "residualRisk": "Feature is invisible to users until real content is reviewed and Owner-approved; sample quotes stay draft. Device behaviour (Back, TalkBack, large text) is not verified on a phone; the pick changes when a book's item list grows, so the first day after a content update may show a different quote than earlier that day.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

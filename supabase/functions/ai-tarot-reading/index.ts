@@ -1,263 +1,69 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.7.1";
-import { generateWithModelRoute } from "../_shared/model-router.ts";
-import { sanitizeProviderMetadata } from "../_shared/model-provider.ts";
-import { assembleTarotSystem, tarotContentVersion, prepareTarotContext, resolveTarotPrompt, tarotModelMessage, tarotPromptMetadata, tarotPromptTraceMetadata } from "../_shared/tarot-prompt.ts";
-import { readPublishedTarotContent } from "../_shared/tarot-content.ts";
-import { AiRequestError, aiAuthUserOrUnavailable, guardAiJsonRequest } from "../_shared/ai-request-guard.ts";
-
-import { answerCorsHeaders, readAnswerCorrelation } from "../_shared/answer-provenance.ts";
-import { answerProvenanceSchema, isIncompleteAnswerFinishReason, type AnswerProvenance } from "../../../packages/ai-contracts/answer-provenance.ts";
-import { checkTarotOutputText, tarotOutputSchema } from "../../../packages/ai-contracts/tarot-output.ts";
-import { writeAnswerReceipt } from "../_shared/answer-receipt.ts";
+import { generateWithModelRoute, resolveFeatureRoute } from "../_shared/model-router.ts";
 import { claimDailyAttempt } from "../_shared/daily-attempts.ts";
-import { featurePaused, featurePausedBody } from "../_shared/feature-switch.ts";
-import { localDayStart, tarotDailyLimits } from "../_shared/account-tier-policy.ts";
-import { configuredDailyLimit, readActiveFeatureConfig } from "../_shared/feature-config.ts";
+import { invokeDecision } from "../_shared/providers/decisions.ts";
+import { READER_ROUTER_DAILY_LIMIT } from "../_shared/reader-router.ts";
+import { resolveTarotPrompt, tarotContentVersion } from "../_shared/tarot-prompt.ts";
+import { readPublishedTarotContent } from "../_shared/tarot-content.ts";
+import { aiAuthUserOrUnavailable } from "../_shared/ai-request-guard.ts";
+import { writeAnswerReceipt } from "../_shared/answer-receipt.ts";
+import { featurePaused } from "../_shared/feature-switch.ts";
+import { readActiveFeatureConfig } from "../_shared/feature-config.ts";
+import { PREMIUM_ENTITLEMENTS, resolveServerTier } from "../_shared/premium-entitlement.ts";
+import { createTarotHandler } from "./handler.ts";
+import { createSupabaseTarotStore, type ServiceClient } from "./store.ts";
 
-type LocalizedText = {
-  vi?: string;
-  en?: string;
-  [key: string]: string | undefined;
-};
-
-type TarotInput = {
-  language?: "vi" | "en" | string;
-  deck?: {
-    id?: string;
-    slug?: string;
-    name?: LocalizedText;
-  };
-  topic?: string;
-  spread?: string;
-  question?: string;
-  selectedCards?: Array<{
-    id: string;
-    name?: LocalizedText;
-    reversed?: boolean;
-    orientation?: "upright" | "reversed";
-    spread?: string;
-    positionKey?: string;
-    positionLabel?: LocalizedText;
-    reflectionQuestion?: LocalizedText;
-  }>;
-};
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": answerCorsHeaders
-};
-
-function localize(value: LocalizedText | undefined, language: string, fallback: string) {
-  if (!value) return fallback;
-  return value[language] ?? value.en ?? value.vi ?? fallback;
-}
-
-function jsonResponse(body: Record<string, unknown>, status = 200) {
-  return new Response(JSON.stringify(body), {
-    headers: { ...corsHeaders, "Content-Type": "application/json" },
-    status
+// P1-A (2026-11-15) one event, one answer: the server draws the cards and locks them per account, spread, topic and
+// Vietnam day; tarot_readings is written only with the service role through the claim RPCs (migration 20261115100000).
+// The caller's own client (user JWT) verifies the user and keeps the reads and telemetry that already ran under RLS:
+// prompt, switch, content bundle, deck lookup, safety_events and usage_events (tarot_reading_attempted is written by
+// tarot_interpret_claim). Every answer returns persistenceStatus, and a stored answer is replayed with no model call.
+const handler = createTarotHandler(req => {
+  const url = Deno.env.get("SUPABASE_URL"), anonKey = Deno.env.get("SUPABASE_ANON_KEY"), serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  if (!url || !anonKey || !serviceKey) return null;
+  const supabase = createClient(url, anonKey, {
+    global: { headers: { Authorization: req.headers.get("Authorization") ?? "" } },
+    auth: { persistSession: false, autoRefreshToken: false }
   });
-}
-
-serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
-  if (req.method !== "POST") return jsonResponse({ error: "Method not allowed" }, 405);
-
-  let finalizeTrace: Awaited<ReturnType<typeof generateWithModelRoute>>["finalizeTrace"];
-  try {
-    const supabaseUrl = Deno.env.get("SUPABASE_URL");
-    const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY");
-    const authHeader = req.headers.get("Authorization") ?? "";
-    const supabase = supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey, {
-      global: { headers: { Authorization: authHeader } },
-      auth: { persistSession: false, autoRefreshToken: false }
-    }) : null;
-    const { input: requestInput, userId } = await guardAiJsonRequest(req, {
-      configured: Boolean(supabase),
-      authenticate: async (token) => {
-        if (!supabase) return null;
-        const { data, error } = await supabase.auth.getUser(token);
-        return aiAuthUserOrUnavailable(data?.user, error);
-      }
-    });
-    if (!supabase) return jsonResponse({ error: "ai_unavailable" }, 503);
-    // E4 (Admin A6, AD-05): card text and the deck reading style from the published content bundle when it is valid,
-    // otherwise tarot-cards.json. The card IDs, order and orientation still come only from the app's deterministic draw.
-    const publishedContent = await readPublishedTarotContent(supabase);
-    let input;
-    try { input = prepareTarotContext(requestInput, publishedContent); } catch { throw new AiRequestError(400, "invalid_tarot_input"); }
-    // Emergency switch from Admin (AD-10), checked before the limit and any model work.
-    if (await featurePaused(supabase as never, "tarot_reading")) return jsonResponse(featurePausedBody, 503);
-    // AI-02 (Owner 2026-11-04): one delivered AI reading per local day; failed attempts capped. Checked before any model work.
-    // Admin A4: the active ai_feature_configs row may set the delivered readings per day; the failed-attempt allowance stays.
-    const featureConfig = await readActiveFeatureConfig("tarot_reading");
-    const policyTarot = tarotDailyLimits();
-    const deliveredLimit = configuredDailyLimit(featureConfig, policyTarot.delivered);
-    const tarotLimits = { delivered: deliveredLimit, attempts: deliveredLimit + (policyTarot.attempts - policyTarot.delivered) };
-    const { count: deliveredToday, error: deliveredError } = await supabase.from("tarot_readings")
-      .select("id", { count: "exact", head: true })
-      .eq("user_id", userId)
-      .eq("interpretation->>moderationStatus", "passed")
-      .gte("created_at", localDayStart().toISOString());
-    if (deliveredError || deliveredToday === null) return jsonResponse({ error: "usage_check_unavailable" }, 503);
-    if (deliveredToday >= tarotLimits.delivered) return jsonResponse({ error: "daily_limit_reached" }, 429);
-    const attempt = await claimDailyAttempt(supabase as never, {
-      userId, eventName: "tarot_reading_attempted", feature: "tarot_reading", limit: tarotLimits.attempts
-    });
-    if (attempt === "limit_reached") return jsonResponse({ error: "daily_limit_reached" }, 429);
-    if (attempt === "unavailable") return jsonResponse({ error: "usage_check_unavailable" }, 503);
-    const language = input.language;
-    const cards = input.selectedCards;
-    const correlation = readAnswerCorrelation(req, "tarot_reading", language);
-
-    const cardNames = cards.map((card) => localize(card.name, language, card.id)).join(", ");
-    const summary =
-      language === "vi"
-        ? `Các lá đã chọn (${cardNames}) được diễn giải như một công cụ tự phản chiếu, không phải dự đoán chắc chắn. Hãy dùng trải bài này để nhìn rõ cảm xúc, nhu cầu và lựa chọn nhỏ tiếp theo.`
-        : `The selected cards (${cardNames}) are interpreted as a self-reflection tool, not a certain prediction. Use this spread to clarify your feeling, need, and next small choice.`;
-    const reflection =
-      cards.map((card) => localize(card.reflectionQuestion, language, "")).find(Boolean) ||
-      (language === "vi" ? "Điều gì trong mình đang xin được lắng nghe kỹ hơn?" : "What part of me is asking to be heard more carefully?");
-
-    const prompt = await resolveTarotPrompt(supabase, language);
-    const promptMetadata = tarotPromptMetadata(prompt, input.cardContextSource);
-    const promptVersionId = prompt.promptVersionId;
-    const contentVersion = publishedContent?.version ?? await tarotContentVersion();
-
-    let persistenceStatus = "skipped";
-    let remoteId: string | undefined;
-    const generation = await generateWithModelRoute({
-      feature: "tarot_reading",
-      deadlineMs: featureConfig?.deadlineMs,
-      supabase,
-      strictTraceRedaction: true,
-      deferTraceFlush: true,
-      traceContext: {
-        userId,
-        request: req,
-        clientRequestId: correlation.clientRequestId,
-        metadata: {
-          ...correlation,
-          responseSchema: tarotOutputSchema,
-          contentVersion,
-          deckSlug: input.deck?.slug ?? null,
-          spread: input.spread ?? null,
-          cardCount: cards.length,
-          language,
-          promptVersionId,
-          cardContextSource: input.cardContextSource,
-          deckReadingStyleSent: Boolean(input.deck && "readingStyle" in input.deck),
-          ...tarotPromptTraceMetadata(prompt)
-        }
-      },
-      system: assembleTarotSystem(prompt, language),
-      messages: [
-        {
-          role: "user",
-          content: tarotModelMessage(input)
-        }
-      ],
-      fallbackText: JSON.stringify({ summary, reflection }),
-      // LLM phase 0: a malformed primary answer tries the fallback model once before the canned text.
-      acceptOutput: (text, finishReason) => isIncompleteAnswerFinishReason(finishReason)
-        ? "incomplete" : checkTarotOutputText(text, language, cards.map(card => card.id)).reason
-    });
-    finalizeTrace = generation.finalizeTrace;
-    const outputCheck = generation.moderationStatus === "passed" && !isIncompleteAnswerFinishReason(generation.finishReason)
-      ? checkTarotOutputText(generation.text, language, cards.map(card => card.id)) : undefined;
-    const validated = outputCheck?.output;
-    const parsed = validated ?? { summary, reflection, sections: [] };
-    const moderationStatus = generation.moderationStatus === "blocked" ? "blocked" : validated ? "passed" : "fallback";
-    const provenance: AnswerProvenance = {
-      schemaVersion: answerProvenanceSchema, feature: "tarot_reading", ...correlation, locale: language,
-      sourceKind: moderationStatus === "passed" ? "ai" : moderationStatus === "blocked" ? "blocked" : "fallback",
-      generatedAt: new Date().toISOString(), validationStatus: validated ? "validated" : generation.moderationStatus === "passed" ? "rejected" : "not_applicable",
-      persistenceStatus: "unknown", promptVersionId, promptVersion: prompt.promptVersion, promptAssemblyVersion: promptMetadata.promptAssemblyVersion,
-      routeVersionId: generation.routeVersionId, routeVersion: generation.routeVersion, traceId: generation.traceId,
-      providerRequestId: generation.requestId, responseSchema: tarotOutputSchema, contentVersion,
-    };
-
-    if (generation.moderationStatus === "blocked") {
-      await supabase.from("safety_events").insert({
-        user_id: userId,
-        feature: "tarot",
-        reason: "blocked_topic",
-        summary: `tarot_reading blocked: ${generation.safetyReason ?? "safety_filter"}`,
-        status: "open"
-      });
-    }
-    const { data: deckRow } = input.deck?.slug
-      ? await supabase.from("tarot_decks").select("id").eq("slug", input.deck.slug).maybeSingle()
-      : { data: null };
-    const { data: reading, error: readingError } = await supabase
-      .from("tarot_readings")
-      .insert({
-        user_id: userId,
-        deck_id: deckRow?.id ?? null,
-        topic: input.topic ?? "open",
-        spread: input.spread ?? "daily-one",
-        question: input.question ?? null,
-        selected_cards: cards,
-        interpretation: { ...parsed, ...promptMetadata, moderationStatus, provenance: { ...provenance, persistenceStatus: "stored" }, model: sanitizeProviderMetadata(generation) },
-        prompt_version_id: prompt.promptRecordId,
-        language,
-        status: "completed"
-      })
-      .select("id")
-      .single();
-
-    let usageRecorded = false;
-    try {
-    const { error: usageError } = await supabase.from("usage_events").insert({
-      user_id: userId,
-      event_name: "tarot_reading_generated",
-      feature: "tarot_reading",
-      metadata: {
-        deckSlug: input.deck?.slug ?? null,
-        spread: input.spread ?? null,
-        cardCount: cards.length,
-        persistence: readingError ? "reading_error" : "stored",
-        ...promptMetadata,
-        model: sanitizeProviderMetadata(generation)
-      }
-    });
-    usageRecorded = !usageError;
-    } catch { /* Telemetry cannot discard an already persisted answer. */ }
-    persistenceStatus = readingError ? "reading_error" : "stored";
-    remoteId = reading?.id;
-    provenance.persistenceStatus = readingError ? "failed" : "stored";
-    provenance.remoteId = remoteId;
-    await finalizeTrace?.({ status: readingError || provenance.validationStatus === "rejected" ? "error" : moderationStatus === "passed" ? "ok" : moderationStatus, output: { stage: readingError ? "persist" : provenance.validationStatus === "rejected" ? "validation" : "response", validationStatus: provenance.validationStatus, persistenceStatus: provenance.persistenceStatus, usageRecorded,
-      // Content-free reason for a rejected answer (QA 2026-11-02: DeepSeek replies were rejected without a cause on record).
-      ...(outputCheck?.reason ? { rejection: { code: outputCheck.reason } } : {}) } });
-    const receipt = await writeAnswerReceipt({ ...provenance, userId, sectionIds: ["summary", "reflection", ...parsed.sections.map(section => section.key)] });
-    if (receipt) {
-      provenance.answerReceiptId = receipt.receiptId;
-      if (remoteId && !readingError) {
-        try {
-          // Preserve the verified link when this reading is reopened on another device.
-          await supabase.from("tarot_readings").update({
-            interpretation: { ...parsed, ...promptMetadata, moderationStatus, provenance, model: sanitizeProviderMetadata(generation) }
-          }).eq("id", remoteId).eq("user_id", userId);
-        } catch { /* Receipt enrichment cannot discard the already saved answer. */ }
-      }
-    }
-
-    return jsonResponse({
-      summary: parsed.summary,
-      reflection: parsed.reflection,
-      sections: parsed.sections,
-      ...promptMetadata,
-      moderationStatus,
-      provenance,
-      model: sanitizeProviderMetadata(generation),
-      persistenceStatus,
-      remoteId
-    });
-  } catch (error) {
-    await finalizeTrace?.({ status: "error", output: { stage: "request", errorCode: "service_unavailable" } });
-    if (error instanceof AiRequestError) return jsonResponse({ error: error.code }, error.status);
-    return jsonResponse({ error: "service_unavailable" }, 503);
-  }
+  const admin = createClient(url, serviceKey, { auth: { persistSession: false, autoRefreshToken: false } });
+  let userCreatedAt: string | null = null;
+  return {
+    authenticate: async token => {
+      const { data, error } = await supabase.auth.getUser(token);
+      userCreatedAt = data?.user?.created_at ?? null;
+      return aiAuthUserOrUnavailable(data?.user, error);
+    },
+    // Tarot v2 pack 0 (Q4): read only when a Premium deck is drawn while Premium is on sale. A paid entitlement or the
+    // shared tier switch grants Premium; an unreadable subscription row refuses the draw instead of granting it.
+    readTier: async userId => {
+      const { data, error } = await (supabase as unknown as { from(table: string): { select(columns: string): { eq(column: string, value: string): { in(column: string, values: readonly string[]): PromiseLike<{ data: unknown; error: unknown }> } } } })
+        .from("subscriptions").select("entitlement,status,current_period_end").eq("user_id", userId).in("entitlement", PREMIUM_ENTITLEMENTS);
+      if (error) throw new Error("tier_unavailable");
+      return resolveServerTier({ subscriptions: Array.isArray(data) ? data : [], user: { created_at: userCreatedAt } });
+    },
+    store: createSupabaseTarotStore(admin as unknown as ServiceClient, supabase as unknown as ServiceClient),
+    readContent: () => readPublishedTarotContent(supabase),
+    guestSecret: () => Deno.env.get("TAROT_GUEST_DRAW_SECRET"),
+    featurePaused: () => featurePaused(supabase as never, "tarot_reading"),
+    readFeatureConfig: () => readActiveFeatureConfig("tarot_reading"),
+    resolvePrompt: language => resolveTarotPrompt(supabase, language),
+    contentVersion: async content => content?.version ?? await tarotContentVersion(),
+    generate: input => generateWithModelRoute({ ...input, supabase }),
+    // Batch C (2026-11-24): the private note rests when Tarot AI or the note switch is off.
+    noteFeaturePaused: async () => await featurePaused(supabase as never, "tarot_reading") || await featurePaused(supabase as never, "tarot_note"),
+    readerRouterPaused: () => featurePaused(supabase as never, "reader_router"),
+    claimReaderAttempt: userId => claimDailyAttempt(supabase as never, { userId, eventName: "reader_router_attempted", feature: "reader_router", limit: READER_ROUTER_DAILY_LIMIT }),
+    // The active route is read with the caller's client (as the router always did); a running model campaign is read
+    // with the service-role client, the only caller runtime_model_campaign_for_feature accepts.
+    resolveRoute: (feature, userId, options) => resolveFeatureRoute(supabase, feature, userId, {
+      campaignClient: admin as unknown as { rpc: (name: string, params?: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }> },
+      locale: options?.locale ?? null
+    }),
+    // Only the decision request (question, topic, spread, card names, candidate descriptions) leaves the function.
+    decide: request => invokeDecision(request, Deno.env),
+    writeReceipt: input => writeAnswerReceipt(input as never)
+  };
 });
+// CORS Access-Control-Allow-Origin is provided by the shared tested handler.
+serve(async (req) => await handler(req));

@@ -24,6 +24,7 @@ import { scrollBandFor, type ScrollBand } from "./src/scrollThresholds";
 
 void SplashScreen.preventAutoHideAsync().catch(() => undefined);
 import {
+  Alert,
   Animated,
   BackHandler,
   Image,
@@ -67,9 +68,14 @@ import {
   generateDailyInsight,
   requestAccountDeletion,
   generateDailyZodiacPulse,
-  generatePersonaReply,
+  PersonaStreamError,
+  streamPersonaReply,
   generateOracleTurn,
   generateTarotReading,
+  requestGuestTarotDraw,
+  requestTarotClarifier,
+  requestTarotDraw,
+  TarotLimitError,
   registerNotificationDevice,
   sendNotificationTest,
   syncJournalMutation,
@@ -83,13 +89,13 @@ import {
   getSafetyEvents,
   getDailyInsight,
   getAdminAccess,
+  getOwnSubscriptions,
   getPublishedContent,
   requestAstrologyAiInsight,
   sendShareEvents
 } from "./src/backendClient";
 import {
   ActionTile,
-  CalendarDatePicker,
   ChatSessionSummary,
   Chip,
   ChoiceTile,
@@ -114,7 +120,7 @@ import {
   TopBar,
   FadeInView
 } from "./src/a2ui";
-import { formatLocalDate, formatLocalDateTime, localizedList, localizedText, normalizeLanguage, relativeDayLabel } from "./src/i18n";
+import { detectDeviceLanguage, formatLocalDate, formatLocalDateTime, localizedList, localizedText, normalizeLanguage, relativeDayLabel } from "./src/i18n";
 import { guestEntryEnabled, isSupabaseAuthConfigured, nilazaAdminUrl, nilazaBackendBaseUrl, nilazaHelpUrlFor, nilazaLegalUrlFor, onlineModeRequired, onlineRuntimeReady, responsiveShellEnabled, supabaseAnonKey, supabaseUrl } from "./src/runtimeConfig";
 import { useAdaptiveLayout } from "./src/responsive";
 import { AdaptiveScaffold, ResponsiveGrid, OverflowChipRail } from "./src/a2ui/layout";
@@ -122,7 +128,10 @@ import { AdaptiveNavigation, type NavigationChrome } from "./src/a2ui/AdaptiveNa
 import { playTarotRevealHaptic } from "./src/features/tarot/interactions";
 import { TarotArtworkButton } from "./src/features/tarot/TarotArtworkButton";
 import { ReadingDetails } from "./src/a2ui/ReadingDetails";
-import { normalizeTarotSections, tarotSnapshotMeaning, tarotResultSource } from "./src/features/tarot/readingPresentation";
+import { normalizeTarotSections, tarotSnapshotMeaning, tarotResultSource, tarotSourceLabel } from "./src/features/tarot/readingPresentation";
+import { TarotDeepAnalysis } from "./src/features/tarot/TarotDeepAnalysis";
+import { GuestCarryCard } from "./src/features/tarot/GuestCarryCard";
+import { clearGuestDraw, loadGuestDraw, loadOrCreateGuestDeviceId, saveGuestDraw, type StoredGuestDraw } from "./src/features/tarot/guestDraw";
 import { getTarotLearningSections, tarotQuestionExamples } from "./src/features/tarot/learning";
 import { getTarotCardGuide } from "./src/features/tarot/cardGuide";
 import { TarotCardGuide } from "./src/features/tarot/TarotCardGuide";
@@ -138,7 +147,7 @@ import { GuestPreview } from "./src/features/guest/GuestPreview";
 import { dailyRhythmFor } from "./src/features/home/dailyRhythm";
 import { localizePulseSign } from "./src/features/home/localizePulseSign";
 import { colors, layout, radius, spacing, typography } from "./src/theme";
-import { getDeckVisual, getFeatureVisual, getPersonaVisual } from "./src/visualAssets";
+import { getDeckVisual, getFeatureVisual, getPersonaVisual, personaPlaceholderArtTint } from "./src/visualAssets";
 import { AuthFlow } from "./src/auth/AuthFlow";
 import { AiCouncilRoom, type AiCouncilRoomProps, type AiCouncilSessionSummary, useAiCouncilRoom } from "./src/features/council";
 import { OracleRoom } from "./src/features/oracle";
@@ -146,6 +155,13 @@ import { ChatHub } from "./src/features/chat/ChatHub";
 import { JournalHome } from "./src/features/journal/JournalHome";
 import { savedReadingCards } from "./src/features/journal/savedReading";
 import { cardInline, cardSubtitle, cardTitle } from "./src/features/tarot/cardName";
+import { composeLocalReading, deepReadingHook } from "./src/features/tarot/localReading";
+import { requestNumerologyMessage, requestTarotNote, requestTarotReaderSuggestion, sendProductEvent, type ProductEventName } from "./src/backendClient";
+import { ReaderSuggestPanel, useReaderSuggestion, type ReaderOption, type ReaderSuggestReading } from "./src/features/tarot/ReaderSuggestPanel";
+import { markReaderMismatchShown, ReaderMismatchSheet, readerMismatchAlreadyShown } from "./src/features/tarot/ReaderMismatchSheet";
+import { TarotFreeNote, useTarotFreeNote } from "./src/features/tarot/TarotFreeNote";
+import { isReaderMismatch, readerDomainPhrase, readerTopicPhrase, TAROT_GUIDE_DECK_DEFAULTS } from "./src/features/tarot/readerSuggest";
+import type { ReaderAiSuggestion, TarotNoteExperiment, TarotNoteOutcome } from "./src/features/tarot/tarotNote";
 import { readingShareText } from "./src/features/tarot/shareText";
 import { ShareCardSheet, type ShareEventMeta, type ShareEventName } from "./src/features/share/ShareCardSheet";
 import { readingModel, todayCardModel, type ShareCardModel, type ShareRequest } from "./src/features/share/shareCardContent";
@@ -155,10 +171,31 @@ import { homeNextStep, homeNextStepCopy } from "./src/features/home/nextStep";
 import { previousDayKey, visibleStreak } from "./src/features/home/streak";
 import { CardLibrary } from "./src/features/tarot/CardLibrary";
 import { ExploreHome } from "./src/features/explore/ExploreHome";
+import { NumerologyScreen } from "./src/features/numerology/NumerologyScreen";
+import { BookQuoteScreen } from "./src/features/bookQuote/BookQuoteScreen";
+import { BOOK_QUOTE_FEATURE_ID, availableBookQuoteBooks, bookQuoteBookForPersona, bookQuoteHandoff, bookQuoteText, bookQuoteTitle, homeBookQuote, type BookQuoteBookId, type BookQuoteOfDay } from "./src/features/bookQuote/content";
 import personaShortNamesData from "../../packages/content/data/persona-short-names.json";
+import knowledgeBriefIndex from "../../packages/content/data/knowledge-briefs/index.json";
 
 // Owner-approved short names and one-line taglines for guide grids (2026-10-31); full names stay on detail screens.
-const personaShortNames = personaShortNamesData.personas as Record<string, { short: { vi: string; en: string }; tagline: { vi: string; en: string } }>;
+const personaShortNames = personaShortNamesData.personas as Record<string, { short: { vi: string; en: string }; tagline: { vi: string; en: string }; opener?: { vi: string; en: string } }>;
+// First line of a persona chat room; undefined means the room falls back to its generic line.
+function personaOpener(persona: Persona, language: Language) {
+  const opener = personaShortNames[persona.id]?.opener;
+  return opener ? (language === "vi" ? opener.vi : opener.en) : undefined;
+}
+// Text starting "Tinh thần:" / "In spirit:" is a labelled paraphrase, never shown in quotation marks as a verbatim line.
+function asGuideQuote(text: string) {
+  return /^(Tinh thần|In spirit):/.test(text) ? text : `“${text}”`;
+}
+// Familiar book title of a book guide that has a knowledge brief (e.g. "Binh pháp Tôn Tử"); cards and the detail page name the book by it.
+const personaBookTitles = new Map(
+  (knowledgeBriefIndex as Array<{ personaId: string; titleVi: string; titleEn: string }>).map((entry) => [entry.personaId, { vi: entry.titleVi, en: entry.titleEn }])
+);
+function personaBookTitle(persona: Persona, language: Language) {
+  const title = persona.type === "book_inspired_guide" ? personaBookTitles.get(persona.id) : undefined;
+  return title ? (language === "vi" ? title.vi : title.en) : undefined;
+}
 function personaShortName(persona: Persona, language: Language) {
   const entry = personaShortNames[persona.id];
   return entry ? (language === "vi" ? entry.short.vi : entry.short.en) : localizedText(persona.name, language);
@@ -171,6 +208,9 @@ function personaTagline(persona: Persona, language: Language) {
 
 const learnedTarotCardsKey = "nilaza.learnedTarotCards.v1";
 import { ProfileHome } from "./src/features/profile/ProfileHome";
+import { WhoAmI } from "./src/features/profile/WhoAmI";
+import { useSavedCharts } from "./src/features/profile/useSavedCharts";
+import { BirthDateFields } from "./src/features/astrology/BirthFields";
 import { DeleteAccountPanel } from "./src/features/profile/DeleteAccountPanel";
 
 // Flip after the Owner approves deploying account-delete and its SQL (Google Play account deletion).
@@ -178,9 +218,10 @@ const accountDeleteLive = false;
 import { applyDailyReminder, dailyReminderKey, defaultDailyReminder, normalizeDailyReminder, type DailyReminder } from "./src/features/profile/dailyReminder";
 import appConfig from "./app.json";
 import { normalizeOracleText, oracleIntent, oracleSafetyReply, oracleSafetySignal } from "../../packages/ai-contracts/oracle-safety.mjs";
-import { PersonaChatRoom } from "./src/features/persona";
+import { PersonaChatRoom, buildPersonaHistory, createThrottledText, type PersonaStreamingReply } from "./src/features/persona";
 import { createEmailAuthState, displayNameFromEmail } from "./src/auth/localAuth";
-import { resendSupabaseSignupConfirmation, resetSupabasePasswordForEmail, signInWithSupabaseEmail, signUpWithSupabaseEmail } from "./src/auth/supabaseAuth";
+import { loadDeviceLanguagePreference, saveDeviceLanguagePreference } from "./src/languagePreference";
+import { emailLocaleFor, resendSupabaseSignupConfirmation, resetSupabasePasswordForEmail, signInWithSupabaseEmail, signUpWithSupabaseEmail, updateSupabaseUserLocale } from "./src/auth/supabaseAuth";
 import {
   AuthView,
   AiCouncilConfig,
@@ -227,7 +268,7 @@ import { createJournalDraftStore, journalDraftStorageKey, type JournalDraftStore
 import { buildLocalExport } from "./src/features/privacy/localExport";
 import { cleanupExportFiles, deliverExport } from "./src/features/privacy/deliverExport";
 import { AstrologyExperience } from "./src/features/astrology/AstrologyExperience";
-import { clearAstrologyBirthData } from "./src/features/astrology/persistence";
+import { clearAstrologyBirthData, removeSavedChart, type AstrologyPersistence, type SavedChart } from "./src/features/astrology/persistence";
 import { buildSafeAstrologyContext } from "./src/features/astrology/handoff";
 import { mapDailyInsight, mapJournalRows, mapPersonaMessages, mapProfileSnapshot, mergeById } from "./src/auth/personalData";
 import { buildDevicePushRegistration, requestNotificationPermission, subscribeToNotificationResponses } from "./src/notifications";
@@ -241,7 +282,12 @@ import {
   type OwnerTierPreview,
 } from "./src/features/owner/tierPreview";
 import { premiumOnSale, resolveAccountTier } from "./src/features/owner/accountTierPolicy";
+import { PaywallPanel } from "./src/features/billing/PaywallPanel";
+import { paywallEnabled } from "./src/features/billing/paywallAccess";
+import { usePremium, type PremiumState } from "./src/features/billing/usePremium";
+import { DeleteAccountBillingNotice } from "./src/features/billing/DeleteAccountBillingNotice";
 import { drawRandomCards } from "./src/features/tarot/randomDraw";
+import { dailyCardIndex, mapServerCards, tarotLimitMessage, tarotLockedNote, utc7DateKey, type TarotClarifier, type TarotServerDraw } from "./src/features/tarot/serverDraw";
 
 type ImageRequireContext = {
   (path: string): ImageSourcePropType;
@@ -256,7 +302,7 @@ type ImageRequire = {
 declare const require: ImageRequire;
 
 type Tab = "home" | "explore" | "chat" | "journal" | "profile";
-type Screen = Tab | "tarot" | "astrology" | "inbox";
+type Screen = Tab | "tarot" | "astrology" | "numerology" | "bookQuote" | "inbox";
 type AdminView = "dashboard" | "prompts" | "content" | "localization" | "jobs" | "notifications" | "safety";
 type ChatMode = "oracle" | "list" | "detail" | "room" | "council" | "councilHub";
 type PersonalSyncArea = "chat" | "journal";
@@ -266,7 +312,7 @@ type TarotStage = "intro" | "learn" | "topic" | "spread" | "deck" | "deckDetail"
 const tarotStages: TarotStage[] = ["intro", "learn", "topic", "spread", "deck", "deckDetail", "library", "cardMeaning", "draw", "result", "share"];
 const isTarotStage = (value: unknown): value is TarotStage => typeof value === "string" && tarotStages.includes(value as TarotStage);
 type RitualDrawPhase = "grounding" | "draw_card_1" | "pause_and_breathe" | "draw_card_2" | "draw_card_3" | "reveal";
-type AstrologyStage = "world" | "hub" | "intention" | "birth" | "casting" | "report";
+type AstrologyStage = "world" | "hub" | "sky" | "intention" | "birth" | "casting" | "report";
 type AstrologyFocus = "soul" | "career" | "love" | "shadow";
 type PersonaDetailTab = "reflections" | "chronicle";
 type TarotTopic = "love" | "career" | "self" | "decision" | "open";
@@ -679,8 +725,8 @@ const personaEditorialOverrides: Record<
       en: ["Natural Flow", "Inner Peace", "Paradoxical Thinking", "Effortless Action"]
     },
     reflectionQuote: {
-      vi: "Tự nhiên không vội vàng, nhưng mọi điều vẫn hoàn tất.",
-      en: "Nature does not hurry, yet everything is accomplished."
+      vi: "Tinh thần: đừng gồng ép; điều thuận theo nhịp tự nhiên rồi sẽ tìm được đường hoàn tất.",
+      en: "In spirit: do not force it; what moves with natural rhythm finds its way to completion."
     },
     reflectionSummary: {
       vi: "Hãy chờ một giọng nói điềm tĩnh, chiêm nghiệm và đôi khi hơi huyền nhiệm, luôn kéo bạn quay về bên trong thay vì tìm câu trả lời từ bên ngoài.",
@@ -699,14 +745,8 @@ const personaEditorialOverrides: Record<
   }
 };
 
-const tarotGuideDeckDefaults: Record<string, string> = {
-  "moon-garden": "inner-child-healer",
-  "rose-mirror": "the-love-oracle",
-  "golden-thread": "the-clear-strategist",
-  "star-seeker": "the-star-weaver",
-  "stellar-mosaic": "the-clear-strategist",
-  "astral-pop-atelier": "the-shadow-mirror"
-};
+// Batch C: the deck default is now only a tie-breaker inside suggestTarotReader (question + cards lead).
+const tarotGuideDeckDefaults = TAROT_GUIDE_DECK_DEFAULTS;
 
 const tarotGuideDeckReasons: Record<string, Record<string, LocalizedText>> = {
   "moon-garden": {
@@ -1240,7 +1280,7 @@ const copy = {
     seeking: "Hôm nay bạn đang tìm điều gì?",
     tone: "Bạn muốn người dẫn đường trò chuyện theo giọng nào?",
     birth: "Thông tin sinh tùy chọn",
-    birthDate: "Ngày sinh YYYY-MM-DD",
+    birthDate: "Ngày sinh (dương lịch)",
     birthTime: "Giờ sinh HH:mm",
     birthPlace: "Nơi sinh",
     skipBirth: "Có thể bỏ qua và cập nhật sau.",
@@ -1343,7 +1383,7 @@ const copy = {
     seeking: "What are you seeking today?",
     tone: "How should your guide answer?",
     birth: "Optional birth profile",
-    birthDate: "Birth date YYYY-MM-DD",
+    birthDate: "Birth date (Gregorian)",
     birthTime: "Birth time HH:mm",
     birthPlace: "Birth place",
     skipBirth: "You can skip and update this later.",
@@ -2253,6 +2293,7 @@ function buildHandoffPrompt(context: ChatHandoffContext, language: Language) {
   if (context.sourceType === "tarot_reading") return vi ? "Mình muốn hỏi sâu hơn về trải bài vừa rồi." : "I'd like to go deeper into this reading.";
   if (context.sourceType === "astrology_report") return vi ? "Mình muốn hỏi thêm về lá số của mình." : "I'd like to ask more about my chart.";
   if (context.sourceType === "daily_zodiac_pulse") return vi ? "Mình muốn hỏi thêm về bầu trời hôm nay." : "I'd like to ask more about today's sky.";
+  if (context.sourceType === "book_quote") return vi ? `Mình muốn nói thêm về câu này trong ${context.sourceLabel}.` : `I'd like to talk more about this line from ${context.sourceLabel}.`;
   return vi ? "Mình muốn nói thêm về điều này." : "I'd like to talk more about this.";
 }
 
@@ -2283,6 +2324,12 @@ function buildHandoffReplyPrefix(persona: Persona, context: ChatHandoffContext, 
     return language === "vi"
       ? `${personaName} đang đọc Zodiac Pulse hôm nay${context.zodiacPulse.sign ? ` qua ${context.zodiacPulse.sign}` : ""}. Mình sẽ giữ đây là một khoảnh khắc phản chiếu, không phải dự đoán chắc chắn.`
       : `${personaName} is reading today's Zodiac Pulse${context.zodiacPulse.sign ? ` through ${context.zodiacPulse.sign}` : ""}. I will keep this as a reflective moment, not a certain prediction.`;
+  }
+
+  if (context.sourceType === "book_quote") {
+    return language === "vi"
+      ? `${personaName} đang đọc cùng bạn một câu trong ${context.sourceLabel}. Mình sẽ giữ đây là một gợi ý để tự soi, không phải lời phán.`
+      : `${personaName} is reading a line from ${context.sourceLabel} with you. I will keep it as a prompt for reflection, not a verdict.`;
   }
 
   return language === "vi"
@@ -2449,18 +2496,26 @@ function buildLocalTarotInterpretation(
   language: Language,
   selected: DrawnTarotCard[]
 ) {
-  const spreadOption = spreads.find((item) => item.id === spread) ?? spreads[1];
+  // Value report batches A and B (Owner 2026-11-21): a real reading of this question, composed locally from the
+  // five-layer library (card meaning by topic, position voice, combinations, spread guide, small step and journal question).
+  void deck;
   const topicLabel = localizedText(topics.find((item) => item.id === topic), language, topic);
-  const spreadLabel = localizedText(spreadOption, language, spreadOption.id);
-  const cardNames = selected.map((card) => displayTarotCardInline(card, language)).join(", ");
-  const summary =
-    language === "vi"
-      ? `${question.trim() ? `Bạn đang khám phá câu hỏi: “${question.trim()}”. ` : `Bạn đang phản chiếu về ${topicLabel.toLowerCase()}. `}Trải ${spreadLabel.toLowerCase()} với ${localizedText(deck.name, "vi")} gồm ${cardNames}. Đây là ý nghĩa có sẵn để bạn tự đối chiếu với câu hỏi; diễn giải AI chưa hoàn tất. Hãy chọn một chi tiết khiến bạn chú ý và viết điều nó gợi ra, thay vì xem lá bài là kết luận về tương lai.`
-      : `${question.trim() ? `You are exploring: “${question.trim()}”. ` : `You are reflecting on ${topicLabel.toLowerCase()}. `}Your ${spreadLabel.toLowerCase()} spread with ${localizedText(deck.name, "en")} contains ${cardNames}. These are reference meanings to compare with your question; AI interpretation has not completed. Choose one detail that catches your attention and write what it brings up rather than treating it as a verdict about the future.`;
+  const spreadOption = spreads.find((item) => item.id === spread) ?? spreads[1];
+  const reading = composeLocalReading({
+    cards: selected,
+    positions: selected.map((_, index) => ({ vi: spreadOption.labels.vi[index], en: spreadOption.labels.en[index] })),
+    spread: spreadOption.id,
+    topic,
+    topicLabel,
+    question,
+    language
+  });
 
   return {
-    summary,
-    reflection: buildTarotReflectionPrompt(selected[0], topic, language),
+    summary: reading.summary,
+    reflection: reading.reflection || buildTarotReflectionPrompt(selected[0], topic, language),
+    sections: reading.sections,
+    cardInterpretations: reading.cardInterpretations,
     moderationStatus: "fallback" as const
   };
 }
@@ -2531,9 +2586,13 @@ export function buildTarotReadingResult(
   spread: TarotSpread,
   question: string,
   selected: DrawnTarotCard[],
-  interpretation: { summary: string; reflection: string; provenance?: AnswerProvenance; sections?: unknown; promptVersionId?: string; moderationStatus?: "passed" | "blocked" | "fallback" },
+  interpretation: { summary: string; reflection: string; provenance?: AnswerProvenance; sections?: unknown; promptVersionId?: string; moderationStatus?: "passed" | "blocked" | "fallback";
+    drawId?: string; replayed?: boolean; nextDrawAt?: string; clarifier?: TarotClarifier; cardInterpretations?: Array<{ vi: string; en: string }> },
   language: Language = "vi"
 ) {
+  // P1-A: a server draw keeps its id (one event, one answer); a replayed answer keeps its original provenance.
+  const provenanceLocale = interpretation.drawId && (interpretation.provenance?.locale === "vi" || interpretation.provenance?.locale === "en")
+    ? interpretation.provenance.locale : language === "en" ? "en" : "vi";
   const spreadOption = spreads.find((item) => item.id === spread) ?? spreads[1];
   const positions = selected.map((card, index) => {
     const position = spreadOption.labels.en[index] ?? card.spread;
@@ -2549,14 +2608,18 @@ export function buildTarotReadingResult(
       orientation: card.reversed ? "reversed" as const : "upright" as const,
       spread: card.spread,
       interpretation: {
-        en: displayTarotMeaning(card, "en"),
-        vi: displayTarotMeaning(card, "vi")
+        en: interpretation.cardInterpretations?.[index]?.en || displayTarotMeaning(card, "en"),
+        vi: interpretation.cardInterpretations?.[index]?.vi || displayTarotMeaning(card, "vi")
       }
     };
   });
 
   return {
-    id: nowId(),
+    id: interpretation.drawId ?? nowId(),
+    drawId: interpretation.drawId,
+    replayed: interpretation.replayed === true,
+    nextDrawAt: interpretation.nextDrawAt,
+    clarifier: interpretation.clarifier,
     deck,
     topic,
     spread,
@@ -2576,7 +2639,7 @@ export function buildTarotReadingResult(
     sections: interpretation.moderationStatus === "blocked" ? [] : normalizeTarotSections(interpretation.sections, language),
     language,
     contentVersion: "tarot-reading-presentation-v1",
-    provenance: parseAnswerProvenance(interpretation.provenance, { feature: "tarot_reading", locale: language === "en" ? "en" : "vi" }),
+    provenance: parseAnswerProvenance(interpretation.provenance, { feature: "tarot_reading", locale: provenanceLocale }),
     promptVersionId: interpretation.promptVersionId,
     moderationStatus: interpretation.moderationStatus ?? "fallback",
     createdAt: new Date().toISOString()
@@ -2674,11 +2737,11 @@ function stableIndex(seed: string, max: number) {
   return hash % max;
 }
 
-function buildTodayPulse(profile: Profile, entries: JournalEntry[], dailyInsight: DailyInsight, language: Language, deck: TarotDeck) {
+function buildTodayPulse(profile: Profile, entries: JournalEntry[], dailyInsight: DailyInsight, language: Language, deck: TarotDeck,
+  cardSeed: { userId?: string | null; dateKey: string } = { dateKey: utc7DateKey() }) {
   const primaryGoal = profile.goals[0] ?? "self";
-  // Keep today's card stable for the whole day: saving to the Journal must not swap it.
-  const seed = `${dailyInsight.dateKey}:${primaryGoal}:${profile.tone}`;
-  const card = cards[stableIndex(seed, cards.length)] ?? cards[0];
+  // P1-A (A7): one card per account and Vietnam day. Saving to the Journal or changing goal or tone must not swap it.
+  const card = cards[dailyCardIndex(cardSeed.userId, cardSeed.dateKey, cards.length)] ?? cards[0];
   const latestMood = entries.find((entry) => entry.mood)?.mood;
   const moodText = latestMood ? moodLabel(latestMood, language).toLowerCase() : (language === "vi" ? "chưa đặt tên" : "unnamed");
   const goalPhrase = language === "vi" ? getGoalPhraseVi(primaryGoal) : getGoalPhraseEn(primaryGoal);
@@ -2868,7 +2931,7 @@ export default function App() {
 }
 
 /** Guest preview before sign-in: the default deck's 78 cards with meanings and the 12 sign guides. */
-function GuestPreviewScreen({ language, onCreateAccount, onSignIn, onExit }: { language: Language; onCreateAccount: () => void; onSignIn: () => void; onExit: () => void }) {
+function GuestPreviewScreen({ language, onCreateAccount, onSignIn, onExit, onDrawGuestCard }: { language: Language; onCreateAccount: () => void; onSignIn: () => void; onExit: () => void; onDrawGuestCard?: () => Promise<{ cardId: string; reversed: boolean } | null> }) {
   const deck = decks[0];
   const renderCard = (cardId: string, open: (id: string) => void) => {
     const index = Math.max(0, cards.findIndex((item) => item.id === cardId));
@@ -2913,6 +2976,7 @@ function GuestPreviewScreen({ language, onCreateAccount, onSignIn, onExit }: { l
         onCreateAccount={onCreateAccount}
         onSignIn={onSignIn}
         onExit={onExit}
+        onDrawGuestCard={onDrawGuestCard}
       />
     </ScreenShell>
   );
@@ -3007,7 +3071,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   });
   const fontsReady = useFontReadiness(fontsLoaded, fontError);
   const [profile, setProfile] = useState<Profile>(() => ({
-    ...defaultProfile, nickname: authState.status === "signed_in" ? authState.user.name : defaultProfile.nickname
+    // A saved profile replaces this on load, so only a fresh install follows the phone language.
+    ...defaultProfile, language: detectDeviceLanguage(), nickname: authState.status === "signed_in" ? authState.user.name : defaultProfile.nickname
   }));
   const [authView, setAuthView] = useState<AuthView>("welcome");
   const [guestPreview, setGuestPreview] = useState(false);
@@ -3082,12 +3147,29 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const [chatGenerating, setChatGenerating] = useState(false);
   const [chatError, setChatError] = useState("");
   const [chatErrorRetryable, setChatErrorRetryable] = useState(true);
+  // Persona chat streaming (2026-11-25): the reply growing on screen, or partial text kept after an interruption.
+  const [personaStreamingReply, setPersonaStreamingReply] = useState<PersonaStreamingReply | null>(null);
+  const personaStreamAbortRef = useRef<AbortController | null>(null);
   const [lastChatPrompt, setLastChatPrompt] = useState("");
   const [tarotGenerating, setTarotGenerating] = useState(false);
   const tarotGenerationInFlight = useRef(false);
   const [tarotError, setTarotError] = useState("");
+  // P1-A: the server draw waiting to be interpreted, and the clarifier request in flight.
+  const serverTarotDrawRef = useRef<{ draw: TarotServerDraw; cards: DrawnTarotCard[] } | null>(null);
+  // Tarot v2 pack 1: the card drawn while signed out (same Vietnam day), offered on Home after sign-in.
+  const [guestCarry, setGuestCarry] = useState<StoredGuestDraw | null>(null);
+  const [guestCarryRun, setGuestCarryRun] = useState<StoredGuestDraw | null>(null);
+  const [guestCarryBusy, setGuestCarryBusy] = useState(false);
+  const [tarotClarifierBusy, setTarotClarifierBusy] = useState(false);
   const [astrologyStage, setAstrologyStage] = useState<AstrologyStage>("hub");
+  // Tôi là ai > Báo cáo đã lưu > Xem opens this chart in Chiêm tinh; cleared when Chiêm tinh is left.
+  const [astrologyChartToOpen, setAstrologyChartToOpen] = useState<string | undefined>(undefined);
+  // Bumped after a saved chart changes outside Chiêm tinh so Tôi là ai reads the store again.
+  const [savedChartsRevision, setSavedChartsRevision] = useState(0);
   const [astrologyReturnScreen, setAstrologyReturnScreen] = useState<Tab>("home");
+  // "Một câu cho hôm nay": the book to open on, and where Back returns (Home, Explore or a persona page).
+  const [bookQuoteBook, setBookQuoteBook] = useState<BookQuoteBookId | undefined>(undefined);
+  const [bookQuoteReturnScreen, setBookQuoteReturnScreen] = useState<Tab>("home");
   const [astrologyFocus, setAstrologyFocus] = useState<AstrologyFocus>("soul");
   const [astrologyReport, setAstrologyReport] = useState<AstrologyReport | null>(null);
   const [astrologyGenerating, setAstrologyGenerating] = useState(false);
@@ -3112,11 +3194,19 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const c = getCopy(language);
   const selectedPersona = personasById[selectedPersonaId] ?? personas[0];
   const selectedDeck = findTarotDeckById(decksById, selectedDeckId) ?? decks[0];
-  // No subscription resolver yet: the closed-test policy decides the display tier.
-  // Server endpoints keep their own entitlement checks.
+  // Premium comes from the account's own subscription row (or an active store purchase on this
+  // device while the row catches up). Server endpoints keep their own entitlement checks.
+  // Section the Profile screen opens on (set when a locked feature sends the user to Premium).
+  const [profileEntrySection, setProfileEntrySection] = useState<"premium" | undefined>(undefined);
+  const premium = usePremium({
+    userId: authState.status === "signed_in" ? scope.userId : undefined,
+    readSubscriptions: () => getOwnSubscriptions(backendOptions),
+    billingEnabled: paywallEnabled
+  });
   const accountTier = resolveAccountTier({
     signedIn: authState.status === "signed_in",
-    accountCreatedAt: authState.status === "signed_in" ? authState.user.createdAt : undefined
+    accountCreatedAt: authState.status === "signed_in" ? authState.user.createdAt : undefined,
+    entitled: premium.entitled
   });
   const displayedTier = resolveDisplayedTier({ accountTier, isOwner, preview: ownerTierPreview });
   const isOwnerPreviewActive = isOwnerTierPreviewActive({ isOwner, preview: ownerTierPreview });
@@ -3146,9 +3236,11 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const effectiveDailyInsight = useDailyInsight(
     dailyInsight, profile, journalEntries, language, currentDateKey, buildDailyInsight
   );
+  // P1-A (A7): today's Home card is fixed by account and Vietnam day; profile edits no longer swap it.
+  const todayCardDateKey = utc7DateKey(currentTime);
   const todayPulse = useMemo(
-    () => buildTodayPulse(profile, journalEntries, effectiveDailyInsight, language, selectedDeck),
-    [effectiveDailyInsight, journalEntries, language, profile, selectedDeck]
+    () => buildTodayPulse(profile, journalEntries, effectiveDailyInsight, language, selectedDeck, { userId: scope.userId, dateKey: todayCardDateKey }),
+    [effectiveDailyInsight, journalEntries, language, profile, selectedDeck, scope.userId, todayCardDateKey]
   );
   const localZodiacPulse = useMemo(
     () => buildDailyZodiacPulse(birthDate, birthTime, birthTimeUnknown, birthPlace, effectiveDailyInsight, language, profile, journalEntries, astrologyReport),
@@ -3333,7 +3425,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         const [savedProfile, savedBirthProfile, savedOracleMemoryConsent, savedArtifacts, savedPrompts,
           savedSelectedDeckId, savedRevealedTodayPulseKey, savedFavoritePersonaIds, savedNotificationPreferences,
           savedDevicePushRegistration, savedInAppNotifications, savedGenerationActivities, savedMessages, savedOracle, savedJournal,
-          savedInsight, savedUsage, savedSafety, savedHiddenIds, savedJournalState] = await Promise.all([
+          savedInsight, savedUsage, savedSafety, savedHiddenIds, savedJournalState, savedDeviceLanguage] = await Promise.all([
           loadJson<Profile | null>("nilaza.profile", null),
           loadJson<BirthProfileDraft | null>(birthProfileStorageKey, null),
           loadJson<OracleMemoryConsent>("nilaza.oracleMemoryConsent", { journalMemory: false, birthProfile: false }),
@@ -3353,7 +3445,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
           loadJson<UsageEvent[]>("nilaza.events", []),
           loadJson<SafetyEvent[]>("nilaza.safetyEvents", []),
           loadJson<string[]>("nilaza.hiddenJournalIds", []),
-          loadJson<unknown>(journalStateKey, null)
+          loadJson<unknown>(journalStateKey, null),
+          loadDeviceLanguagePreference()
         ]);
         if (active && scope.active) setLocalHydrated(true);
         // Recover an existing cloud profile by its verified owner, not by guessing
@@ -3361,13 +3454,17 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         // Cloud profile hydration is an enhancement over the namespaced local
         // cache. A first-login RLS/network failure must not strand the user on
         // the local-data error screen or cause any local value to be replaced.
+        // Signed-out screens and brand-new accounts have no saved profile: use the
+        // language last picked on this device (e.g. on the sign-up screen) before
+        // falling back to the phone language.
+        const fallbackProfile = savedDeviceLanguage ? { ...profile, language: savedDeviceLanguage } : profile;
         const remoteSnapshot = !savedProfile && scope.accessToken && supabaseUrl
           ? await getProfileSnapshot(backendOptions).catch(() => null) : null;
         const remoteProfile = remoteSnapshot
-          ? (() => { try { return mapProfileSnapshot(remoteSnapshot, profile); } catch { return null; } })()
+          ? (() => { try { return mapProfileSnapshot(remoteSnapshot, fallbackProfile); } catch { return null; } })()
           : null;
         if (!active || !scope.active) return;
-        const restoredProfile = savedProfile ?? remoteProfile?.profile ?? profile;
+        const restoredProfile = savedProfile ?? remoteProfile?.profile ?? fallbackProfile;
         const restoredBirth = savedBirthProfile ?? remoteProfile?.birth ?? defaultBirthProfile;
         setProfile({ ...restoredProfile, goals: migrateGoals(restoredProfile.goals ?? []), language: normalizeLanguage(restoredProfile.language) });
         setBirthDate(restoredBirth.birthDate ?? "");
@@ -3528,6 +3625,19 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   useEffect(() => {
     if (loaded) void saveJson("nilaza.profile", profile);
   }, [loaded, profile]);
+
+  // One app language across signed-out screens and accounts on this device.
+  useEffect(() => {
+    if (loaded) void saveDeviceLanguagePreference(language);
+  }, [loaded, language]);
+
+  // Auth emails follow the app language: keep the account's locale in step when a
+  // signed-in person changes language in Settings. Failures keep the old language.
+  const signedInUserId = authState.status === "signed_in" ? authState.user.id : "";
+  useEffect(() => {
+    if (!loaded || !isSupabaseAuthConfigured || !signedInUserId) return;
+    void updateSupabaseUserLocale(emailLocaleFor(language)).catch(() => undefined);
+  }, [loaded, language, signedInUserId]);
 
   useEffect(() => {
     if (!loaded) return;
@@ -4049,8 +4159,13 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const navigate = (next: Screen, journalEntryId?: string) => {
     setShowAdmin(false);
     if (next === "journal") setJournalEntryToOpen(journalEntryId ?? null);
+    setProfileEntrySection(undefined);
     setScreen(next);
     recordEvent("screen_opened", { screen: next });
+  };
+  const openPremium = () => {
+    navigate("profile");
+    setProfileEntrySection("premium");
   };
   const currentTabOrHome = (): Tab => tabs.includes(screen as Tab) ? screen as Tab : "home";
 
@@ -4093,9 +4208,13 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     setAstrologyReturnScreen(currentTabOrHome());
     setScreen("astrology");
     setAstrologyStage(stage);
+    setAstrologyChartToOpen(undefined);
     setAstrologyError("");
     recordEvent("astrology_opened", { stage });
   };
+  useEffect(() => {
+    if (screen !== "astrology") setAstrologyChartToOpen(undefined);
+  }, [screen]);
 
   const startQuickTarot = () => {
     setTarotReturnScreen(currentTabOrHome());
@@ -4132,6 +4251,14 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       return true;
     }
     if (screen === "astrology") return false;
+    if (screen === "numerology") {
+      navigate("explore");
+      return true;
+    }
+    if (screen === "bookQuote") {
+      navigate(bookQuoteReturnScreen);
+      return true;
+    }
     if (screen === "tarot") {
       handleTarotBack();
       return true;
@@ -4211,6 +4338,24 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     if (handoffContext) setChatInput(buildHandoffPrompt(handoffContext, language));
     setChatMode(mode);
     navigate("chat");
+  };
+
+  // Opens "Một câu cho hôm nay" on a book (or the Home book of the day); Back returns to the tab it came from.
+  const openBookQuote = (book?: BookQuoteBookId) => {
+    setBookQuoteReturnScreen(currentTabOrHome());
+    // Null-safe: with nothing visible the screen shows its calm empty state and Back still works.
+    setBookQuoteBook(book ?? homeBookQuote(currentDateKey)?.book ?? undefined);
+    navigate("bookQuote");
+  };
+  const askBookQuoteGuide = (quote: BookQuoteOfDay) => {
+    recordEvent("book_quote_chat_opened", { book: quote.book, feature: BOOK_QUOTE_FEATURE_ID });
+    openChat("room", quote.file.personaId, bookQuoteHandoff(quote, language));
+  };
+  const writeBookQuoteJournal = (quote: BookQuoteOfDay) => {
+    recordEvent("book_quote_journal_opened", { book: quote.book, feature: BOOK_QUOTE_FEATURE_ID });
+    setJournalPrompt(bookQuoteText(quote.item, "question", language));
+    setJournalEntryToOpen(null);
+    navigate("journal");
   };
 
   const toggleFavoritePersona = (personaId: string) => {
@@ -4418,11 +4563,14 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     }
   };
 
-  const startTarotFollowup = (personaId?: string) => {
+  const startTarotFollowup = (personaId?: string, opener?: string, experiment?: TarotNoteExperiment) => {
     if (!reading) return;
     const mystic = (personaId ? personasById[personaId] : undefined) ?? getRecommendedTarotGuide(reading.deck.id) ?? selectedPersona;
     const context = buildTarotHandoffContext(reading, language);
     openChat("room", mystic.id, context);
+    // Batch C: a suggested opener replaces the generic hand-off text as the first message draft (still editable).
+    if (opener) setChatInput(opener);
+    sendProductEvent("tarot_followup_started", { slug: mystic.slug, campaignId: experiment?.campaignId, variant: experiment?.variant }, backendOptions);
     recordEvent("tarot_followup_chat_opened", { readingId: reading.id, personaId: mystic.id, deckId: reading.deck.id });
   };
 
@@ -4528,7 +4676,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     setShareSheet({
       model: request.model,
       primary: request.primary ?? "image",
-      url: buildShareUrl({ language, surface: request.model.surface, id: newShareId(), cardIds: request.cardIds, sunSign: request.sunSign })
+      url: buildShareUrl({ language, surface: request.model.surface, id: newShareId(), cardIds: request.cardIds, sunSign: request.sunSign, sky: request.sky })
     });
   };
   const recordShareEvent = (name: ShareEventName, meta: ShareEventMeta) => {
@@ -4592,7 +4740,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const signUpLocally = async (name: string, email: string, password: string) => {
     if (isSupabaseAuthConfigured) {
       try {
-        const result = await signUpWithSupabaseEmail(name, email, password);
+        const result = await signUpWithSupabaseEmail(name, email, password, emailLocaleFor(language));
         if (result) {
           if (!result.authState && result.pendingEmailConfirmation) {
             recordEvent("supabase_signup_confirmation_requested", {
@@ -4979,12 +5127,28 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     setBirthTime("");
     setBirthTimeUnknown(false);
     setBirthPlace("");
+    setSavedChartsRevision((value) => value + 1);
     recordEvent("birth_profile_cleared");
     showToast(backendOptions.authToken
       ? language === "vi"
-        ? "Đã xóa hồ sơ ngày sinh và các bài đọc AI Chiêm tinh đã đồng bộ"
-        : "Birth profile and synced Astrology AI reports deleted"
+        ? "Đã xóa hồ sơ ngày sinh trên máy và ẩn các bài đọc AI Chiêm tinh đã đồng bộ"
+        : "Birth profile deleted on this device and synced Astrology AI reports hidden"
       : c.birthProfileCleared);
+  };
+
+  const deleteSavedChartFromProfile = async (chartId: string) => {
+    try {
+      // Same order as the Chiêm tinh delete: the synced AI report first, then the chart on this device.
+      if (backendOptions.authToken) await deleteAstrologyAiReportForChart(backendOptions, chartId);
+      await removeSavedChart(storage, chartId);
+    } catch {
+      showToast(language === "vi"
+        ? "Chưa xóa được lá số; bản trên thiết bị vẫn được giữ để bạn thử lại."
+        : "The chart could not be deleted; the device copy remains so you can retry.");
+      return;
+    }
+    setSavedChartsRevision((value) => value + 1);
+    showToast(language === "vi" ? "Đã xóa lá số khỏi thiết bị" : "Chart deleted from this device");
   };
 
   const exportLocalData = async () => {
@@ -5022,6 +5186,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     startPersonaSession(selectedPersonaId);
     setChatInput("");
     setChatHandoffContext(undefined);
+    // An interrupted partial reply belongs to the old thread; a reply still streaming finishes normally.
+    setPersonaStreamingReply((current) => (current?.status === "interrupted" ? null : current));
     recordEvent("persona_chat_reset", { personaId: selectedPersonaId });
     showToast(language === "vi" ? "Đã bắt đầu phiên chat mới" : "Started a fresh chat");
   };
@@ -5033,6 +5199,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     }));
     setChatInput("");
     setChatHandoffContext(undefined);
+    setPersonaStreamingReply((current) => (current?.status === "interrupted" ? null : current));
     recordEvent("persona_chat_resumed", { personaId: selectedPersonaId });
   };
 
@@ -5046,15 +5213,12 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     const text = (preset ?? chatInput).trim();
     if (!text || chatGenerating) return;
     const clientRequestId = nowId();
-    const sanitizedHistory = currentMessages
-      .slice(-8)
-      .map((message) => ({
-        role: message.role,
-        text: message.text.replace(/\s+/g, " ").trim().slice(0, 800)
-      }))
-      .filter((message) => message.text.length > 0);
+    // 8 x 800 as before; 12 x 2,500 after a knowledge-tier reply (persona chat streaming contract section 1).
+    const sanitizedHistory = buildPersonaHistory(currentMessages);
     setChatGenerating(true);
     setChatError("");
+    // A new turn replaces any interrupted partial reply still on screen.
+    setPersonaStreamingReply(null);
     setLastChatPrompt(text);
     const userMessage: ChatMessage = {
       id: nowId(),
@@ -5087,8 +5251,16 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       sessionId: activePersonaSessionId
     });
     setTimeout(async () => {
+      const streamPersonaId = selectedPersonaId;
+      let streamTier: string | undefined;
+      const streamAbort = new AbortController();
+      personaStreamAbortRef.current = streamAbort;
+      // About 12 screen updates per second at most while text streams in.
+      const streamedText = createThrottledText((streamed) => {
+        setPersonaStreamingReply({ personaId: streamPersonaId, text: streamed, status: "streaming", modelTier: streamTier });
+      }, 80);
       try {
-        const reply = await generatePersonaReply(
+        const reply = await streamPersonaReply(
           {
             language,
             persona: selectedPersona,
@@ -5112,8 +5284,17 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
               moderationStatus: containsRiskyRequest(text) ? "blocked" : "fallback"
             };
           },
+          {
+            onMeta: (meta) => { streamTier = meta.modelTier; },
+            onDelta: (accumulated) => streamedText.push(accumulated),
+            signal: streamAbort.signal
+          },
           backendOptions
         );
+        // done.text is authoritative: drop the streamed preview and show the final reply.
+        streamedText.cancel();
+        setPersonaStreamingReply(null);
+        const replyTier = reply.modelTier?.key ?? streamTier;
         const guideMessage: ChatMessage = {
           id: nowId(),
           personaId: selectedPersonaId,
@@ -5127,6 +5308,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             // A canned reply (AI unavailable) is labelled in the room.
             ...(reply.moderationStatus === "fallback" ? { fallback: true } : {}),
             ...(reply.safety === "crisis" ? { safety: "crisis" } : {}),
+            // Shows "Đào sâu" under a knowledge-tier reply and widens the memory sent next time.
+            ...(replyTier ? { modelTier: replyTier } : {}),
             ...(chatHandoffContext
               ? {
                 handoffSourceType: chatHandoffContext.sourceType,
@@ -5158,6 +5341,25 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         });
         finishGenerationActivity(activity, "ready");
       } catch (error) {
+        streamedText.cancel();
+        if (error instanceof PersonaStreamError && error.code === "aborted") {
+          // The user left (app closed or signed out); the server still saves the turn, so nothing to show here.
+          setPersonaStreamingReply(null);
+          finishGenerationActivity(activity, "failed");
+          return;
+        }
+        if (error instanceof PersonaStreamError && error.partialText) {
+          // Keep what was already shown, marked as interrupted; the server did not save this turn (contract rule 2).
+          setPersonaStreamingReply({ personaId: streamPersonaId, text: error.partialText, status: "interrupted", modelTier: streamTier });
+          setChatErrorRetryable(error.retryable);
+          setChatError(language === "vi"
+            ? "Câu trả lời bị ngắt giữa chừng và chưa được lưu. Bấm Thử lại để hỏi lại; tin nhắn của bạn vẫn được giữ."
+            : "The reply was cut off and was not saved. Tap Retry to ask again; your message is kept.");
+          finishGenerationActivity(activity, "failed");
+          recordEvent("persona_message_failed", { personaId: streamPersonaId, reason: error.code });
+          return;
+        }
+        setPersonaStreamingReply(null);
         // A guide paused from Admin is shown as resting, not as a failed answer. Limits and pauses offer no
         // Retry; a lost connection or a busy AI says so instead of showing a canned reply (device test 11/11).
         const unavailableReason = error instanceof BackendUnavailableError ? error.reason : undefined;
@@ -5182,6 +5384,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
           summary: summarizeForSafety(`persona=${selectedPersonaId}; promptLength=${text.length}; risky=${containsRiskyRequest(text)}`)
         }, false);
       } finally {
+        if (personaStreamAbortRef.current === streamAbort) personaStreamAbortRef.current = null;
         setChatGenerating(false);
       }
     }, 650);
@@ -5210,6 +5413,64 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     }
   };
 
+  // P1-A "one event, one answer": a signed-in account gets its cards from the server, once per spread, topic and
+  // Vietnam day; the same request later returns the same cards and the stored answer. Guests keep the local draw.
+  // "Thử lại" is offered only after an AI failure and reuses the same server draw (same cards, same drawId).
+  const tarotServerMode = Boolean(nilazaBackendBaseUrl && backendOptions.authToken);
+  const tarotLimitText = (error: unknown) => {
+    if (error instanceof TarotLimitError) return tarotLimitMessage(language === "en" ? "en" : "vi", error.code === "tarot_reading_locked" ? error.reason ?? "deleted" : error.reason, error.nextDrawAt);
+    if (error instanceof BackendLimitError && error.code === "feature_paused") return language === "vi" ? "Diễn giải Tarot bằng AI đang tạm nghỉ một chút. Lượt của bạn vẫn còn, hãy thử lại sau." : "Tarot AI readings are resting for a while. Your turn is kept; please try again later.";
+    if (error instanceof BackendLimitError && error.code === "daily_limit_reached") return c.creditLimitReached;
+    // Tarot v2 pack 0: the server refuses a Premium deck for an account without Premium (only once Premium is on sale).
+    if (error instanceof BackendLimitError && error.code === "premium_required") return c.premiumDeckPreview;
+    return undefined;
+  };
+  const requestServerTarotDraw = async (): Promise<{ cards: DrawnTarotCard[]; completed: boolean } | null> => {
+    if (!tarotServerMode || tarotGenerationInFlight.current) return null;
+    if (isOwnerPreviewActive || !canViewContentTier(selectedDeck.accessTier, displayedTier)) { drawCards(); return null; }
+    const activeScope = scope;
+    setTarotError("");
+    try {
+      const draw = await requestTarotDraw({ language: language === "en" ? "en" : "vi", deck: selectedDeck, topic: tarotTopic, spread: tarotSpread, question: tarotQuestion }, backendOptions);
+      if (!activeScope.active) return null;
+      const spreadOption = spreads.find((item) => item.id === tarotSpread) ?? spreads[1];
+      const mapped = draw.spread === tarotSpread && draw.cards.length === spreadOption.cards
+        ? mapServerCards(draw.cards, cards, localizedList(spreadOption.labels, language)) : null;
+      if (!mapped) throw new BackendUnavailableError("busy");
+      serverTarotDrawRef.current = { draw, cards: mapped };
+      if (draw.replayed) recordEvent("tarot_draw_replayed", { deckId: selectedDeck.id, topic: tarotTopic, spread: tarotSpread });
+      return { cards: mapped, completed: draw.status === "completed" };
+    } catch (error) {
+      if (!activeScope.active) return null;
+      const message = tarotLimitText(error) ?? (error instanceof BackendUnavailableError && error.reason === "offline"
+        ? (language === "vi" ? "Chưa kết nối được để rút lá. Hãy kiểm tra mạng rồi thử lại." : "Could not connect to draw the cards. Check your connection and try again.")
+        : c.tarotError);
+      setTarotError(message);
+      if (error instanceof BackendLimitError) showToast(message);
+      recordEvent("tarot_draw_failed", { deckId: selectedDeck.id, topic: tarotTopic, spread: tarotSpread, reason: error instanceof BackendLimitError ? error.code : error instanceof BackendUnavailableError ? error.reason : "error" });
+      return null;
+    }
+  };
+  // P1-A: one clarifying card per reading, drawn by the server with its library meaning (no AI); asked again, the same card.
+  const requestReadingClarifier = async () => {
+    const target = reading;
+    if (!target?.drawId || target.clarifier || tarotClarifierBusy) return;
+    const activeScope = scope;
+    setTarotClarifierBusy(true);
+    setTarotError("");
+    try {
+      const clarifier = await requestTarotClarifier(target.drawId, backendOptions);
+      if (!activeScope.active) return;
+      setReading((current) => current && current.drawId === target.drawId ? { ...current, clarifier } : current);
+      recordEvent("tarot_clarifier_drawn", { deckId: target.deck.id, spread: target.spread });
+    } catch (error) {
+      if (!activeScope.active) return;
+      setTarotError(tarotLimitText(error) ?? (language === "vi" ? "Chưa rút được lá làm rõ. Hãy thử lại sau một chút." : "The clarifying card could not be drawn yet. Please try again shortly."));
+    } finally {
+      if (activeScope.active) setTarotClarifierBusy(false);
+    }
+  };
+
   const drawCards = (preselectedCards?: DrawnTarotCard[], retryReading?: ReturnType<typeof drawReading>) => {
     if (tarotGenerating || tarotGenerationInFlight.current) return;
     if (isOwnerPreviewActive) {
@@ -5227,7 +5488,30 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       showToast(c.upgradePreview);
       return;
     }
-    if (creditBalance <= 0 && !retryReading) {
+    // P1-A: a signed-in account interprets only its server draw (the server keeps the allowance); a retry keeps the same drawId.
+    const serverDraw = tarotServerMode && !retryReading ? serverTarotDrawRef.current : null;
+    const serverCardsMatch = Boolean(serverDraw && (!preselectedCards?.length || (preselectedCards.length === serverDraw.cards.length
+      && preselectedCards.every((card, index) => card.id === serverDraw.cards[index].id && card.reversed === serverDraw.cards[index].reversed))));
+    const drawId = !tarotServerMode ? undefined : retryReading ? retryReading.drawId : serverCardsMatch ? serverDraw?.draw.drawId : undefined;
+    if (tarotServerMode && !drawId) {
+      setTarotError(c.tarotError);
+      return;
+    }
+    // Tarot v2 pack 0 (Owner 2026-11-16): drawing is free. A fresh server draw shows its cards with the reference reading
+    // and no model call; the AI runs only when the person asks for "Phân tích chuyên sâu" (a retry of this same draw) or
+    // when the server already holds the answer (a completed draw is replayed below, free).
+    if (tarotServerMode && !retryReading && serverDraw && serverCardsMatch && serverDraw.draw.status !== "completed") {
+      const local = buildLocalTarotInterpretation(selectedDeck, tarotTopic, tarotSpread, tarotQuestion, language, serverDraw.cards);
+      const generated = buildTarotReadingResult(selectedDeck, tarotTopic, tarotSpread, tarotQuestion, serverDraw.cards,
+        { ...local, moderationStatus: "fallback", drawId: serverDraw.draw.drawId, replayed: serverDraw.draw.replayed, nextDrawAt: serverDraw.draw.nextDrawAt }, language);
+      setReading(generated);
+      setTarotStageHistory((currentHistory) => [...currentHistory, tarotStage].slice(-16));
+      setTarotStage("result");
+      recordEvent("tarot_draw_shown", { deckId: selectedDeck.id, topic: tarotTopic, spread: tarotSpread, replayed: serverDraw.draw.replayed });
+      completeDailyRitual("tarot_reading");
+      return;
+    }
+    if (!tarotServerMode && creditBalance <= 0 && !retryReading) {
       setTarotError(c.creditLimitReached);
       recordEvent("tarot_credit_limit_preview", { dateKey: currentDateKey, limit: dailyTarotCreditLimit });
       showToast(c.creditLimitReached);
@@ -5247,9 +5531,11 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     setTimeout(async () => {
       if (!activeScope.active) return;
       try {
-        const selectedCards = preselectedCards?.length
-          ? preselectedCards
-          : selectTarotCards(tarotSpread, language);
+        const selectedCards = serverDraw && serverCardsMatch
+          ? serverDraw.cards
+          : preselectedCards?.length
+            ? preselectedCards
+            : selectTarotCards(tarotSpread, language);
         const interpretation = await generateTarotReading(
           {
             language,
@@ -5257,7 +5543,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             topic: tarotTopic,
             spread: tarotSpread,
             question: tarotQuestion,
-            selectedCards
+            selectedCards,
+            ...(drawId ? { drawId } : {})
           },
           () => buildLocalTarotInterpretation(selectedDeck, tarotTopic, tarotSpread, tarotQuestion, language, selectedCards),
           backendOptions,
@@ -5269,7 +5556,11 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         setReading(nextReading);
         if (!retryReading) setTarotStageHistory((currentHistory) => [...currentHistory, tarotStage].slice(-16));
         setTarotStage("result");
-        recordEvent(retryReading ? "tarot_interpretation_retried" : "tarot_reading_drawn", {
+        // A replayed answer is the same event: it is not a new reading for today's local count.
+        // An AI answer delivered now (also through "Phân tích chuyên sâu") is the one AI reading of the day for the local hint;
+        // a replayed answer is the same event and counts for nothing new.
+        const deliveredNow = interpretation.moderationStatus === "passed" && !interpretation.replayed;
+        recordEvent(retryReading ? (deliveredNow ? "tarot_reading_drawn" : "tarot_interpretation_retried") : interpretation.replayed ? "tarot_reading_replayed" : "tarot_reading_drawn", {
           deckId: selectedDeck.id,
           topic: tarotTopic,
           spread: tarotSpread,
@@ -5281,9 +5572,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       } catch (error) {
         if (!activeScope.active) return;
         const limit = error instanceof BackendLimitError ? error.code : undefined;
-        const message = limit === "daily_limit_reached" ? c.creditLimitReached
-          : limit === "feature_paused" ? (language === "vi" ? "Diễn giải Tarot bằng AI đang tạm nghỉ một chút. Lượt của bạn vẫn còn, hãy thử lại sau." : "Tarot AI readings are resting for a while. Your turn is kept; please try again later.")
-          : c.tarotError;
+        const message = tarotLimitText(error) ?? c.tarotError;
         setTarotError(message);
         if (limit) showToast(message);
         finishGenerationActivity(activity, "failed");
@@ -5301,6 +5590,64 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       }
     }, 700);
   };
+
+  // Pack 1: a signed-out guest asks the server for this device's card of the day; it is stored so sign-in can keep it.
+  // A failure here makes the preview fall back to a local card (nothing is stored then).
+  const drawGuestCard = async (): Promise<{ cardId: string; reversed: boolean } | null> => {
+    const deviceId = await loadOrCreateGuestDeviceId();
+    const draw = await requestGuestTarotDraw({ deviceId, spread: "daily-one", topic: "open" }, backendOptions);
+    await saveGuestDraw(deviceId, draw);
+    const first = draw.cards[0];
+    return first ? { cardId: first.id, reversed: first.reversed } : null;
+  };
+  useEffect(() => {
+    if (authState.status !== "signed_in") return;
+    let live = true;
+    void loadGuestDraw().then((stored) => { if (live) setGuestCarry(stored); });
+    return () => { live = false; };
+  }, [authState.status]);
+  const openGuestCarry = () => {
+    if (!guestCarry || guestCarryBusy || !tarotServerMode) return;
+    setTarotReturnScreen(currentTabOrHome());
+    resetTarotSession();
+    setScreen("tarot");
+    setTarotTopic(guestCarry.topic as TarotTopic);
+    setTarotSpread(guestCarry.spread as TarotSpread);
+    setTarotQuestion("");
+    setGuestCarryBusy(true);
+    setGuestCarryRun(guestCarry); // runs below once the topic and spread above are committed
+  };
+  useEffect(() => {
+    if (!guestCarryRun) return;
+    const run = guestCarryRun;
+    setGuestCarryRun(null);
+    const activeScope = scope;
+    void (async () => {
+      try {
+        const draw = await requestTarotDraw({ language: language === "en" ? "en" : "vi", deck: selectedDeck, topic: run.topic, spread: run.spread, question: "", guestDeviceId: run.deviceId }, backendOptions);
+        if (!activeScope.active) return;
+        const spreadOption = spreads.find((item) => item.id === run.spread) ?? spreads[1];
+        const mapped = draw.spread === run.spread && draw.cards.length === spreadOption.cards
+          ? mapServerCards(draw.cards, cards, localizedList(spreadOption.labels, language)) : null;
+        if (!mapped) throw new BackendUnavailableError("busy");
+        serverTarotDrawRef.current = { draw, cards: mapped };
+        await clearGuestDraw();
+        setGuestCarry(null);
+        recordEvent("tarot_guest_draw_continued", { adopted: draw.guestAdopted, spread: run.spread, topic: run.topic });
+        if (!draw.guestAdopted && !draw.replayed) {
+          showToast(language === "vi" ? "Lá bài được rút lại để lưu vào tài khoản của bạn." : "The card was drawn again to be saved to your account.");
+        }
+        drawCards(mapped);
+      } catch (error) {
+        if (!activeScope.active) return;
+        const message = tarotLimitText(error) ?? c.tarotError;
+        setTarotError(message);
+        showToast(message);
+      } finally {
+        if (activeScope.active) setGuestCarryBusy(false);
+      }
+    })();
+  }, [guestCarryRun]);
 
   const createShareArtifact = () => {
     if (!reading) {
@@ -5415,6 +5762,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   useEffect(() => () => {
     if (navigationIdleTimerRef.current) clearTimeout(navigationIdleTimerRef.current);
   }, []);
+  // Stop reading a persona stream when the app shell goes away; the server still finishes and saves the turn.
+  useEffect(() => () => personaStreamAbortRef.current?.abort(), []);
   useEffect(() => {
     lastContentScrollYRef.current = 0;
     compactNavigationStartRef.current = -1;
@@ -5474,7 +5823,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   if (authState.status === "signed_out") {
     if (guestPreview) {
       const leavePreview = (view: AuthView) => { setGuestPreview(false); setAuthView(view); };
-      return <GuestPreviewScreen language={language} onCreateAccount={() => leavePreview("sign-up")} onSignIn={() => leavePreview("sign-in")} onExit={() => leavePreview("welcome")} />;
+      return <GuestPreviewScreen language={language} onCreateAccount={() => leavePreview("sign-up")} onSignIn={() => leavePreview("sign-in")} onExit={() => leavePreview("welcome")} onDrawGuestCard={nilazaBackendBaseUrl ? drawGuestCard : undefined} />;
     }
     return (
       <>
@@ -5537,6 +5886,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       chatError={chatError}
       chatGenerating={chatGenerating}
       chatInput={chatInput}
+      personaStreamingReply={personaStreamingReply?.personaId === selectedPersonaId ? personaStreamingReply : null}
       councilRoomProps={isOwnerPreviewActive
         ? {
             ...councilRoomProps,
@@ -5569,6 +5919,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       onResumePersonaSession={resumePersonaSession}
       onStartPersonaSession={startPersonaSession}
       onToggleFavoritePersona={toggleFavoritePersona}
+      onOpenBookQuote={openBookQuote}
       onReport={(summary, sourceId) => {
         recordSafetyEvent({
           feature: "chat",
@@ -5701,12 +6052,31 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             onBack={handleTarotBack}
             onStartOver={requestTarotStartOver}
             onAskFollowUp={startTarotFollowup}
+            noteMode={tarotServerMode ? "signedIn" : nilazaBackendBaseUrl ? "guest" : "off"}
+            onRequestNote={(drawId) => requestTarotNote(drawId, backendOptions)}
+            onRequestReaderSuggestion={(drawId, candidates) => requestTarotReaderSuggestion(drawId, candidates, backendOptions)}
+            onProductEvent={(name, metadata) => sendProductEvent(name, metadata, backendOptions)}
             onChatWithCard={startTarotCardChat}
             onCreateShareArtifact={createShareArtifact}
             onOpenShare={openShareSheet}
             onDraw={drawCards}
-            onRetryInterpretation={nilazaBackendBaseUrl && backendOptions.authToken ? () => {
-              if (reading && tarotResultSource(reading.moderationStatus) === "reference") drawCards(reading.selected, reading);
+            onServerDraw={tarotServerMode ? requestServerTarotDraw : undefined}
+            onRequestClarifier={tarotServerMode ? () => { void requestReadingClarifier(); } : undefined}
+            clarifierBusy={tarotClarifierBusy}
+            onRetryInterpretation={tarotServerMode && reading?.drawId ? () => {
+              const target = reading;
+              if (!target?.drawId || tarotResultSource(target.moderationStatus) !== "reference") return;
+              // Tarot v2 pack 0: the AI runs only after the person confirms; it reads the question and the cards, nothing else.
+              Alert.alert(
+                language === "vi" ? "Đọc chuyên sâu cho câu hỏi này?" : "A deep reading for this question?",
+                language === "vi"
+                  ? "Bạn sẽ nhận một bài đọc viết riêng cho câu hỏi này: từng lá ở đúng vị trí của nó, một hướng nên cân nhắc và một câu hỏi để viết.\n\nChỉ câu hỏi và các lá được gửi đi, không gửi ngày sinh hay Nhật ký. Lượt chỉ tính khi bài đọc được trả về; lỗi thì không mất."
+                  : "You will get a reading written for this question: each card in its position, a direction to consider and a question to write about.\n\nOnly the question and the cards are sent, never birth data or your Journal. It only counts when the reading is delivered; a failure costs nothing.",
+                [
+                  { text: language === "vi" ? "Để sau" : "Not now", style: "cancel" },
+                  { text: language === "vi" ? "Đọc ngay" : "Read now", onPress: () => drawCards(target.selected, target) }
+                ]
+              );
             } : undefined}
             onQuestionChange={(text) => setTarotQuestion(text)}
             keepSelectedDeck={tarotKeepSelectedDeck}
@@ -5727,11 +6097,15 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
           />
         ) : screen === "astrology" ? (
           <AstrologyExperience key={scope.key} language={language} storage={storage} accountReady={loaded}
+            initialStage={astrologyStage === "sky" ? "sky" : undefined}
+            initialChartId={astrologyChartToOpen}
+            onWriteJournal={(prompt) => { setJournalPrompt(prompt); setJournalEntryToOpen(null); navigate("journal"); }}
             onReportAnswer={setFeedbackTarget}
             onOpenShare={openShareSheet}
             ownerPremiumPreview={isOwnerPreviewActive && displayedTier === "premium"}
             canRequestAstrologyAi={Boolean(backendOptions.authToken) && displayedTier === "premium" && !isOwnerPreviewActive}
             aiSignInRequired={!backendOptions.authToken}
+            onOpenPremium={paywallEnabled ? openPremium : undefined}
             onRequestSignIn={isSupabaseAuthConfigured ? () => { setAuthView("sign-in"); signOutLocally(); } : undefined}
             requestAstrologyAi={(input, correlation) => requestAstrologyAiInsight(input, backendOptions, correlation)}
             onDeleteAiReport={backendOptions.authToken ? (chartId) => deleteAstrologyAiReportForChart(backendOptions, chartId) : undefined}
@@ -5745,6 +6119,24 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             }}
             initialBirth={{date:birthDate,time:birthTime,place:birthPlace,unknown:birthTimeUnknown}}
             onBack={() => navigate("explore")} />
+        ) : screen === "numerology" ? (
+          <ScrollView style={{ flex: 1, minHeight: 0 }} contentContainerStyle={[styles.screen, { paddingHorizontal: adaptiveLayout.gutter }]} keyboardShouldPersistTaps="handled">
+            <NumerologyScreen key={scope.key} language={language} storage={scope.userId ? storage : undefined}
+              initialBirthDate={birthDate} onBirthDateChange={setBirthDate} onOpenShare={openShareSheet}
+              onEvent={(name, metadata) => recordEvent(name, metadata)}
+              onRequestPrivateMessage={tarotServerMode ? (payload) => requestNumerologyMessage(payload, backendOptions) : undefined}
+              onWriteJournal={(prompt) => { setJournalPrompt(prompt); setJournalEntryToOpen(null); navigate("journal"); }}
+              onBack={() => navigate("explore")} />
+          </ScrollView>
+        ) : screen === "bookQuote" ? (
+          <BookQuoteScreen key={`${scope.key}:${bookQuoteBook ?? ""}`} language={language} dateKey={currentDateKey} initialBook={bookQuoteBook}
+            storage={scope.userId ? storage : undefined}
+            personaName={(personaId) => { const persona = personasById[personaId]; return persona ? personaShortName(persona, language) : (language === "vi" ? "người dẫn" : "the guide"); }}
+            onAskPersona={askBookQuoteGuide}
+            onWriteJournal={writeBookQuoteJournal}
+            onEvent={(name, metadata) => recordEvent(name, { ...metadata, feature: BOOK_QUOTE_FEATURE_ID })}
+            onBack={() => navigate(bookQuoteReturnScreen)}
+            contentContainerStyle={[styles.screen, { paddingHorizontal: adaptiveLayout.gutter }]} />
         ) : (
           <ScrollView
             testID="main-screen-scroll"
@@ -5774,6 +6166,9 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                 unreadNotificationCount={unreadNotificationCount}
                 councilPersonas={councilRoomProps.personas}
                 councilSession={latestCouncilSession}
+                guestCarry={guestCarry}
+                guestCarryBusy={guestCarryBusy}
+                onOpenGuestCarry={openGuestCarry}
                 onAiCouncil={openAiCouncilRoom}
                 onAsk={openOracleWithQuestion}
                 onAskDeeperToday={() => startTarotCardChat(todayPulse.card, selectedDeck)}
@@ -5790,6 +6185,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                 onShareTodayCard={shareTodayPulseCard}
                 onWritePrompt={(prompt) => { setJournalPrompt(prompt); setJournalEntryToOpen(null); navigate("journal"); }}
                 onAstrology={() => startAstrology("hub")}
+                onSky={() => startAstrology("sky")}
+                onBookQuote={openBookQuote}
               />
             )}
 
@@ -5800,6 +6197,9 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                 onTarot={() => startTarot("topic")}
                 onLibrary={() => startTarot("library")}
                 onAstrology={() => startAstrology("hub")}
+                onSky={() => startAstrology("sky")}
+                onNumerology={() => navigate("numerology")}
+                onBookQuote={availableBookQuoteBooks().length > 0 ? () => openBookQuote() : undefined}
                 onAllDecks={() => startTarot("deck")}
                 decks={[
                   { id: "rose-mirror", mood: language === "vi" ? "Tình yêu" : "Love" },
@@ -5880,12 +6280,33 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
 
             {screen === "profile" && !(showAdmin && isAdmin) && (
               <ProfileScreen
+                key={profileEntrySection ?? "profile"}
+                initialSection={profileEntrySection}
+                premium={premium}
+                premiumUserId={authState.status === "signed_in" ? scope.userId : undefined}
+                onSignIn={isSupabaseAuthConfigured ? () => { setAuthView("sign-in"); signOutLocally(); } : undefined}
                 c={c}
                 signLabel={zodiacPulse.hasBirthDate ? zodiacPulse.sign : undefined}
                 memberSince={authState.status === "signed_in" && authState.user.createdAt
                   ? new Date(authState.user.createdAt).toLocaleDateString(language === "vi" ? "vi-VN" : "en-GB", { day: "2-digit", month: "2-digit", year: "numeric" })
                   : undefined}
                 readingsCount={journalEntries.filter((entry) => entry.sourceType === "tarot").length}
+                storage={storage}
+                journalEntries={journalEntries}
+                savedChartsRevision={savedChartsRevision}
+                onOpenSavedChart={(chart) => { startAstrology("hub"); setAstrologyChartToOpen(chart.id); }}
+                onMakeChart={() => startAstrology("hub")}
+                onOpenNumerology={() => navigate("numerology")}
+                onWriteJournal={() => { setJournalEntryToOpen(null); navigate("journal"); }}
+                onDeleteSavedChart={(chart) => requestConfirmation({
+                  title: language === "vi" ? "Xóa lá số này?" : "Delete this chart?",
+                  body: language === "vi"
+                    ? "Lá số và ghi chú đi kèm sẽ bị xóa khỏi thiết bị này. Nếu có bài đọc AI đã đồng bộ, bài đó cũng bị xóa khỏi tài khoản. Thông tin ngày sinh vẫn được giữ."
+                    : "The chart and its notes will be removed from this device. A synced AI reading for it is also deleted from your account. Your birth details stay.",
+                  confirmLabel: language === "vi" ? "Xóa lá số" : "Delete chart",
+                  tone: "danger",
+                  onConfirm: () => confirmDestructiveAction(() => { void deleteSavedChartFromProfile(chart.id); })
+                })}
                 dailyReminder={dailyReminder}
                 onDailyReminderChange={(next) => { void changeDailyReminder(next); }}
                 onDeleteAccount={async () => {
@@ -6188,10 +6609,14 @@ function HomeScreen({
   zodiacPulse,
   councilPersonas,
   councilSession,
+  guestCarry,
+  guestCarryBusy,
+  onOpenGuestCarry,
   onAiCouncil,
   onAsk,
   onAskDeeperToday,
   onAstrology,
+  onSky,
   onGoalSuggestion,
   onJournal,
   onOpenRecent,
@@ -6205,7 +6630,8 @@ function HomeScreen({
   onShareTodayCard,
   onWritePrompt,
   dailyReminderOn,
-  onOpenReminder
+  onOpenReminder,
+  onBookQuote
 }: {
   c: Copy;
   currentDateKey: string;
@@ -6221,10 +6647,15 @@ function HomeScreen({
   zodiacPulse: ReturnType<typeof buildDailyZodiacPulse>;
   councilPersonas: Persona[];
   councilSession?: AiCouncilSessionSummary;
+  /** Tarot v2 pack 1: the card drawn before sign-in, offered until it is opened or the day ends. */
+  guestCarry?: StoredGuestDraw | null;
+  guestCarryBusy?: boolean;
+  onOpenGuestCarry?: () => void;
   onAiCouncil: () => void;
   onAsk: (text: string) => void;
   onAskDeeperToday: () => void;
   onAstrology: () => void;
+  onSky: () => void;
   onGoalSuggestion: (topic: TarotTopic) => void;
   onJournal: () => void;
   onOpenRecent: (id: string) => void;
@@ -6239,8 +6670,10 @@ function HomeScreen({
   onWritePrompt: (prompt: string) => void;
   dailyReminderOn: boolean;
   onOpenReminder: () => void;
+  onBookQuote?: (book: BookQuoteBookId) => void;
 }) {
   const card = todayPulse.card;
+  const todayBookQuote = onBookQuote ? homeBookQuote(currentDateKey) : null;
   const savedTodayEntry = journalEntries.find((entry) => entry.sourceType === "daily" && entry.sourceId === todayCardSourceId(currentDateKey));
   const cardSaved = Boolean(savedTodayEntry);
   const todayMood = journalEntries.find((entry) => !entry.sourceId && entry.sourceSnapshot?.type === "today_pulse" && entry.sourceSnapshot?.dateKey === currentDateKey)?.mood;
@@ -6252,12 +6685,25 @@ function HomeScreen({
     ? { ...homeNextStepCopy(nextStepId, language), onPress: nextStepId === "write" ? () => onWritePrompt(todayQuestion) : onOpenReminder }
     : undefined;
   return <HomeExperience cardBack={getDeckBackImage(selectedDeck.id)} language={language} greeting={homeGreetingLabel(currentTime, language, profile.nickname)} now={currentTime}
-    revealed={todayPulseRevealed} streak={visibleStreak(profile.currentStreak, profile.lastActivityDate, currentDateKey)} onReveal={onRevealTodayCard} onAsk={onAsk} onAstrology={onAstrology} onGoalSuggestion={onGoalSuggestion}
+    revealed={todayPulseRevealed} streak={visibleStreak(profile.currentStreak, profile.lastActivityDate, currentDateKey)} onReveal={onRevealTodayCard} onAsk={onAsk} onAstrology={onAstrology} onSky={onSky} onGoalSuggestion={onGoalSuggestion}
     primaryGoal={profile.goals[0]} zodiac={{ hasBirthDate: zodiacPulse.hasBirthDate, sign: zodiacPulse.sign ?? "", signId: zodiacPulse.signId, line: zodiacPulse.reflection }}
     onJournal={onJournal} onNotifications={onNotifications} unread={unreadNotificationCount}
     latest={homeLatestEntry(journalEntries, currentTime, language)} deckCover={getDeckThumbnailImage(selectedDeck.id)}
     onOpenRecent={onOpenRecent} onWritePrompt={onWritePrompt}
-    continuation={councilSession ? <HomeCouncilCard language={language} personas={councilPersonas} session={councilSession} onPress={onAiCouncil} /> : undefined}
+    bookQuote={todayBookQuote && onBookQuote ? {
+      book: bookQuoteTitle(todayBookQuote.book, language),
+      quote: bookQuoteText(todayBookQuote.item, "quote", language),
+      onPress: () => onBookQuote(todayBookQuote.book)
+    } : undefined}
+    continuation={councilSession || guestCarry ? <>
+      {guestCarry && guestCarry.cards[0] && onOpenGuestCarry ? (() => {
+        const first = guestCarry.cards[0];
+        const guestCard = cards.find((item) => item.id === first.id);
+        return guestCard ? <GuestCarryCard language={language} cardName={displayTarotCardName(guestCard, language)} image={getTarotCardImage(selectedDeck.id, guestCard.id)}
+          reversed={first.reversed} busy={Boolean(guestCarryBusy)} onPress={onOpenGuestCarry} /> : null;
+      })() : null}
+      {councilSession ? <HomeCouncilCard language={language} personas={councilPersonas} session={councilSession} onPress={onAiCouncil} /> : null}
+    </> : undefined}
     preRevealHint={todayPulse.wisdomLine}
     nextStep={nextStep}
     reflection={<TodayCardReflection language={language} cardImage={getTarotCardImage(selectedDeck.id, card.id)} cardName={displayTarotCardName(card, language)}
@@ -6376,7 +6822,7 @@ function personaMatchesChatCategory(persona: Persona, category: ChatCategory) {
 function personaRoleLabel(persona: Persona, language: Language) {
   if (persona.displayRole) return localizedText(persona.displayRole, language);
   if (persona.type === "book_inspired_guide") {
-    return language === "vi" ? "Guide theo chủ đề sách" : "Book-inspired guide";
+    return language === "vi" ? "Người dẫn theo chủ đề sách" : "Book-inspired guide";
   }
   return localizedText(persona.sourceInspiration, language, persona.type);
 }
@@ -6391,6 +6837,9 @@ function personaConversationLens(persona: Persona, language: Language) {
 function personaSearchText(persona: Persona, language: Language) {
   return [
     localizedText(persona.name, language),
+    personaShortName(persona, language),
+    personaBookTitle(persona, "vi") ?? "",
+    personaBookTitle(persona, "en") ?? "",
     localizedText(persona.displayRole ?? persona.sourceInspiration, language, ""),
     localizedText(persona.shortDescription, language),
     ...persona.tone,
@@ -6618,6 +7067,7 @@ function ChatScreen({
   chatError,
   chatGenerating,
   chatInput,
+  personaStreamingReply,
   councilRoomProps,
   favoritePersonaIds,
   handoffContext,
@@ -6642,6 +7092,7 @@ function ChatScreen({
   onResumePersonaSession,
   onStartPersonaSession,
   onToggleFavoritePersona,
+  onOpenBookQuote,
   onReport,
   onRetry,
   onSave,
@@ -6653,6 +7104,7 @@ function ChatScreen({
   chatError: string;
   chatGenerating: boolean;
   chatInput: string;
+  personaStreamingReply?: PersonaStreamingReply | null;
   councilRoomProps: Omit<AiCouncilRoomProps, "onBack" | "onOpenGuideChat">;
   favoritePersonaIds: string[];
   handoffContext?: ChatHandoffContext;
@@ -6682,6 +7134,8 @@ function ChatScreen({
   onSave: (entry: Omit<JournalEntry, "id" | "createdAt">) => void;
   onSend: (preset?: string) => void;
   onTrack: (name: string, metadata?: Record<string, string | number | boolean>) => void;
+  /** Book personas only: opens "Một câu cho hôm nay" on that persona's book. Free, so shown even when the guide is locked. */
+  onOpenBookQuote?: (book: BookQuoteBookId) => void;
 }) {
   const [detailTab, setDetailTab] = useState<PersonaDetailTab>("reflections");
   const intro = language === "vi"
@@ -6738,10 +7192,12 @@ function ChatScreen({
         councilThumbnails={councilRoomProps.personas.map((persona) => getPersonaThumbnail(persona))}
         guides={personas.map((persona) => ({
           id: persona.id,
-          name: personaShortName(persona, language),
+          name: personaBookTitle(persona, language) ?? personaShortName(persona, language),
           tagline: personaTagline(persona, language),
           thumbnail: getPersonaThumbnail(persona),
-          comingSoon: !canViewContentTier(persona.accessTier, displayedTier)
+          comingSoon: !canViewContentTier(persona.accessTier, displayedTier),
+          kind: persona.type === "book_inspired_guide" ? "book" : "guide",
+          artTint: personaPlaceholderArtTint(persona)
         }))}
         matches={(id, category, query) => {
           const persona = personasById[id];
@@ -6788,6 +7244,7 @@ function ChatScreen({
     const role = personaRoleLabel(selectedPersona, language);
     const detailTraits = personaTraitPreview(selectedPersona, language, 5);
     const personaLocked = !canViewContentTier(selectedPersona.accessTier, displayedTier);
+    const detailQuoteBook = bookQuoteBookForPersona(selectedPersona.id);
     const personaFavorite = favoritePersonaIds.includes(selectedPersona.id);
     const personaSections = getContentSections("persona", selectedPersona.id);
     const reflectionSection = personaSections.find((section) => section.sectionKey === "reflections");
@@ -6799,7 +7256,13 @@ function ChatScreen({
     const fallbackPersonaSections = buildPersonaFallbackSections(selectedPersona, language);
     const editorialOverride = personaEditorialOverrides[selectedPersona.slug];
     const heroTitle = localizedText(editorialOverride?.heroTitle, language, personaName).replace(/\s+Guide$/i, "");
-    const heroSubtitle = localizedText(editorialOverride?.heroSubtitle, language, role).toUpperCase();
+    const detailBookTitle = personaBookTitle(selectedPersona, language);
+    const heroSubtitle = localizedText(
+      editorialOverride?.heroSubtitle,
+      language,
+      detailBookTitle ? (language === "vi" ? `Từ sách ${detailBookTitle}` : `From the book ${detailBookTitle}`) : role
+    ).toUpperCase();
+    const coverTint = personaPlaceholderArtTint(selectedPersona);
     const domainLabels = localizedList(editorialOverride?.domainLabels, language);
     const domainKeys = Array.from(new Set([...selectedPersona.themes, ...selectedPersona.tone]));
     const domainItems = domainKeys.slice(0, 4).map((key, index) => ({
@@ -6853,7 +7316,7 @@ function ChatScreen({
     return (
       <View style={styles.editorialPersonaScreen}>
         <View style={styles.editorialPersonaTopBar}>
-          <Pressable accessibilityRole="button" style={styles.editorialRoundIcon} onPress={() => setMode("list")}>
+          <Pressable accessibilityLabel={language === "vi" ? "Quay lại" : "Back"} accessibilityRole="button" style={styles.editorialRoundIcon} onPress={() => setMode("list")}>
             <Ionicons name="arrow-back-outline" size={22} color={colors.gold} />
           </Pressable>
           <View style={[styles.editorialPersonaHeaderTitleWrap, showCompactTitle && styles.editorialPersonaHeaderTitleWrapVisible]}>
@@ -6861,7 +7324,9 @@ function ChatScreen({
           </View>
           <View style={styles.editorialPersonaActionRow}>
             <Pressable
-              accessibilityLabel={personaFavorite ? "Remove favorite guide" : "Save favorite guide"}
+              accessibilityLabel={language === "vi"
+                ? personaFavorite ? "Bỏ lưu người dẫn yêu thích" : "Lưu người dẫn yêu thích"
+                : personaFavorite ? "Remove favorite guide" : "Save favorite guide"}
               accessibilityRole="button"
               accessibilityState={{ selected: personaFavorite }}
               style={[styles.editorialRoundIcon, personaFavorite && styles.editorialRoundIconActive]}
@@ -6875,6 +7340,7 @@ function ChatScreen({
         <View style={styles.editorialPersonaHero}>
           <View style={styles.editorialPersonaAura} />
           <Image source={personaCover} style={styles.editorialPersonaImage} resizeMode="cover" />
+          {coverTint ? <View style={[styles.editorialPersonaHeroShade, { backgroundColor: coverTint, opacity: 0.32 }]} /> : null}
           <View style={styles.editorialPersonaHeroShade} />
           <View style={[styles.editorialPersonaTitleWrap, showCompactTitle && styles.editorialPersonaTitleWrapHidden]}>
             <Text style={styles.editorialPersonaTitle}>{heroTitle}</Text>
@@ -6882,14 +7348,28 @@ function ChatScreen({
           </View>
         </View>
 
-        <View style={styles.editorialPersonaTabs}>
-          <Pressable style={styles.editorialPersonaTab} onPress={() => setDetailTab("reflections")}>
+        {detailQuoteBook && onOpenBookQuote ? (
+          <Pressable
+            testID="persona-book-quote"
+            accessibilityRole="button"
+            accessibilityLabel={language === "vi" ? `Một câu cho hôm nay từ ${bookQuoteTitle(detailQuoteBook, language)}` : `A line for today from ${bookQuoteTitle(detailQuoteBook, language)}`}
+            style={styles.personaBookQuoteButton}
+            onPress={() => onOpenBookQuote(detailQuoteBook)}
+          >
+            <Ionicons name="book-outline" size={18} color={colors.gold} />
+            <Text style={styles.personaBookQuoteText}>{language === "vi" ? "Một câu cho hôm nay" : "A line for today"}</Text>
+            <Ionicons name="chevron-forward" size={16} color={colors.gold} />
+          </Pressable>
+        ) : null}
+
+        <View accessibilityRole="tablist" style={styles.editorialPersonaTabs}>
+          <Pressable accessibilityRole="tab" accessibilityState={{ selected: detailTab === "reflections" }} hitSlop={8} style={styles.editorialPersonaTab} onPress={() => setDetailTab("reflections")}>
             <Text style={[styles.editorialPersonaTabText, detailTab === "reflections" && styles.editorialPersonaTabTextActive]}>
               {language === "vi" ? "Suy niệm" : "Reflections"}
             </Text>
             <View style={[styles.editorialPersonaTabLine, detailTab === "reflections" && styles.editorialPersonaTabLineActive]} />
           </Pressable>
-          <Pressable style={styles.editorialPersonaTab} onPress={() => setDetailTab("chronicle")}>
+          <Pressable accessibilityRole="tab" accessibilityState={{ selected: detailTab === "chronicle" }} hitSlop={8} style={styles.editorialPersonaTab} onPress={() => setDetailTab("chronicle")}>
             <Text style={[styles.editorialPersonaTabText, detailTab === "chronicle" && styles.editorialPersonaTabTextActive]}>
               {language === "vi" ? "Biên niên" : "Chronicle"}
             </Text>
@@ -6914,16 +7394,16 @@ function ChatScreen({
             <View style={styles.editorialPersonaQuoteCard}>
               <Ionicons name="chatbox-ellipses-outline" size={42} color="rgba(201, 164, 92, 0.12)" style={styles.editorialPersonaQuoteMark} />
               <Text style={styles.editorialPersonaCardLabel}>{language === "vi" ? "Một lời từ người dẫn đường" : "A Word from the Guide"}</Text>
-              <Text style={styles.editorialPersonaQuoteText}>“{reflectionQuote}”</Text>
+              <Text style={styles.editorialPersonaQuoteText}>{asGuideQuote(reflectionQuote)}</Text>
               <Text style={styles.editorialPersonaQuoteBody}>{reflectionSummary}</Text>
             </View>
 
             <View style={styles.editorialPersonaSection}>
-              <Text style={styles.editorialPersonaSectionLabel}>{language === "vi" ? "Dấu vết gần đây" : "Recent Insights"}</Text>
+              <Text style={styles.editorialPersonaSectionLabel}>{language === "vi" ? "Chủ đề gợi ý" : "Suggested topics"}</Text>
               <View style={styles.editorialPersonaInsightStack}>
                 {recentInsights.map((item) => (
                   <View key={item} style={styles.editorialPersonaInsightCard}>
-                    <Text style={styles.editorialPersonaInsightText}>“{item}”</Text>
+                    <Text style={styles.editorialPersonaInsightText}>{item}</Text>
                   </View>
                 ))}
               </View>
@@ -6958,7 +7438,7 @@ function ChatScreen({
 
             <View style={styles.editorialPersonaClosingQuote}>
               <Ionicons name="book-outline" size={28} color="rgba(201, 164, 92, 0.22)" />
-              <Text style={styles.editorialPersonaClosingQuoteText}>“{chronicleQuote}”</Text>
+              <Text style={styles.editorialPersonaClosingQuoteText}>{chronicleQuote}</Text>
             </View>
           </View>
         )}
@@ -7023,11 +7503,17 @@ function ChatScreen({
         onFeedback(language === "vi" ? "Cảm ơn bạn đã phản hồi." : "Thanks for the feedback.");
       }}
       onSend={onSend}
+      openingLine={personaOpener(selectedPersona, language)}
+      personaInspiration={(() => {
+        const title = personaBookTitle(selectedPersona, language);
+        return title ? (language === "vi" ? `sách ${title}` : `the book ${title}`) : undefined;
+      })()}
       personaName={personaName}
       personaPrompts={personaPrompts}
       personaThumbnail={personaThumbnail}
       personaTransparency={personaTransparency}
       sessionSummaries={personaSessionSummaries}
+      streamingReply={personaStreamingReply}
     />
   );
 }
@@ -7061,10 +7547,17 @@ export function TarotFlow({
   onBack,
   onStartOver,
   onAskFollowUp,
+  noteMode = "off",
+  onRequestNote,
+  onRequestReaderSuggestion,
+  onProductEvent,
   onChatWithCard,
   onCreateShareArtifact,
   onOpenShare,
   onDraw,
+  onServerDraw,
+  onRequestClarifier,
+  clarifierBusy = false,
   onRetryInterpretation,
   onQuestionChange,
   onReportReading,
@@ -7100,11 +7593,20 @@ export function TarotFlow({
   learnedCardIds: string[];
   onCardLearned: (cardId: string) => void;
   onStartOver: () => void;
-  onAskFollowUp: (personaId?: string) => void;
+  onAskFollowUp: (personaId?: string, opener?: string, experiment?: TarotNoteExperiment) => void;
+  /** Batch C free note: "signedIn" asks the server, "guest" shows the sign-in invite, "off" (local mode) hides it. */
+  noteMode?: "signedIn" | "guest" | "off";
+  onRequestNote?: (drawId: string) => Promise<TarotNoteOutcome>;
+  onRequestReaderSuggestion?: (drawId: string, candidates: string[]) => Promise<ReaderAiSuggestion | null>;
+  onProductEvent?: (name: ProductEventName, metadata: Record<string, string | undefined | null>) => void;
   onChatWithCard: (card: TarotCard | DrawnTarotCard, deck: TarotDeck, sourceReading?: ReturnType<typeof drawReading> | null) => void;
   onCreateShareArtifact: () => void;
   onOpenShare: (request: ShareRequest) => void;
   onDraw: (selectedCards?: DrawnTarotCard[]) => void;
+  /** P1-A, signed in: the server draws the cards (null when it could not; the parent shows why). */
+  onServerDraw?: () => Promise<{ cards: DrawnTarotCard[]; completed: boolean } | null>;
+  onRequestClarifier?: () => void;
+  clarifierBusy?: boolean;
   onRetryInterpretation?: () => void;
   onQuestionChange: (text: string) => void;
   onReportReading: (summary: string, sourceId?: string) => void;
@@ -7182,6 +7684,79 @@ export function TarotFlow({
     tarotGuideOptions.find((persona) => persona.id === selectedTarotGuideId) ??
     recommendedTarotGuide;
   const selectedTarotGuideReason = getTarotGuideReason(selectedDeck.id, selectedTarotGuide, language);
+  // Batch C: suggest the reader from the question and the drawn cards; the deck only breaks ties.
+  const readerSuggestReading = useMemo<ReaderSuggestReading | null>(() => reading ? {
+    id: reading.id,
+    drawId: reading.drawId,
+    topic: reading.topic ?? tarotTopic,
+    question: reading.question ?? "",
+    deckId: reading.deck.id,
+    cards: reading.selected.map((card, index) => ({
+      cardId: card.id,
+      orientation: card.reversed ? "reversed" as const : "upright" as const,
+      positionKey: reading.cards[index]?.positionKey ?? String(index),
+      suit: card.suit,
+      arcana: card.arcana,
+      name: card.name
+    }))
+  } : null, [reading]);
+  const readerSuggest = useReaderSuggestion({
+    reading: readerSuggestReading,
+    guides: tarotGuideOptions.map((persona) => ({ slug: persona.slug, themes: persona.themes, name: persona.name })),
+    language,
+    aiEnabled: noteMode === "signedIn",
+    requestAi: onRequestReaderSuggestion,
+    onAutoSelect: (slug) => {
+      const persona = tarotGuideOptions.find((option) => option.slug === slug);
+      if (persona) setSelectedTarotGuideId(persona.id);
+    },
+    onShown: ({ slug, topic, source, experiment }) => onProductEvent?.("reader_suggestion_shown", {
+      slug, topic: topic ?? "none", source, campaignId: experiment?.campaignId, variant: experiment?.variant
+    })
+  });
+  const readerOptions: ReaderOption[] = tarotGuideOptions.map((persona) => ({
+    slug: persona.slug,
+    name: localizedText(persona.name, language),
+    role: personaRoleLabel(persona, language),
+    image: getPersonaThumbnail(persona),
+    accentColor: persona.portrait.colors[1]
+  }));
+  const [readerMismatch, setReaderMismatch] = useState<{ slug: string; opener?: string } | null>(null);
+  const askTarotReader = (slug: string, opener?: string) => {
+    const persona = tarotGuideOptions.find((option) => option.slug === slug) ?? selectedTarotGuide;
+    const suggestion = readerSuggest.suggestion;
+    if (reading && suggestion && persona.slug !== suggestion.primary && isReaderMismatch(persona.themes, suggestion.matchedTopic)
+      && !readerMismatchAlreadyShown(reading.id)) {
+      markReaderMismatchShown(reading.id);
+      setReaderMismatch({ slug: persona.slug, opener });
+      onProductEvent?.("reader_mismatch_nudge_shown", {
+        slug: persona.slug, recommendedSlug: suggestion.primary, topic: suggestion.matchedTopic ?? "none",
+        campaignId: readerSuggest.experiment?.campaignId, variant: readerSuggest.experiment?.variant
+      });
+      return;
+    }
+    if (suggestion && persona.slug === suggestion.primary) {
+      onProductEvent?.("reader_suggestion_accepted", {
+        slug: persona.slug,
+        source: readerSuggest.source,
+        campaignId: readerSuggest.experiment?.campaignId,
+        variant: readerSuggest.experiment?.variant
+      });
+    }
+    onAskFollowUp(persona.id, opener, readerSuggest.experiment ?? undefined);
+  };
+  const readerMismatchChosen = readerMismatch ? tarotGuideOptions.find((option) => option.slug === readerMismatch.slug) : undefined;
+  const readerMismatchSuggested = readerSuggest.suggestion ? tarotGuideOptions.find((option) => option.slug === readerSuggest.suggestion?.primary) : undefined;
+  // Decided once per draw, when it first appears: a later "Phân tích chuyên sâu" swaps the reading object but not the draw.
+  const noteAutoRef = useRef<{ drawId?: string; auto: boolean }>({ auto: true });
+  if (reading?.drawId !== noteAutoRef.current.drawId) noteAutoRef.current = { drawId: reading?.drawId, auto: !reading?.replayed };
+  const tarotNote = useTarotFreeNote({
+    drawId: noteMode === "signedIn" ? reading?.drawId : undefined,
+    signedIn: noteMode !== "guest",
+    // A reading opened again (the server replays today's draw) shows nothing until the person taps "Xem lời nhắn".
+    auto: noteAutoRef.current.auto,
+    request: (drawId) => onRequestNote ? onRequestNote(drawId) : Promise.resolve({ kind: "unavailable", reason: "busy" } as const)
+  });
   const editorialDecks = decks;
   const isEditorialStage = stage === "learn" || stage === "topic" || stage === "spread" || stage === "deck" || stage === "deckDetail" || stage === "library" || stage === "draw" || stage === "result";
   const topicGridItems = topics.filter((topic) => topic.id !== "open");
@@ -7191,7 +7766,10 @@ export function TarotFlow({
       ? "Chọn bộ bài đồng điệu nhất với hành trình hiện tại của bạn."
       : "Select the deck that resonates with your current journey.";
   const selectedTopicLabel = localizedText(topics.find((topic) => topic.id === tarotTopic), language, tarotTopic);
-  const drawPrompt = tarotCreditBalance <= 0
+  // P1-A: for an account the server keeps the allowance (and replays today's reading), so no local count is shown.
+  const drawPrompt = onServerDraw
+    ? (language === "vi" ? "Chạm một lá trong quạt bài" : "Tap a card in the fan")
+    : tarotCreditBalance <= 0
     ? (language === "vi" ? "Hôm nay bạn đã dùng hết lượt Tarot" : "You have used today's Tarot readings")
     : language === "vi"
       ? `Chạm một lá trong quạt bài · hôm nay còn ${tarotCreditBalance} lượt`
@@ -7201,6 +7779,11 @@ export function TarotFlow({
   const [ritualPhase, setRitualPhase] = useState<RitualDrawPhase>("grounding");
   const [ritualDrawnCount, setRitualDrawnCount] = useState(0);
   const [ritualSelectedCards, setRitualSelectedCards] = useState<DrawnTarotCard[]>([]);
+  // P1-A: a server draw in flight; a newer request or leaving the draw step makes an older answer stale.
+  const [serverDrawPending, setServerDrawPending] = useState(false);
+  const serverDrawRequest = useRef(0);
+  // A card's slow flight (face down, turn, name, land) is playing; the draw button waits for it to finish.
+  const [ritualFlightActive, setRitualFlightActive] = useState(false);
   const [fullscreenTarotCard, setFullscreenTarotCard] = useState<FullscreenTarotCard | null>(null);
   const [selectedFanIndex, setSelectedFanIndex] = useState<number | null>(null);
   const [cardMeaningReturnStage, setCardMeaningReturnStage] = useState<TarotStage>("deckDetail");
@@ -7208,9 +7791,11 @@ export function TarotFlow({
   const [showTarotBackToTop, setShowTarotBackToTop] = useState(false);
   const visibleRitualCards = ritualSelectedCards.slice(0, ritualDrawnCount);
   const latestRitualCard = visibleRitualCards[visibleRitualCards.length - 1];
-  const drawActionBusy = stage === "draw" && ritualPhase !== "grounding" && !tarotGenerating;
+  const drawActionBusy = stage === "draw" && (ritualPhase !== "grounding" || serverDrawPending || ritualFlightActive) && !tarotGenerating;
   const ritualPhaseLabel = (() => {
     if (tarotGenerating || ritualPhase === "reveal") return c.generatingReading;
+    if (serverDrawPending) return language === "vi" ? "Đang rút lá cho bạn..." : "Drawing your cards...";
+    if (ritualFlightActive) return language === "vi" ? "Giữ câu hỏi trong tâm trí..." : "Hold your question in mind...";
     if (ritualPhase === "pause_and_breathe") return language === "vi" ? "Dừng một nhịp và thở..." : "Pause and breathe...";
     if (ritualPhase.startsWith("draw_card")) return language === "vi" ? "Lá bài đang tìm vị trí..." : "A card is finding its place...";
     return latestRitualCard
@@ -7292,6 +7877,8 @@ export function TarotFlow({
     if (stage !== "draw") {
       clearRitualTimers();
       if (stage === "cardMeaning") return;
+      serverDrawRequest.current += 1;
+      setServerDrawPending(false);
       setRitualPhase("grounding");
       setRitualDrawnCount(0);
       setRitualSelectedCards([]);
@@ -7311,33 +7898,36 @@ export function TarotFlow({
     tarotScrollRef.current?.scrollTo({ y: 0, animated: !reduceRitualMotion });
   };
 
-  const handleDraw = () => {
-    if (tarotGenerating || ritualPhase !== "grounding") return;
-    if (ritualDrawnCount === selectedSpread.cards && ritualSelectedCards.length === selectedSpread.cards) {
-      setRitualPhase("reveal");
-      onDraw(ritualSelectedCards);
-      return;
-    }
-    // Check the allowance before the first card, not after the whole ritual.
-    if (!canViewContentTier(selectedDeck.accessTier, displayedTier) || (ritualDrawnCount === 0 && tarotCreditBalance <= 0)) {
-      onDraw();
-      return;
-    }
-    clearRitualTimers();
-    const nextCount = Math.min(ritualDrawnCount + 1, selectedSpread.cards);
-    const nextSelectedCards = ritualSelectedCards.length === selectedSpread.cards
-      ? ritualSelectedCards
-      : selectTarotCards(tarotSpread, language);
-    setRitualSelectedCards(nextSelectedCards);
+  // P1-A, signed in: the first tap asks the server for the cards (one draw per spread, topic and Vietnam day);
+  // a draw already interpreted today goes straight to its stored answer. The server keeps the allowance.
+  const withServerCards = (next: () => void) => {
+    if (!onServerDraw || ritualSelectedCards.length === selectedSpread.cards) return false;
+    if (serverDrawPending) return true;
+    const request = ++serverDrawRequest.current;
+    setServerDrawPending(true);
+    void onServerDraw().then((result) => {
+      if (request !== serverDrawRequest.current) return;
+      setServerDrawPending(false);
+      if (!result) return;
+      setRitualSelectedCards(result.cards);
+      if (result.completed) {
+        setRitualDrawnCount(result.cards.length);
+        setRitualPhase("reveal");
+        onDraw(result.cards);
+        return;
+      }
+      next();
+    });
+    return true;
+  };
+  const revealRitualCard = (nextCount: number) => {
     animateRitualCard(nextCount);
-
     if (nextCount >= selectedSpread.cards) {
       ritualTimers.current.push(setTimeout(() => {
         setRitualPhase("grounding");
       }, 800));
       return;
     }
-
     ritualTimers.current.push(setTimeout(() => {
       setRitualPhase("pause_and_breathe");
     }, 420));
@@ -7345,26 +7935,52 @@ export function TarotFlow({
       setRitualPhase("grounding");
     }, 1350));
   };
+  const revealRemainingCards = (from: number) => {
+    setRitualPhase("pause_and_breathe");
+    for (let index = from; index < selectedSpread.cards; index += 1) {
+      ritualTimers.current.push(setTimeout(() => {
+        animateRitualCard(index + 1);
+      }, 220 + (index - from) * 520));
+    }
+    ritualTimers.current.push(setTimeout(() => {
+      setRitualPhase("grounding");
+    }, 620 + (selectedSpread.cards - from) * 520));
+  };
+
+  const handleDraw = () => {
+    if (tarotGenerating || serverDrawPending || ritualPhase !== "grounding") return;
+    if (ritualDrawnCount === selectedSpread.cards && ritualSelectedCards.length === selectedSpread.cards) {
+      setRitualPhase("reveal");
+      onDraw(ritualSelectedCards);
+      return;
+    }
+    // Check the allowance before the first card, not after the whole ritual (the server checks it for an account).
+    if (!canViewContentTier(selectedDeck.accessTier, displayedTier) || (ritualDrawnCount === 0 && !onServerDraw && tarotCreditBalance <= 0)) {
+      onDraw();
+      return;
+    }
+    clearRitualTimers();
+    if (withServerCards(() => revealRitualCard(1))) return;
+    const nextCount = Math.min(ritualDrawnCount + 1, selectedSpread.cards);
+    const nextSelectedCards = ritualSelectedCards.length === selectedSpread.cards
+      ? ritualSelectedCards
+      : selectTarotCards(tarotSpread, language);
+    setRitualSelectedCards(nextSelectedCards);
+    revealRitualCard(nextCount);
+  };
 
   // Reveals every card not yet drawn; the allowance is checked only before the first card.
   const handleQuickDraw = () => {
-    if (tarotGenerating || ritualPhase !== "grounding" || ritualDrawnCount >= selectedSpread.cards) return;
-    if (!canViewContentTier(selectedDeck.accessTier, displayedTier) || (ritualDrawnCount === 0 && tarotCreditBalance <= 0)) {
+    if (tarotGenerating || serverDrawPending || ritualPhase !== "grounding" || ritualDrawnCount >= selectedSpread.cards) return;
+    if (!canViewContentTier(selectedDeck.accessTier, displayedTier) || (ritualDrawnCount === 0 && !onServerDraw && tarotCreditBalance <= 0)) {
       onDraw();
       return;
     }
     clearRitualTimers();
     setSelectedFanIndex(null);
-    setRitualPhase("pause_and_breathe");
+    if (withServerCards(() => revealRemainingCards(0))) return;
     if (ritualSelectedCards.length !== selectedSpread.cards) setRitualSelectedCards(selectTarotCards(tarotSpread, language));
-    for (let index = ritualDrawnCount; index < selectedSpread.cards; index += 1) {
-      ritualTimers.current.push(setTimeout(() => {
-        animateRitualCard(index + 1);
-      }, 220 + (index - ritualDrawnCount) * 520));
-    }
-    ritualTimers.current.push(setTimeout(() => {
-      setRitualPhase("grounding");
-    }, 620 + (selectedSpread.cards - ritualDrawnCount) * 520));
+    revealRemainingCards(ritualDrawnCount);
   };
   // Tapping a fanned card raises it; tapping it again (or the main button) turns it over.
   const handleFanSelect = (index: number) => {
@@ -7403,7 +8019,9 @@ export function TarotFlow({
       ? c.upgrade
       : tarotGenerating || ritualPhase === "reveal"
         ? c.generatingReading
-        : drawActionBusy
+        : serverDrawPending
+          ? language === "vi" ? "Đang rút lá..." : "Drawing..."
+          : drawActionBusy
           ? language === "vi" ? "Dừng một nhịp" : "Pause a breath"
           : ritualDrawnCount === 0
             ? language === "vi" ? "Rút lá đầu tiên" : "Draw first card"
@@ -7954,9 +8572,10 @@ export function TarotFlow({
             onClearSelection={() => setSelectedFanIndex(null)}
             onOpenCard={(index) => { const card = ritualSelectedCards[index]; if (card) openFullscreenTarotCard(card, card.spread); }}
             busy={tarotGenerating || drawActionBusy}
-            status={latestRitualCard && ritualPhase === "grounding" && !tarotGenerating ? `${latestRitualCard.spread} · ${displayTarotCardName(latestRitualCard, language)} · ${latestRitualCard.reversed ? (language === "vi" ? "Ngược" : "Reversed") : (language === "vi" ? "Xuôi" : "Upright")}` : ritualPhaseLabel}
+            status={latestRitualCard && ritualPhase === "grounding" && !ritualFlightActive && !tarotGenerating ? `${latestRitualCard.spread} · ${displayTarotCardName(latestRitualCard, language)} · ${latestRitualCard.reversed ? (language === "vi" ? "Ngược" : "Reversed") : (language === "vi" ? "Xuôi" : "Upright")}` : ritualPhaseLabel}
             onDrawRest={selectedSpread.cards > 1 ? handleQuickDraw : undefined}
             reduceMotion={reduceRitualMotion}
+            onFlightChange={setRitualFlightActive}
           >
             {!canViewContentTier(selectedDeck.accessTier, displayedTier) ? (
               <View style={styles.errorPanel}>
@@ -7998,11 +8617,7 @@ export function TarotFlow({
               };
             })}
             summary={reading.summary}
-            sourceLabel={tarotResultSource(reading.moderationStatus) === "ai"
-              ? (language === "vi" ? `Diễn giải AI theo ${reading.selected.length} lá và câu hỏi của bạn · không phải dự đoán chắc chắn` : `AI interpretation of your ${reading.selected.length} cards and question · not a certain prediction`)
-              : tarotResultSource(reading.moderationStatus) === "blocked"
-                ? (language === "vi" ? "Phản hồi an toàn" : "Safety response")
-                : (language === "vi" ? "Ý nghĩa có sẵn · AI chưa hoàn tất" : "Reference meanings · AI not completed")}
+            sourceLabel={tarotSourceLabel({ source: tarotResultSource(reading.moderationStatus), hasDrawId: Boolean(reading.drawId), cardCount: reading.selected.length, language })}
             extraSections={reading.sections
               .filter((section) => !section.cardIds?.length)
               .map((section, index) => ({ id: `${section.key}-${index}`, title: localizedText(section.title, language), body: localizedText(section.body, language) }))
@@ -8010,17 +8625,66 @@ export function TarotFlow({
             reflection={reading.reflection}
             onWriteJournal={onWriteJournal}
           >
+            {tarotNote.state ? (
+              <TarotFreeNote
+                language={language}
+                state={tarotNote.state}
+                reduceMotion={reduceRitualMotion}
+                onRetry={tarotNote.retry}
+                onReveal={tarotNote.reveal}
+                onFeedback={(value) => {
+                  const experiment = tarotNote.state?.kind === "note" ? tarotNote.state.experiment : null;
+                  onProductEvent?.("tarot_note_feedback", { value, campaignId: experiment?.campaignId, variant: experiment?.variant });
+                }}
+              />
+            ) : null}
             {reading.language && reading.language !== language ? <Text style={styles.muted}>{language === "vi" ? "Đang giữ nguyên ngôn ngữ của bài đọc đã lưu." : "Showing the original language of this saved reading."}</Text> : null}
-            {tarotResultSource(reading.moderationStatus) === "reference" && onRetryInterpretation ? (
-              <Pressable accessibilityRole="button" disabled={tarotGenerating} accessibilityState={{ disabled: tarotGenerating }}
-                onPress={onRetryInterpretation} style={[styles.editorialOutlineButton, tarotGenerating && styles.disabledAction]}>
-                <Text style={styles.editorialOutlineButtonText}>{tarotGenerating ? c.generatingReading : language === "vi" ? "Thử diễn giải AI với các lá này" : "Retry AI with these cards"}</Text>
+            {reading.drawId && reading.replayed ? (
+              <Text accessibilityLiveRegion="polite" style={styles.muted}>{tarotLockedNote(language === "en" ? "en" : "vi", reading.nextDrawAt)}</Text>
+            ) : null}
+            {reading.clarifier ? (
+              <View style={styles.tarotClarifierPanel}>
+                <Text style={styles.muted}>{language === "vi" ? "Lá làm rõ" : "Clarifying card"}</Text>
+                <Text style={styles.editorialOutlineButtonText}>
+                  {`${localizedText(reading.clarifier.name, language)} · ${reading.clarifier.reversed ? (language === "vi" ? "Ngược" : "Reversed") : (language === "vi" ? "Xuôi" : "Upright")}`}
+                </Text>
+                <Text style={styles.muted}>{localizedText(reading.clarifier.meaning, language)}</Text>
+                <Text style={styles.muted}>{localizedText(reading.clarifier.reflectionQuestion, language)}</Text>
+              </View>
+            ) : reading.drawId && reading.moderationStatus === "passed" && onRequestClarifier ? (
+              <Pressable accessibilityRole="button" disabled={clarifierBusy} accessibilityState={{ disabled: clarifierBusy, busy: clarifierBusy }}
+                onPress={onRequestClarifier} style={[styles.editorialOutlineButton, clarifierBusy && styles.disabledAction]}>
+                <Text style={styles.editorialOutlineButtonText}>{clarifierBusy
+                  ? (language === "vi" ? "Đang rút lá làm rõ..." : "Drawing a clarifying card...")
+                  : (language === "vi" ? "Rút một lá làm rõ" : "Draw one clarifying card")}</Text>
               </Pressable>
+            ) : null}
+            {tarotResultSource(reading.moderationStatus) === "reference" && onRetryInterpretation ? (
+              <TarotDeepAnalysis language={language} busy={tarotGenerating} busyLabel={c.generatingReading} onPress={() => {
+                  const experiment = tarotNote.state?.kind === "note" ? tarotNote.state.experiment : null;
+                  onProductEvent?.("tarot_report_opened", { campaignId: experiment?.campaignId, variant: experiment?.variant });
+                  onRetryInterpretation();
+                }}
+                hook={deepReadingHook(reading.selected, reading.spread, language)} />
             ) : null}
             {tarotError ? <Text accessibilityLiveRegion="polite" style={styles.errorText}>{tarotError}</Text> : null}
           </TarotResultView>
         )}
-        {stage === "result" && reading ? (
+        {stage === "result" && reading && readerSuggest.suggestion ? (
+          <ReaderSuggestPanel
+            language={language}
+            suggestion={readerSuggest.suggestion}
+            readers={readerOptions}
+            selectedSlug={selectedTarotGuide.slug}
+            onSelect={(slug) => {
+              const persona = tarotGuideOptions.find((option) => option.slug === slug);
+              if (!persona) return;
+              readerSuggest.markUserChoice();
+              setSelectedTarotGuideId(persona.id);
+            }}
+            onAsk={askTarotReader}
+          />
+        ) : stage === "result" && reading ? (
           <TarotGuideSelector
             deck={selectedDeck}
             language={language}
@@ -8096,11 +8760,38 @@ export function TarotFlow({
           <Ionicons name="arrow-up-outline" size={18} color={colors.ink} />
         </Pressable>
       ) : null}
+      {readerMismatchChosen && readerMismatchSuggested && readerSuggest.suggestion?.matchedTopic ? (
+        <ReaderMismatchSheet
+          visible
+          language={language}
+          chosenName={localizedText(readerMismatchChosen.name, language)}
+          chosenDomain={readerDomainPhrase(readerMismatchChosen.slug, readerMismatchChosen.themes, language)}
+          topicPhrase={readerTopicPhrase(readerSuggest.suggestion.matchedTopic, language)}
+          suggestedName={localizedText(readerMismatchSuggested.name, language)}
+          onKeep={() => {
+            const opener = readerMismatch?.opener;
+            setReaderMismatch(null);
+            onAskFollowUp(readerMismatchChosen.id, opener, readerSuggest.experiment ?? undefined);
+          }}
+          onDismiss={() => setReaderMismatch(null)}
+          onSwitch={() => {
+            const opener = readerMismatch?.opener;
+            setReaderMismatch(null);
+            onProductEvent?.("reader_mismatch_switched", {
+              slug: readerMismatchChosen.slug, recommendedSlug: readerMismatchSuggested.slug,
+              campaignId: readerSuggest.experiment?.campaignId, variant: readerSuggest.experiment?.variant
+            });
+            readerSuggest.markUserChoice();
+            setSelectedTarotGuideId(readerMismatchSuggested.id);
+            onAskFollowUp(readerMismatchSuggested.id, opener, readerSuggest.experiment ?? undefined);
+          }}
+        />
+      ) : null}
       {stage === "result" && reading ? (
         <TarotResultDock
           language={language}
           onSave={saveTarotReading}
-          onAskFurther={() => onAskFollowUp(selectedTarotGuide.id)}
+          onAskFurther={() => askTarotReader(selectedTarotGuide.slug)}
           onShare={onCreateShareArtifact}
           onReport={() => onReportReading(reading.summary, reading.id)}
         />
@@ -8371,6 +9062,14 @@ function JournalScreen({
 function ProfileScreen({
   c,
   signLabel,
+  storage,
+  journalEntries,
+  savedChartsRevision,
+  onOpenSavedChart,
+  onDeleteSavedChart,
+  onMakeChart,
+  onOpenNumerology,
+  onWriteJournal,
   memberSince,
   readingsCount,
   dailyReminder,
@@ -8416,7 +9115,11 @@ function ProfileScreen({
   onMarkBirthTimeUnknown,
   onMarkNotificationRead,
   onSignOut,
-  onToggleNotificationPreference
+  onToggleNotificationPreference,
+  initialSection,
+  premium,
+  premiumUserId,
+  onSignIn
 }: {
   c: Copy;
   birthDate: string;
@@ -8466,10 +9169,28 @@ function ProfileScreen({
   dailyReminder: DailyReminder;
   onDailyReminderChange: (next: DailyReminder) => void;
   onDeleteAccount: () => Promise<string | null>;
+  /** Opens a section directly, e.g. Premium from a locked feature. */
+  initialSection?: "premium";
+  /** Tôi là ai (Lô 4): saved charts are read from this account's device store. */
+  storage: AstrologyPersistence;
+  journalEntries: JournalEntry[];
+  savedChartsRevision: number;
+  onOpenSavedChart: (chart: SavedChart) => void;
+  onDeleteSavedChart: (chart: SavedChart) => void;
+  onMakeChart: () => void;
+  onOpenNumerology?: () => void;
+  onWriteJournal: () => void;
+  premium: PremiumState;
+  premiumUserId: string | undefined;
+  onSignIn?: () => void;
 }) {
   const currentTone = tones.find((tone) => tone.id === profile.tone);
   const annualPriceMath = getAnnualPriceHypothesisMath();
-  const [profileSection, setProfileSection] = useState<"overview" | "identity" | "birth" | "preferences" | "privacy" | "notifications" | "premium" | "account" | "deleteAccount">("overview");
+  const [profileSection, setProfileSection] = useState<"overview" | "whoAmI" | "identity" | "birth" | "preferences" | "privacy" | "notifications" | "premium" | "account" | "deleteAccount">(initialSection ?? "overview");
+  const savedCharts = useSavedCharts(storage, profileSection === "whoAmI", savedChartsRevision);
+  // Sections opened from Tôi là ai go back to it; everything else goes back to the Tôi overview.
+  const [openedFromWhoAmI, setOpenedFromWhoAmI] = useState(false);
+  const openFromWhoAmI = (section: "birth" | "identity") => { setOpenedFromWhoAmI(true); setProfileSection(section); };
   const hasBirthProfile = Boolean(birthDate || birthTime || birthPlace || birthTimeUnknown);
   const birthTimeLabel = birthTimeUnknown || !birthTime ? c.unknownBirthTime : birthTime;
   const selectedGoals = goals.filter((goal) => profile.goals.includes(goal.id));
@@ -8495,7 +9216,7 @@ function ProfileScreen({
           preferences: "Cá nhân hóa",
           goalsHint: "Chọn các chủ đề bạn muốn Nilaza ưu tiên.",
           toneHint: "Chọn nhịp trả lời phù hợp với tâm trạng hiện tại.",
-          subscription: premiumOnSale ? "Gói Premium & lượt dùng" : "Lượt dùng hôm nay",
+          subscription: paywallEnabled ? "Gói Premium & lượt dùng" : "Lượt dùng hôm nay",
           privacySection: "Riêng tư & dữ liệu",
           privacyBody: onlineSyncAvailable
             ? "Dữ liệu có bản lưu trên thiết bị. Hồ sơ và các lịch sử được hỗ trợ có thể đồng bộ với tài khoản; từng mục Nhật ký cho biết đã đồng bộ hay còn lưu trên máy. Bản đồ chiêm tinh được tính trên thiết bị; chỉ gửi dữ kiện và câu hỏi cho AI Chiêm tinh sau khi bạn đồng ý. Đăng xuất không xóa tài khoản trên máy chủ."
@@ -8532,7 +9253,7 @@ function ProfileScreen({
           preferences: "Personalization",
           goalsHint: "Choose what you want Nilaza to prioritize.",
           toneHint: "Choose the response style that fits your current mood.",
-          subscription: premiumOnSale ? "Premium & credits" : "Today's usage",
+          subscription: paywallEnabled ? "Premium & usage" : "Today's usage",
           privacySection: "Privacy & data",
           privacyBody: onlineSyncAvailable
             ? "Data has an on-device copy. Supported profile and history data can sync with your account; each journal entry shows whether it is synced or saved locally. Charts are calculated on device; Astrology AI receives facts and your question only after consent. Signing out does not delete your server account."
@@ -8564,6 +9285,7 @@ function ProfileScreen({
     });
   };
   const detailTitles = {
+    whoAmI: language === "vi" ? "Tôi là ai" : "Who am I",
     identity: language === "vi" ? "Danh tính & ngôn ngữ" : "Identity & language",
     birth: profileLabels.birthSection,
     preferences: profileLabels.preferences,
@@ -8590,11 +9312,13 @@ function ProfileScreen({
           reminder={dailyReminder}
           onReminderChange={onDailyReminderChange}
           onEdit={() => setProfileSection("identity")}
+          onWhoAmI={() => setProfileSection("whoAmI")}
           onPreferences={() => setProfileSection("preferences")}
           onBirth={() => setProfileSection("birth")}
           onNotifications={() => setProfileSection("notifications")}
           onPrivacy={() => setProfileSection("privacy")}
           onUsage={() => setProfileSection("premium")}
+          plan={paywallEnabled ? (premium.entitled ? "Premium" : language === "vi" ? "Gói miễn phí" : "Free plan") : undefined}
           onAccount={() => setProfileSection("account")}
           onHelp={() => { void Linking.openURL(nilazaHelpUrlFor(language)).catch(() => undefined); }}
           onLegal={() => { void Linking.openURL(nilazaLegalUrlFor("terms", language)).catch(() => undefined); }}
@@ -8604,10 +9328,37 @@ function ProfileScreen({
           version={appConfig.expo.version}
         />
       ) : (
-        <SubflowTopBar title={detailTitles[profileSection]} onLeft={() => setProfileSection("overview")} />
+        <SubflowTopBar title={detailTitles[profileSection]} onLeft={() => {
+          const back = openedFromWhoAmI && profileSection !== "whoAmI" ? "whoAmI" : "overview";
+          setOpenedFromWhoAmI(false);
+          setProfileSection(back);
+        }} />
       )}
 
-      {profileSection === "deleteAccount" ? <DeleteAccountPanel language={language} onDelete={onDeleteAccount} /> : null}
+      {profileSection === "whoAmI" ? (
+        <WhoAmI
+          language={language}
+          name={profile.nickname}
+          birthDate={birthDate}
+          birthTime={birthTime}
+          birthTimeUnknown={birthTimeUnknown}
+          birthPlace={birthPlace}
+          savedCharts={savedCharts}
+          journalEntries={journalEntries}
+          syncsWithAccount={onlineSyncAvailable}
+          onOpenChart={onOpenSavedChart}
+          onDeleteChart={onDeleteSavedChart}
+          onMakeChart={onMakeChart}
+          onOpenNumerology={onOpenNumerology}
+          onWriteJournal={onWriteJournal}
+          onEditBirth={() => openFromWhoAmI("birth")}
+          onEditName={() => openFromWhoAmI("identity")}
+          onExport={onExportData}
+          onClearBirth={onClearBirthProfile}
+        />
+      ) : null}
+
+      {profileSection === "deleteAccount" ? <DeleteAccountPanel language={language} onDelete={onDeleteAccount} notice={<DeleteAccountBillingNotice language={language} premiumActive={premium.entitled} />} /> : null}
 
       <View style={[styles.profileSection, profileSection !== "identity" && styles.hidden]}>
         <View style={styles.profileSectionHeader}>
@@ -8652,12 +9403,7 @@ function ProfileScreen({
           <StatusChip label={hasBirthProfile ? profileLabels.birthYes : profileLabels.birthEmpty} tone={hasBirthProfile ? "good" : "warn"} />
         </View>
         <Text style={styles.profileSectionBody}>{profileLabels.birthBody}</Text>
-        <CalendarDatePicker
-          language={language}
-          value={birthDate}
-          onChange={setBirthDate}
-          placeholder={language === "vi" ? "Chọn ngày sinh" : "Select birth date"}
-        />
+        <BirthDateFields language={language} value={birthDate} onChange={setBirthDate} label={c.birthDate} />
         <View style={styles.profileTwoColumn}>
           <TextInput value={birthTime} onChangeText={setBirthTime} placeholder={c.birthTime} placeholderTextColor={colors.moon} style={[styles.input, styles.profileHalfInput]} />
           <Pressable accessibilityRole="button" style={[styles.profileOptionButton, birthTimeUnknown && styles.profileOptionButtonActive]} onPress={onMarkBirthTimeUnknown}>
@@ -8822,11 +9568,10 @@ function ProfileScreen({
         <View style={styles.profileSectionHeader}>
           <View style={styles.profileHeaderCopy}>
             <Text style={styles.profileSectionEyebrow}>{profileLabels.subscription}</Text>
-            {premiumOnSale ? <Text style={styles.premiumTitle}>+ {c.premium}</Text> : null}
+            {paywallEnabled ? <Text style={styles.premiumTitle}>+ {c.premium}</Text> : null}
           </View>
-          {premiumOnSale ? <StatusChip label={c.premiumPreview} tone="warn" /> : null}
         </View>
-        {premiumOnSale ? <Text style={styles.cardDescription}>{c.freeExperience}</Text> : null}
+        {paywallEnabled ? <Text style={styles.cardDescription}>{c.freeExperience}</Text> : null}
         <Text style={styles.disclaimer}>{c.freeCreditsReset}</Text>
         {isOwner ? (
           <View style={styles.ownerTierPreviewCard}>
@@ -8908,7 +9653,7 @@ function ProfileScreen({
               </View>
             ))}
           </View>
-        ) : !premiumOnSale ? null : (
+        ) : paywallEnabled || !premiumOnSale ? null : (
           <View style={styles.premiumUnavailable}>
             <Text style={styles.premiumUnavailableTitle}>
               {language === "vi" ? "Premium chưa mở bán" : "Premium is not available yet"}
@@ -8920,6 +9665,9 @@ function ProfileScreen({
             </Text>
           </View>
         )}
+        {paywallEnabled ? (
+          <PaywallPanel language={language} userId={premiumUserId} premium={premium} onSignIn={onSignIn} />
+        ) : null}
       </View>
 
       <View style={[styles.profileSection, profileSection !== "account" && styles.hidden]}>
@@ -9722,6 +10470,26 @@ zodiacProfilePrompt: {
     lineHeight: 20,
     textTransform: "uppercase"
   },
+  personaBookQuoteButton: {
+    alignSelf: "center",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    minHeight: layout.minimumTouchTarget,
+    marginTop: 16,
+    paddingHorizontal: 18,
+    paddingVertical: 10,
+    borderRadius: radius.pill,
+    borderWidth: 1,
+    borderColor: "rgba(201, 164, 92, 0.45)"
+  },
+  personaBookQuoteText: {
+    flexShrink: 1,
+    color: colors.ivory,
+    fontFamily: typography.bodySemiBoldFontFamily,
+    fontSize: 14,
+    lineHeight: 20
+  },
   lockedPanel: {
     backgroundColor: "rgba(201, 164, 92, 0.10)",
     borderColor: "rgba(201, 164, 92, 0.24)",
@@ -10020,6 +10788,16 @@ zodiacProfilePrompt: {
     borderColor: "rgba(201, 130, 141, 0.38)",
     borderRadius: 8,
     borderWidth: 1,
+    marginTop: spacing.md,
+    padding: spacing.md
+  },
+  // P1-A clarifying card: a quiet gold panel (library meaning, not an AI answer).
+  tarotClarifierPanel: {
+    backgroundColor: "rgba(201, 164, 92, 0.08)",
+    borderColor: "rgba(201, 164, 92, 0.48)",
+    borderRadius: 8,
+    borderWidth: 1,
+    gap: spacing.xs,
     marginTop: spacing.md,
     padding: spacing.md
   },

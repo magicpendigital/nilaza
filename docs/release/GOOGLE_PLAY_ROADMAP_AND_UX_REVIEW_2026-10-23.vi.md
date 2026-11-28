@@ -11,7 +11,7 @@ Ngày 23/10/2026, Asia/Bangkok. Mục tiêu phase tiếp theo: **đưa bản And
 | # | Quyết định | Tác động |
 |---|---|---|
 | 1 | Tài khoản Play **cá nhân, tạo sau 13/11/2023** | **Bắt buộc closed test: 12 người thử, liên tục ≥14 ngày**, rồi mới xin production access. Đây là đường găng cứng. |
-| 2 | Bản đầu **miễn phí**, chưa bán Premium | Không cần RevenueCat/purchase/restore. Mọi chỗ ghi “Premium” trong UI phải được hiểu là “sắp có”, không chặn tính năng đã mở. |
+| 2 | Bản đầu **miễn phí**, chưa bán Premium — **đã bị thay thế 15/11/2026: Owner quyết bán Premium ngay từ bản Play đầu** (xem `docs/NIL_PRICING_STRATEGY_2026-11-15.vi.md`; RevenueCat/purchase/restore trở lại phạm vi bản đầu) | Không cần RevenueCat/purchase/restore. Mọi chỗ ghi “Premium” trong UI phải được hiểu là “sắp có”, không chặn tính năng đã mở. *(Phần này chỉ còn đúng cho tới 15/11.)* |
 | 3 | AI qua **OpenRouter**; model cấu hình trong trang quản trị | Dùng route sẵn có trong Admin; khóa OpenRouter chỉ nằm ở backend. Còn thiếu **trần chi phí** (xem mục 7). Cần chọn model/nhà cung cấp **không dùng prompt để huấn luyện** (xem mục 0.2). |
 | 4 | **Council và Astrology AI nằm trong bản Play đầu** | Mở rộng phạm vi: các task R14–R17, R21 (chưa bắt đầu) trở thành điều kiện phát hành; thêm đường quyền cho người dùng miễn phí (hiện Astrology AI đòi entitlement Premium). Thời gian tăng khoảng **2 tuần** (xem mục 6). |
 | 5 | **18+**; chưa đăng nhập xem được nội dung tĩnh, nội dung chạy AI yêu cầu đăng nhập | Cần thêm **chế độ khách** (hiện app auth-first). Khai báo đối tượng 18+ trong Play Console. |

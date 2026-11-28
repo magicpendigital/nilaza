@@ -194,7 +194,14 @@ const providers: Array<{ id: Exclude<AuthProvider, "email" | "legacy-local">; la
   { id: "facebook", label: "Facebook", icon: "logo-facebook", enabled: false, signsIn: false },
   { id: "x", label: "X", icon: "logo-twitter", enabled: false, signsIn: false }
 ];
-const signInProviders = providers.filter((provider) => provider.signsIn);
+// Lô 1 (UI/UX review): Android shows Google only and iOS shows Apple only, so each store sees the
+// button its users expect; other platforms keep both. Facebook and X stay hidden while disabled.
+export function socialProvidersForPlatform<T extends { id: string }>(list: T[], os: string): T[] {
+  if (os === "android") return list.filter((provider) => provider.id !== "apple");
+  if (os === "ios") return list.filter((provider) => provider.id !== "google");
+  return list;
+}
+const signInProviders = socialProvidersForPlatform(providers.filter((provider) => provider.signsIn), Platform.OS);
 
 export type SignUpOutcome = "pending-email-confirmation" | void;
 
@@ -591,6 +598,10 @@ export function AuthFlow({
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      {!forgotPassword && !pendingConfirmationEmail ? (
+        // Same menu as the welcome screen, so people can switch before signing up or in.
+        <LanguageMenu language={language} onChange={onLanguageChange} />
+      ) : null}
       <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <ScrollView
           keyboardShouldPersistTaps="handled"

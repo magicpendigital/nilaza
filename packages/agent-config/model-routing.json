@@ -174,5 +174,80 @@
     },
     "fallbackProvider": "openrouter",
     "fallbackModel": "xiaomi/mimo-v2.6-flash"
+  },
+  {
+    "feature": "tarot_note",
+    "version": "2026-11-24-tarot-note-v1",
+    "status": "active",
+    "primaryProvider": "openrouter",
+    "primaryModel": "deepseek/deepseek-v4.1-flash",
+    "fallbackProvider": "openrouter",
+    "fallbackModel": "xiaomi/mimo-v2.6-flash",
+    "temperature": 0.7,
+    "maxOutputTokens": 700,
+    "responseSchema": "tarot_note_output_v1",
+    "fallbackWhen": [
+      "missing_api_key",
+      "provider_timeout",
+      "rate_limit",
+      "provider_5xx",
+      "malformed_response"
+    ],
+    "safetyPolicy": {
+      "allowSpiritualReflection": true,
+      "blockDeterministicPredictions": true,
+      "reasoning": {
+        "mode": "off"
+      }
+    }
+  },
+  {
+    "feature": "reader_router",
+    "version": "2026-11-24-reader-router-v1",
+    "status": "active",
+    "primaryProvider": "openrouter",
+    "primaryModel": "deepseek/deepseek-v4.1-flash",
+    "temperature": 0.2,
+    "maxOutputTokens": 200,
+    "responseSchema": "reader_router_choice_v1",
+    "fallbackWhen": [
+      "missing_api_key",
+      "provider_timeout",
+      "rate_limit",
+      "provider_5xx",
+      "malformed_response"
+    ],
+    "safetyPolicy": {
+      "decisionOnly": true,
+      "reasoning": {
+        "mode": "off"
+      }
+    }
+  },
+  {
+    "feature": "numerology_private_message",
+    "version": "2026-11-25-numerology-message-v1",
+    "status": "active",
+    "primaryProvider": "openrouter",
+    "primaryModel": "deepseek/deepseek-v4.1-flash",
+    "fallbackProvider": "openrouter",
+    "fallbackModel": "xiaomi/mimo-v2.6-flash",
+    "temperature": 0.6,
+    "maxOutputTokens": 600,
+    "responseSchema": "numerology_private_message_v1",
+    "fallbackWhen": [
+      "missing_api_key",
+      "provider_timeout",
+      "rate_limit",
+      "provider_5xx",
+      "malformed_response"
+    ],
+    "safetyPolicy": {
+      "approvedBlocksOnly": true,
+      "blockDeterministicPredictions": true,
+      "reasoning": {
+        "mode": "off"
+      }
+    }
   }
 ]

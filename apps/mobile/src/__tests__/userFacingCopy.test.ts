@@ -11,6 +11,9 @@ const screenSources = [
   "src/features/council/useAiCouncilRoom.ts",
   "src/features/astrology/AstrologyChartStory.tsx",
   "src/features/astrology/AstrologyAiGuidePanel.tsx",
+  "src/features/billing/PaywallPanel.tsx",
+  "src/features/billing/DeleteAccountBillingNotice.tsx",
+  "src/features/profile/DeleteAccountPanel.tsx",
 ];
 
 const bannedPhrases = [
@@ -56,5 +59,22 @@ describe("user-facing copy", () => {
     const source = readFileSync(join(__dirname, "..", "..", relativePath), "utf8");
     const found = bannedPhrases.filter((phrase) => source.includes(phrase));
     expect(found).toEqual([]);
+  });
+});
+
+describe("Premium prices", () => {
+  it("shows the 99k/799k price hypothesis only inside the Owner block, never to regular users", () => {
+    const app = readFileSync(join(__dirname, "..", "..", "App.tsx"), "utf8").replace(/\r\n/g, "\n");
+    const ownerStart = app.indexOf("{isOwner ? (\n          <View style={styles.ownerPriceHypothesis}>");
+    const ownerEnd = app.indexOf(") : paywallEnabled || !premiumOnSale ? null : (", ownerStart);
+    expect(ownerStart).toBeGreaterThan(-1);
+    expect(ownerEnd).toBeGreaterThan(ownerStart);
+    const uses = [...app.matchAll(/premiumPriceHypothesisVnd\.|annualPriceMath\./g)].map((match) => match.index ?? -1);
+    expect(uses.length).toBeGreaterThan(0);
+    for (const index of uses) {
+      expect(index).toBeGreaterThan(ownerStart);
+      expect(index).toBeLessThan(ownerEnd);
+    }
+    expect(app).not.toMatch(/99[.,]000\s*₫|799[.,]000\s*₫|\b99k\b|\b799k\b/i);
   });
 });

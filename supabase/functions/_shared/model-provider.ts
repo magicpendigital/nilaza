@@ -10,9 +10,31 @@ export const PROVIDER_SECRET_NAMES: Record<ModelProviderName, string> = {
 };
 export const MODEL_PROVIDER_NAMES = Object.keys(PROVIDER_SECRET_NAMES) as ModelProviderName[];
 
+/**
+ * Batch C (2026-11-24): decision APIs return one choice from a fixed list (no text). They are valid only in the
+ * reader_router chain; the router never sends chat traffic to them.
+ */
+export type DecisionProviderName = "openrouter_decisions" | "openai_decisions" | "gemini_decisions";
+export const DECISION_PROVIDER_SECRET_NAMES: Record<DecisionProviderName, string> = {
+  openrouter_decisions: "OPENROUTER_API_KEY",
+  openai_decisions: "OPENAI_API_KEY",
+  gemini_decisions: "GEMINI_API_KEY"
+};
+export const DECISION_PROVIDER_NAMES = Object.keys(DECISION_PROVIDER_SECRET_NAMES) as DecisionProviderName[];
+/** The only route feature whose steps may use a decision provider. */
+export const DECISION_ROUTE_FEATURES = ["reader_router"] as const;
+export type RouteProviderName = ModelProviderName | DecisionProviderName;
+export function isDecisionProvider(value: unknown): value is DecisionProviderName {
+  return DECISION_PROVIDER_NAMES.includes(value as DecisionProviderName);
+}
+export function isChatProvider(value: unknown): value is ModelProviderName {
+  return MODEL_PROVIDER_NAMES.includes(value as ModelProviderName);
+}
+
 /** Admin A7 (D3): one step of a route chain (model_route_versions.steps, at most 4). */
 export type ModelRouteStep = {
-  provider: ModelProviderName;
+  /** A decision provider appears only in reader_router chains (see DECISION_ROUTE_FEATURES). */
+  provider: RouteProviderName;
   model: string;
   timeoutMs: number;
   maxTokens: number;
@@ -20,6 +42,10 @@ export type ModelRouteStep = {
   jsonMode: boolean;
   reasoning?: ReasoningSetting | null;
 };
+export type ChatRouteStep = ModelRouteStep & { provider: ModelProviderName };
+export function isChatStep(step: ModelRouteStep): step is ChatRouteStep {
+  return isChatProvider(step.provider);
+}
 export const MAX_ROUTE_STEPS = 4;
 
 export type ModelMessage = {
@@ -113,6 +139,14 @@ export type ModelProviderRequest = {
   timeoutMs?: number;
   /** A7 step chains: ask for a JSON object where the provider supports it. */
   jsonMode?: boolean;
+  /**
+   * Streaming (persona chat, 25/11/2026): called with each piece of visible text as it arrives. It may throw (the router's
+   * running output check) to stop the stream. Only the OpenRouter adapter streams; other providers ignore it and answer
+   * in one piece. With it set, timeoutMs bounds the wait for the first visible text instead of the whole reply.
+   */
+  onDelta?: (text: string) => void;
+  /** Streaming: absolute time (epoch ms) after which the stream is aborted, whatever timeoutMs says. */
+  streamDeadlineAt?: number;
   metadata?: Record<string, unknown>;
   traceHooks?: {
     onRequest?: (payload: { url: string; method: "POST"; body: unknown }) => void;
@@ -161,6 +195,8 @@ export type ModelProviderResponse = {
   usage: ModelUsage;
   finishReason?: string;
   billingReceipt?: OpenRouterBillingReceipt;
+  /** Streaming: ms from the request to the first visible text. */
+  firstTextMs?: number;
 };
 
 export type ModelGenerationResult = {
@@ -189,6 +225,10 @@ export type ModelGenerationResult = {
   safetyReason?: string;
   /** E5: ok (first step answered), ok_fallback (a later step answered), canned (prepared text), safety_block. */
   outcome?: ModelOutcome;
+  /** Streaming: some text already reached the person before the turn ended. */
+  streamed?: boolean;
+  /** Streaming: the model failed after text had been sent, so no fallback ran; the caller ends the stream with an error. */
+  streamInterrupted?: boolean;
   traceId?: string;
   traceSpanId?: string;
   tracePersisted?: boolean;
@@ -245,7 +285,7 @@ export function classifyProviderError(error: ModelProviderError): { errorClass: 
   if (error.code === "trace_capture_failed") return { errorClass: "trace", moveOn: false };
   if (error.code === "missing_api_key") return { errorClass: "config", moveOn: true };
   if (error.code === "malformed_response") return { errorClass: "format", moveOn: true };
-  if (["provider_timeout", "network_error", "provider_5xx"].includes(error.code) || (error.status ?? 0) >= 500) return { errorClass: "transient", moveOn: true };
+  if (["provider_timeout", "network_error", "provider_5xx", "provider_stream_error"].includes(error.code) || (error.status ?? 0) >= 500) return { errorClass: "transient", moveOn: true };
   if (error.status === 402) return { errorClass: "payment", moveOn: true };
   if (error.status === 429 || error.code === "rate_limit") return { errorClass: "rate_limit", moveOn: true };
   if (error.status === 401 || error.status === 403 || error.code === "provider_auth_error") return { errorClass: "auth", moveOn: true };

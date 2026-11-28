@@ -35,7 +35,7 @@ export function GoalsScreen({ language, choices, selected, saving, error, onTogg
 
       <View style={styles.birth}>
         <Text style={styles.label}>{vi ? "Ngày sinh " : "Birth date "}<Text style={styles.optional}>{vi ? "(không bắt buộc)" : "(optional)"}</Text></Text>
-        <BirthDateFields language={language} value={birthDate} onChange={onBirthDateChange} />
+        <BirthDateFields language={language} value={birthDate} onChange={onBirthDateChange} label={false} />
         {sign ? (
           <View style={styles.sign}>
             <Text style={styles.glyph}>{signGlyphs[sign.id] ?? "✧"}</Text>

@@ -2,7 +2,7 @@ import type { ImageSourcePropType } from "react-native";
 import type { Language } from "../../types";
 import { localizeAstrologySign, type AstrologySignId } from "../astrology/contracts";
 import { firstSentence, safeReadingSentence } from "../tarot/shareText";
-import { SHARE_DISPLAY_ADDRESS, type ShareSurface } from "./shareLink";
+import { MAX_SHARE_CARDS, SHARE_DISPLAY_ADDRESS, type ShareSkyDay, type ShareSurface } from "./shareLink";
 
 export type ShareCardImage = { source: ImageSourcePropType; reversed: boolean };
 export type ShareCardRow = { glyph: string; label: string; value: string };
@@ -21,7 +21,7 @@ export type ShareCardModel = {
   message: string;
   note: string;
   footer: string;
-  /** Public tarot card names that may appear in the share message (at most three). Never the question or notes. */
+  /** Public tarot card names that may appear in the share message (at most four). Never the question or notes. */
   cardNames?: string[];
   /** Calculated Sun sign name that may appear in the share message, only when the chart gives exactly one. */
   signName?: string;
@@ -32,6 +32,8 @@ export type ShareRequest = {
   model: ShareCardModel;
   cardIds?: string[];
   sunSign?: AstrologySignId | null;
+  /** Public sky of the day, only for the daily_sky surface. */
+  sky?: ShareSkyDay | null;
   primary?: "image" | "link";
 };
 
@@ -58,7 +60,7 @@ export type ShareReadingCard = { position: string; name: string; reversed: boole
 
 export function readingModel(input: { language: Language; cards: ShareReadingCard[]; summary: string; question?: string | null }): ShareCardModel {
   const vi = input.language === "vi";
-  const cards = input.cards.slice(0, 3);
+  const cards = input.cards.slice(0, MAX_SHARE_CARDS);
   return {
     surface: "tarot_reading",
     eyebrow: vi ? "Trải bài của mình" : "My reading",
@@ -101,6 +103,63 @@ export function big3Model(input: ShareBig3Input): ShareCardModel {
     note: noteText(input.language),
     footer: SHARE_DISPLAY_ADDRESS,
     ...(input.sun.length === 1 ? { signName: localizeAstrologySign(input.sun[0], lang) } : {})
+  };
+}
+
+export type ShareNumerologyInput = {
+  language: Language;
+  /** Labels such as "11/2". Numbers only: the birth name and birth date never reach the card. */
+  lifePath: string;
+  birthday: string;
+  expression?: string;
+  /** Short title of the life-path block, e.g. "Người lắng nghe". */
+  lifePathTitle?: string;
+};
+
+export function numerologyModel(input: ShareNumerologyInput): ShareCardModel {
+  const vi = input.language === "vi";
+  const rows: ShareCardRow[] = [
+    { glyph: "✦", label: vi ? "Số chủ đạo" : "Life path", value: input.lifePath },
+    { glyph: "✧", label: vi ? "Số ngày sinh" : "Birthday", value: input.birthday },
+    ...(input.expression ? [{ glyph: "✺", label: vi ? "Số biểu đạt" : "Expression", value: input.expression }] : [])
+  ];
+  return {
+    surface: "numerology_map",
+    eyebrow: vi ? "Bản đồ số của mình" : "My number map",
+    title: input.lifePathTitle ? clip(input.lifePathTitle, 60) : vi ? "Những con số của mình" : "My numbers",
+    images: [],
+    lines: [],
+    rows,
+    message: "",
+    note: noteText(input.language),
+    footer: SHARE_DISPLAY_ADDRESS
+  };
+}
+
+export type ShareDailySkyInput = {
+  language: Language;
+  /** Sign the Moon is in today: the same for everyone on that day. */
+  moonSign: AstrologySignId;
+  /** Localized phase name, e.g. "Trăng gần tròn". */
+  phaseName: string;
+  /** Public sky line for the day (the tone of the Moon's sign and decan); it never reads the person's chart. */
+  headline: string;
+};
+
+/** Today's sky card. It carries only the public sky of the day, never the chart, birth data or name of the sender. */
+export function dailySkyModel(input: ShareDailySkyInput): ShareCardModel {
+  const vi = input.language === "vi";
+  const sign = localizeAstrologySign(input.moonSign, vi ? "vi" : "en");
+  return {
+    surface: "daily_sky",
+    eyebrow: vi ? "Bầu trời hôm nay" : "Today's sky",
+    title: vi ? `Trăng ở ${sign}` : `Moon in ${sign}`,
+    images: [],
+    lines: [],
+    rows: input.phaseName.trim() ? [{ glyph: "☽", label: vi ? "Pha trăng" : "Moon phase", value: clip(input.phaseName.trim(), 40) }] : [],
+    message: clip(input.headline.trim(), 150),
+    note: noteText(input.language),
+    footer: SHARE_DISPLAY_ADDRESS
   };
 }
 

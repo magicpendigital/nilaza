@@ -1,0 +1,1401 @@
+{
+  "schemaVersion": 1,
+  "book": "kinh-phap-cu",
+  "personaId": "book-dhammapada",
+  "title": {
+    "vi": "Kinh Pháp Cú",
+    "en": "Dhammapada"
+  },
+  "source": {
+    "original": "Dhammapada, bản Pāli (SuttaCentral)",
+    "englishBase": "F. Max Müller 1881 (public domain)",
+    "vietnamese": "Nilaza dịch sang tiếng Việt từ bản tiếng Anh của Müller 1881, có đối chiếu nguyên văn"
+  },
+  "review": {
+    "status": "approved",
+    "reviewer": "Owner (after nilaza-content-review panel)",
+    "reviewedAt": "2026-11-27"
+  },
+  "items": [
+    {
+      "id": "pc-001",
+      "ref": {
+        "vi": "Phẩm Song Yếu · kệ 1",
+        "en": "Twin-Verses · v. 1"
+      },
+      "quote": {
+        "vi": "Tất cả những gì chúng ta là đều là kết quả của những gì chúng ta đã nghĩ: nó dựng trên ý nghĩ của ta, nó được làm nên từ ý nghĩ của ta…",
+        "en": "All that we are is the result of what we have thought: it is founded on our thoughts, it is made up of our thoughts…"
+      },
+      "gloss": {
+        "vi": "Câu mở đầu của Pháp Cú nói rằng cách ta nghĩ góp phần tạo ra trải nghiệm của mình, qua rất nhiều thói quen nhỏ. Điều này không có nghĩa mọi nỗi khổ là lỗi của người đang khổ; nó chỉ cho thấy rằng ý nghĩ là một chỗ ta còn có thể chạm tới. Đoạn này mời nhìn xem những ý nghĩ lặp lại đang dựng lên điều gì.",
+        "en": "The opening verse of the Dhammapada says that how we think helps shape our experience, through a great many small habits. This does not mean every sorrow is the fault of the one who suffers; it only points out that thought is one place we can still reach. This passage invites you to look at what your repeated thoughts are building."
+      },
+      "question": {
+        "vi": "Nếu để ý, có ý nghĩ nào quay lại nhiều với bạn gần đây, và nó đi cùng cảm giác nào?",
+        "en": "If you pay attention, which thought keeps returning lately, and what feeling goes with it?"
+      },
+      "tags": [
+        "mind",
+        "habit"
+      ]
+    },
+    {
+      "id": "pc-005",
+      "ref": {
+        "vi": "Phẩm Song Yếu · kệ 5",
+        "en": "Twin-Verses · v. 5"
+      },
+      "quote": {
+        "vi": "Hận thù không bao giờ chấm dứt bằng hận thù: hận thù chấm dứt bằng yêu thương, đây là quy luật xưa.",
+        "en": "For hatred does not cease by hatred at any time: hatred ceases by love, this is an old rule."
+      },
+      "gloss": {
+        "vi": "Câu kệ nói về vòng lặp của oán giận: đáp hận bằng hận chỉ nuôi nó thêm. “Yêu thương” ở đây có thể hiểu là việc không đáp trả bằng thù, kể cả khi bạn vẫn giữ khoảng cách hay bảo vệ mình. Đoạn này không đòi ai ở lại gần điều gây hại.",
+        "en": "The verse speaks of the loop of resentment: answering hatred with hatred only feeds it. “Love” here can be read as not answering with enmity, even while you keep your distance or protect yourself. This passage does not ask anyone to stay near what harms them."
+      },
+      "question": {
+        "vi": "Nếu bạn đang mang một mối oán giận, nghĩ đến nó lúc nào làm bạn nặng hơn và lúc nào làm bạn nhẹ đi?",
+        "en": "If you are carrying a resentment, when does thinking about it make you heavier and when lighter?"
+      },
+      "tags": [
+        "anger",
+        "kindness"
+      ]
+    },
+    {
+      "id": "pc-013",
+      "ref": {
+        "vi": "Phẩm Song Yếu · kệ 13",
+        "en": "Twin-Verses · v. 13"
+      },
+      "quote": {
+        "vi": "Như mưa xuyên qua mái nhà lợp tồi, đam mê xuyên qua cái tâm không được suy xét.",
+        "en": "As rain breaks through an ill-thatched house, passion will break through an unreflecting mind."
+      },
+      "gloss": {
+        "vi": "Hình ảnh mái nhà cho thấy cơn mưa vào được chỗ mái hở. “Đam mê” ở đây là sức hút của ham muốn khi tâm trí buông lỏng, một điều ai cũng có, không đáng để xấu hổ. Kệ kế tiếp nói điều ngược lại, và cả hai đều nói về việc chăm sóc tâm cũng như chăm một mái nhà.",
+        "en": "The image of the roof shows rain entering where the thatch is thin. “Passion” here is the pull of desire when the mind is loosened, something everyone has and nothing to be ashamed of. The next verse says the opposite, and both speak of tending the mind the way one tends a roof."
+      },
+      "question": {
+        "vi": "Chỗ nào trong tâm trí bạn giống mái hở, nơi những ham muốn dễ lọt vào khi bạn mệt?",
+        "en": "Where is your mind like a thin roof, letting desires slip in more easily when you are tired?"
+      },
+      "tags": [
+        "mind",
+        "desire"
+      ]
+    },
+    {
+      "id": "pc-014",
+      "ref": {
+        "vi": "Phẩm Song Yếu · kệ 14",
+        "en": "Twin-Verses · v. 14"
+      },
+      "quote": {
+        "vi": "Như mưa không xuyên qua mái nhà lợp kỹ, đam mê không xuyên qua cái tâm biết suy xét.",
+        "en": "As rain does not break through a well-thatched house, passion will not break through a well-reflecting mind."
+      },
+      "gloss": {
+        "vi": "Kệ này là nửa còn lại của kệ trước: một mái được lợp cẩn thận giữ được khô. Việc lợp mái là công việc đều đặn của sự chú tâm, từng lớp một. Đoạn này mời xem những lớp nhỏ nào bạn đã đặt lên, dù mới chỉ vài lớp.",
+        "en": "This verse is the other half of the previous one: a roof laid with care keeps dry. Laying a roof is the steady work of attention, one layer at a time. This passage invites you to see which small layers you have already put on, even if only a few."
+      },
+      "question": {
+        "vi": "Việc nhỏ nào bạn làm đều đặn để “lợp lại mái” cho tâm mình?",
+        "en": "What small thing do you do regularly to “re-thatch the roof” of your mind?"
+      },
+      "tags": [
+        "mind",
+        "habit"
+      ]
+    },
+    {
+      "id": "pc-025",
+      "ref": {
+        "vi": "Phẩm Không Phóng Dật · kệ 25",
+        "en": "Earnestness · v. 25"
+      },
+      "quote": {
+        "vi": "Nhờ tự thức tỉnh, nhờ chuyên cần, nhờ tiết chế và tự chủ, người trí làm cho mình một hòn đảo mà không dòng lũ nào nhấn chìm được.",
+        "en": "By rousing himself, by earnestness, by restraint and control, the wise man may make for himself an island which no flood can overwhelm."
+      },
+      "gloss": {
+        "vi": "Hòn đảo gợi một chỗ vững giữa dòng chảy lên xuống của biến cố. Kệ nói hòn đảo ấy do chính mình dựng, bằng sự chú tâm và tự chủ tích dần. Đoạn này mời nhận ra điều gì đang giữ bạn đứng vững lúc nước cuốn.",
+        "en": "The island suggests a firm place amid the rise and fall of events. The verse says one builds this island oneself, from attention and self-command gathered over time. This passage invites you to notice what holds you steady when the water runs."
+      },
+      "question": {
+        "vi": "Điều gì đang là hòn đảo nhỏ của bạn giữa những ngày cuồn cuộn?",
+        "en": "What is your small island in the middle of turbulent days?"
+      },
+      "tags": [
+        "resilience",
+        "attention"
+      ]
+    },
+    {
+      "id": "pc-033",
+      "ref": {
+        "vi": "Phẩm Tâm · kệ 33",
+        "en": "Thought · v. 33"
+      },
+      "quote": {
+        "vi": "Như người làm tên nắn thẳng mũi tên, người trí nắn thẳng cái tâm rung động và bất định, khó giữ, khó kìm.",
+        "en": "As a fletcher makes straight his arrow, a wise man makes straight his trembling and unsteady thought, which is difficult to guard, difficult to hold back."
+      },
+      "gloss": {
+        "vi": "Tâm trí được ví như mũi tên cong: nó không bị trách vì cong, chỉ cần được nắn từng chút. Việc nắn thẳng là công việc nhẫn nại của người thợ, không mang tính hình phạt. Đoạn này mời nhìn tâm mình bằng con mắt của người thợ, hơn là của người chấm điểm.",
+        "en": "The mind is compared to a bent arrow: it is not blamed for being bent, it simply needs straightening bit by bit. Straightening is the patient work of a craftsman, not a punishment. This passage invites you to look at your mind with the eye of a craftsman rather than a grader."
+      },
+      "question": {
+        "vi": "Hôm nay có ý nghĩ nào bạn muốn nhìn kỹ hơn, và nếu có, bạn muốn đối xử với nó thế nào?",
+        "en": "Is there a thought today you would like to look at more closely, and if so, how would you like to treat it?"
+      },
+      "tags": [
+        "mind",
+        "self-compassion"
+      ]
+    },
+    {
+      "id": "pc-035",
+      "ref": {
+        "vi": "Phẩm Tâm · kệ 35",
+        "en": "Thought · v. 35"
+      },
+      "quote": {
+        "vi": "Thật tốt khi thuần cái tâm khó giữ và hay bay nhảy, lao đến bất cứ nơi nào nó muốn; một tâm đã thuần mang lại hạnh phúc.",
+        "en": "It is good to tame the mind, which is difficult to hold in and flighty, rushing wherever it listeth; a tamed mind brings happiness."
+      },
+      "gloss": {
+        "vi": "Kệ mô tả tâm như một sinh vật hay lang thang. Chữ “thuần” ở đây gần với làm quen và gần gũi hơn là đàn áp. Hạnh phúc được nhắc đến là kết quả của một tâm bớt bị lôi đi.",
+        "en": "The verse describes the mind as a creature that likes to wander. “Tame” here is closer to becoming familiar with it than to suppressing it. The happiness it mentions is the result of a mind that is dragged around a little less."
+      },
+      "question": {
+        "vi": "Khi rảnh một lúc, tâm bạn thường bay đến đâu đầu tiên?",
+        "en": "When you have a free moment, where does your mind fly first?"
+      },
+      "tags": [
+        "mind",
+        "attention"
+      ]
+    },
+    {
+      "id": "pc-036",
+      "ref": {
+        "vi": "Phẩm Tâm · kệ 36",
+        "en": "Thought · v. 36"
+      },
+      "quote": {
+        "vi": "Người trí hãy canh giữ ý nghĩ của mình, vì chúng khó thấy, rất tinh xảo, và lao đến bất cứ nơi nào chúng muốn: ý nghĩ được canh giữ mang lại hạnh phúc.",
+        "en": "Let the wise man guard his thoughts, for they are difficult to perceive, very artful, and they rush wherever they list: thoughts well guarded bring happiness."
+      },
+      "gloss": {
+        "vi": "Kệ nói rằng ý nghĩ tinh vi, khó nhìn thấy khi chúng đang chạy. “Canh giữ” ở đây gần với để ý, như người chăn nhìn đàn của mình, không mang ý cấm đoán. Đoạn này mời tập nhận ra một ý nghĩ ngay lúc nó khởi lên.",
+        "en": "The verse says thoughts are subtle and hard to see while they run. “Guarding” here is closer to noticing, like a herder watching the flock, not forbidding. This passage invites you to practise recognising a thought at the moment it arises."
+      },
+      "question": {
+        "vi": "Gần đây có ý nghĩ nào đã đi rất xa trước khi bạn nhận ra nó?",
+        "en": "Has a thought recently travelled a long way before you noticed it?"
+      },
+      "tags": [
+        "mind",
+        "attention"
+      ]
+    },
+    {
+      "id": "pc-037",
+      "ref": {
+        "vi": "Phẩm Tâm · kệ 37",
+        "en": "Thought · v. 37"
+      },
+      "quote": {
+        "vi": "Những ai kìm cương được cái tâm đi xa, đi một mình, không thân xác, ẩn trong hang (của trái tim), sẽ thoát khỏi xiềng xích của Mara (kẻ cám dỗ).",
+        "en": "Those who bridle their mind which travels far, moves about alone, is without a body, and hides in the chamber (of the heart), will be free from the bonds of Mara (the tempter)."
+      },
+      "gloss": {
+        "vi": "Hình ảnh tâm đi xa một mình cho thấy ta có thể đang ở một nơi mà đầu óc ở nơi khác. Mara trong văn bản là hình tượng của sự cám dỗ, của những thôi thúc kéo ta đi. Đoạn này mời để ý tâm mình đang ở đâu so với thân.",
+        "en": "The image of the mind travelling far alone shows we can be in one place while the mind is in another. Mara in the text is a figure for temptation, for the urges that pull us along. This passage invites you to notice where your mind is relative to your body."
+      },
+      "question": {
+        "vi": "Lúc này thân bạn ở đâu và tâm bạn ở đâu?",
+        "en": "Right now, where is your body and where is your mind?"
+      },
+      "tags": [
+        "mind",
+        "present"
+      ]
+    },
+    {
+      "id": "pc-043",
+      "ref": {
+        "vi": "Phẩm Tâm · kệ 43",
+        "en": "Thought · v. 43"
+      },
+      "quote": {
+        "vi": "Không mẹ, không cha, cũng không người thân nào làm được nhiều như vậy; một tâm được hướng đúng giúp ta nhiều hơn.",
+        "en": "Not a mother, not a father will do so much, nor any other relative; a well-directed mind will do us greater service."
+      },
+      "gloss": {
+        "vi": "Câu kệ không hạ thấp tình thân; nó nhấn mạnh rằng một tâm được hướng đúng là chỗ dựa mà không ai làm thay ta được. Đây là lời nhắc về trách nhiệm với chính mình, không đòi bạn chọn giữa mình và gia đình. Đoạn này mời xem điều gì trong cách bạn nghĩ đang đỡ bạn.",
+        "en": "The verse does not belittle family; it stresses that a well-directed mind is a support no one else can provide for us. It is a reminder of responsibility toward yourself, and it does not ask you to choose between yourself and your family. This passage invites you to see what in the way you think is holding you up."
+      },
+      "question": {
+        "vi": "Điều gì trong cách bạn nghĩ đang là chỗ dựa cho bạn, và điều gì đang kéo bạn đi?",
+        "en": "What in your way of thinking is a support for you, and what is pulling you along?"
+      },
+      "tags": [
+        "mind",
+        "self-knowledge"
+      ]
+    },
+    {
+      "id": "pc-049",
+      "ref": {
+        "vi": "Phẩm Hoa · kệ 49",
+        "en": "Flowers · v. 49"
+      },
+      "quote": {
+        "vi": "Như con ong lấy mật rồi đi mà không làm hại hoa, màu hay hương của nó, bậc hiền trí cũng sống như vậy trong làng.",
+        "en": "As the bee collects nectar and departs without injuring the flower, or its colour or scent, so let a sage dwell in his village."
+      },
+      "gloss": {
+        "vi": "Hình ảnh con ong gợi cách đi qua đời sống: lấy điều mình cần mà không làm tổn hại nơi mình ghé. Kệ không đòi ai tách khỏi đời sống chung, vì bậc hiền ở ngay trong làng. Đoạn này mời xem cách bạn để lại một nơi sau khi ghé qua.",
+        "en": "The image of the bee suggests a way of passing through life: taking what you need without harming the place you visit. The verse does not ask anyone to withdraw from shared life, since the sage lives right in the village. This passage invites you to see how you leave a place after visiting it."
+      },
+      "question": {
+        "vi": "Sau cuộc gặp gần nhất, bạn để lại điều gì nơi người và nơi bạn ghé qua?",
+        "en": "After your most recent meeting, what did you leave behind with the people and the place?"
+      },
+      "tags": [
+        "kindness",
+        "community"
+      ]
+    },
+    {
+      "id": "pc-050",
+      "ref": {
+        "vi": "Phẩm Hoa · kệ 50",
+        "en": "Flowers · v. 50"
+      },
+      "quote": {
+        "vi": "Bậc hiền không để ý đến sự sai lệch của người khác, đến việc họ làm hay bỏ sót, mà chỉ để ý những việc làm sai và sơ suất của chính mình.",
+        "en": "Not the perversities of others, not their sins of commission or omission, but his own misdeeds and negligences should a sage take notice of."
+      },
+      "gloss": {
+        "vi": "Kệ chuyển ánh nhìn từ người khác về mình, và có thể đọc như lời nhắc về sức ta tốn khi soi lỗi người. Nó không bảo bạn làm ngơ trước điều gây hại cho mình hay cho người khác. Đoạn này mời để ý khi nào sự chú ý của mình đi vào lỗi của người nhiều hơn vào việc của mình.",
+        "en": "The verse turns the gaze from others to oneself, and can be read as a reminder of the energy we spend scrutinising other people’s faults. It does not tell you to ignore what harms you or others. This passage invites you to notice when your attention goes to others’ faults more than to your own affairs."
+      },
+      "question": {
+        "vi": "Khi nhận ra mình đang soi lỗi một ai đó, điều gì trong bạn cần được chú ý?",
+        "en": "When you realise you are scanning someone for faults, what in yourself needs attention?"
+      },
+      "tags": [
+        "humility",
+        "attention"
+      ]
+    },
+    {
+      "id": "pc-052",
+      "ref": {
+        "vi": "Phẩm Hoa · kệ 52",
+        "en": "Flowers · v. 52"
+      },
+      "quote": {
+        "vi": "Nhưng như bông hoa đẹp, đầy màu sắc và đầy hương, là những lời hay và có quả của người làm đúng như lời mình nói.",
+        "en": "But, like a beautiful flower, full of colour and full of scent, are the fine and fruitful words of him who acts accordingly."
+      },
+      "gloss": {
+        "vi": "Kệ ghép bông hoa có hương với lời nói được sống ra. Kệ liền trước nói ngược lại: lời đẹp mà không có việc làm giống bông hoa không hương. Đoạn này mời nhìn khoảng cách giữa điều bạn nói và điều bạn làm bằng sự tò mò, không bằng lời buộc tội.",
+        "en": "The verse pairs a fragrant flower with words that are lived out. The verse before it says the reverse: fine words without action are like a flower without scent. This passage invites you to look at the gap between what you say and what you do with curiosity rather than accusation."
+      },
+      "question": {
+        "vi": "Có lời nào gần đây bạn nói mà bạn đang muốn sống thật với nó?",
+        "en": "Is there something you said recently that you now want to live up to?"
+      },
+      "tags": [
+        "integrity",
+        "truth"
+      ]
+    },
+    {
+      "id": "pc-053",
+      "ref": {
+        "vi": "Phẩm Hoa · kệ 53",
+        "en": "Flowers · v. 53"
+      },
+      "quote": {
+        "vi": "Như từ một đống hoa có thể kết nhiều loại vòng hoa, từ một đời người sinh ra cũng có thể làm nên nhiều điều tốt đẹp.",
+        "en": "As many kinds of wreaths can be made from a heap of flowers, so many good things may be achieved by a mortal when once he is born."
+      },
+      "gloss": {
+        "vi": "Kệ cho thấy một đời người như đống hoa có thể kết thành nhiều vòng: được sinh ra là có chất liệu để làm nhiều điều tốt. Chữ kattabbaṃ trong bản Pāli có nghĩa điều lành đáng làm là nhiều; có thể đọc đó như lời mời gom từng việc nhỏ thành vòng, hơn là một chỉ tiêu cần đạt. Đoạn này mời nhìn xem hôm nay bạn đang kết điều gì từ phần chất liệu của mình.",
+        "en": "The verse shows a life as a heap of flowers that can be made into many wreaths: being born gives material for many good things. The Pāli word kattabbaṃ means that the good worth doing is much; this can be read as an invitation to gather small deeds into a wreath, rather than a target to hit. This passage invites you to see what you are weaving today from your own material."
+      },
+      "question": {
+        "vi": "Nếu coi ngày hôm nay là một nắm hoa, bạn muốn kết nó thành vòng gì?",
+        "en": "If today were a handful of flowers, what kind of wreath would you like to make of it?"
+      },
+      "tags": [
+        "purpose",
+        "present"
+      ]
+    },
+    {
+      "id": "pc-060",
+      "ref": {
+        "vi": "Phẩm Kẻ Ngu · kệ 60",
+        "en": "The Fool · v. 60"
+      },
+      "quote": {
+        "vi": "Dài là đêm với người thức; dài là dặm với người mệt…",
+        "en": "Long is the night to him who is awake; long is a mile to him who is tired…"
+      },
+      "gloss": {
+        "vi": "Phần trích nói rằng độ dài của đêm và của dặm đường đi theo trạng thái người trải qua chúng: đêm của người thao thức và đường của người kiệt sức là những trải nghiệm có thật. Vế bị lược ở dấu ba chấm nói thêm rằng cuộc luân hồi cũng dài với người chưa hiểu chánh pháp, và hai hình ảnh đầu mở đường cho ý ấy. Đoạn này mời nhận ra khoảng thời gian nào gần đây dài ra vì bạn mệt hay trằn trọc.",
+        "en": "The quoted part says the night and the road feel long to the sleepless and the exhausted, which are real experiences. The omitted clause after the ellipsis adds that the round of rebirth is also long for those who do not understand the true teaching. This passage invites you to notice which stretch of time lately has grown long because you were tired or restless."
+      },
+      "question": {
+        "vi": "Khoảng thời gian nào gần đây dài ra với bạn, và điều gì khiến nó dài?",
+        "en": "Which stretch of time has felt long to you lately, and what made it so?"
+      },
+      "tags": [
+        "present",
+        "resilience"
+      ]
+    },
+    {
+      "id": "pc-079",
+      "ref": {
+        "vi": "Phẩm Hiền Trí · kệ 79",
+        "en": "The Wise Man · v. 79"
+      },
+      "quote": {
+        "vi": "Người uống pháp sống hạnh phúc với tâm thanh tịnh: bậc hiền luôn vui trong pháp do các bậc cao quý (Ariya) thuyết.",
+        "en": "He who drinks in the law lives happily with a serene mind: the sage rejoices always in the law, as preached by the elect (Ariyas)."
+      },
+      "gloss": {
+        "vi": "Hình ảnh “uống” pháp gợi sự thấm dần của một lời dạy vào đời sống, như nước vào đất, hơn là học thuộc. Niềm vui ở đây là niềm vui yên tĩnh của người thấy điều mình đang theo có ý nghĩa. Đoạn này mời nhìn xem bạn đang “uống” điều gì mỗi ngày.",
+        "en": "The image of “drinking in” the teaching suggests a saying soaking into life like water into soil, rather than memorising. The joy here is the quiet joy of someone who finds meaning in what they follow. This passage invites you to see what you are “drinking in” each day."
+      },
+      "question": {
+        "vi": "Điều gì bạn đọc hay nghe gần đây đã thấm vào bạn và làm lòng bạn lặng hơn?",
+        "en": "What have you read or heard lately that soaked in and quieted you?"
+      },
+      "tags": [
+        "calm",
+        "learning"
+      ]
+    },
+    {
+      "id": "pc-080",
+      "ref": {
+        "vi": "Phẩm Hiền Trí · kệ 80",
+        "en": "The Wise Man · v. 80"
+      },
+      "quote": {
+        "vi": "Người dẫn nước dẫn nước đến nơi họ muốn; thợ làm tên uốn tên; thợ mộc uốn khúc gỗ; người trí tự uốn nắn chính mình.",
+        "en": "Well-makers lead the water (wherever they like); fletchers bend the arrow; carpenters bend a log of wood; wise people fashion themselves."
+      },
+      "gloss": {
+        "vi": "Kệ xếp việc tự rèn mình ngang với tay nghề của người thợ. Người thợ làm việc từng ngày với chất liệu của mình, và chất liệu của người trí là chính mình. Đoạn này mời xem việc tự rèn như một nghề thủ công kiên nhẫn.",
+        "en": "The verse places shaping oneself alongside the skill of a craftsman. The craftsman works day by day with their material, and the wise person’s material is themselves. This passage invites you to see self-shaping as a patient craft."
+      },
+      "question": {
+        "vi": "Nếu việc tự rèn mình là một nghề, gần đây bạn đang luyện kỹ năng nào?",
+        "en": "If shaping yourself were a craft, which skill have you been practising lately?"
+      },
+      "tags": [
+        "self-knowledge",
+        "habit"
+      ]
+    },
+    {
+      "id": "pc-081",
+      "ref": {
+        "vi": "Phẩm Hiền Trí · kệ 81",
+        "en": "The Wise Man · v. 81"
+      },
+      "quote": {
+        "vi": "Như tảng đá đặc không lung lay trước gió, người trí không dao động giữa lời chê và lời khen.",
+        "en": "As a solid rock is not shaken by the wind, wise people falter not amidst blame and praise."
+      },
+      "gloss": {
+        "vi": "Kệ so sánh sự vững vàng với tảng đá. Nó không bảo ta không nghe lời chê khen, chỉ nói rằng chúng không làm lung lay gốc của mình. Sự vững ấy đến từ chỗ biết mình đứng ở đâu.",
+        "en": "The verse compares steadiness to a rock. It does not say we fail to hear blame and praise, only that they do not shake our foundation. That steadiness comes from knowing where you stand."
+      },
+      "question": {
+        "vi": "Lời khen hay lời chê nào gần đây làm bạn chao đảo nhiều nhất, và vì sao?",
+        "en": "Which word of praise or blame has unsettled you most lately, and why?"
+      },
+      "tags": [
+        "resilience",
+        "opinion"
+      ]
+    },
+    {
+      "id": "pc-082",
+      "ref": {
+        "vi": "Phẩm Hiền Trí · kệ 82",
+        "en": "The Wise Man · v. 82"
+      },
+      "quote": {
+        "vi": "Người trí, sau khi lắng nghe giáo pháp, trở nên thanh tịnh, như một hồ nước sâu, phẳng và lặng.",
+        "en": "Wise people, after they have listened to the laws, become serene, like a deep, smooth, and still lake."
+      },
+      "gloss": {
+        "vi": "Mặt hồ yên là vì những gì khuấy lên đã lắng xuống, chứ không ai ép nó yên. Kệ gợi rằng sau khi nghe và hiểu, tâm cũng lắng như thế. Đoạn này mời cho mình thời gian để lắng.",
+        "en": "A lake is still not because anyone forces it to be still, but because what was stirred up has settled. The verse suggests that after hearing and understanding, the mind settles in the same way. This passage invites you to give yourself time to settle."
+      },
+      "question": {
+        "vi": "Sau một cuộc trò chuyện hay một điều vừa đọc, bạn cho mình bao lâu để lắng xuống?",
+        "en": "After a conversation or something you have just read, how long do you give yourself to settle?"
+      },
+      "tags": [
+        "calm",
+        "learning"
+      ]
+    },
+    {
+      "id": "pc-083",
+      "ref": {
+        "vi": "Phẩm Hiền Trí · kệ 83",
+        "en": "The Wise Man · v. 83"
+      },
+      "quote": {
+        "vi": "Người hiền đi qua mọi điều xảy ra, không ba hoa vì thèm khoái lạc; dù chạm hạnh phúc hay đau buồn, người trí chẳng tỏ ra phấn khởi hay chùng xuống.",
+        "en": "Good people walk on whatever befall, the good do not prattle, longing for pleasure; whether touched by happiness or sorrow wise people never appear elated or depressed."
+      },
+      "gloss": {
+        "vi": "Kệ mô tả một sự cân bằng trước vui buồn: không để cảm xúc nhất thời lái cả con người, và cũng không vô cảm; đây là điều để hướng tới, và ai cũng có ngày thấy mình chao. Động từ Pāli ở câu đầu (cajanti) nghĩa là buông bỏ, do đó câu ấy có thể đọc là người hiền buông sự bám víu ở mọi nơi; nỗi buồn và mất mát vẫn là phản ứng có thật, không nói lên việc thiếu vững vàng. Đoạn này mời quan sát mức dao động của mình.",
+        "en": "The verse describes a balance before joy and sorrow, something to move toward rather than numbness, and everyone has days of swaying. The Pāli verb cajanti means to let go, so the first line can be read as the good letting go of clinging everywhere; sadness and loss remain real responses, not a lack of steadiness. This passage invites you to observe how much you swing."
+      },
+      "question": {
+        "vi": "Khi một tin vui hay tin buồn đến, bạn thường làm gì để đỡ lấy chính mình?",
+        "en": "When good or sad news arrives, what do you usually do to support yourself?"
+      },
+      "tags": [
+        "calm",
+        "resilience"
+      ]
+    },
+    {
+      "id": "pc-100",
+      "ref": {
+        "vi": "Phẩm Ngàn · kệ 100",
+        "en": "The Thousands · v. 100"
+      },
+      "quote": {
+        "vi": "Dù bài nói có tới ngàn lời mà lời nào cũng rỗng nghĩa, thì một lời có nghĩa vẫn hơn; ai nghe được lời ấy, lòng lắng lại.",
+        "en": "Even though a speech be a thousand (of words), but made up of senseless words, one word of sense is better, which if a man hears, he becomes quiet."
+      },
+      "gloss": {
+        "vi": "Kệ đặt một lời có nghĩa cao hơn một ngàn lời rỗng. Điều quý của lời ấy là nó làm người nghe lặng lại, chứ không nằm ở chỗ gây ấn tượng. Đoạn này mời nhìn xem lời nào, của người khác hay của chính bạn, từng làm lòng bạn dịu đi.",
+        "en": "The verse ranks one meaningful word above a thousand empty ones. What is precious about such a word is that it quiets the listener, not that it impresses. This passage invites you to see which words, someone else’s or your own, have ever softened your heart."
+      },
+      "question": {
+        "vi": "Có câu nói nào từng làm bạn lặng lại, và vì sao câu đó có sức như vậy?",
+        "en": "Is there a sentence that once quieted you, and why did it carry such weight?"
+      },
+      "tags": [
+        "calm",
+        "truth"
+      ]
+    },
+    {
+      "id": "pc-103",
+      "ref": {
+        "vi": "Phẩm Ngàn · kệ 103",
+        "en": "The Thousands · v. 103"
+      },
+      "quote": {
+        "vi": "Nếu một người thắng một ngàn lần một ngàn người trong trận chiến, và người khác thắng chính mình, thì người sau là kẻ chiến thắng lớn nhất.",
+        "en": "If one man conquer in battle a thousand times thousand men, and if another conquer himself, he is the greatest of conquerors."
+      },
+      "gloss": {
+        "vi": "Kệ đảo nghĩa của chữ thắng: chiến thắng lớn nhất là với chính mình. “Thắng mình” ở đây là làm chủ cảm xúc và thói quen, chứ không có nghĩa đè nén bản thân. Đoạn này mời nhìn xem điều gì bạn đang giành giật với người khác mà thật ra là việc của mình.",
+        "en": "The verse turns the meaning of victory around: the greatest victory is over oneself. “Conquering oneself” here means mastering feelings and habits, not crushing oneself. This passage invites you to see what you are contesting with others that is really your own work."
+      },
+      "question": {
+        "vi": "Có cuộc tranh đua nào với người khác mà thật ra là một việc bạn cần làm với chính mình?",
+        "en": "Is there a contest with someone else that is really something you need to do with yourself?"
+      },
+      "tags": [
+        "self-knowledge",
+        "anger"
+      ]
+    },
+    {
+      "id": "pc-118",
+      "ref": {
+        "vi": "Phẩm Ác · kệ 118",
+        "en": "Evil · v. 118"
+      },
+      "quote": {
+        "vi": "Nếu làm điều lành, hãy làm lại; hãy vui trong nó: hạnh phúc là kết quả của điều lành.",
+        "en": "If a man does what is good, let him do it again; let him delight in it: happiness is the outcome of good."
+      },
+      "gloss": {
+        "vi": "Kệ mời lặp lại việc lành và cho mình niềm vui khi làm nó. Bản Pāli viết rằng việc gom góp điều lành là điều an vui, vì thế “kết quả” trong câu dịch có thể đọc là niềm vui đi cùng chính việc làm, không chỉ là phần thưởng đến sau. Đoạn này mời để ý việc nhỏ nào khiến bạn vui khi làm lại.",
+        "en": "The verse invites repeating a kindly act and allowing yourself delight in it. The Pāli says that gathering up goodness is itself joyful, so the “outcome” in this translation can be read as the joy that goes with the doing, not only a reward that arrives later. This passage invites you to notice which small act makes you glad to do again."
+      },
+      "question": {
+        "vi": "Việc tử tế nhỏ nào bạn muốn làm lại, và bạn thấy vui ở chỗ nào trong đó?",
+        "en": "Which small kind act do you want to do again, and where do you find the joy in it?"
+      },
+      "tags": [
+        "kindness",
+        "habit"
+      ]
+    },
+    {
+      "id": "pc-122",
+      "ref": {
+        "vi": "Phẩm Ác · kệ 122",
+        "en": "Evil · v. 122"
+      },
+      "quote": {
+        "vi": "Đừng xem nhẹ điều lành, nghĩ rằng: nó chẳng đến với mình. Giọt nước rơi cũng đầy được chiếc bình; người trí đầy điều lành dù gom từng chút một.",
+        "en": "Let no man think lightly of good, saying in his heart, It will not come nigh unto me. Even by the falling of water-drops a water-pot is filled; the wise man becomes full of good, even if he gather it little by little."
+      },
+      "gloss": {
+        "vi": "Kệ nhắc rằng những việc nhỏ cộng dồn lại. Hình ảnh giọt nước cho thấy một việc nhỏ lặp lại đủ nhiều làm đầy một cái bình. Đoạn này mời nhìn xem thói quen nhỏ nào bạn đang xem nhẹ.",
+        "en": "The verse reminds us that small acts add up. The image of drops shows that a small thing repeated often enough fills a jar. This passage invites you to see which small habit you are treating lightly."
+      },
+      "question": {
+        "vi": "Thói quen nhỏ nào, tử tế với mình hay với người khác, bạn đang xem nhẹ vì nó quá nhỏ?",
+        "en": "Which small habit, kind to yourself or to others, are you treating lightly because it seems too small?"
+      },
+      "tags": [
+        "habit",
+        "kindness"
+      ]
+    },
+    {
+      "id": "pc-133",
+      "ref": {
+        "vi": "Phẩm Hình Phạt · kệ 133",
+        "en": "Punishment · v. 133"
+      },
+      "quote": {
+        "vi": "Đừng nói lời gay gắt với ai; người bị nói sẽ đáp lại bằng cách tương tự…",
+        "en": "Do not speak harshly to anybody; those who are spoken to will answer thee in the same way…"
+      },
+      "gloss": {
+        "vi": "Kệ nêu một nhận xét về cách lời nói quay lại với ta: lời gắt thường gọi lời gắt. Đây là điều quan sát, không mang tính bảo đảm, và không đòi bạn nuốt lời khi cần nói một điều khó. Đoạn này mời để ý giọng mình dùng khi căng thẳng.",
+        "en": "The verse makes an observation about how words come back to us: harsh words tend to call out harsh words. It is an observation, not a guarantee, and it does not ask you to swallow words when something difficult needs saying. This passage invites you to notice the tone you use when tense."
+      },
+      "question": {
+        "vi": "Khi căng thẳng, giọng nói của bạn thường mang màu gì, và người đối diện đáp lại ra sao?",
+        "en": "When you are tense, what colour does your voice usually take, and how do others answer?"
+      },
+      "tags": [
+        "others",
+        "anger"
+      ]
+    },
+    {
+      "id": "pc-157",
+      "ref": {
+        "vi": "Phẩm Tự Ngã · kệ 157",
+        "en": "Self · v. 157"
+      },
+      "quote": {
+        "vi": "Nếu một người quý mình, người ấy hãy canh chừng mình thật cẩn thận; ít nhất trong một canh của ba canh đêm, người trí nên tỉnh thức.",
+        "en": "If a man hold himself dear, let him watch himself carefully; during one at least out of the three watches a wise man should be watchful."
+      },
+      "gloss": {
+        "vi": "Kệ mở đầu bằng “nếu bạn quý mình”: việc chăm sóc bản thân được đặt trên nền của sự quý trọng. “Canh” là cách ngày xưa chia đêm thành ba phần; ý kệ là dành ít nhất một phần để tỉnh táo nhìn lại. Đoạn này mời hỏi bạn dành lúc nào để nhìn lại mình.",
+        "en": "The verse begins with “if you hold yourself dear”: caring for yourself is placed on a ground of regard. A “watch” is the old division of the night into three parts; the verse means giving at least one part to alert reflection. This passage invites you to ask when you look back at yourself."
+      },
+      "question": {
+        "vi": "Trong ngày, có khoảng nào bạn dành để nhìn lại chính mình như nhìn một người mình quý?",
+        "en": "Is there a stretch in your day when you look back at yourself the way you would at someone you hold dear?"
+      },
+      "tags": [
+        "self-knowledge",
+        "self-compassion"
+      ]
+    },
+    {
+      "id": "pc-158",
+      "ref": {
+        "vi": "Phẩm Tự Ngã · kệ 158",
+        "en": "Self · v. 158"
+      },
+      "quote": {
+        "vi": "Mỗi người hãy hướng mình trước vào điều thích đáng, rồi mới dạy người khác…",
+        "en": "Let each man direct himself first to what is proper, then let him teach others…"
+      },
+      "gloss": {
+        "vi": "Kệ đặt thứ tự: trước tiên là việc của chính mình, rồi mới đến lời dạy người. Đây là lời nhắc về sự nhất quán, không nhằm làm cớ để im lặng khi ai đó cần bạn. Đoạn này mời xem điều bạn đang khuyên người có là điều bạn đã thử.",
+        "en": "The verse sets an order: first your own conduct, then teaching others. It is a reminder about consistency, not a reason for silence when someone needs you. This passage invites you to see whether what you advise others is something you have tried."
+      },
+      "question": {
+        "vi": "Có điều gì bạn hay nhắc người khác mà bản thân mới đang tập, hay chưa tập?",
+        "en": "Is there something you often tell others that you are only now practising, or have not yet practised?"
+      },
+      "tags": [
+        "integrity",
+        "humility"
+      ]
+    },
+    {
+      "id": "pc-160",
+      "ref": {
+        "vi": "Phẩm Tự Ngã · kệ 160",
+        "en": "Self · v. 160"
+      },
+      "quote": {
+        "vi": "Tự ngã là chủ của tự ngã, còn ai khác có thể là chủ? Khi tự ngã được điều phục tốt, người ta tìm được một chủ mà ít ai tìm được.",
+        "en": "Self is the lord of self, who else could be the lord? With self well subdued, a man finds a lord such as few can find."
+      },
+      "gloss": {
+        "vi": "Kệ nói về quyền làm chủ bên trong: không ai khác sống thay hay chọn thay cuộc đời mình. Chữ “chủ” dịch từ nātha trong Pāli, vốn gần với “chỗ nương tựa” hơn là “người sai khiến”, vì thế có thể đọc như một chỗ dựa bên trong. Đoạn này mời xem bạn đang trao quyền làm chủ cho điều gì ngoài mình.",
+        "en": "The verse speaks of inner mastery: no one else lives or chooses your life for you. “Lord” renders the Pāli nātha, which is closer to “refuge” than to “commander”, so it can be read as an inner support. This passage invites you to see what outside yourself you are handing the lead to."
+      },
+      "question": {
+        "vi": "Điều gì ngoài bạn đang giữ vai trò “người cầm lái” mà bạn muốn tự cầm lại?",
+        "en": "What outside you is acting as “the one at the wheel” that you would like to take back?"
+      },
+      "tags": [
+        "self-knowledge",
+        "control"
+      ]
+    },
+    {
+      "id": "pc-172",
+      "ref": {
+        "vi": "Phẩm Thế Gian · kệ 172",
+        "en": "The World · v. 172"
+      },
+      "quote": {
+        "vi": "Người trước kia buông thả, sau trở nên tỉnh táo, làm sáng thế gian này, như trăng thoát khỏi mây.",
+        "en": "He who formerly was reckless and afterwards became sober, brightens up this world, like the moon when freed from clouds."
+      },
+      "gloss": {
+        "vi": "Kệ cho thấy một người có thể đổi hướng, và sự đổi hướng ấy sáng lên như trăng ra khỏi mây. Quá khứ buông thả ở đây là điểm bắt đầu của một đường khác, không bị đóng dấu vĩnh viễn. Đoạn này mời nhìn lại một lần bạn đã đổi hướng.",
+        "en": "The verse shows a person can change course, and the change shines like the moon coming out of cloud. A reckless past here is not a permanent mark but the starting point of another road. This passage invites you to look back at a time you changed direction."
+      },
+      "question": {
+        "vi": "Có lần nào bạn đã đổi hướng, và điều gì giúp bạn làm được?",
+        "en": "Has there been a time you changed direction, and what helped you do it?"
+      },
+      "tags": [
+        "resilience",
+        "change"
+      ]
+    },
+    {
+      "id": "pc-183",
+      "ref": {
+        "vi": "Phẩm Phật Đà · kệ 183",
+        "en": "The Buddha · v. 183"
+      },
+      "quote": {
+        "vi": "Không làm điều ác nào, làm điều lành, và làm trong sạch tâm mình: đó là lời dạy của (tất cả) các bậc Giác ngộ.",
+        "en": "Not to commit any sin, to do good, and to purify one's mind, that is the teaching of (all) the Awakened."
+      },
+      "gloss": {
+        "vi": "Ba mệnh đề ngắn theo thứ tự: tránh gây hại, làm điều giúp ích, rồi chăm sóc tâm. Sự “trong sạch” ở đây là việc gạn lọc thường xuyên bên trong, gần với việc rửa tay mỗi ngày hơn là một đòi hỏi hoàn hảo. Đoạn này mời xem bạn đang ở mệnh đề nào.",
+        "en": "Three short clauses in order: avoid harm, do what helps, then tend the mind. “Purify” here is a regular washing-through on the inside, closer to washing your hands each day than to a demand for perfection. This passage invites you to see which clause you are at."
+      },
+      "question": {
+        "vi": "Trong ba việc ấy, hôm nay việc nào bạn thấy gần tầm tay nhất để làm?",
+        "en": "Of those three, which feels closest within reach for you today?"
+      },
+      "tags": [
+        "kindness",
+        "mind"
+      ]
+    },
+    {
+      "id": "pc-184",
+      "ref": {
+        "vi": "Phẩm Phật Đà · kệ 184",
+        "en": "The Buddha · v. 184"
+      },
+      "quote": {
+        "vi": "Các bậc Giác ngộ nói nhẫn nại và chịu đựng là khổ hạnh cao nhất, và Niết-bàn là tối thượng; kẻ đánh người khác chẳng phải người xuất gia, kẻ nhục mạ người khác chẳng phải sa-môn.",
+        "en": "The Awakened call patience the highest penance, long-suffering the highest Nirvana; for he is not an anchorite (pravragita) who strikes others, he is not an ascetic (sramana) who insults others."
+      },
+      "gloss": {
+        "vi": "Chữ “nhẫn” ở đây là sự vững vàng bên trong, không chạy theo cơn giận; ai đánh hay nhục mạ người khác thì không gọi là người tu. Bản tiếng Anh của Müller dịch hơi mờ ở vế đầu; dòng tiếng Việt ở trên theo Pāli: nhẫn nại là khổ hạnh cao nhất, Niết-bàn là điều cao nhất, và câu kệ không bảo ai chịu đựng bạo lực hay lời xúc phạm. Đoạn này mời xem sự kiên nhẫn của bạn lúc nào là vững vàng, lúc nào là nín nhịn vì ngại.",
+        "en": "“Patience” here is inner steadiness that does not chase anger; one who strikes or insults others is no renunciant. Müller blurs the first half, so the Vietnamese line follows the Pāli: patience is the highest austerity and Nibbāna the highest, and the verse does not ask anyone to endure violence or insult. This passage invites you to see when your patience is steadiness and when it is reluctance."
+      },
+      "question": {
+        "vi": "Sự kiên nhẫn của bạn lúc nào là sự vững vàng, và lúc nào là sự nín nhịn vì ngại?",
+        "en": "When is your patience steadiness, and when is it holding back out of reluctance?"
+      },
+      "tags": [
+        "calm",
+        "anger"
+      ]
+    },
+    {
+      "id": "pc-197",
+      "ref": {
+        "vi": "Phẩm An Lạc · kệ 197",
+        "en": "Happiness · v. 197"
+      },
+      "quote": {
+        "vi": "Vậy hãy sống hạnh phúc, không ghét những ai ghét ta! Giữa những người ghét ta, hãy sống không hận thù!",
+        "en": "Let us live happily then, not hating those who hate us! among men who hate us let us dwell free from hatred!"
+      },
+      "gloss": {
+        "vi": "Kệ mời giữ lòng mình không bị hận thù nhiễm vào, dù xung quanh có người ghét. Đây là chuyện của trạng thái bên trong, và không có nghĩa bạn cần ở lại hay quen dần với sự ác ý của người khác. Đoạn này mời xem bạn bớt hận thù trong lòng mình bằng cách nào.",
+        "en": "The verse invites you to keep your own heart from being infected by hatred even when people around you hate. It concerns inner state, and does not mean you stay near or grow used to anyone’s ill feeling. This passage invites you to see how you ease hatred within yourself."
+      },
+      "question": {
+        "vi": "Giữa một người hay một nhóm gây khó chịu cho bạn, điều gì giúp lòng bạn không nhiễm cùng sự ác cảm?",
+        "en": "Around a person or group who irritates you, what helps your heart not take on the same ill feeling?"
+      },
+      "tags": [
+        "anger",
+        "calm"
+      ]
+    },
+    {
+      "id": "pc-201",
+      "ref": {
+        "vi": "Phẩm An Lạc · kệ 201",
+        "en": "Happiness · v. 201"
+      },
+      "quote": {
+        "vi": "Chiến thắng sinh hận thù, vì kẻ bại thì khổ. Người đã bỏ cả thắng lẫn bại, người an tịnh ấy là hạnh phúc.",
+        "en": "Victory breeds hatred, for the conquered is unhappy. He who has given up both victory and defeat, he, the contented, is happy."
+      },
+      "gloss": {
+        "vi": "Kệ chỉ ra cái giá ngầm của việc thắng: người thua mang theo nỗi khổ, và nó có thể quay lại thành ác cảm. Buông cả thắng lẫn bại là một cách thoát khỏi vòng so đo, không có nghĩa thôi cố gắng. Đoạn này mời nhìn xem bạn đang tranh thắng ở đâu.",
+        "en": "The verse points out the hidden price of winning: the loser carries sorrow, which can return as ill feeling. Letting go of both victory and defeat is a way out of the cycle of comparing, and does not mean giving up effort. This passage invites you to see where you are competing to win."
+      },
+      "question": {
+        "vi": "Cuộc tranh thắng nào trong đời bạn đang lấy đi nhiều bình yên hơn những gì nó mang lại?",
+        "en": "Which contest to win in your life is taking more of your peace than it gives back?"
+      },
+      "tags": [
+        "calm",
+        "others"
+      ]
+    },
+    {
+      "id": "pc-217",
+      "ref": {
+        "vi": "Phẩm Hỷ Ái · kệ 217",
+        "en": "Pleasure · v. 217"
+      },
+      "quote": {
+        "vi": "Người có đức hạnh và trí tuệ, công bằng, nói thật, và làm việc thuộc phần mình, thì thế gian quý mến.",
+        "en": "He who possesses virtue and intelligence, who is just, speaks the truth, and does what is his own business, him the world will hold dear."
+      },
+      "gloss": {
+        "vi": "Kệ liệt kê vài điều giản dị tạo thành một người được quý: đức, trí, công bằng, thành thật, và làm phần việc của mình. Sự quý mến ở đây là hệ quả đi kèm, không dùng làm đích để chạy theo. Đoạn này mời nhìn xem điều nào trong năm điều ấy đang được bạn nuôi.",
+        "en": "The verse lists a few simple things that make a person well loved: virtue, intelligence, fairness, honesty, and doing one’s own part. Being held dear is a by-product here, not something to chase. This passage invites you to see which of the five you are nurturing."
+      },
+      "question": {
+        "vi": "Trong những điều ấy, điều nào bạn thấy mình đang làm đều đặn, và điều nào còn thưa?",
+        "en": "Among those qualities, which do you see yourself doing steadily, and which are still sparse?"
+      },
+      "tags": [
+        "integrity",
+        "community"
+      ]
+    },
+    {
+      "id": "pc-222",
+      "ref": {
+        "vi": "Phẩm Phẫn Nộ · kệ 222",
+        "en": "Anger · v. 222"
+      },
+      "quote": {
+        "vi": "Ai kìm được cơn giận đang dâng như cỗ xe lao nhanh, ta gọi là người đánh xe thật sự; người khác chỉ cầm dây cương.",
+        "en": "He who holds back rising anger like a rolling chariot, him I call a real driver; other people are but holding the reins."
+      },
+      "gloss": {
+        "vi": "Kệ cho thấy việc cầm cương là kìm cơn giận khi nó đang lên, chứ không có nghĩa là chưa bao giờ giận. Người đánh xe thật sự là người còn ở yên trên xe lúc xe đang chạy mạnh. Đoạn này mời nhận ra lúc cơn giận bắt đầu dâng.",
+        "en": "The verse shows that holding the reins means checking anger while it is rising, not never being angry. The real driver is the one who stays seated while the carriage runs hard. This passage invites you to recognise the moment anger begins to rise."
+      },
+      "question": {
+        "vi": "Dấu hiệu nào trong cơ thể báo bạn rằng cơn giận đang bắt đầu dâng?",
+        "en": "What sign in your body tells you that anger is beginning to rise?"
+      },
+      "tags": [
+        "anger",
+        "self-knowledge"
+      ]
+    },
+    {
+      "id": "pc-223",
+      "ref": {
+        "vi": "Phẩm Phẫn Nộ · kệ 223",
+        "en": "Anger · v. 223"
+      },
+      "quote": {
+        "vi": "Người ta hãy thắng giận bằng lòng thương, thắng điều ác bằng điều thiện; thắng kẻ keo kiệt bằng sự rộng rãi, kẻ nói dối bằng sự thật!",
+        "en": "Let a man overcome anger by love, let him overcome evil by good; let him overcome the greedy by liberality, the liar by truth!"
+      },
+      "gloss": {
+        "vi": "Kệ nêu bốn cặp đối nhau, mỗi cặp là một cách đáp khác với cách đáp quen thuộc; chữ đầu trong bản Pāli là akkodha, nghĩa là không giận, vì vậy “lòng thương” ở đây có thể đọc là thái độ không giận. “Thắng” là thắng ý muốn đáp trả cùng kiểu, và không đòi bạn chịu đựng hay nhường lại ranh giới của mình. Đoạn này mời xem bạn thường đáp thế nào.",
+        "en": "The verse offers four pairings, each a way of answering that differs from the usual reply; the first word in the Pāli is akkodha, meaning non-anger, so “love” here can be read as an attitude of not being angry. “Overcome” means overcoming the urge to answer in kind, and it does not ask you to endure or give up your boundaries. This passage invites you to see how you usually reply."
+      },
+      "question": {
+        "vi": "Trước một lời giận hay một lời dối, bạn thường đáp theo kiểu nào, và kiểu đó có giống điều bạn muốn không?",
+        "en": "Faced with an angry or untrue word, how do you usually answer, and is that the way you want to?"
+      },
+      "tags": [
+        "anger",
+        "kindness"
+      ]
+    },
+    {
+      "id": "pc-228",
+      "ref": {
+        "vi": "Phẩm Phẫn Nộ · kệ 228",
+        "en": "Anger · v. 228"
+      },
+      "quote": {
+        "vi": "Chưa từng có, sẽ không có, và bây giờ cũng không có người nào luôn bị chê, hay người nào luôn được khen.",
+        "en": "There never was, there never will be, nor is there now, a man who is always blamed, or a man who is always praised."
+      },
+      "gloss": {
+        "vi": "Kệ nhắc rằng không ai đứng trọn vẹn về một phía của lời bình phẩm, và điều đó có thể giúp nhẹ bớt khi bị chê hay khi được khen. Lời của người ta thường nói nhiều về cái nhìn của họ và ít về giá trị cả một con người. Đoạn này mời nhìn lại một lời chê hay khen bạn còn mang.",
+        "en": "The verse reminds us that no one stands wholly on one side of opinion, which can ease things when you are blamed or praised. People’s words often say more about their view than about a whole person’s worth. This passage invites you to look back at a word of blame or praise you still carry."
+      },
+      "question": {
+        "vi": "Lời chê hay lời khen nào bạn còn mang trong người, và nó đang nặng bao nhiêu?",
+        "en": "Which word of blame or praise are you still carrying, and how heavy is it now?"
+      },
+      "tags": [
+        "opinion",
+        "resilience"
+      ]
+    },
+    {
+      "id": "pc-232",
+      "ref": {
+        "vi": "Phẩm Phẫn Nộ · kệ 232",
+        "en": "Anger · v. 232"
+      },
+      "quote": {
+        "vi": "Hãy đề phòng cơn giận của lưỡi, và kiểm soát lưỡi mình! Bỏ những lỗi của lưỡi, và thực hành đức hạnh bằng lưỡi!",
+        "en": "Beware of the anger of the tongue, and control thy tongue! Leave the sins of the tongue, and practise virtue with thy tongue!"
+      },
+      "gloss": {
+        "vi": "Kệ chọn lời nói làm chỗ bắt đầu: lời thoát ra nhanh và khó thu lại. “Kiểm soát” ở đây có thể hiểu là chậm lại một nhịp trước khi nói, không bắt ai im lặng khi cần nói thật. Đoạn này mời để ý khoảng giữa cảm xúc và lời.",
+        "en": "The verse picks speech as the place to begin: words leave quickly and are hard to take back. “Control” here can be read as slowing down a beat before speaking, not silencing anyone when truth needs saying. This passage invites you to notice the gap between a feeling and a word."
+      },
+      "question": {
+        "vi": "Gần đây có lời nào bạn nói trong lúc nóng mà bạn muốn có thêm một nhịp để chọn lại?",
+        "en": "Is there something you said in the heat of the moment lately that you wish you had taken one more beat to choose?"
+      },
+      "tags": [
+        "anger",
+        "others"
+      ]
+    },
+    {
+      "id": "pc-233",
+      "ref": {
+        "vi": "Phẩm Phẫn Nộ · kệ 233",
+        "en": "Anger · v. 233"
+      },
+      "quote": {
+        "vi": "Hãy đề phòng cơn giận của tâm, và kiểm soát tâm mình! Bỏ những lỗi của tâm, và thực hành đức hạnh bằng tâm!",
+        "en": "Beware of the anger of the mind, and control thy mind! Leave the sins of the mind, and practise virtue with thy mind!"
+      },
+      "gloss": {
+        "vi": "Kệ này đi cùng kệ trước nhưng ở tầng sâu hơn: cơn giận có thể chỉ nằm trong ý nghĩ. Thực hành đức hạnh bằng tâm gần với việc đổi cách nghĩ về ai đó trước khi nó thành lời hay hành động. Đoạn này mời để ý những ý nghĩ giận chưa nói ra.",
+        "en": "This verse goes with the previous one but at a deeper level: anger can lie in thought alone. Practising virtue with the mind is close to changing how you think about someone before it becomes word or deed. This passage invites you to notice angry thoughts not yet spoken."
+      },
+      "question": {
+        "vi": "Cơn giận nào đang ở trong ý nghĩ của bạn, chưa thành lời, và nó đang muốn nói điều gì?",
+        "en": "Which anger is living in your thoughts, not yet in words, and what is it trying to say?"
+      },
+      "tags": [
+        "anger",
+        "mind"
+      ]
+    },
+    {
+      "id": "pc-239",
+      "ref": {
+        "vi": "Phẩm Cấu Uế · kệ 239",
+        "en": "Impurity · v. 239"
+      },
+      "quote": {
+        "vi": "Người trí hãy thổi bỏ tạp chất của chính mình, như thợ bạc thổi bỏ tạp chất của bạc, từng chút một, và thỉnh thoảng.",
+        "en": "Let a wise man blow off the impurities of his self, as a smith blows off the impurities of silver one by one, little by little, and from time to time."
+      },
+      "gloss": {
+        "vi": "Hình ảnh thợ bạc cho thấy việc gạn lọc là một nghề làm từ từ: từng ít, từng lúc, bạc càng sáng dần. Kệ coi tạp chất như điều có thể làm sạch dần, không xem đó là vết nhơ định đoạt con người. Đoạn này mời kiên nhẫn với phần mình chưa như ý.",
+        "en": "The image of the silversmith shows that refining is slow work: a little at a time, now and then, the silver growing brighter. The verse treats impurities as something that can be cleared gradually, not a stain that defines a person. This passage invites patience with the parts of yourself that are not yet as you wish."
+      },
+      "question": {
+        "vi": "Có thói quen nào của bạn mà bạn muốn gạn dần từng chút, và chút đầu tiên có thể là gì?",
+        "en": "Is there a habit of yours you would like to refine bit by bit, and what could the first bit be?"
+      },
+      "tags": [
+        "habit",
+        "self-compassion"
+      ]
+    },
+    {
+      "id": "pc-251",
+      "ref": {
+        "vi": "Phẩm Cấu Uế · kệ 251",
+        "en": "Impurity · v. 251"
+      },
+      "quote": {
+        "vi": "Không có lửa nào như đam mê, không có cá mập nào như hận thù, không có lưới nào như mê muội, không có dòng chảy xiết nào như tham.",
+        "en": "There is no fire like passion, there is no shark like hatred, there is no snare like folly, there is no torrent like greed."
+      },
+      "gloss": {
+        "vi": "Bốn hình ảnh lửa, cá mập, lưới và dòng xiết, mỗi hình ảnh nói đến một kiểu bị cuốn đi. Đây là cách gọi tên những lực kéo, không nhằm buộc tội ai. Đoạn này mời nhìn xem lực nào đang kéo bạn nhiều nhất.",
+        "en": "Four images, fire, shark, snare and torrent, each point to a way of being swept along. This is a way of naming the pulls, not of accusing anyone. This passage invites you to see which pull tugs at you most."
+      },
+      "question": {
+        "vi": "Trong bốn lực ấy, lực nào gần đây kéo bạn mạnh nhất?",
+        "en": "Of those four pulls, which has tugged at you hardest lately?"
+      },
+      "tags": [
+        "desire",
+        "self-knowledge"
+      ]
+    },
+    {
+      "id": "pc-252",
+      "ref": {
+        "vi": "Phẩm Cấu Uế · kệ 252",
+        "en": "Impurity · v. 252"
+      },
+      "quote": {
+        "vi": "Lỗi người khác dễ thấy, lỗi mình khó thấy; người ta sàng lỗi hàng xóm như sàng trấu, còn lỗi mình thì giấu, như kẻ gian giấu quân xúc xắc xấu khỏi con bạc.",
+        "en": "The fault of others is easily perceived, but that of oneself is difficult to perceive; a man winnows his neighbour's faults like chaff, but his own fault he hides, as a cheat hides the bad die from the gambler."
+      },
+      "gloss": {
+        "vi": "Kệ nói về điều mắt ta làm một cách tự nhiên: dễ nhìn ra người khác, khó nhìn ra mình. Đây là mô tả một xu hướng của con người, bao gồm cả người đọc câu này. Đoạn này mời nhìn lại bằng sự tò mò hơn là tự trách.",
+        "en": "The verse speaks of what the eye naturally does: easy to see others, hard to see oneself. It describes a human tendency, including in whoever reads this line. This passage invites you to look again with curiosity rather than self-blame."
+      },
+      "question": {
+        "vi": "Có lỗi nào của mình mà bạn thường thấy dễ hơn khi nó nằm ở người khác?",
+        "en": "Is there a fault of your own that you notice more easily when it shows up in someone else?"
+      },
+      "tags": [
+        "humility",
+        "self-knowledge"
+      ]
+    },
+    {
+      "id": "pc-253",
+      "ref": {
+        "vi": "Phẩm Cấu Uế · kệ 253",
+        "en": "Impurity · v. 253"
+      },
+      "quote": {
+        "vi": "Nếu ai cứ để ý lỗi người khác, và luôn dễ bị xúc phạm, thì đam mê của người ấy lớn thêm, và người ấy còn xa sự chấm dứt đam mê.",
+        "en": "If a man looks after the faults of others, and is always inclined to be offended, his own passions will grow, and he is far from the destruction of passions."
+      },
+      "gloss": {
+        "vi": "Kệ cho thấy thói soi lỗi và dễ phật lòng có thể nuôi lớn chính những xung động nó muốn tránh. Câu này không bảo bạn bỏ qua điều thật sự gây hại; nó chỉ mời xem thói quen soi xét có đang làm bạn nặng thêm không. Đoạn này mời nhận ra khi nào sự chú ý vào lỗi người nuôi sự bực.",
+        "en": "The verse shows that scanning for faults and being easily offended can feed the very urges one wants to avoid. It does not tell you to overlook what truly harms; it only invites you to see whether the habit of scrutiny is making you heavier. This passage invites you to notice when attention on others’ faults feeds irritation."
+      },
+      "question": {
+        "vi": "Điều gì gần đây làm bạn thấy phật lòng, và nghĩ đến nó lúc nào làm nó nặng hơn, lúc nào làm nó nhẹ đi?",
+        "en": "What recently left you feeling offended, and when does thinking about it make it heavier, when lighter?"
+      },
+      "tags": [
+        "anger",
+        "attention"
+      ]
+    },
+    {
+      "id": "pc-258",
+      "ref": {
+        "vi": "Phẩm Pháp Trụ · kệ 258",
+        "en": "The Just · v. 258"
+      },
+      "quote": {
+        "vi": "Một người không vì nói nhiều mà thành bậc học rộng; ai nhẫn nại, không hận thù, không sợ hãi, người ấy mới được gọi là bậc học rộng.",
+        "en": "A man is not learned because he talks much; he who is patient, free from hatred and fear, he is called learned."
+      },
+      "gloss": {
+        "vi": "Kệ đổi tiêu chuẩn của sự hiểu biết, từ lượng lời nói sang sự vững vàng trong lòng. Ba phẩm chất trong bản Pāli là khemī (an ổn), không thù oán và không sợ hãi; bản Müller dịch chữ đầu là “nhẫn nại”. Điều này không chê người nói nhiều; nó mời nhìn kiến thức của bạn hiện ra trong cách bạn đối diện điều khó.",
+        "en": "The verse changes the measure of understanding, from quantity of speech to steadiness within. The three qualities in the Pāli are khemī (secure), free of enmity and free of fear; Müller renders the first as “patient”. It does not scold talkers; it invites you to see your knowledge show up in how you face difficulty."
+      },
+      "question": {
+        "vi": "Hiểu biết của bạn hiện ra ở lời nói hay ở cách bạn đối diện khi khó khăn?",
+        "en": "Does your understanding show in what you say or in how you meet difficulty?"
+      },
+      "tags": [
+        "truth",
+        "calm"
+      ]
+    },
+    {
+      "id": "pc-261",
+      "ref": {
+        "vi": "Phẩm Pháp Trụ · kệ 261",
+        "en": "The Just · v. 261"
+      },
+      "quote": {
+        "vi": "Người có sự thật, đức hạnh, yêu thương, tự chế, điều độ, người sạch tạp nhiễm và có trí, người ấy được gọi là bậc trưởng thượng.",
+        "en": "He in whom there is truth, virtue, love, restraint, moderation, he who is free from impurity and is wise, he is called an elder."
+      },
+      "gloss": {
+        "vi": "Kệ định nghĩa người đáng kính bằng phẩm chất, không bằng tuổi tác hay vẻ ngoài. Chữ “yêu thương” trong bản dịch ứng với ahiṃsā, nghĩa là không làm hại, và danh sách ấy là một chân dung để hướng tới, không dùng làm bài kiểm tra cho bất kỳ ai. Đoạn này mời xem phẩm chất nào bạn kính trọng nơi người lớn tuổi hơn mình.",
+        "en": "The verse defines someone worthy of respect by qualities, not by age or appearance. “Love” in this translation stands for ahiṃsā, which means non-harming, and the list is a portrait to move toward, not a test for anyone. This passage invites you to see which quality you respect in people older than you."
+      },
+      "question": {
+        "vi": "Phẩm chất nào ở một người lớn tuổi hơn từng khiến bạn thật lòng kính trọng?",
+        "en": "Which quality in an older person has made you truly respect them?"
+      },
+      "tags": [
+        "integrity",
+        "community"
+      ]
+    },
+    {
+      "id": "pc-276",
+      "ref": {
+        "vi": "Phẩm Đạo · kệ 276",
+        "en": "The Way · v. 276"
+      },
+      "quote": {
+        "vi": "Chính các bạn cần nỗ lực. Các Như Lai chỉ là người thuyết giảng. Những người chuyên tâm bước vào đường sẽ được giải thoát khỏi xiềng xích của Mara.",
+        "en": "You yourself must make an effort. The Tathagatas (Buddhas) are only preachers. The thoughtful who enter the way are freed from the bondage of Mara."
+      },
+      "gloss": {
+        "vi": "Kệ nói rõ vai trò: người chỉ đường có thể chỉ, còn bước đi là việc của mình. Điều này nhẹ cho cả hai phía: người chỉ đường không đi thay được, và bạn vẫn có thể chọn đi cùng người khác. Đoạn này mời xem bước nào hôm nay là của riêng bạn.",
+        "en": "The verse is clear about roles: the one who points the way can point, and walking is your own work. This is a relief for both sides: the one pointing cannot walk for you, and you remain free to walk beside others. This passage invites you to see which step today is yours alone."
+      },
+      "question": {
+        "vi": "Bước nào hôm nay là của riêng bạn, và bước nào bạn muốn nhờ ai đó đi cùng?",
+        "en": "Which step today is yours alone, and which would you like someone to walk with you?"
+      },
+      "tags": [
+        "control",
+        "action"
+      ]
+    },
+    {
+      "id": "pc-281",
+      "ref": {
+        "vi": "Phẩm Đạo · kệ 281",
+        "en": "The Way · v. 281"
+      },
+      "quote": {
+        "vi": "Giữ gìn lời nói, tiết chế tâm, đừng để thân làm điều gì sai! Giữ ba con đường hành động này trong sạch, người ấy sẽ đạt con đường do bậc trí dạy.",
+        "en": "Watching his speech, well restrained in mind, let a man never commit any wrong with his body! Let a man but keep these three roads of action clear, and he will achieve the way which is taught by the wise."
+      },
+      "gloss": {
+        "vi": "Ba “con đường hành động” là lời, ý và việc. Kệ gợi một cách tự soát đơn giản mỗi ngày: lời nói, ý nghĩ, hành động có cùng một hướng không. Đoạn này mời xem ba thứ ấy của bạn hôm nay.",
+        "en": "The three “roads of action” are speech, thought and deed. The verse suggests a simple daily check: do words, thoughts and actions go the same way. This passage invites you to look at your three today."
+      },
+      "question": {
+        "vi": "Hôm nay lời nói, ý nghĩ và việc làm của bạn đi cùng hướng ở chỗ nào, và lệch nhau ở chỗ nào?",
+        "en": "Today, where do your words, thoughts and actions go the same way, and where do they drift apart?"
+      },
+      "tags": [
+        "integrity",
+        "self-knowledge"
+      ]
+    },
+    {
+      "id": "pc-290",
+      "ref": {
+        "vi": "Phẩm Tạp Lục · kệ 290",
+        "en": "Miscellaneous · v. 290"
+      },
+      "quote": {
+        "vi": "Nếu bỏ một niềm vui nhỏ mà thấy được một niềm vui lớn, người trí bỏ niềm vui nhỏ, và nhìn vào niềm vui lớn.",
+        "en": "If by leaving a small pleasure one sees a great pleasure, let a wise man leave the small pleasure, and look to the great."
+      },
+      "gloss": {
+        "vi": "Kệ nói về một sự đánh đổi: để lại cái dễ chịu trước mắt vì thứ bền hơn. Nó không bảo bạn từ bỏ lạc thú nói chung; chỉ mời nhìn khi nào một niềm vui nhỏ đang che niềm vui lớn hơn. Đoạn này mời xem điều bạn đang chọn.",
+        "en": "The verse speaks of a trade: leaving a nearby comfort for something that lasts. It does not tell you to renounce pleasure in general; it only invites you to see when a small joy is covering a larger one. This passage invites you to look at what you are choosing."
+      },
+      "question": {
+        "vi": "Niềm vui nhỏ nào, nếu để lại, có thể mở chỗ cho điều bạn quý hơn?",
+        "en": "Which small pleasure, if let go, could make room for something you value more?"
+      },
+      "tags": [
+        "simplicity",
+        "purpose"
+      ]
+    },
+    {
+      "id": "pc-291",
+      "ref": {
+        "vi": "Phẩm Tạp Lục · kệ 291",
+        "en": "Miscellaneous · v. 291"
+      },
+      "quote": {
+        "vi": "Ai muốn có niềm vui cho mình bằng cách gây đau cho người khác thì bị vướng trong xiềng hận thù và không thoát được hận thù.",
+        "en": "He who, by causing pain to others, wishes to obtain pleasure for himself, he, entangled in the bonds of hatred, will never be free from hatred."
+      },
+      "gloss": {
+        "vi": "Kệ chỉ ra một cái bẫy: niềm vui mua bằng nỗi đau của người khác thường dẫn đến thù oán quay lại. Câu này nói về cách ta nhìn niềm vui của mình, không để ta phán xét ai khác. Đoạn này mời xem niềm vui bạn tìm có kéo theo nỗi khó chịu của ai không.",
+        "en": "The verse points to a trap: pleasure bought with others’ pain tends to bring enmity back. It speaks about how we look at our own pleasures, not to judge anyone else. This passage invites you to see whether the joy you seek brings someone else’s discomfort."
+      },
+      "question": {
+        "vi": "Niềm vui nào của bạn là loại làm người xung quanh cũng thấy nhẹ lòng?",
+        "en": "Which of your joys is the kind that also eases the hearts of those around you?"
+      },
+      "tags": [
+        "others",
+        "kindness"
+      ]
+    },
+    {
+      "id": "pc-313",
+      "ref": {
+        "vi": "Phẩm Địa Ngục · kệ 313",
+        "en": "Downward Course · v. 313"
+      },
+      "quote": {
+        "vi": "Nếu có việc cần làm, hãy làm, và làm hết sức! Người hành hương lơ đễnh chỉ làm bụi đam mê tung rộng hơn.",
+        "en": "If anything is to be done, let a man do it, let him attack it vigorously! A careless pilgrim only scatters the dust of his passions more widely."
+      },
+      "gloss": {
+        "vi": "Kệ nói về sự nửa vời: khi vừa làm vừa lơ đãng, ta chỉ khuấy thêm bụi. “Làm hết sức” ở đây gần với làm trọn vẹn và tỉnh táo, chứ không có nghĩa gắng gượng đến kiệt sức. Đoạn này mời xem việc nào hôm nay nhận được trọn sự chú ý của bạn, và việc nào tâm trí còn ở nơi khác.",
+        "en": "The verse speaks of half-heartedness: working while distracted only stirs up more dust. “Vigorously” here is closer to wholehearted and alert than to straining to exhaustion. This passage invites you to see which tasks today get your whole attention and which find your mind elsewhere."
+      },
+      "question": {
+        "vi": "Trong việc đang làm hôm nay, phần nào bạn thấy mình có mặt trọn vẹn, và phần nào tâm trí còn ở chỗ khác?",
+        "en": "In what you are doing today, where do you feel fully present, and where is your mind elsewhere?"
+      },
+      "tags": [
+        "work",
+        "attention"
+      ]
+    },
+    {
+      "id": "pc-322",
+      "ref": {
+        "vi": "Phẩm Voi · kệ 322",
+        "en": "The Elephant · v. 322"
+      },
+      "quote": {
+        "vi": "Con la được thuần thì tốt, ngựa Sindhu quý cũng vậy, và voi ngà lớn; nhưng người tự thuần mình còn tốt hơn.",
+        "en": "Mules are good, if tamed, and noble Sindhu horses, and elephants with large tusks; but he who tames himself is better still."
+      },
+      "gloss": {
+        "vi": "Kệ so sánh các con vật quý đã được huấn luyện với người tự rèn mình. Giá trị ở đây nằm ở việc tự rèn, không ở chỗ nhìn người khác từ trên xuống. Đoạn này mời xem nơi nào bạn muốn thuần thục hơn với chính mình.",
+        "en": "The verse compares prized trained animals with a person who trains themselves. The value lies in the self-training, not in looking down on others. This passage invites you to see where you would like to be more at home with yourself."
+      },
+      "question": {
+        "vi": "Điều gì nơi bản thân mà bạn muốn rèn cho quen tay hơn?",
+        "en": "What in yourself would you like to practise until it feels more natural?"
+      },
+      "tags": [
+        "habit",
+        "self-knowledge"
+      ]
+    },
+    {
+      "id": "pc-326",
+      "ref": {
+        "vi": "Phẩm Voi · kệ 326",
+        "en": "The Elephant · v. 326"
+      },
+      "quote": {
+        "vi": "Tâm tôi trước kia lang thang tùy thích, như nó muốn, như nó ưa; nhưng nay tôi sẽ giữ nó thật kỹ, như người cầm móc giữ con voi đang điên cuồng.",
+        "en": "This mind of mine went formerly wandering about as it liked, as it listed, as it pleased; but I shall now hold it in thoroughly, as the rider who holds the hook holds in the furious elephant."
+      },
+      "gloss": {
+        "vi": "Người nói trong kệ thừa nhận tâm mình từng lang thang, và quyết định dẫn nó cẩn thận từ bây giờ. Hình ảnh người điều khiển voi gợi sự hướng dẫn kiên nhẫn của người biết rõ con voi của mình, không dùng bạo lực. Đoạn này mời nhìn tâm mình bằng sự quen thuộc hơn là ghét bỏ.",
+        "en": "The speaker in the verse admits that their mind once wandered, and resolves to guide it carefully from now on. The image of the elephant handler suggests patient guidance by someone who knows the elephant well, not violence. This passage invites you to look at your mind with familiarity rather than dislike."
+      },
+      "question": {
+        "vi": "Nếu tâm bạn là một con voi bạn đang học dẫn, hôm nay nó muốn đi đâu?",
+        "en": "If your mind were an elephant you are learning to guide, where does it want to go today?"
+      },
+      "tags": [
+        "mind",
+        "self-compassion"
+      ]
+    },
+    {
+      "id": "pc-327",
+      "ref": {
+        "vi": "Phẩm Voi · kệ 327",
+        "en": "The Elephant · v. 327"
+      },
+      "quote": {
+        "vi": "Đừng lơ đễnh, hãy canh giữ ý nghĩ của mình! Hãy tự kéo mình ra khỏi đường xấu, như con voi bị lún trong bùn.",
+        "en": "Be not thoughtless, watch your thoughts! Draw yourself out of the evil way, like an elephant sunk in mud."
+      },
+      "gloss": {
+        "vi": "Hình ảnh con voi lún bùn cho thấy việc mắc kẹt không nói lên điều xấu nào về con voi; đó chỉ là bùn, và có thể thoát ra từng chút. Kệ mời tự kéo mình ra bằng sự chú ý, nhưng có những lúc người mắc kẹt khó tự thoát một mình: nhờ người giúp cũng là một cách đáp lại. Đoạn này mời gọi tên chỗ nào đang nặng như bùn, nếu có.",
+        "en": "The image of an elephant sunk in mud shows that being stuck says nothing bad about the elephant; it is only mud, and one can climb out bit by bit. The verse invites drawing yourself out with attention, yet there are times when someone stuck cannot leave alone: asking for help is also a response. This passage invites you to name where things feel heavy as mud, if anywhere."
+      },
+      "question": {
+        "vi": "Nếu có chỗ nào trong đời bạn đang nặng như bùn, bước nhỏ nào, hoặc người nào, có thể giúp bạn đặt chân ra?",
+        "en": "If there is somewhere in your life that feels heavy as mud, what small step, or which person, could help you set a foot outside?"
+      },
+      "tags": [
+        "resilience",
+        "attention"
+      ]
+    },
+    {
+      "id": "pc-336",
+      "ref": {
+        "vi": "Phẩm Tham Ái · kệ 336",
+        "en": "Thirst · v. 336"
+      },
+      "quote": {
+        "vi": "Ai vượt qua được cơn khát dữ dội này, khó thắng trong đời, thì khổ đau rơi khỏi họ như giọt nước khỏi lá sen.",
+        "en": "He who overcomes this fierce thirst, difficult to be conquered in this world, sufferings fall off from him, like water-drops from a lotus leaf."
+      },
+      "gloss": {
+        "vi": "Kệ nói tới cơn khao khát không dứt và hình ảnh giọt nước lăn khỏi lá sen: khổ đau khó bám khi lòng không bám. Đây là mô tả một trạng thái hướng tới, không nhằm trách ai đang khổ. Đoạn này mời nhìn xem lòng bạn đang nắm chặt điều gì, nếu có.",
+        "en": "The verse speaks of unending craving and of water rolling off a lotus leaf: sorrow finds little hold when the heart does not cling. It describes a state to move toward, not a reproach to anyone in pain. This passage invites you to see what your heart is gripping, if anything."
+      },
+      "question": {
+        "vi": "Điều gì bạn đang mong mỏi nhiều nhất lúc này, và nó cho bạn biết điều gì bạn cần?",
+        "en": "What do you long for most right now, and what does it tell you that you need?"
+      },
+      "tags": [
+        "desire",
+        "calm"
+      ]
+    },
+    {
+      "id": "pc-365",
+      "ref": {
+        "vi": "Phẩm Tỳ-kheo · kệ 365",
+        "en": "The Bhikshu · v. 365"
+      },
+      "quote": {
+        "vi": "Đừng coi thường điều mình đã nhận, cũng đừng ganh người khác: tỳ-kheo ganh người khác thì không đạt được sự bình an của tâm.",
+        "en": "Let him not despise what he has received, nor ever envy others: a mendicant who envies others does not obtain peace of mind."
+      },
+      "gloss": {
+        "vi": "Kệ nối hai điều: trân trọng phần mình có, và thôi ganh. Ganh tị ở đây được nói đến như điều lấy mất sự yên của chính người ganh, không bị xem là một lỗi đáng xấu hổ. Đoạn này mời nhìn xem bạn đang bỏ qua điều gì mình đã nhận.",
+        "en": "The verse joins two things: valuing what you have received, and letting go of envy. Envy is described as what takes away the envier’s own peace, not as a fault to be ashamed of. This passage invites you to see what you are overlooking among the things you have been given."
+      },
+      "question": {
+        "vi": "Điều bạn đã nhận được mà gần đây ít để ý đến là gì?",
+        "en": "What have you received that you have paid little attention to lately?"
+      },
+      "tags": [
+        "gratitude",
+        "calm"
+      ]
+    },
+    {
+      "id": "pc-369",
+      "ref": {
+        "vi": "Phẩm Tỳ-kheo · kệ 369",
+        "en": "The Bhikshu · v. 369"
+      },
+      "quote": {
+        "vi": "Này tỳ-kheo, hãy tát cạn thuyền này! Tát cạn rồi nó đi nhanh; cắt bỏ đam mê và hận thù, ông sẽ đến Niết-bàn.",
+        "en": "O Bhikshu, empty this boat! if emptied, it will go quickly; having cut off passion and hatred thou wilt go to Nirvana."
+      },
+      "gloss": {
+        "vi": "Hình ảnh chiếc thuyền ngập nước: nước là những gì ta chứa thêm khiến thuyền nặng. Kệ mời tát bớt, thuyền tự nhẹ đi và đi nhanh hơn. Đoạn này mời nhìn xem điều gì bạn đang chở trên thuyền của mình.",
+        "en": "The image of a boat taking on water: the water is what we have added that makes it heavy. The verse invites bailing, and the boat grows lighter and moves faster. This passage invites you to see what you are carrying in your own boat."
+      },
+      "question": {
+        "vi": "Điều gì trong lòng bạn là “nước trong thuyền” mà bạn có thể tát bớt hôm nay?",
+        "en": "What in your heart is the “water in the boat” that you could bail out a little today?"
+      },
+      "tags": [
+        "simplicity",
+        "calm"
+      ]
+    },
+    {
+      "id": "pc-379",
+      "ref": {
+        "vi": "Phẩm Tỳ-kheo · kệ 379",
+        "en": "The Bhikshu · v. 379"
+      },
+      "quote": {
+        "vi": "Hãy tự thức mình bằng chính mình, tự xét mình bằng chính mình; tự giữ gìn và tỉnh giác như thế, tỳ-kheo, ông sẽ sống hạnh phúc!",
+        "en": "Rouse thyself by thyself, examine thyself by thyself, thus self-protected and attentive wilt thou live happily, O Bhikshu!"
+      },
+      "gloss": {
+        "vi": "Kệ nêu ba việc tự mình làm: tự thúc giục, tự xét lại, tự gìn giữ trong chánh niệm; chữ “tỉnh giác” trong bản dịch ứng với sati, tức niệm. Lời thúc giục (codayati) trong bản Pāli khá thẳng, vì vậy có thể thử đọc nó bằng giọng của một người đồng hành hơn là của người quản giáo. Đoạn này mời xem giọng nói bên trong của bạn nghe giống ai.",
+        "en": "The verse names three things one does for oneself: urging oneself on, examining oneself, guarding oneself with mindfulness; “attentive” in this translation stands for sati, mindfulness. The urging (codayati) is fairly direct in the Pāli, so one can try reading it in the voice of a companion rather than a warden. This passage invites you to see whom your inner voice sounds like."
+      },
+      "question": {
+        "vi": "Giọng nói bên trong của bạn khi tự nhắc mình nghe giống một người bạn hay một người quản giáo?",
+        "en": "When you remind yourself of something, does your inner voice sound like a friend or like a warden?"
+      },
+      "tags": [
+        "self-compassion",
+        "attention"
+      ]
+    },
+    {
+      "id": "pc-380",
+      "ref": {
+        "vi": "Phẩm Tỳ-kheo · kệ 380",
+        "en": "The Bhikshu · v. 380"
+      },
+      "quote": {
+        "vi": "Vì tự ngã là chủ của tự ngã, tự ngã là chỗ nương của tự ngã; vậy hãy kiềm mình như người buôn kiềm con ngựa tốt.",
+        "en": "For self is the lord of self, self is the refuge of self; therefore curb thyself as the merchant curbs a good horse."
+      },
+      "gloss": {
+        "vi": "Kệ nói thêm về chỗ nương tựa nằm ở bên trong, và chữ “chủ” ở đây (nātha trong Pāli) còn gần với “người che chở”. Người buôn kiềm con ngựa tốt vì quý nó, vì thế “kiềm” mang sắc thái chăm sóc. Đoạn này mời nhìn xem điều gì, hoặc ai, đang là chỗ nương của bạn.",
+        "en": "The verse speaks again of a refuge found within, and “lord” here (nātha in Pāli) is also close to “protector”. The merchant reins in a good horse because he values it, so “curb” carries a tone of care. This passage invites you to see what, or who, is a refuge for you."
+      },
+      "question": {
+        "vi": "Khi gặp khó, điều gì hoặc ai là chỗ nương của bạn, kể cả chính bạn?",
+        "en": "When things are hard, what or who is your refuge, including yourself?"
+      },
+      "tags": [
+        "self-compassion",
+        "resilience"
+      ]
+    },
+    {
+      "id": "pc-393",
+      "ref": {
+        "vi": "Phẩm Bà-la-môn · kệ 393",
+        "en": "The Brahmana · v. 393"
+      },
+      "quote": {
+        "vi": "Không vì tóc bện, không vì dòng họ hay xuất thân mà một người thành Bà-la-môn; ai có sự thật và công chính, người ấy được phúc, người ấy là Bà-la-môn.",
+        "en": "A man does not become a Brahmana by his platted hair, by his family, or by birth; in whom there is truth and righteousness, he is blessed, he is a Brahmana."
+      },
+      "gloss": {
+        "vi": "Bà-la-môn vốn là đẳng cấp tư tế được xem là cao nhất do sinh ra, và kệ lấy chính danh xưng ấy để đổi tiêu chuẩn từ xuất thân sang sự thật và pháp. Chữ “được phúc” trong bản dịch ứng với sucī của Pāli, nghĩa là thanh tịnh; ý này có thể đọc rộng ra: giá trị một người nằm ở cách người ấy sống, không ở nơi sinh hay vị thế. Đoạn này mời để ý điều bạn thường nhìn vào đầu tiên ở một người.",
+        "en": "“Brahmin” was a priestly class held highest by birth, and the verse takes that very title and changes the measure from birth to truth and the teaching. “Blessed” in this translation stands for the Pāli sucī, meaning pure; this can be read more broadly: a person’s worth lies in how they live, not in birthplace or standing. This passage invites you to notice what you usually look at first in a person."
+      },
+      "question": {
+        "vi": "Khi gặp một người mới, bạn thường để ý điều gì đầu tiên, và điều đó đổi thế nào khi bạn biết cách họ sống?",
+        "en": "When you meet someone new, what do you usually notice first, and how does that change when you learn how they live?"
+      },
+      "tags": [
+        "others",
+        "truth"
+      ]
+    },
+    {
+      "id": "pc-408",
+      "ref": {
+        "vi": "Phẩm Bà-la-môn · kệ 408",
+        "en": "The Brahmana · v. 408"
+      },
+      "quote": {
+        "vi": "Người nói lời thật, có ích và không gắt gỏng, để không làm ai phật lòng, ta gọi là Bà-la-môn.",
+        "en": "Him I call indeed a Brahmana who utters true speech, instructive and free from harshness, so that he offend no one."
+      },
+      "gloss": {
+        "vi": "Kệ mô tả ba phẩm chất của lời nói: thật, có ích, không gắt. Mục “không làm ai phật lòng” có thể hiểu là sự cẩn trọng trong cách nói, chứ không có nghĩa là né tránh điều khó nói. Đoạn này mời kiểm tra lời mình qua ba phẩm chất ấy.",
+        "en": "The verse describes three qualities of speech: true, useful, unharsh. “Offending no one” can be read as care in how one speaks, not as avoiding what is hard to say. This passage invites you to test your own words against the three."
+      },
+      "question": {
+        "vi": "Câu nói gần đây của bạn có đủ ba điều: thật, có ích, và không gắt gỏng chưa?",
+        "en": "Did a recent thing you said have all three: true, useful and not harsh?"
+      },
+      "tags": [
+        "truth",
+        "kindness"
+      ]
+    }
+  ]
+}

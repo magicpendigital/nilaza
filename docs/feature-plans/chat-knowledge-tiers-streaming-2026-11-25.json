@@ -1,0 +1,247 @@
+{
+  "schemaVersion": 1,
+  "taskId": "chat-knowledge-tiers-streaming-2026-11-25",
+  "ownerAgent": "backend_agent",
+  "lane": "Backend/AI: Trò chuyện với tri thức, Lô 2 backend (model tiers, 300 s wait, streaming, memory) plus the prompt-assembler part of Lô 0/1 (knowledge brief layer, method pack fix)",
+  "goal": "Persona chat gets per-persona model tiers (standard 'Thường' and deep_knowledge 'Tri thức sâu', each with primary and fallback model, reasoning, output ceiling, total wait and per-message budget), Admin-configurable through a versioned ai_persona_model_tiers table read like ai_context_configs; an opt-in SSE streaming mode in ai-persona-chat (meta, delta, done, error) whose done payload equals today's JSON; a bundled knowledge-brief layer in the prompt assembler generated from packages/content/data/knowledge-briefs; longer replies and 12 x 2,500 memory for the deep tier only; and the communication-mentor method pack fix. Code and an unapplied migration only.",
+  "successCriteria": [
+    "With no tier row in the database and a standard-tier persona, the model route, deadline, cost cap, history (8 x 800), prompt text and non-stream JSON are identical to today.",
+    "The 5 book personas (book-strategic-thinker, book-harmony-guide, book-stoic-journal, book-dhammapada, book-i-ching) resolve to deep_knowledge by default; the tier builds a 2-step chain with reasoning on, a raised maxTokens, its own total deadline and cost cap.",
+    "The tier total wait is capped by the platform wall clock (Free plan 150 s => 135 s usable; paid 400 s => up to 300 s) and the non-stream path never exceeds 140 s, so a request never outlives the Edge limits; the cap is reported, not hidden.",
+    "stream:true (or Accept: text/event-stream) returns text/event-stream with meta first, delta chunks, heartbeats, and exactly one done (same JSON body as non-stream) or one error; pre-model failures (auth, body, switch, quota) keep their JSON status codes; crisis replies never call a model.",
+    "If the primary model fails before any delta is sent the fallback runs; after deltas were sent the turn ends with error stream_interrupted and no fallback; usage_events is written once per turn in both modes.",
+    "Output safety runs on the accumulated streamed text; a hit stops the stream and done carries the safety replacement with moderationStatus blocked.",
+    "When a knowledge brief exists for the persona it is injected as its own layer after the persona skill; Admin-published persona skill still wins over the repo default skill; a missing brief falls back to today's prompt.",
+    "Knowledge-tier output contract drops the 'concise / one reflective question' rule (150-300 words default, cite a part of the book only when sure, question optional); other personas keep it; safety and transparency layer stays first and unchanged.",
+    "communication-mentor gets relationship_boundaries; every other persona keeps its method pack.",
+    "Deno tests for tiers, SSE framing, fallback before first delta, brief injection and the method pack pass; validate:backend, supabase:check, migration-ledger check and prompt:consumers:check pass."
+  ],
+  "writeScope": [
+    "supabase/functions/ai-persona-chat/index.ts",
+    "supabase/functions/ai-persona-chat/persona-context.ts",
+    "supabase/functions/ai-persona-chat/stream.ts",
+    "supabase/functions/ai-persona-chat/stream_test.ts",
+    "supabase/functions/ai-persona-chat/persona-context_test.ts",
+    "supabase/functions/_shared/persona-prompt-assembler.ts",
+    "supabase/functions/_shared/persona-prompt-assembler_test.ts",
+    "supabase/functions/_shared/persona-model-tiers.ts",
+    "supabase/functions/_shared/persona-model-tiers_test.ts",
+    "supabase/functions/_shared/knowledge-briefs.generated.ts",
+    "supabase/functions/_shared/model-router.ts",
+    "supabase/functions/_shared/model-router-stream_test.ts",
+    "supabase/functions/_shared/model-provider.ts",
+    "supabase/functions/_shared/providers/openrouter.ts",
+    "supabase/functions/_shared/ai-request-guard.ts",
+    "supabase/functions/_shared/ai-request-guard_test.ts",
+    "supabase/migrations/20261125100000_persona_model_tiers.sql",
+    "packages/agent-config/persona-model-tiers.json",
+    "scripts/build-knowledge-briefs.mjs",
+    "scripts/persona-model-tiers.test.mjs",
+    "scripts/validate-backend-contracts.mjs",
+    "package.json",
+    "docs/contracts/persona-chat-streaming.md",
+    "apps/admin/workflow-catalog.js",
+    "packages/content/data/knowledge-briefs/",
+    "docs/proposals/CHAT_KNOWLEDGE_CHARACTERS_2026-11-24.vi.md",
+    "docs/proposals/data/book-brief-sample-binh-phap-ton-tu.vi.md",
+    "docs/release/chat-knowledge-2026-11-25/"
+  ],
+  "untouchedSurfaces": [
+    "Mobile app (ChatHub.tsx, PersonaChatRoom, backendClient.ts): the app agent implements the SSE client from docs/contracts/persona-chat-streaming.md.",
+    "Persona content JSON and persona-detail-content.json (app agent) and knowledge-brief markdown (content agent) are read only.",
+    "Oracle (ai-oracle-turn, oracle-tools.ts) is untouched.",
+    "Daily quota logic and account-tier-policy.json are unchanged (Owner sets quota later in Admin).",
+    "Admin UI page for tiers is not built here; the migration ships the RPCs it will call.",
+    "PLAN.md is updated by the lead agent.",
+    "No SQL applied, no function deployed, no secret read or set, .env not read."
+  ],
+  "impact": {
+    "entryPoint": "Chat with a persona in the app (old builds: JSON; new builds: stream:true). Admin later: a 'Hạng model' page calling get/save/publish RPCs.",
+    "dataWrite": "New table ai_persona_model_tiers (versioned draft/active/archived, service-role read only, RPC writes audited). chat_messages, chat_sessions and usage_events writes unchanged in shape; usage metadata gains tier, knowledgeBrief and stream fields.",
+    "backendContract": "ai-persona-chat accepts optional stream:true; SSE events meta/delta/done/error; done.data equals the non-stream JSON plus promptStack.knowledgeBriefId/Version and modelTier (additive). Request body limit for this function rises from 32 KB to 64 KB for the longer deep-tier history.",
+    "adminVisibility": "Traces and usage_events carry modelTier, tierSource, knowledgeBriefId, stream and streamOutcome; Admin can publish tier configs through RPCs (UI pending).",
+    "privacySafety": "Same data sent to the same ZDR/deny OpenRouter routes; crisis check before any model call; output check on accumulated stream text; knowledge briefs are Nilaza-written repo text, no user data. Longer history (deep tier only) sends more of the user's own recent turns to the model.",
+    "observability": "Root span metadata includes tier and stream; per-step spans unchanged; cost tally covers streamed calls from the final usage chunk.",
+    "rollback": "Clients without stream:true are unaffected. Publishing a tier config that maps every persona to standard restores today's behaviour; revert the code and redeploy ai-persona-chat; the table can stay unused."
+  },
+  "canonicalContracts": [
+    "packages/agent-config/persona-model-tiers.json is the single source of tier defaults and bounds (SQL validator and Deno parser mirror it; scripts/persona-model-tiers.test.mjs checks the SQL bounds)",
+    "packages/content/data/knowledge-briefs/index.json + <slug>.vi.md (content agent) -> supabase/functions/_shared/knowledge-briefs.generated.ts via scripts/build-knowledge-briefs.mjs (check wired into validate:backend)",
+    "docs/contracts/persona-chat-streaming.md is the SSE contract for the mobile client",
+    "supabase/functions/_shared/model-router.ts generateWithModelRoute stays the only model-calling path"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Owner approval boundary.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Backend/AI lane checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Record shape and preflight.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/CHAT_KNOWLEDGE_CHARACTERS_2026-11-24.vi.md",
+      "reason": "Sections 2, 5, 6: current flow, new layers, tiers.",
+      "sha256": "cf3e8d958a6c8c5ae444c154a4b5435623761bab8762345891ea341eae76165b"
+    },
+    {
+      "path": "supabase/functions/ai-persona-chat/index.ts",
+      "reason": "Handler to extend with tiers and streaming.",
+      "sha256": "1d43b4b2c299a007d786cfc1153a10187029428b816c803e57f9b0fab7e3f180"
+    },
+    {
+      "path": "supabase/functions/ai-persona-chat/persona-context.ts",
+      "reason": "History caps.",
+      "sha256": "7d0b43ea5b191c9f7502430712b0260cbc7ed2a1e6235c2167c1b7018d99d99b"
+    },
+    {
+      "path": "supabase/functions/_shared/persona-prompt-assembler.ts",
+      "reason": "Layers, precedence, method pack.",
+      "sha256": "d49e0f7eb32844619c1db0bf73db44ace3bf1419006782d62b19347dc1af4f06"
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "reason": "Legacy and step-chain paths, safety checks, cost tally.",
+      "sha256": "6df41b89af38cf2622aed394a02e3c8b401af2e720ee68964aab04785c790140"
+    },
+    {
+      "path": "supabase/functions/_shared/model-provider.ts",
+      "reason": "Deadlines and error classes.",
+      "sha256": "94c4ccb76841da405d0d596b2345617ad74ef3c559fe1b44e3ed10ce595f84cf"
+    },
+    {
+      "path": "supabase/functions/_shared/providers/openrouter.ts",
+      "reason": "Request body, ZDR, reasoning.",
+      "sha256": "fb4d2fc5887eb0f22fd0e3339774513be5f7417026956e6cead4e3cce0a5eb74"
+    },
+    {
+      "path": "supabase/functions/_shared/feature-config.ts",
+      "reason": "Admin config read pattern (service REST, cache).",
+      "sha256": "eb71e736b91910caed56ebd69c968bd6387ce554430f9efd2b1a0b07e6af8fbc"
+    },
+    {
+      "path": "supabase/functions/_shared/context-config.ts",
+      "reason": "History limits policy.",
+      "sha256": "b683946ff13fb5dc6d54f0591edc9384013bb0222af9a8418c93275bb21b45fa"
+    },
+    {
+      "path": "supabase/functions/_shared/ai-request-guard.ts",
+      "reason": "Body size limit.",
+      "sha256": "cf1204cae48dac9cfc718dd93f5b4d2a93efffefef03b12fae0f73f680dae056"
+    },
+    {
+      "path": "packages/agent-config/model-routing.json",
+      "reason": "persona_chat route defaults.",
+      "sha256": "085d7b241a1eb5597c6a0cc18c46b9d46fc478dee5ddd8ae4ca79b90ec4ec217"
+    },
+    {
+      "path": "supabase/migrations/20261114090200_ai_context_configs.sql",
+      "reason": "Versioned config table and RPC pattern to mirror.",
+      "sha256": "1397550c177ca7cd1cbdacac1a8063b6288ce607e8d12ecca60ba4e7de971dc9"
+    },
+    {
+      "path": "scripts/validate-backend-contracts.mjs",
+      "reason": "Backend contract checks to extend.",
+      "sha256": "008374176955fe4d880c11258501bc3e46fae955a9d95c91b9e698de560b239f"
+    },
+    {
+      "path": "package.json",
+      "reason": "npm scripts for the brief generator.",
+      "sha256": "f16067b078dcc62ad1ad5d4aef88ddd7e7db2ddc2eaa8f22ed5e017031274a1c"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before edits; verified vs not verified in handoff; approvals listed."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Safety block never falls through; output check inside the router path; ZDR/deny kept; every model call keeps sign-in, switch and quota; total attempts sized against the Edge limits (now via streaming and the plan wall clock)."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Supabase Edge Function limits and OpenRouter streaming format from official docs below, checked 2026-11-25. No package added."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://supabase.com/docs/guides/functions/limits",
+      "reason": "Wall clock: Free 150 s, paid plans 400 s; request idle timeout 150 s (504 if no response is sent before it); CPU 2 s; memory 256 MB. Singapore project is on the Free plan (docs/HANDOFF_CURRENT_STATE.vi.md), so 300 s is not reachable until a paid plan.",
+      "checkedAt": "2026-11-25"
+    },
+    {
+      "url": "https://openrouter.ai/docs/api-reference/streaming",
+      "reason": "stream:true; SSE data lines; ': OPENROUTER PROCESSING' comments must be skipped; chat completions send usage in a final chunk before [DONE]; mid-stream errors arrive as a chunk with a top-level error and finish_reason error with HTTP 200; aborting the connection cancels billing on supported providers.",
+      "checkedAt": "2026-11-25"
+    }
+  ],
+  "securityReview": {
+    "authzRls": "ai_persona_model_tiers has RLS on, no policies, service_role select only; RPCs check has_capability (ai.read / ai.manage, editors draft only) and are audited, like ai_context_configs.",
+    "sensitiveData": "No new data class: the same message, history and data block go to the same ZDR/deny routes. Deep tier keeps up to 12 x 2,500 characters of the user's own history (was 8 x 800). Knowledge briefs are repo text.",
+    "secretsLogging": "Only the presence/value path of OPENROUTER_API_KEY already used by the provider; no new secret; .env not read; stream events carry no keys or prompts.",
+    "externalInput": "stream flag is a strict boolean; tier config from the database is clamped field by field and unknown keys ignored; persona id/slug from the client only selects a tier (bounded by the tier cost cap and the unchanged daily quota); brief text is repo-controlled and generated, never from requests.",
+    "dependencies": "No package added or upgraded; Deno std and supabase-js imports unchanged.",
+    "migrationRelease": "Migration 20261125100000 is written, not applied; ai-persona-chat deploy needs Owner approval; without the migration the function reads no row and uses code defaults.",
+    "stopCondition": "Stop if the standard path stops being byte-identical in prompt or route, if safety checks can be skipped in stream mode, or if Deno tests fail and cannot be fixed inside the write scope.",
+    "unresolvedHighRisks": []
+  },
+  "validationCommands": [
+    "npx --yes deno@2 test --allow-env --allow-read supabase/functions/ai-persona-chat supabase/functions/_shared",
+    "node scripts/build-knowledge-briefs.mjs --check",
+    "node --test scripts/persona-model-tiers.test.mjs",
+    "npm run validate:backend",
+    "npm run supabase:check",
+    "npm run supabase:migration-ledger:check",
+    "npm run prompt:consumers:check",
+    "node scripts/feature-preflight.mjs --ci --base origin/main",
+    "npm run admin:check"
+  ],
+  "managerTestPath": "After the Owner applies migration 20261125100000 and deploys ai-persona-chat: an old app build chatting with Aristotle gets the same short reply as before. A new build chatting with Chiến Lược Gia Cổ Điển sees text appear progressively, a longer answer (about 150-300 words) that may not end with a question, and the reply is saved in history. Turning the network off mid-answer shows an error, not a half answer saved as final.",
+  "residualRisk": "Streaming through the Supabase gateway and the mobile fetch stack is not verified on a device or deployed function. 300 s is only reachable on a paid Supabase plan; on Free the deep tier waits at most 135 s. Whether the runtime keeps running persistence after the client disconnects mid-stream is not verified. Admin UI for tiers is not built. Deep-tier quality and cost need a blind eval before release.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  },
+  "workingTreeReview": {
+    "note": "Record written before any code edit (25/11/2026), refreshed after implementation the same day. The listed paths are this task's own edits (backend/AI agent): tiers, SSE streaming, knowledge brief bundle, Lô 0 method pack fix, migration 20261125100000 (written, not applied), tests and the streaming contract. package.json also carries the app agent's oracle:guides scripts. docs/proposals/CHAT_KNOWLEDGE_CHARACTERS_2026-11-24.vi.md and docs/proposals/data/book-brief-sample-binh-phap-ton-tu.vi.md were already untracked from the lead agent and are not in writeScope. apps/admin/workflow-catalog.js: this task only refreshes the five source digests of the files it changed (ai-request-guard.ts, model-provider.ts, model-router.ts, persona-prompt-assembler.ts, ai-persona-chat/index.ts); the App.tsx digest in the same file is the app agent's.",
+    "paths": [
+      "apps/admin/workflow-catalog.js",
+      "docs/contracts/persona-chat-streaming.md",
+      "package.json",
+      "packages/agent-config/persona-model-tiers.json",
+      "scripts/build-knowledge-briefs.mjs",
+      "scripts/persona-model-tiers.test.mjs",
+      "scripts/validate-backend-contracts.mjs",
+      "supabase/functions/_shared/ai-request-guard.ts",
+      "supabase/functions/_shared/ai-request-guard_test.ts",
+      "supabase/functions/_shared/knowledge-briefs.generated.ts",
+      "supabase/functions/_shared/model-provider.ts",
+      "supabase/functions/_shared/model-router-stream_test.ts",
+      "supabase/functions/_shared/model-router.ts",
+      "supabase/functions/_shared/persona-model-tiers.ts",
+      "supabase/functions/_shared/persona-model-tiers_test.ts",
+      "supabase/functions/_shared/persona-prompt-assembler.ts",
+      "supabase/functions/_shared/persona-prompt-assembler_test.ts",
+      "supabase/functions/_shared/providers/openrouter.ts",
+      "supabase/functions/ai-persona-chat/index.ts",
+      "supabase/functions/ai-persona-chat/persona-context.ts",
+      "supabase/functions/ai-persona-chat/persona-context_test.ts",
+      "supabase/functions/ai-persona-chat/stream.ts",
+      "supabase/functions/ai-persona-chat/stream_test.ts",
+      "supabase/migrations/20261125100000_persona_model_tiers.sql"
+    ]
+  }
+}

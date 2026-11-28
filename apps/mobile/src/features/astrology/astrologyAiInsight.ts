@@ -62,8 +62,22 @@ export type AstrologyAiInsightResponse = {
   };
 };
 
+/** Shown when the server returns the reading it already stored for this chart and topic (Nil P1-B). */
+export function astrologyReplayNotice(language: string) {
+  return language === "vi"
+    ? "Nilaza giữ nguyên diễn giải trước cho chủ đề này để kết quả luôn nhất quán — không tốn thêm lượt."
+    : "Nilaza keeps the earlier reading for this topic so your results stay consistent. No extra turn was used.";
+}
+
 /** Transport metadata stays outside the canonical AI report. */
-export type AstrologyAiInsightResult = { report: AstrologyAiInsightResponse; provenance?: AnswerProvenance };
+export type AstrologyAiInsightResult = {
+  report: AstrologyAiInsightResponse;
+  provenance?: AnswerProvenance;
+  /** Nil P1-B: true when the server returned the reading it already stored for this chart and topic (no turn used). */
+  replayed?: boolean;
+  /** The facts the returned reading was checked against (the stored ones on a replay). Save the reading with these. */
+  context?: Pick<AstrologyAiInvocation, "chart" | "selectedFactIds" | "facts" | "caveats">;
+};
 export type AstrologyAnswerReportTarget = {
   feature: "astrology_insight";
   localAnswerId: string;

@@ -5,7 +5,7 @@ import { colors, layout, radius, typography } from "../../theme";
 import type { Language } from "../../types";
 
 // Trò chuyện hub (ChatHub design, 2026-10-31): continue, Oracle, Council, then the guide grid.
-export type HubCategory = "all" | "love" | "healing" | "sages";
+export type HubCategory = "all" | "love" | "healing" | "sages" | "books";
 
 export type HubGuide = {
   id: string;
@@ -13,6 +13,10 @@ export type HubGuide = {
   tagline: string;
   thumbnail: ImageSourcePropType;
   comingSoon: boolean;
+  /** "book" cards carry a book badge and say "Sách" to screen readers, so books and characters are told apart without colour. */
+  kind?: "book" | "guide";
+  /** Tint over borrowed placeholder art so two guides sharing one image still look different (until their own art exists). */
+  artTint?: string;
 };
 
 export type HubRecent = { title: string; snippet: string; updatedAt: string; thumbnail?: ImageSourcePropType; icon: "sparkles-outline" | "people-outline" | "chatbubble-ellipses-outline" };
@@ -24,8 +28,8 @@ export const hubFeaturedIds = [
   "archetype-the-mystic",
   "archetype-the-astrologer",
   "book-communication-mentor",
+  "book-calm-living-mentor",
   "figure-aristotle",
-  "figure-confucius",
   "figure-laozi"
 ];
 
@@ -64,7 +68,8 @@ export function ChatHub({ language, now, recent, councilThumbnails, guides, matc
     { id: "all", label: vi ? "Tất cả" : "All" },
     { id: "love", label: vi ? "Tình cảm" : "Love" },
     { id: "healing", label: vi ? "Chữa lành" : "Healing" },
-    { id: "sages", label: vi ? "Triết gia" : "Philosophers" }
+    { id: "sages", label: vi ? "Triết gia" : "Philosophers" },
+    { id: "books", label: vi ? "Sách" : "Books" }
   ];
 
   return (
@@ -132,7 +137,7 @@ export function ChatHub({ language, now, recent, councilThumbnails, guides, matc
           {categories.map((item) => {
             const active = item.id === category;
             return (
-              <Pressable key={item.id} accessibilityRole="button" accessibilityState={{ selected: active }} onPress={() => setCategory(item.id)} style={[s.chip, active && s.chipActive]}>
+              <Pressable key={item.id} accessibilityRole="button" accessibilityState={{ selected: active }} hitSlop={4} onPress={() => setCategory(item.id)} style={[s.chip, active && s.chipActive]}>
                 <Text style={[s.chipText, active && s.chipTextActive]}>{item.label}</Text>
               </Pressable>
             );
@@ -140,9 +145,18 @@ export function ChatHub({ language, now, recent, councilThumbnails, guides, matc
         </ScrollView>
         <View style={s.grid}>
           {visible.map((guide) => (
-            <Pressable key={guide.id} accessibilityRole="button" accessibilityLabel={`${guide.name}. ${guide.tagline}${guide.comingSoon ? (vi ? ". Sắp ra mắt" : ". Coming soon") : ""}`}
+            <Pressable key={guide.id} accessibilityRole="button"
+              accessibilityLabel={`${guide.kind === "book" ? (vi ? "Sách: " : "Book: ") : ""}${guide.name}. ${guide.tagline}${guide.comingSoon ? (vi ? ". Sắp ra mắt" : ". Coming soon") : ""}`}
               onPress={() => onOpenGuide(guide.id)} style={s.cell}>
-              <Image source={guide.thumbnail} style={[s.gridAvatar, guide.comingSoon && s.dim]} />
+              <View style={[s.avatarWrap, guide.comingSoon && s.dim]}>
+                <Image source={guide.thumbnail} style={s.gridAvatar} />
+                {guide.artTint ? <View testID={`hub-art-tint-${guide.id}`} style={[s.artTint, { backgroundColor: guide.artTint }]} /> : null}
+                {guide.kind === "book" ? (
+                  <View testID={`hub-book-badge-${guide.id}`} style={s.bookBadge}>
+                    <Ionicons name="book-outline" size={13} color={colors.gold} />
+                  </View>
+                ) : null}
+              </View>
               <Text numberOfLines={2} style={s.gridName}>{guide.name}</Text>
               <Text numberOfLines={2} style={s.gridTagline}>{guide.comingSoon ? (vi ? "Sắp ra mắt" : "Coming soon") : guide.tagline}</Text>
             </Pressable>
@@ -154,8 +168,14 @@ export function ChatHub({ language, now, recent, councilThumbnails, guides, matc
             </Pressable>
           ) : null}
         </View>
-        {!visible.length ? <Text style={s.meta}>{vi ? "Chưa có người dẫn phù hợp. Thử nhóm hoặc từ khóa khác." : "No guide matches. Try another group or word."}</Text> : null}
-        <Text style={s.note}>{vi ? "Người dẫn là AI lấy cảm hứng từ nhân vật hoặc chủ đề, không phải người thật hay đại diện chính thức." : "Guides are AI inspired by figures or themes, not real people or official representatives."}</Text>
+        {!visible.length ? (
+          <Text style={s.meta}>
+            {category === "books"
+              ? (vi ? "Chưa có sách phù hợp. Thử từ khóa khác hoặc xem Tất cả." : "No book matches. Try another word or see All.")
+              : (vi ? "Chưa có người dẫn phù hợp. Thử nhóm hoặc từ khóa khác." : "No guide matches. Try another group or word.")}
+          </Text>
+        ) : null}
+        <Text style={s.note}>{vi ? "Người dẫn là AI lấy cảm hứng từ nhân vật, cuốn sách hoặc chủ đề, không phải người thật, tác giả hay đại diện chính thức." : "Guides are AI inspired by figures, books or themes, not real people, authors or official representatives."}</Text>
       </View>
     </View>
   );
@@ -195,7 +215,10 @@ const s = StyleSheet.create({
   chipTextActive: { color: colors.charcoal, fontFamily: typography.bodySemiBoldFontFamily },
   grid: { flexDirection: "row", flexWrap: "wrap", rowGap: 18, marginTop: 6 },
   cell: { width: "33.333%", alignItems: "center", gap: 6, paddingHorizontal: 5 },
+  avatarWrap: { width: 76, height: 76 },
   gridAvatar: { width: 76, height: 76, borderRadius: 38 },
+  artTint: { position: "absolute", top: 0, left: 0, width: 76, height: 76, borderRadius: 38, opacity: 0.38 },
+  bookBadge: { position: "absolute", right: -2, bottom: -2, width: 26, height: 26, borderRadius: 13, backgroundColor: colors.charcoal, borderWidth: 1, borderColor: "rgba(201, 164, 92, 0.6)", alignItems: "center", justifyContent: "center" },
   dim: { opacity: 0.55 },
   gridName: { color: colors.ivory, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 13.5, lineHeight: 17, textAlign: "center" },
   gridTagline: { color: "#B8B0A4", fontFamily: typography.bodyFontFamily, fontSize: 12, lineHeight: 16, textAlign: "center" },

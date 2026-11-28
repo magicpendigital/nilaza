@@ -9,7 +9,12 @@
     astrology_insight: "Đọc sâu Chiêm tinh",
     tarot_reading: "Giải bài Tarot",
     daily_insight: "Thông điệp hằng ngày",
-    astrology_report: "Astrology report — đang gỡ, chỉ theo dõi"
+    astrology_report: "Astrology report — đang gỡ, chỉ theo dõi",
+    // Batch C (2026-11-24, migration 20261124090000).
+    tarot_note: "Ghi chú riêng Tarot",
+    reader_router: "Gợi ý người đọc (tầng AI)",
+    // 2026-11-25 (migration 20261125090000): seeded off until the Owner approves the content and turns it on.
+    numerology_private_message: "Lời nhắn riêng Thần số học"
   };
   const initialTransport = { target: window.NilazaAdminTransportTarget || "", url: window.ENV?.SUPABASE_URL || "", key: window.ENV?.SUPABASE_ANON_KEY || "" };
   let invalidated = false, active = null, epoch = 0;

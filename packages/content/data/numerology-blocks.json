@@ -1,0 +1,358 @@
+{
+  "version": "2026-11-25-approved1",
+  "review": {
+    "status": "approved",
+    "reviewer": "Owner",
+    "reviewedAt": "2026-11-25",
+    "note": "AI-drafted, then read and approved by the Owner on 25/11/2026 for the app and the private-message AI. Not reviewed by an external numerology expert. Any later edit needs a new Owner review."
+  },
+  "kinds": {
+    "lifePath": {
+      "title": { "vi": "Số chủ đạo", "en": "Life path" },
+      "frame": {
+        "vi": "Số chủ đạo nói về nhịp chung bạn thường mang qua nhiều việc khác nhau. Đây là cách đọc theo hệ chữ-số kiểu Pythagoras, để bạn tự soi, không phải kết luận về con người bạn.",
+        "en": "The life path number is about the rhythm you tend to carry across very different things. It is a Pythagorean-style number reading to reflect on, not a verdict on who you are."
+      }
+    },
+    "birthday": {
+      "title": { "vi": "Số ngày sinh", "en": "Birthday number" },
+      "frame": {
+        "vi": "Số ngày sinh lấy từ ngày trong tháng. Đây là một nét nhỏ, nghiêng về cách bạn thể hiện mình trong chuyện thường ngày.",
+        "en": "The birthday number comes from the day of the month. It is a small touch, leaning toward how you show up in everyday things."
+      }
+    },
+    "expression": {
+      "title": { "vi": "Số biểu đạt", "en": "Expression" },
+      "frame": {
+        "vi": "Số biểu đạt tính từ mọi chữ trong họ tên bạn đã nhập. Nó nói về cách bạn có thể đưa khả năng của mình ra bên ngoài.",
+        "en": "The expression number comes from every letter of the name you entered. It is about how you may bring your abilities out into the world."
+      }
+    },
+    "soulUrge": {
+      "title": { "vi": "Số linh hồn", "en": "Soul urge" },
+      "frame": {
+        "vi": "Số linh hồn tính từ các nguyên âm trong tên. Nó nghiêng về điều bên trong mà bạn thường tìm kiếm.",
+        "en": "The soul urge number comes from the vowels in the name. It leans toward what you tend to look for inside."
+      }
+    },
+    "personality": {
+      "title": { "vi": "Số nhân cách", "en": "Personality" },
+      "frame": {
+        "vi": "Số nhân cách tính từ các phụ âm trong tên. Nó nghiêng về ấn tượng người khác thường nhận được lúc mới gặp bạn.",
+        "en": "The personality number comes from the consonants in the name. It leans toward the impression others tend to get when they first meet you."
+      }
+    }
+  },
+  "numbers": {
+    "1": {
+      "title": { "vi": "Người mở đường", "en": "The one who starts" },
+      "leans": {
+        "vi": "Bạn có thể nghiêng về việc tự bắt đầu thay vì chờ người khác. Khi một việc còn mơ hồ, bạn thường thấy dễ chịu hơn nếu tự quyết bước đầu tiên.",
+        "en": "You may lean toward starting things yourself instead of waiting for someone else. When something is still vague, you often feel better deciding the first step on your own."
+      },
+      "light": { "vi": "Dám thử trước và kéo người khác cùng chuyển động.", "en": "Willing to try first and to get others moving with you." },
+      "trap": { "vi": "Có thể quen tự gánh một mình, hoặc đi nhanh đến mức bỏ quên người đi cùng.", "en": "You may get used to carrying things alone, or move so fast that you leave your companions behind." },
+      "question": { "vi": "Gần đây có việc nào bạn muốn bắt đầu nhưng đang chờ ai đó cho phép không?", "en": "Is there something you want to start lately but are waiting for someone's permission?" }
+    },
+    "2": {
+      "title": { "vi": "Người lắng nghe", "en": "The listener" },
+      "leans": {
+        "vi": "Bạn có thể nghiêng về sự tinh tế với người xung quanh và với không khí của một căn phòng. Bạn thường để ý điều chưa ai nói ra trước khi nhận ra điều mình cần.",
+        "en": "You may lean toward a fine sense of the people around you and the mood of a room. You often notice what nobody has said before you notice what you need."
+      },
+      "light": { "vi": "Biết nối người với người và làm cuộc trò chuyện dịu lại.", "en": "Good at connecting people and softening a conversation." },
+      "trap": { "vi": "Có thể nhường quá nhiều, hoặc ngại nói điều mình muốn vì sợ làm lệch sự êm.", "en": "You may give way too often, or hesitate to say what you want for fear of upsetting the calm." },
+      "question": { "vi": "Điều gì bạn đang giữ trong lòng chỉ để mọi chuyện được yên?", "en": "What are you keeping inside just so things stay peaceful?" }
+    },
+    "3": {
+      "title": { "vi": "Người kể chuyện", "en": "The storyteller" },
+      "leans": {
+        "vi": "Bạn có thể nghiêng về việc biểu đạt: nói, viết, vẽ hay đùa để biến điều đang nghĩ thành thứ người khác nhìn thấy được. Niềm vui của bạn thường đến khi có ai đó cùng cười hoặc cùng ngạc nhiên.",
+        "en": "You may lean toward expression: speaking, writing, drawing or joking to turn what you think into something others can see. Your joy often arrives when someone laughs or wonders along with you."
+      },
+      "light": { "vi": "Mang lại sự nhẹ nhõm và ý tưởng mới cho người xung quanh.", "en": "Brings lightness and fresh ideas to the people around you." },
+      "trap": { "vi": "Có thể trải sức ra nhiều hướng rồi bỏ dở, hoặc giấu điều nghiêm túc sau lời đùa.", "en": "You may spread yourself across many directions and drop them, or hide something serious behind a joke." },
+      "question": { "vi": "Điều gì bạn đang muốn nói thật mà chưa tìm được cách?", "en": "What do you want to say honestly but have not found a way to yet?" }
+    },
+    "4": {
+      "title": { "vi": "Người dựng nền", "en": "The builder" },
+      "leans": {
+        "vi": "Bạn có thể nghiêng về sự vững chãi: chia việc thành từng bước, làm đều và muốn thấy nền móng chắc trước khi đi tiếp. Bạn thường thấy yên tâm khi mọi thứ có trật tự.",
+        "en": "You may lean toward steadiness: breaking work into steps, working evenly and wanting solid ground before moving on. You often feel at ease when things are in order."
+      },
+      "light": { "vi": "Đáng tin và biến ý tưởng thành thứ chạm vào được.", "en": "Dependable, and able to turn ideas into something you can touch." },
+      "trap": { "vi": "Có thể cứng lại khi kế hoạch đổi, hoặc quên cho mình nghỉ vì mải làm cho đúng.", "en": "You may stiffen when plans change, or forget to rest because you are busy getting it right." },
+      "question": { "vi": "Có quy tắc nào bạn đặt ra cho mình mà giờ không còn phục vụ bạn?", "en": "Is there a rule you set for yourself that no longer serves you?" }
+    },
+    "5": {
+      "title": { "vi": "Người chuyển động", "en": "The mover" },
+      "leans": {
+        "vi": "Bạn có thể nghiêng về sự thay đổi và trải nghiệm: thử cái mới, gặp người mới, đổi cách làm khi cách cũ đã chán. Sự tự do thường quan trọng với bạn hơn vẻ ổn định.",
+        "en": "You may lean toward change and experience: trying new things, meeting new people, changing your method when the old one gets dull. Freedom often matters more to you than looking settled."
+      },
+      "light": { "vi": "Thích nghi nhanh và dám bước ra khỏi lối quen.", "en": "Adapts quickly and is willing to step off the familiar path." },
+      "trap": { "vi": "Có thể khó ở yên đủ lâu để một việc chín, hoặc đổi hướng khi vừa chạm vào phần khó.", "en": "You may find it hard to stay long enough for something to ripen, or change direction just as you reach the hard part." },
+      "question": { "vi": "Điều gì bạn đang muốn thử nhưng chưa dám rời khỏi thói quen để làm?", "en": "What do you want to try but have not dared to leave your routine for?" }
+    },
+    "6": {
+      "title": { "vi": "Người chăm chút", "en": "The nurturer" },
+      "leans": {
+        "vi": "Bạn có thể nghiêng về việc quan tâm và chịu trách nhiệm với những người và nơi gần mình. Bạn thường để ý cái đẹp, sự hài hòa và điều gì đó đang cần được chăm.",
+        "en": "You may lean toward caring and taking responsibility for the people and places close to you. You often notice beauty, harmony and whatever is asking for care."
+      },
+      "light": { "vi": "Ấm áp, đáng nhờ cậy, biết tạo cảm giác thuộc về.", "en": "Warm, reliable, and good at creating a sense of belonging." },
+      "trap": { "vi": "Có thể ôm việc của người khác vào mình, hoặc mong được đáp lại mà không nói ra.", "en": "You may take on other people's burdens, or hope for something in return without saying so." },
+      "question": { "vi": "Bạn đang chăm cho ai nhiều hơn chăm cho chính mình?", "en": "Who are you looking after more than you look after yourself?" }
+    },
+    "7": {
+      "title": { "vi": "Người tìm hiểu", "en": "The seeker" },
+      "leans": {
+        "vi": "Bạn có thể nghiêng về việc đi sâu: đặt câu hỏi, đọc, quan sát và cần thời gian riêng để nghĩ cho thấu. Bạn thường muốn hiểu vì sao trước khi tin.",
+        "en": "You may lean toward going deep: asking questions, reading, observing and needing time alone to think things through. You often want to understand why before you trust."
+      },
+      "light": { "vi": "Có chiều sâu, óc phân tích và ở một mình mà không thấy trống.", "en": "Depth, an analytical mind, and the ability to be alone without feeling empty." },
+      "trap": { "vi": "Có thể thu mình khi mệt, hoặc nghi ngờ quá lâu nên chậm bắt tay vào làm.", "en": "You may withdraw when tired, or doubt for so long that you are slow to begin." },
+      "question": { "vi": "Điều gì bạn đã hiểu rõ trong đầu nhưng chưa thử ngoài đời?", "en": "What do you already understand in your head but have not tried in real life?" }
+    },
+    "8": {
+      "title": { "vi": "Người điều phối", "en": "The organizer" },
+      "leans": {
+        "vi": "Bạn có thể nghiêng về việc nhìn toàn cục: sắp xếp nguồn lực, đặt mục tiêu và muốn thấy việc có kết quả cụ thể. Bạn thường thấy thoải mái khi được cầm trách nhiệm.",
+        "en": "You may lean toward seeing the whole picture: arranging resources, setting goals and wanting to see concrete results. You often feel comfortable holding responsibility."
+      },
+      "light": { "vi": "Quyết đoán, bền sức và biết biến kế hoạch thành kết quả.", "en": "Decisive, enduring, and able to turn a plan into a result." },
+      "trap": { "vi": "Có thể đo giá trị bản thân bằng thành quả, hoặc điều khiển nhiều hơn mức người khác cần.", "en": "You may measure your worth by results, or steer more than others need." },
+      "question": { "vi": "Nếu không có gì để chứng minh, hôm nay bạn muốn làm gì?", "en": "If you had nothing to prove, what would you want to do today?" }
+    },
+    "9": {
+      "title": { "vi": "Người nhìn rộng", "en": "The wide-lens one" },
+      "leans": {
+        "vi": "Bạn có thể nghiêng về cái nhìn rộng và lòng cảm thông: quan tâm đến điều lớn hơn bản thân, dễ đặt mình vào chỗ người khác. Bạn thường muốn việc mình làm có ý nghĩa với nhiều người.",
+        "en": "You may lean toward a wide view and compassion: caring about something larger than yourself and easily putting yourself in another's place. You often want your work to matter to many people."
+      },
+      "light": { "vi": "Bao dung, nhiều cảm hứng và biết buông khi cần.", "en": "Generous, inspiring, and able to let go when needed." },
+      "trap": { "vi": "Có thể khó buông điều đã qua, hoặc cho đi nhiều đến mức quên điều mình cần.", "en": "You may struggle to let go of what has passed, or give so much that you forget what you need." },
+      "question": { "vi": "Điều gì đã đến lúc bạn cho phép mình khép lại?", "en": "What is it time to allow yourself to close?" }
+    }
+  },
+  "masters": {
+    "11": {
+      "vi": "11 giữ lại vì là số bậc thầy, số gốc đi kèm là 2 (11/2). Đây là một sắc thái của số 2: nét lắng nghe đi cùng độ nhạy cao hơn với ý tưởng và cảm hứng, và đôi khi kèm cảm giác căng khi quá nhạy.",
+      "en": "11 is kept because it is a master number, with 2 as its root (11/2). It is a shade of the number 2: the listening quality comes with a higher sensitivity to ideas and inspiration, and sometimes a tension when you feel too much."
+    },
+    "22": {
+      "vi": "22 giữ lại vì là số bậc thầy, số gốc đi kèm là 4 (22/4). Đây là một sắc thái của số 4: nét vững chãi đi cùng tầm nhìn lớn hơn, muốn dựng thứ bền với nhiều người, và đôi khi kèm áp lực phải làm cho trọn.",
+      "en": "22 is kept because it is a master number, with 4 as its root (22/4). It is a shade of the number 4: steadiness comes with a larger vision, wanting to build something lasting with many people, and sometimes a pressure to get it perfect."
+    }
+  },
+  "digits": {
+    "note": {
+      "vi": "Nhiều người sinh cùng thời cũng có những chữ số này, nên đây là một cách nhìn chung chứ không phải điều riêng của bạn.",
+      "en": "Many people born around the same time share these digits, so this is a shared way of looking rather than something unique to you."
+    },
+    "1": { "vi": "Số 1 nói về tiếng nói riêng và sự chủ động.", "en": "The digit 1 speaks of your own voice and taking initiative." },
+    "2": { "vi": "Số 2 nói về sự cảm nhận và độ nhạy với người khác.", "en": "The digit 2 speaks of feeling and sensitivity to others." },
+    "3": { "vi": "Số 3 nói về biểu đạt và trí tưởng tượng.", "en": "The digit 3 speaks of expression and imagination." },
+    "4": { "vi": "Số 4 nói về sự thực tế và làm việc đều đặn.", "en": "The digit 4 speaks of practicality and steady work." },
+    "5": { "vi": "Số 5 nói về sự cân bằng và khả năng thích nghi.", "en": "The digit 5 speaks of balance and adaptability." },
+    "6": { "vi": "Số 6 nói về sự chăm sóc và trách nhiệm.", "en": "The digit 6 speaks of care and responsibility." },
+    "7": { "vi": "Số 7 nói về sự tìm hiểu và chiều sâu.", "en": "The digit 7 speaks of inquiry and depth." },
+    "8": { "vi": "Số 8 nói về sự tổ chức và sức bền.", "en": "The digit 8 speaks of organization and endurance." },
+    "9": { "vi": "Số 9 nói về cái nhìn rộng và lòng cảm thông.", "en": "The digit 9 speaks of a wide view and compassion." }
+  },
+  "arrows": {
+    "emptyNote": {
+      "vi": "Những đường còn trống chỉ là chỗ ngày sinh không có chữ số nào, không phải điểm yếu.",
+      "en": "Lines left empty are only places where the birth date has no digit, not a weakness."
+    },
+    "labelNote": {
+      "vi": "Tên các đường là nhãn gợi ý, không có chuẩn thống nhất giữa các nguồn.",
+      "en": "The names of the lines are working labels; sources do not agree on a standard."
+    },
+    "1-2-3": {
+      "label": { "vi": "Kế hoạch", "en": "Planning" },
+      "text": { "vi": "Cả ba số 1, 2, 3 đều có mặt. Điều này có thể gợi một thói quen nghĩ trước khi làm, và đôi khi nghĩ lâu hơn cần thiết.", "en": "All of 1, 2 and 3 are present. This may suggest a habit of thinking before acting, and sometimes thinking longer than needed." }
+    },
+    "4-5-6": {
+      "label": { "vi": "Ý chí", "en": "Willpower" },
+      "text": { "vi": "Cả ba số 4, 5, 6 đều có mặt. Điều này có thể gợi sự bền bỉ khi đã chọn một hướng, và đôi khi khó đổi ý.", "en": "All of 4, 5 and 6 are present. This may suggest persistence once a direction is chosen, and sometimes difficulty changing your mind." }
+    },
+    "7-8-9": {
+      "label": { "vi": "Hành động", "en": "Action" },
+      "text": { "vi": "Cả ba số 7, 8, 9 đều có mặt. Điều này có thể gợi sự sẵn sàng bắt tay vào việc, và đôi khi quên dừng lại hỏi vì sao.", "en": "All of 7, 8 and 9 are present. This may suggest readiness to get on with things, and sometimes forgetting to pause and ask why." }
+    },
+    "1-4-7": {
+      "label": { "vi": "Thực tế", "en": "Practical" },
+      "text": { "vi": "Cả ba số 1, 4, 7 đều có mặt. Điều này có thể gợi cách nhìn chân thực vào những gì đang có, và đôi khi hơi khô với chuyện cảm xúc.", "en": "All of 1, 4 and 7 are present. This may suggest a grounded look at what is there, and sometimes a dry approach to feelings." }
+    },
+    "2-5-8": {
+      "label": { "vi": "Cân bằng cảm xúc", "en": "Emotional balance" },
+      "text": { "vi": "Cả ba số 2, 5, 8 đều có mặt. Điều này có thể gợi khả năng giữ bình tĩnh khi xung quanh xáo động, và đôi khi giữ cảm xúc lâu trong lòng.", "en": "All of 2, 5 and 8 are present. This may suggest an ability to stay calm when things around you stir, and sometimes holding feelings inside for long." }
+    },
+    "3-6-9": {
+      "label": { "vi": "Trí tuệ", "en": "Intellect" },
+      "text": { "vi": "Cả ba số 3, 6, 9 đều có mặt. Điều này có thể gợi sự ham hiểu biết và trí nhớ tốt, và đôi khi nghĩ nhiều hơn làm.", "en": "All of 3, 6 and 9 are present. This may suggest curiosity and a good memory, and sometimes thinking more than doing." }
+    },
+    "1-5-9": {
+      "label": { "vi": "Quyết tâm", "en": "Determination" },
+      "text": { "vi": "Cả ba số 1, 5, 9 đều có mặt. Điều này có thể gợi sự kiên định theo đuổi điều mình tin, và đôi khi cứng đầu.", "en": "All of 1, 5 and 9 are present. This may suggest steadfastness in pursuing what you believe in, and sometimes stubbornness." }
+    },
+    "3-5-7": {
+      "label": { "vi": "Nhạy bén", "en": "Perceptiveness" },
+      "text": { "vi": "Cả ba số 3, 5, 7 đều có mặt. Điều này có thể gợi sự nhạy với điều chưa nói ra, và đôi khi lo nghĩ vì nhận ra quá nhiều.", "en": "All of 3, 5 and 7 are present. This may suggest a feel for the unspoken, and sometimes worry from noticing too much." }
+    }
+  },
+    "personalYear": {
+      "frame": { "vi": "Năm cá nhân đổi vào ngày 1 tháng 1, không đổi theo sinh nhật. Đây là mô tả một năm có thể nghiêng về điều gì, chứ không dự đoán chuyện xảy ra.", "en": "The personal year changes on 1 January, not on your birthday. It describes what a year may lean toward, not a forecast of events." },
+      "1": {
+        "title": { "vi": "Năm gieo hạt", "en": "A year of planting" },
+        "leans": { "vi": "Năm này có thể nghiêng về việc bắt đầu một hướng mới do chính bạn đặt điểm xuất phát. Bạn thường thấy sốt ruột với những điều cũ đã hết sức sống.", "en": "This year may lean toward starting a new direction from a point you set yourself. You often grow impatient with old things that have lost their life." },
+        "question": { "vi": "Điều gì bạn muốn là người đầu tiên bắt đầu trong năm nay?", "en": "What would you like to be the first to begin this year?" }
+      },
+      "2": {
+        "title": { "vi": "Năm đi chậm cùng nhau", "en": "A year of going slowly together" },
+        "leans": { "vi": "Năm này có thể nghiêng về sự chờ đợi, lắng nghe và những việc cần hai người cùng nhích. Bạn thường nhận ra nhịp nhanh không còn khớp với mình.", "en": "This year may lean toward waiting, listening and things that need two people moving together. You often notice that a fast pace no longer fits you." },
+        "question": { "vi": "Việc nào đang cần thêm thời gian chín thay vì thêm sức đẩy?", "en": "Which matter needs more time to ripen rather than more push?" }
+      },
+      "3": {
+        "title": { "vi": "Năm bày tỏ", "en": "A year of expression" },
+        "leans": { "vi": "Năm này có thể nghiêng về việc nói ra, tạo ra và gặp gỡ nhiều hơn. Bạn thường thấy mình muốn được nhìn thấy, đôi khi rải sức ra quá nhiều hướng.", "en": "This year may lean toward speaking, making and meeting more. You often find yourself wanting to be seen, and sometimes spread your energy across too many directions." },
+        "question": { "vi": "Điều gì trong bạn đang muốn được nói ra hoặc làm ra?", "en": "What in you is waiting to be said or made?" }
+      },
+      "4": {
+        "title": { "vi": "Năm dựng nền", "en": "A year of laying foundations" },
+        "leans": { "vi": "Năm này có thể nghiêng về việc sắp xếp, lặp lại và dựng một nền chắc từng bước nhỏ. Bạn thường thấy nhẹ lòng khi mọi thứ có trật tự, đôi khi cũng thấy mình bị bó chặt.", "en": "This year may lean toward arranging, repeating and building a solid base in small steps. You often feel at ease when things have order, and sometimes feel hemmed in." },
+        "question": { "vi": "Bạn muốn nền móng nào đứng vững sau một năm kiên nhẫn?", "en": "Which foundation would you like to see standing after a patient year?" }
+      },
+      "5": {
+        "title": { "vi": "Năm đổi hướng", "en": "A year of changing course" },
+        "leans": { "vi": "Năm này có thể nghiêng về sự thay đổi, chuyến đi và những điều bất ngờ làm bạn mở rộng. Bạn thường thấy hứng khởi với cái mới, đôi khi thiếu chỗ bám để nghỉ.", "en": "This year may lean toward change, movement and surprises that stretch you. You often feel drawn to the new, and sometimes lack a place to rest." },
+        "question": { "vi": "Điều cũ nào bạn đã sẵn sàng buông để đón điều mới?", "en": "Which old thing are you ready to release to make room for something new?" }
+      },
+      "6": {
+        "title": { "vi": "Năm gắn bó", "en": "A year of belonging" },
+        "leans": { "vi": "Năm này có thể nghiêng về tổ ấm, trách nhiệm với người thân và những việc chăm sóc lâu dài. Bạn thường thấy ấm áp khi được cần đến, đôi khi gánh phần của người khác.", "en": "This year may lean toward home, duties to those close to you and long-term care. You often feel warm when you are needed, and sometimes carry what belongs to others." },
+        "question": { "vi": "Phần chăm sóc nào bạn dành cho chính mình trong năm nay?", "en": "What share of care do you set aside for yourself this year?" }
+      },
+      "7": {
+        "title": { "vi": "Năm nhìn vào trong", "en": "A year of looking inward" },
+        "leans": { "vi": "Năm này có thể nghiêng về việc học sâu, ở một mình và đặt lại câu hỏi về điều mình tin. Bạn thường thấy cần khoảng lặng, đôi khi rút xa hơn mức mình muốn.", "en": "This year may lean toward deep study, solitude and questioning what you believe. You often need quiet, and sometimes withdraw further than you intend." },
+        "question": { "vi": "Câu hỏi nào bạn muốn ngồi với đủ lâu để nghe được câu trả lời?", "en": "Which question would you like to sit with long enough to hear an answer?" }
+      },
+      "8": {
+        "title": { "vi": "Năm dốc sức", "en": "A year of committed effort" },
+        "leans": { "vi": "Năm này có thể nghiêng về việc gánh việc lớn, nhận quyền quyết định và nhìn kết quả của nỗ lực. Bạn thường thấy mình đòi hỏi cao, đôi khi quên dừng để thở.", "en": "This year may lean toward taking on big tasks, holding decisions and seeing what effort produces. You often ask a lot of yourself, and sometimes forget to stop and breathe." },
+        "question": { "vi": "Bạn muốn nỗ lực của mình để lại điều gì ngoài kết quả?", "en": "What would you like your effort to leave behind besides results?" }
+      },
+      "9": {
+        "title": { "vi": "Năm khép lại", "en": "A year of closing" },
+        "leans": { "vi": "Năm này có thể nghiêng về việc khép một chương, dọn bớt và buông những gì đã xong. Bạn thường thấy lòng rộng hơn, đôi khi vướng lại ở điều đáng ra đã được cất đi.", "en": "This year may lean toward closing a chapter, clearing out and releasing what is done. You often feel more spacious, and sometimes linger over what could already be put away." },
+        "question": { "vi": "Điều gì đã xong mà bạn vẫn đang giữ trong tay?", "en": "What is already finished that you are still holding?" }
+      }
+    },
+    "personalMonth": {
+      "frame": { "vi": "Tháng cá nhân là lớp nhỏ nằm trong năm cá nhân. Mỗi dòng chỉ là một nét nghiêng nhẹ của tháng đó.", "en": "The personal month is a smaller layer inside the personal year. Each line is only a light lean for that month." },
+      "1": { "vi": "Tháng này có thể nghiêng về việc khởi động một việc nhỏ bằng sáng kiến của riêng bạn.", "en": "This month may lean toward kicking off something small on your own initiative." },
+      "2": { "vi": "Tháng này có thể nghiêng về việc lắng nghe và chờ người khác nhích cùng.", "en": "This month may lean toward listening and waiting for others to move with you." },
+      "3": { "vi": "Tháng này có thể nghiêng về việc trò chuyện, sáng tạo và gặp thêm người.", "en": "This month may lean toward conversation, making things and meeting more people." },
+      "4": { "vi": "Tháng này có thể nghiêng về việc sắp xếp lại và làm cho từng việc chắc tay.", "en": "This month may lean toward tidying up and making each task steady." },
+      "5": { "vi": "Tháng này có thể nghiêng về những thay đổi nhỏ và lịch trình xáo trộn.", "en": "This month may lean toward small changes and a shuffled schedule." },
+      "6": { "vi": "Tháng này có thể nghiêng về người thân, nhà cửa và những việc chăm sóc.", "en": "This month may lean toward family, home and acts of care." },
+      "7": { "vi": "Tháng này có thể nghiêng về việc ở riêng, đọc và suy nghĩ sâu.", "en": "This month may lean toward time alone, reading and deeper thinking." },
+      "8": { "vi": "Tháng này có thể nghiêng về việc đẩy một việc dở dang đến chỗ có kết quả.", "en": "This month may lean toward pushing an unfinished task toward a result." },
+      "9": { "vi": "Tháng này có thể nghiêng về việc khép lại và dọn những điều đã cũ.", "en": "This month may lean toward wrapping up and clearing out what has grown old." }
+    },
+    "personalDay": {
+      "frame": { "vi": "Số ngày cá nhân chỉ là một cái chạm nhẹ, ít trọng lượng. Có thể đọc như một gợi ý nhỏ cho tâm trạng, chứ không là điều để cân nhắc nặng.", "en": "The personal day number is only a light touch with little weight. Read it as a small hint of mood, not something to weigh heavily." },
+      "1": { "vi": "Ngày hơi nghiêng về việc tự bắt đầu.", "en": "A day leaning slightly toward starting on your own." },
+      "2": { "vi": "Ngày hơi nghiêng về sự dịu và làm cùng người khác.", "en": "A day leaning slightly toward gentleness and doing things with others." },
+      "3": { "vi": "Ngày hơi nghiêng về chuyện trò và ý tưởng.", "en": "A day leaning slightly toward chatting and ideas." },
+      "4": { "vi": "Ngày hơi nghiêng về việc vặt cần làm cho xong.", "en": "A day leaning slightly toward small tasks that want finishing." },
+      "5": { "vi": "Ngày hơi nghiêng về sự đổi gió và bất ngờ nhỏ.", "en": "A day leaning slightly toward a change of air and small surprises." },
+      "6": { "vi": "Ngày hơi nghiêng về người thân và việc nhà.", "en": "A day leaning slightly toward loved ones and home." },
+      "7": { "vi": "Ngày hơi nghiêng về sự yên tĩnh và nghĩ ngợi.", "en": "A day leaning slightly toward quiet and thinking." },
+      "8": { "vi": "Ngày hơi nghiêng về việc dứt điểm một chuyện còn treo.", "en": "A day leaning slightly toward settling something left hanging." },
+      "9": { "vi": "Ngày hơi nghiêng về việc buông và dọn bớt.", "en": "A day leaning slightly toward letting go and clearing a little." }
+    },
+    "pinnacles": {
+      "frame": { "vi": "Đỉnh cao chia đời thành bốn giai đoạn, mỗi giai đoạn có thể nghiêng về một sắc thái. Khoảng tuổi chỉ gần đúng, vì mỗi người đi qua mỗi giai đoạn theo cách riêng.", "en": "Pinnacles split life into four stages, each of which may lean toward a certain shade. The age ranges are approximate, and everyone moves through a stage in their own way." },
+      "stages": {
+        "1": { "vi": "Giai đoạn đầu, nơi bạn có thể nghiêng về việc học cách mình là ai trong gia đình và môi trường quanh mình.", "en": "The first stage, where you may lean toward learning who you are within your family and surroundings." },
+        "2": { "vi": "Giai đoạn hai, có thể nghiêng về việc dựng cuộc sống riêng và thử sức với những vai trò mới.", "en": "The second stage, which may lean toward building your own life and trying new roles." },
+        "3": { "vi": "Giai đoạn ba, có thể nghiêng về việc nhìn lại những gì đã làm và chỉnh lại điều mình theo đuổi.", "en": "The third stage, which may lean toward looking back at what you have done and adjusting what you pursue." },
+        "4": { "vi": "Giai đoạn bốn, kéo dài đến hết đời, có thể nghiêng về việc gom lại điều mình thấy quan trọng.", "en": "The fourth stage, lasting through the rest of life, may lean toward gathering what you find important." }
+      },
+      "numbers": {
+        "1": { "vi": "Giai đoạn này có thể nghiêng về việc tự đứng và tự quyết. Mặt sáng là sự rõ ràng khi bạn chọn đường; mặt dễ vấp là cô đơn khi chưa ai theo kịp.", "en": "This stage may lean toward standing and deciding on your own. The light side is clarity when you pick a path; the stumbling side is loneliness when no one has caught up yet." },
+        "2": { "vi": "Giai đoạn này có thể nghiêng về sự cộng tác và để ý đến người khác. Mặt sáng là kết nối mềm mại; mặt dễ vấp là chần chừ vì sợ làm lệch ý ai.", "en": "This stage may lean toward cooperation and noticing others. The light side is soft connection; the stumbling side is hesitation from fear of upsetting someone." },
+        "3": { "vi": "Giai đoạn này có thể nghiêng về việc bày tỏ và tạo ra. Mặt sáng là niềm vui khi được nói điều mình nghĩ; mặt dễ vấp là tản mạn khi quá nhiều ý cùng gọi.", "en": "This stage may lean toward expressing and creating. The light side is the joy of saying what you think; the stumbling side is scatter when too many ideas call at once." },
+        "4": { "vi": "Giai đoạn này có thể nghiêng về việc xây từng lớp một cách kiên nhẫn. Mặt sáng là sự vững chãi; mặt dễ vấp là cứng nhắc khi thế giới đổi mà nếp cũ chưa đổi.", "en": "This stage may lean toward patient layer-by-layer building. The light side is steadiness; the stumbling side is rigidity when the world shifts but habits do not." },
+        "5": { "vi": "Giai đoạn này có thể nghiêng về thay đổi và mở rộng trải nghiệm. Mặt sáng là sự linh hoạt; mặt dễ vấp là khó ở yên đủ lâu để một điều kịp bén rễ.", "en": "This stage may lean toward change and widening experience. The light side is flexibility; the stumbling side is struggling to stay put long enough for something to root." },
+        "6": { "vi": "Giai đoạn này có thể nghiêng về sự chăm sóc và gắn bó với cộng đồng nhỏ quanh mình. Mặt sáng là ấm áp; mặt dễ vấp là ôm việc của người khác vào mình.", "en": "This stage may lean toward care and closeness with the small community around you. The light side is warmth; the stumbling side is taking others' tasks onto yourself." },
+        "7": { "vi": "Giai đoạn này có thể nghiêng về việc tìm hiểu sâu và ở cùng suy nghĩ của mình. Mặt sáng là chiều sâu; mặt dễ vấp là rút khỏi người khác lúc họ muốn lại gần.", "en": "This stage may lean toward deep inquiry and keeping company with your own thoughts. The light side is depth; the stumbling side is withdrawing when others want to come closer." },
+        "8": { "vi": "Giai đoạn này có thể nghiêng về việc gánh trách nhiệm lớn và đo kết quả bằng nỗ lực. Mặt sáng là sức bền; mặt dễ vấp là đặt mọi thứ lên bàn cân thành tích.", "en": "This stage may lean toward carrying big responsibilities and measuring by effort. The light side is endurance; the stumbling side is putting everything on the scale of achievement." },
+        "9": { "vi": "Giai đoạn này có thể nghiêng về cái nhìn rộng và việc buông những điều đã xong. Mặt sáng là lòng rộng; mặt dễ vấp là khó khép lại, cứ mang theo những chương cũ.", "en": "This stage may lean toward a wide view and releasing what is finished. The light side is generosity of spirit; the stumbling side is trouble closing, carrying old chapters along." },
+        "11": { "vi": "Sắc thái 11 của số 2: vẫn là sự lắng nghe và cộng tác, thêm độ nhạy cao với điều chưa ai nói ra. Mặt sáng là trực giác tinh; mặt dễ vấp là căng thẳng vì nhận quá nhiều.", "en": "The 11 shade of the 2: still listening and cooperation, with extra sensitivity to what no one has said. The light side is fine intuition; the stumbling side is strain from picking up too much." },
+        "22": { "vi": "Sắc thái 22 của số 4: vẫn là xây từng lớp, thêm tầm nhìn cho những công trình lớn. Mặt sáng là biến ý tưởng thành thứ đứng được; mặt dễ vấp là kỳ vọng quá nặng lên chính mình.", "en": "The 22 shade of the 4: still layer-by-layer building, with a view toward larger works. The light side is turning ideas into something that stands; the stumbling side is heaping expectations on yourself." }
+      }
+    },
+    "challenges": {
+      "frame": { "vi": "Thử thách là điểm dễ vướng lặp lại trong từng giai đoạn, chứ không là lỗi của bạn. Đọc như chỗ để ý tới, chứ không là kết luận về bạn.", "en": "A challenge is a spot where you may snag repeatedly within a stage, not a flaw in you. Read it as a place to notice, not a conclusion about you." },
+      "0": { "vi": "Số 0 khá phổ biến, ví dụ người sinh ngày 29/02/2000 có cả bốn thử thách bằng 0. Nó có thể nghiêng về việc không có một điểm vướng cố định nào, vì vậy các lựa chọn mở rộng và đôi khi khó biết bám vào đâu. Mặt sáng là sự tự do; mặt dễ vấp là cảm giác thiếu lực cản để tựa vào.", "en": "The number 0 is quite common; for instance someone born 29/02/2000 has all four challenges equal to 0. It may lean toward having no single fixed snag, so options open wide and it can be hard to know where to hold on. The light side is freedom; the stumbling side is feeling there is no resistance to lean on." },
+      "1": { "vi": "Thử thách có thể nghiêng về việc tin vào ý riêng của mình. Bạn có thể lúc thì áp đặt, lúc thì lùi lại để người khác quyết thay.", "en": "The challenge may lean toward trusting your own mind. You may swing between imposing your way and stepping back so others decide." },
+      "2": { "vi": "Thử thách có thể nghiêng về sự nhạy cảm. Bạn có thể dễ tổn thương trước lời nói nhỏ, hoặc cứng lại để đỡ cảm nhận.", "en": "The challenge may lean toward sensitivity. You may be easily stung by small remarks, or harden up to shield yourself from feeling." },
+      "3": { "vi": "Thử thách có thể nghiêng về việc bày tỏ. Bạn có thể giữ ý trong lòng vì sợ bị đánh giá, hoặc nói nhiều để che điều thật sự muốn nói.", "en": "The challenge may lean toward self-expression. You may keep thoughts inside for fear of judgment, or talk a lot to cover what you actually want to say." },
+      "4": { "vi": "Thử thách có thể nghiêng về nếp và kỷ luật. Bạn có thể bám quá chặt vào kế hoạch, hoặc bỏ dở vì thấy việc lặp lại nhàm chán.", "en": "The challenge may lean toward routine and discipline. You may cling too tightly to a plan, or drop things because repetition feels dull." },
+      "5": { "vi": "Thử thách có thể nghiêng về sự tự do. Bạn có thể lao vào thay đổi liên tục, hoặc ngại đổi vì sợ mất chỗ đứng đã quen.", "en": "The challenge may lean toward freedom. You may leap into constant change, or hesitate to change for fear of losing familiar ground." },
+      "6": { "vi": "Thử thách có thể nghiêng về trách nhiệm với người khác. Bạn có thể ôm đồm để mọi người yên ổn, hoặc đòi hỏi người thân theo chuẩn của mình.", "en": "The challenge may lean toward responsibility for others. You may take on too much so everyone is settled, or expect those close to you to match your standards." },
+      "7": { "vi": "Thử thách có thể nghiêng về niềm tin và sự cởi mở. Bạn có thể hoài nghi nhiều hơn mức cần, hoặc ngại chia sẻ điều mình đang nghĩ.", "en": "The challenge may lean toward trust and openness. You may doubt more than needed, or hold back from sharing what you are thinking." },
+      "8": { "vi": "Thử thách có thể nghiêng về quyền lực và sự kiểm soát. Bạn có thể muốn nắm mọi thứ trong tay, hoặc tránh nhận vai trò lớn vì ngại sức nặng của nó.", "en": "The challenge may lean toward power and control. You may want to hold everything in your hands, or shy from a big role because of its weight." }
+    },
+    "relationship": {
+      "frame": { "vi": "Phần này nói về cách bạn có thể đi cùng người khác trong bất kỳ mối quan hệ nào: bạn bè, người cùng làm việc, người nhà. Không có điểm số, không có phần trăm; chỉ là những điểm chung và chỗ còn căng để hai người tự soi.", "en": "This section is about how you may relate to another person in any kind of relationship: friends, colleagues, family. There is no score and no percentage; only common ground and places that stay tense, for the two of you to reflect on." },
+      "numbers": {
+        "1": { "vi": "Trong quan hệ, bạn thường chủ động mở lời và kéo mọi việc chuyển động. Mặt sáng là sự rõ ràng; mặt dễ vấp là đi nhanh hơn người bên cạnh mà không nhận ra.", "en": "In relationships, you often take the first step and get things moving. The light side is clarity; the stumbling side is moving faster than the person beside you without noticing." },
+        "2": { "vi": "Trong quan hệ, bạn thường để ý đến cảm giác của người kia và tìm cách giữ êm. Mặt sáng là sự tinh tế; mặt dễ vấp là nuốt điều mình muốn nói để tránh va chạm.", "en": "In relationships, you often notice how the other person feels and try to keep things smooth. The light side is tact; the stumbling side is swallowing what you want to say to dodge friction." },
+        "3": { "vi": "Trong quan hệ, bạn thường mang không khí nhẹ và thích trò chuyện. Mặt sáng là sự vui vẻ; mặt dễ vấp là nói đùa cho qua những chuyện đáng được nói thật.", "en": "In relationships, you often bring a light mood and enjoy talking. The light side is cheerfulness; the stumbling side is joking past things that deserve a straight word." },
+        "4": { "vi": "Trong quan hệ, bạn thường đáng tin ở những việc nhỏ lặp lại. Mặt sáng là sự đều đặn; mặt dễ vấp là cứng khi người kia cần bạn linh hoạt.", "en": "In relationships, you are often dependable in small repeated things. The light side is consistency; the stumbling side is stiffness when the other person needs you to flex." },
+        "5": { "vi": "Trong quan hệ, bạn thường mang đến sự mới mẻ và không thích bị bó. Mặt sáng là sự cởi mở; mặt dễ vấp là khó cam kết đều đặn khi người kia cần chỗ dựa.", "en": "In relationships, you often bring freshness and dislike being boxed in. The light side is openness; the stumbling side is trouble committing steadily when the other person needs support." },
+        "6": { "vi": "Trong quan hệ, bạn thường chăm lo và muốn mọi người được ổn. Mặt sáng là sự ấm áp; mặt dễ vấp là lo thay phần của người khác đến mức họ thấy bị kèm.", "en": "In relationships, you often look after others and want everyone settled. The light side is warmth; the stumbling side is worrying on their behalf until they feel hovered over." },
+        "7": { "vi": "Trong quan hệ, bạn thường cần khoảng riêng và nói ít nhưng nghĩ nhiều. Mặt sáng là chiều sâu; mặt dễ vấp là người kia khó biết bạn đang nghĩ gì.", "en": "In relationships, you often need your own space and say little but think much. The light side is depth; the stumbling side is that the other person can hardly tell what you are thinking." },
+        "8": { "vi": "Trong quan hệ, bạn thường đứng ra gánh việc và nói thẳng. Mặt sáng là sự đáng nương tựa; mặt dễ vấp là giọng quyết định nghe như mệnh lệnh với người kia.", "en": "In relationships, you often step up to carry things and speak plainly. The light side is being someone to lean on; the stumbling side is a decisive tone that lands like an order." },
+        "9": { "vi": "Trong quan hệ, bạn thường rộng lượng và nhìn người kia bằng cái nhìn bao dung. Mặt sáng là sự thấu hiểu; mặt dễ vấp là cho đi nhiều rồi âm thầm thấy mình ít được nhìn lại.", "en": "In relationships, you are often generous and see the other person with a forgiving eye. The light side is understanding; the stumbling side is giving a lot and quietly feeling little is returned." }
+      },
+      "pairs": {
+        "same": {
+          "common": { "vi": "Hai người cùng một số, vì vậy có thể dễ hiểu nhau không cần giải thích nhiều, do nhịp và cách nhìn khá giống.", "en": "Sharing the same number, you two may understand each other without much explaining, since your rhythm and outlook are alike." },
+          "tension": { "vi": "Điểm còn căng có thể là cả hai cùng có chỗ dễ vấp giống nhau, vì vậy khó có ai kéo người kia ra khỏi nó.", "en": "The tense spot may be that you share the same stumbling place, so neither easily pulls the other out of it." }
+        },
+        "sameParity": {
+          "common": { "vi": "Hai số cùng chẵn hoặc cùng lẻ, vì vậy có thể chung một kiểu nhịp: cùng thiên về mềm và đón nhận, hoặc cùng thiên về chủ động và đi tới.", "en": "Two numbers of the same parity (both even or both odd) may share a kind of tempo: both leaning soft and receptive, or both leaning active and forward." },
+          "tension": { "vi": "Điểm còn căng có thể là cùng một kiểu nhịp, vì vậy hai người dễ bỏ sót những điều cả hai đều ít để ý.", "en": "The tense spot may be that, sharing one tempo, you both miss the things neither of you tends to notice." }
+        },
+        "differentParity": {
+          "common": { "vi": "Một số chẵn, một số lẻ, vì vậy có thể bổ sung cho nhau: một bên giữ sự lắng nghe, một bên đưa ra bước đi.", "en": "One even and one odd number may complement each other: one side holds the listening, the other offers the next step." },
+          "tension": { "vi": "Điểm còn căng có thể là nhịp khác nhau, một người thấy bên kia quá chậm, một người thấy bên kia quá vội.", "en": "The tense spot may be differing tempos, with one seeing the other as too slow and the other seeing them as too hurried." }
+        }
+      },
+      "privacyNote": { "vi": "Ngày sinh và tên của người kia chỉ được dùng để tính ngay trên điện thoại này. Chúng không được lưu và không được gửi đi đâu.", "en": "The other person's birth date and name are only used to calculate on this phone. They are not saved and not sent anywhere." }
+    },
+    "privateMessage": {
+      "title": { "vi": "Lời nhắn riêng", "en": "A private note" },
+      "soon": { "vi": "Sắp có", "en": "Coming soon" },
+      "body": { "vi": "AI chỉ ghép các khối nội dung đã được duyệt thành một lời nhắn ngắn, nói về những con số của bạn.", "en": "AI only joins approved content blocks into a short note about your numbers." },
+      "sends": { "vi": "Chỉ các con số đã tính và mã khối nội dung được gửi đi. Họ tên và ngày sinh của bạn ở lại trên điện thoại này.", "en": "Only the computed numbers and content block codes are sent. Your name and birth date are not sent at any point." },
+      "action": { "vi": "Nhận lời nhắn hôm nay", "en": "Get today's note" },
+      "consentTitle": { "vi": "Trước khi gửi", "en": "Before sending" },
+      "consentBody": { "vi": "Chỉ các con số đã tính và mã khối nội dung được gửi đi. Họ tên và ngày sinh của bạn ở lại trên điện thoại này. Lượt hôm nay chỉ được tính khi lời nhắn đến tay bạn.", "en": "Only the computed numbers and content block codes are sent. Your name and birth date stay on this phone. Today's turn counts only when the note reaches you." },
+      "consentConfirm": { "vi": "Gửi", "en": "Send" },
+      "consentCancel": { "vi": "Để sau", "en": "Not now" },
+      "loading": { "vi": "Đang ghép lời nhắn...", "en": "Putting your note together..." },
+      "resultTitle": { "vi": "Lời nhắn hôm nay", "en": "Today's note" },
+      "premiumNote": { "vi": "Lời nhắn riêng nằm trong gói Premium.", "en": "The private note is part of Premium." },
+      "dailyLimit": { "vi": "Hôm nay đã hết lượt nhận lời nhắn. Ngày mai có thể có một lời nhắn mới.", "en": "Today's turns for a note are used. A new one can arrive tomorrow." },
+      "unavailable": { "vi": "Chưa ghép được lời nhắn lúc này. Bạn có thể thử lại sau một chút.", "en": "The note could not be put together right now. You can try again in a moment." },
+      "retry": { "vi": "Thử lại", "en": "Try again" },
+      "blocked": { "vi": "Hôm nay Nilaza chưa ghép được một lời nhắn đủ nhẹ nhàng để gửi. Ngày mai bạn có thể nhận lời nhắn mới.", "en": "Today Nilaza could not put together a note gentle enough to send. A new one can arrive tomorrow." }
+    }
+}

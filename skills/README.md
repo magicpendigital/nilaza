@@ -1,6 +1,6 @@
 # Nilaza project skills
 
-Versioned sources: nilaza-plan-qc, nilaza-brand-experience, nilaza-tarot-deck-production, nilaza-tarot-content-qc, and nilaza-tarot-art-qc. Canonical version and SHA-256 entries live in skills/manifest.json. Keep unrelated metadata and invocation policy intact. Packaged plugin skills are never sync targets.
+Versioned sources: nilaza-plan-qc, nilaza-brand-experience, nilaza-tarot-deck-production, nilaza-tarot-content-qc, nilaza-tarot-art-qc, and nilaza-content-review (multi-specialist review of reflective content). Canonical version and SHA-256 entries live in skills/manifest.json. Keep unrelated metadata and invocation policy intact. Packaged plugin skills are never sync targets.
 
 Run npm run skills:sync to install reviewed source files into CODEX_HOME/skills (or the user .codex/skills folder); npm run skills:check reports missing/drifted files without writing. A changed installed file must be reconciled explicitly, not silently overwritten. Run system Skill Creator quick_validate.py for each changed source. For Tarot, validate a new-deck and a single-card repair route plus the incomplete-review rejection gate.
 

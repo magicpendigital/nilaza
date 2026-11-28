@@ -31,11 +31,13 @@ function useElapsedSeconds(active: boolean) {
 
 // Đọc sâu với AI on the chart overview (Owner decisions 2026-10-31): entitled accounts write one deep
 // read per local day. UX review K4/U1 (2026-11-15): a visitor without an account gets a sign-in button;
-// Premium wording appears only while Premium is on sale, never "Sắp ra mắt".
-export function AiDeepRead({ language, available, premiumOnSale, signInRequired = false, onSignIn, crisis = false, status, answer, error, onWrite, onOpenFull }: {
+// Premium wording appears only while Premium is on sale, never "Sắp ra mắt". With onOpenPremium the
+// Premium button opens the Premium section of Me instead of only showing a hint.
+export function AiDeepRead({ language, available, premiumOnSale, signInRequired = false, onSignIn, onOpenPremium, crisis = false, status, answer, error, onWrite, onOpenFull }: {
   language: Language;
   available: boolean;
   premiumOnSale: boolean;
+  onOpenPremium?: () => void;
   signInRequired?: boolean;
   onSignIn?: () => void;
   crisis?: boolean;
@@ -67,8 +69,8 @@ export function AiDeepRead({ language, available, premiumOnSale, signInRequired 
         <>
           <Text style={s.body}>
             {vi
-              ? "Một bài đọc riêng nối Mặt Trời, Mặt Trăng, Cung mọc và các góc hợp trong lá số của bạn, kèm câu hỏi để tự soi chiếu."
-              : "A personal read that links your Sun, Moon, Rising and aspects, with questions for self-reflection."}
+              ? "Hiểu vì sao bạn vừa thế này vừa thế kia: bài đọc riêng nối Mặt Trời, Mặt Trăng, Cung mọc và các góc hợp trong lá số của bạn thành một bức tranh, kèm câu hỏi để tự soi chiếu."
+              : "See why you can be one way and another at once: a personal read that ties your Sun, Moon, Rising and aspects into one picture, with questions for self-reflection."}
           </Text>
           {available ? (
             <Pressable accessibilityRole="button" accessibilityState={{ disabled: status === "loading" }} disabled={status === "loading"} onPress={onWrite} style={s.primary}>
@@ -80,7 +82,7 @@ export function AiDeepRead({ language, available, premiumOnSale, signInRequired 
               <Text style={s.primaryText}>{vi ? "Đăng nhập để dùng · 1 lượt/ngày" : "Sign in to use · 1 a day"}</Text>
             </Pressable>
           ) : premiumOnSale ? (
-            <Pressable accessibilityRole="button" onPress={() => setPremiumHint(true)} style={s.secondary}>
+            <Pressable accessibilityRole="button" onPress={() => (onOpenPremium ? onOpenPremium() : setPremiumHint(true))} style={s.secondary}>
               <Text style={s.secondaryText}>{vi ? "Có trong Premium" : "Included in Premium"}</Text>
             </Pressable>
           ) : (

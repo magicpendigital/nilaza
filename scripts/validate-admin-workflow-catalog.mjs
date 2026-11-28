@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(import.meta.url);
 export const workflowApi = require("../apps/admin/workflow-catalog.js");
-export const FEATURE_IDS = Object.freeze(["oracle_router", "persona_chat", "ai_council", "tarot_reading", "daily_insight", "notifications", "astrology", "face_reading"]);
+export const FEATURE_IDS = Object.freeze(["oracle_router", "persona_chat", "ai_council", "tarot_reading", "daily_insight", "notifications", "astrology", "face_reading", "tarot_note", "reader_router", "numerology_private_message"]);
 const states = ["implemented-source", "candidate-disabled", "deferred"];
 const privacy = ["public", "metadata", "personal", "sensitive", "credential-reference"];
 const kinds = ["trigger", "guard", "context", "prompt", "model", "branch", "storage", "output", "gate", "transport"];
@@ -50,7 +50,7 @@ export function validateWorkflowCatalog(catalog, options = {}) {
   };
   const features = Array.isArray(catalog?.features) ? catalog.features : [];
   fail(features.length === FEATURE_IDS.length && new Set(features.map((feature) => feature?.id)).size === FEATURE_IDS.length
-    && FEATURE_IDS.every((id) => features.some((feature) => feature.id === id)), "exact eight feature IDs required");
+    && FEATURE_IDS.every((id) => features.some((feature) => feature.id === id)), "exact eleven feature IDs required");
   const signatures = [];
   let nodeCount = 0, edgeCount = 0, portCount = 0;
   for (const feature of features) {

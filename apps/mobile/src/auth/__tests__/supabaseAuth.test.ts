@@ -1,4 +1,4 @@
-import { resendSupabaseSignupConfirmation, signInWithSupabaseEmail, signOutSupabase, signUpWithSupabaseEmail, resetSupabasePasswordForEmail } from "../supabaseAuth";
+import { emailLocaleFor, resendSupabaseSignupConfirmation, signInWithSupabaseEmail, signOutSupabase, signUpWithSupabaseEmail, resetSupabasePasswordForEmail, updateSupabaseUserLocale } from "../supabaseAuth";
 jest.mock("@react-native-async-storage/async-storage", () => require("@react-native-async-storage/async-storage/jest/async-storage-mock"));
 
 const mockLoginResults: Array<Promise<unknown>> = [];
@@ -8,6 +8,8 @@ const mockAdopt = jest.fn(async ({ access_token, refresh_token }) => ({
 const mockLogout = jest.fn(async () => ({ error: null }));
 const mockResend = jest.fn(async () => ({ error: null }));
 const mockSignup = jest.fn(async (_input: unknown): Promise<any> => ({ data: { user: { identities: [{}] }, session: null }, error: null }));
+const mockGetSession = jest.fn(async (): Promise<any> => ({ data: { session: null }, error: null }));
+const mockUpdateUser = jest.fn(async (_input: unknown) => ({ data: {}, error: null }));
 const mockReset = jest.fn(async (_email: string, _options: unknown) => ({ error: null }));
 jest.mock("../../runtimeConfig", () => ({
   isSupabaseAuthConfigured: true, supabaseUrl: "https://qa.invalid", supabaseAnonKey: "public-test"
@@ -16,7 +18,9 @@ jest.mock("@supabase/supabase-js", () => ({
   createClient: jest.fn((_url, _key, options) => ({
     auth: options.auth.persistSession ? {
       setSession: (...args: unknown[]) => mockAdopt(...args as [any]),
-      signOut: () => mockLogout()
+      signOut: () => mockLogout(),
+      getSession: () => mockGetSession(),
+      updateUser: (input: unknown) => mockUpdateUser(input)
     } : {
       signInWithPassword: () => mockLoginResults.shift(),
       resend: (...args: unknown[]) => mockResend(...args as [any]),
@@ -96,4 +100,28 @@ it("keeps reset on the dedicated recovery callback and limits repeated requests"
   expect(mockReset).toHaveBeenCalledWith("luna@example.test", { redirectTo: "nilaza://auth/recovery" });
   await expect(resetSupabasePasswordForEmail("other@example.test")).rejects.toThrow("one minute");
   expect(mockReset).toHaveBeenCalledTimes(1);
+});
+
+it("signup sends the language shown on screen so the confirmation email matches it", async () => {
+  await signUpWithSupabaseEmail("Luna", "luna@example.test", "synthetic-password", "en");
+  expect(mockSignup).toHaveBeenCalledWith(expect.objectContaining({
+    options: expect.objectContaining({ data: expect.objectContaining({ name: "Luna", locale: "en" }) })
+  }));
+});
+
+it("maps every non-English app language to the Vietnamese email", () => {
+  expect(emailLocaleFor("en")).toBe("en");
+  expect(emailLocaleFor("vi")).toBe("vi");
+  expect(emailLocaleFor("ja")).toBe("vi");
+});
+
+it("updates the account email language only when signed in and changed", async () => {
+  await expect(updateSupabaseUserLocale("en")).resolves.toBe(false);
+  expect(mockUpdateUser).not.toHaveBeenCalled();
+  mockGetSession.mockResolvedValueOnce({ data: { session: { user: { user_metadata: { locale: "vi" } } } }, error: null });
+  await expect(updateSupabaseUserLocale("en")).resolves.toBe(true);
+  expect(mockUpdateUser).toHaveBeenCalledWith({ data: { locale: "en" } });
+  mockGetSession.mockResolvedValueOnce({ data: { session: { user: { user_metadata: { locale: "en" } } } }, error: null });
+  await expect(updateSupabaseUserLocale("en")).resolves.toBe(true);
+  expect(mockUpdateUser).toHaveBeenCalledTimes(1);
 });

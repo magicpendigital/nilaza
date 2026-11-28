@@ -124,6 +124,7 @@
     const endpoints = {
       "/functions/v1/admin-ai-council-config": { GET: "ai.read", POST: "ai.manage" },
       "/functions/v1/admin-model-router-config": { GET: "ai.read", POST: "ai.manage" },
+      "/functions/v1/admin-model-campaigns": { GET: "ai.read", POST: "ai.manage" },
       "/functions/v1/admin-astrology-prompt-config": { GET: "ai.read", POST: "ai.manage" },
       "/functions/v1/admin-ai-trace-qa-payload": { POST: "roles.manage" },
       "/functions/v1/admin-documentation": { GET: "ai.read" },
@@ -188,7 +189,19 @@
     get_ai_context_configs: "ai.read",
     save_ai_context_config_draft: "ai.manage|ai.read+content.draft",
     publish_ai_context_config: "ai.manage",
+    get_ai_persona_model_tiers: "ai.read",
+    save_ai_persona_model_tiers_draft: "ai.manage|ai.read+content.draft",
+    publish_ai_persona_model_tiers: "ai.manage",
+    // Free / Premium per on-device feature (Owner decision 27/11, migration 20261127090000); the RPCs check the same
+    // rules. Editors save drafts; only ai.manage publishes or rolls back. The audience RPC returns counts only.
+    get_feature_access_configs: "ai.read",
+    save_feature_access_draft: "ai.manage|ai.read+content.draft",
+    publish_feature_access_config: "ai.manage",
+    rollback_feature_access_config: "ai.manage",
+    get_feature_access_audience: "ai.read",
     get_growth_waitlist_overview: "overview.read",
+    // AI cost by feature (P1-C, migration 20261115120000); aggregates only, the RPC checks ai.read itself.
+    get_ai_cost_summary: "ai.read",
     // Per-item content drafts and publish (A3, migration 20261113100000); the RPCs check the same capabilities.
     // Owner decision 6: editors (content.draft) save, restore and discard drafts; only content.publish publishes.
     list_content_item_drafts: "content.read",
