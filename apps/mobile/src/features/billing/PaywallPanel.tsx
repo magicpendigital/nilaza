@@ -16,16 +16,18 @@ export const playSubscriptionsUrl = `https://play.google.com/store/account/subsc
 // Lô 6 (25/11/2026): each line is backed by code today. Astrology AI: ai-astrology-insight/handler.ts needs a paid
 // entitlement or the tier switch. Premium decks and guides: App.tsx locks "premium-preview" decks and personas for a
 // free displayed tier. "More Tarot draws" was removed: Tarot AI is 1 per day for every account (account-tier-policy.json).
+// Lô H1 (28/11/2026): "Hai hệ cùng nhìn bạn" is built (profile/TwoSystems.tsx); Free sees the pair and the meeting
+// point, Premium reads the rest and can write it into the Journal.
 export const paywallBenefits = [
   { vi: "Đọc sâu lá số với Chiêm tinh AI", en: "Deep chart reads with Astrology AI" },
   { vi: "Các bộ bài và người dẫn đường dành cho Premium", en: "Premium decks and guides" },
+  { vi: "Hai hệ cùng nhìn bạn: chiêm tinh và bản đồ số", en: "Two systems, one view: astrology and numerology together" },
 ];
 
 // Planned, not built, and not part of what a purchase gives today. Shown muted under a "Sắp có" label.
 export const paywallComingSoon = [
   { vi: "Bản đồ số AI: Lời nhắn riêng, từ các con số đã tính", en: "Numerology AI: a personal note, from your computed numbers" },
   { vi: "Bản đồ số AI: Báo cáo tổng hợp", en: "Numerology AI: a combined report" },
-  { vi: "Hai hệ cùng nhìn bạn: chiêm tinh và bản đồ số", en: "Two systems, one view: astrology and numerology together" },
 ];
 
 const copy = {

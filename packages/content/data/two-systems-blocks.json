@@ -1,0 +1,1145 @@
+{
+  "version": "2026-11-28-draft1",
+  "review": {
+    "status": "draft",
+    "reviewer": "",
+    "reviewedAt": "",
+    "note": "AI-drafted and reviewed by specialist agents (nilaza-content-review) on 28/11/2026; waiting for Owner review. Any later edit needs a new Owner review."
+  },
+  "ui": {
+    "title": {
+      "vi": "Hai hệ cùng nhìn bạn",
+      "en": "Two systems, one you"
+    },
+    "intro": {
+      "vi": "Chiêm tinh và Bản đồ số là hai cách đọc khác nhau. Ở đây chúng được đặt cạnh nhau để bạn thấy chỗ hai hệ gặp nhau, chỗ khác giọng và một câu hỏi để tự soi.",
+      "en": "Astrology and numerology are two different ways of reading. Here they sit side by side so you can see where the two systems meet, where they differ in tone and one question to reflect on."
+    },
+    "sourceNote": {
+      "vi": "Nội dung được ghép sẵn từ nguyên tố của cung hoàng đạo (chiêm tinh Tây phương nhiệt đới) và các con số tính theo hệ chữ-số kiểu Pythagoras. Nội dung được ghép ngay trên máy bạn và không dùng AI. Đây là lăng kính biểu tượng để tự phản chiếu, chứ không đưa ra kết luận hay dự đoán.",
+      "en": "The text is pre-assembled from the element of a zodiac sign (Western tropical astrology) and numbers calculated in the Pythagorean letter-number system. It is assembled on your device and no AI is used. It is a symbolic lens for reflection, not a verdict or a prediction."
+    },
+    "sunAxisTitle": {
+      "vi": "Mặt Trời và số chủ đạo",
+      "en": "Sun and life path"
+    },
+    "moonAxisTitle": {
+      "vi": "Mặt Trăng và số linh hồn",
+      "en": "Moon and soul urge"
+    },
+    "meetLabel": {
+      "vi": "Điểm gặp",
+      "en": "Where they meet"
+    },
+    "differLabel": {
+      "vi": "Chỗ khác giọng",
+      "en": "Where they differ in tone"
+    },
+    "questionLabel": {
+      "vi": "Câu hỏi cho bạn",
+      "en": "A question for you"
+    },
+    "needBirthDate": {
+      "vi": "Thêm ngày sinh để xem hai hệ cùng nhìn bạn.",
+      "en": "Add your birth date to see how both systems look at you."
+    },
+    "needSun": {
+      "vi": "Cần xác định được cung Mặt Trời của bạn. Lập lá số để thấy cung Mặt Trời.",
+      "en": "A confirmed Sun sign is needed. Create your chart to see your Sun sign."
+    },
+    "needMoon": {
+      "vi": "Mặt Trăng đổi cung trong một số ngày, vì vậy cần giờ sinh để biết chắc. Thêm giờ sinh trong lá số của bạn để xem trục này.",
+      "en": "The Moon changes signs on some days, so your birth time is needed to be sure. Add your birth time to your chart to see this axis."
+    },
+    "needName": {
+      "vi": "Số linh hồn tính từ họ tên bạn đã nhập. Thêm họ tên trong Bản đồ số để xem trục Mặt Trăng.",
+      "en": "The soul urge number is calculated from the name you entered. Add your name in the Numerology map to see the Moon axis."
+    },
+    "premiumLocked": {
+      "vi": "Phần này dành cho tài khoản Premium.",
+      "en": "This part is for Premium accounts."
+    },
+    "guestInvite": {
+      "vi": "Đăng nhập để xem hai hệ cùng nhìn bạn.",
+      "en": "Sign in to see how both systems look at you."
+    },
+    "writeJournal": {
+      "vi": "Viết vào Nhật ký",
+      "en": "Write in your journal"
+    },
+    "masterNote": {
+      "vi": "Bạn mang số {number}; phần này đọc theo số gốc của nó, kèm sắc thái đã nêu ở trang Bản đồ số.",
+      "en": "You carry the number {number}; this part is read through its root number, with the nuance described on the Numerology page."
+    }
+  },
+  "elements": {
+    "fire": {
+      "name": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "sunFrame": {
+        "vi": "Mặt Trời ở cung Lửa (Bạch Dương, Sư Tử, Nhân Mã) gợi động lực khởi xướng: nhiệt huyết, dám thử và nói thẳng điều mình thấy. Đó là chủ đề về cách bạn mở đầu một việc, để tự soi chứ không định nghĩa bạn.",
+        "en": "A Sun in a Fire sign (Aries, Leo, Sagittarius) points to a drive to initiate: enthusiasm, courage to try and saying plainly what you see. It is a theme about how you open something, to reflect on, not a definition of you."
+      },
+      "moonFrame": {
+        "vi": "Mặt Trăng ở cung Lửa gợi một thế giới cảm xúc nhanh và ấm: bạn có thể cần được sống động, được ghi nhận và được hành động để cảm xúc có lối ra.",
+        "en": "A Moon in a Fire sign points to quick, warm emotions: you may need to feel alive, to be acknowledged and to act so that feeling has a way out."
+      }
+    },
+    "earth": {
+      "name": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "sunFrame": {
+        "vi": "Mặt Trời ở cung Đất (Kim Ngưu, Xử Nữ, Ma Kết) gợi động lực bền bỉ và thực tế: điều chạm được, làm đều và dựng từng bước. Đó là chủ đề về cách bạn dựng một việc cho bền, để tự soi chứ không định nghĩa bạn.",
+        "en": "A Sun in an Earth sign (Taurus, Virgo, Capricorn) points to a patient, practical drive: what can be touched, done steadily and built step by step. It is a theme about how you make something last, to reflect on, not a definition of you."
+      },
+      "moonFrame": {
+        "vi": "Mặt Trăng ở cung Đất gợi cảm xúc chậm và vững: bạn có thể cần nhịp đều, chỗ quen và những điều dễ chịu cụ thể để thấy yên lòng.",
+        "en": "A Moon in an Earth sign points to slow, steady emotions: you may need an even rhythm, familiar places and concrete comforts to feel at ease."
+      }
+    },
+    "air": {
+      "name": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "sunFrame": {
+        "vi": "Mặt Trời ở cung Khí (Song Tử, Thiên Bình, Bảo Bình) gợi động lực của ý tưởng, ngôn ngữ và trao đổi: tò mò, nhiều góc nhìn và kết nối bằng lời. Đó là chủ đề về cách bạn nhìn và bàn một việc, để tự soi chứ không định nghĩa bạn.",
+        "en": "A Sun in an Air sign (Gemini, Libra, Aquarius) points to a drive of ideas, language and exchange: curiosity, many angles and connecting through words. It is a theme about how you look at and discuss something, to reflect on, not a definition of you."
+      },
+      "moonFrame": {
+        "vi": "Mặt Trăng ở cung Khí gợi cảm xúc đi qua đầu óc: bạn có thể cần nói ra, viết xuống và có khoảng thoáng để hiểu điều mình cảm.",
+        "en": "A Moon in an Air sign points to emotions that pass through the mind: you may need to say them, write them down and have some room in order to understand what you feel."
+      }
+    },
+    "water": {
+      "name": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "sunFrame": {
+        "vi": "Mặt Trời ở cung Nước (Cự Giải, Bọ Cạp, Song Ngư) gợi động lực của cảm xúc, trực giác và chiều sâu: đồng cảm, ghi nhớ và gắn bó. Đó là chủ đề về cách bạn cảm một việc từ bên trong, để tự soi chứ không định nghĩa bạn.",
+        "en": "A Sun in a Water sign (Cancer, Scorpio, Pisces) points to a drive of feeling, intuition and depth: empathy, memory and attachment. It is a theme about how you feel something from within, to reflect on, not a definition of you."
+      },
+      "moonFrame": {
+        "vi": "Mặt Trăng ở cung Nước gợi cảm xúc sâu và kín: bạn có thể cần cảm giác an toàn, sự gần gũi thật và khoảng riêng để cảm xúc được ngồi xuống.",
+        "en": "A Moon in a Water sign points to deep, private emotions: you may need a sense of safety, real closeness and some privacy so that feeling can settle."
+      }
+    }
+  },
+  "sun": {
+    "fire.1": {
+      "meet": {
+        "vi": "Lửa gợi sự khởi động, số 1 gợi việc tự mở đường, vì vậy hai hệ cùng nghiêng về phía bạn bước trước. Khi một ý tưởng vừa nảy ra, bạn có thể thấy sức đẩy rất rõ trong người.",
+        "en": "Fire points to ignition and the number 1 points to opening your own path, so both systems lean toward you stepping first. When an idea has just arrived, you may feel the push very clearly in your body."
+      },
+      "differ": {
+        "vi": "Lửa thường cháy mạnh rồi cần thứ mới để cháy tiếp, còn số 1 muốn tự gánh điều mình đã chọn đến cùng. Hai nhịp ấy có thể kéo bạn giữa việc mở thêm một đầu việc mới và việc ở lại với đầu việc đang dở.",
+        "en": "Fire often burns hot and then wants fresh fuel, while the number 1 wants to carry what it chose all the way. The two rhythms can pull you between opening another thread and staying with the one that is half done."
+      },
+      "question": {
+        "vi": "Trong những việc bạn vừa châm lửa gần đây, việc nào bạn muốn nuôi tiếp và việc nào có thể để nó khép lại?",
+        "en": "Among the things you lit up recently, which do you want to keep feeding and which could you let close?"
+      }
+    },
+    "fire.2": {
+      "meet": {
+        "vi": "Lửa mang hơi ấm và sự nhiệt tình, số 2 mang sự tinh tế với người ở cạnh; ghép lại, hai hệ gợi một người ấm áp mà vẫn biết để ý. Bạn có thể là người làm căn phòng sáng lên nhưng vẫn nhận ra ai đang im lặng.",
+        "en": "Fire brings warmth and enthusiasm and the number 2 brings sensitivity to the person beside you; together the two systems suggest someone warm who still notices. You may be the one who brightens a room and still sees who has gone quiet."
+      },
+      "differ": {
+        "vi": "Lửa muốn nói và làm ngay, còn số 2 thường chờ đúng lúc và ngại làm lệch sự êm. Bạn có thể thấy mình lưỡng lự giữa việc nói thẳng điều đang nóng trong lòng và việc giữ cho cuộc trò chuyện dịu.",
+        "en": "Fire wants to speak and act at once, while the number 2 often waits for the right moment and hesitates to upset the calm. You may find yourself torn between saying plainly what is heating up inside and keeping the conversation gentle."
+      },
+      "question": {
+        "vi": "Có điều gì bạn muốn nói thẳng hơn không, và làm sao để vẫn giữ được không khí êm?",
+        "en": "Is there something you would like to say more directly, and how might you still keep the mood calm?"
+      }
+    },
+    "fire.3": {
+      "meet": {
+        "vi": "Lửa thích biểu đạt và được thấy, số 3 thích kể, viết, đùa để biến ý nghĩ thành thứ người khác nhìn được; cả hai hệ cùng hướng về một người dễ truyền cảm hứng. Bạn có thể thấy mình sáng lên khi một câu chuyện của mình làm cả nhóm xích lại gần nhau.",
+        "en": "Fire likes to express itself and be seen, and the number 3 likes to tell, write or joke so a thought becomes something others can see; both systems point to someone who inspires easily. You may feel yourself light up when a story of yours draws the whole group closer."
+      },
+      "differ": {
+        "vi": "Lửa nghiêng về làm trước, số 3 nghiêng về kể và thử nhiều cách diễn đạt. Có lúc bạn thấy mình nói hay hơn mức đã làm, có lúc làm xong rồi mới nhận ra chưa chia sẻ với ai.",
+        "en": "Fire leans toward doing first, while the number 3 leans toward telling and trying many ways to say it. At times you may notice you speak better than you have acted, and at other times you finish something and only then realise you have told no one."
+      },
+      "question": {
+        "vi": "Điều gì bạn đang nói rất hay mà chưa bắt tay làm, hoặc đã làm mà chưa kể cho ai?",
+        "en": "What are you describing beautifully but have not started, or have already done without telling anyone?"
+      }
+    },
+    "fire.4": {
+      "meet": {
+        "vi": "Lửa cho bạn đà để khởi động, số 4 cho bạn cách chia việc thành những bước nhỏ; ghép lại, nhiệt huyết có thể thành thứ dựng được. Khi cả hai cùng chạy, bạn thường thấy lòng hăng hái và bản kế hoạch kéo về một hướng.",
+        "en": "Fire gives you the momentum to begin and the number 4 gives you a way to break work into small steps; together, enthusiasm can become something you can build. When both are running, you often feel your eagerness and your plan pulling the same way."
+      },
+      "differ": {
+        "vi": "Lửa muốn đi ngay khi hứng còn nóng, còn số 4 muốn nền chắc rồi mới bước. Khi kế hoạch đổi giữa chừng, một phần bạn hào hứng với cái mới, một phần khác bám lấy thứ tự cũ.",
+        "en": "Fire wants to go while the excitement is hot, while the number 4 wants solid ground before stepping. When a plan changes halfway, one part of you is excited by the new, and another clings to the old order."
+      },
+      "question": {
+        "vi": "Có việc nào bạn muốn lao vào ngay, và một bước chuẩn bị nhỏ nào có thể giúp bạn yên tâm hơn khi đi?",
+        "en": "Is there something you want to leap into right now, and what small step of preparation might help you feel at ease as you go?"
+      }
+    },
+    "fire.5": {
+      "meet": {
+        "vi": "Lửa ưa chuyển động, số 5 ưa thay đổi và trải nghiệm, vì vậy hai hệ cùng gợi một người khó ngồi yên với điều đã cũ. Sức sống của bạn có thể tăng lên mỗi khi có một nơi mới để đi hoặc một cách làm mới để thử.",
+        "en": "Fire loves movement and the number 5 loves change and experience, so both systems suggest someone who finds it hard to sit still with what has gone stale. Your energy may rise whenever there is somewhere new to go or a new way to try."
+      },
+      "differ": {
+        "vi": "Lửa cần một mục tiêu để cháy hết mình, còn số 5 thích giữ cửa mở với nhiều hướng. Bạn có thể vừa muốn dốc toàn lực cho một thứ, vừa ngại rằng chọn nó là đóng lại những cánh cửa khác.",
+        "en": "Fire needs a target to burn fully, while the number 5 likes to keep doors open in many directions. You may both want to pour yourself into one thing and hesitate because choosing it closes other doors."
+      },
+      "question": {
+        "vi": "Nếu dồn hết sức vào một hướng trong một thời gian, bạn lo mình bỏ lỡ điều gì?",
+        "en": "If you put all your energy into one direction for a while, what do you worry you might miss?"
+      }
+    },
+    "fire.6": {
+      "meet": {
+        "vi": "Lửa cho bạn hơi ấm hào phóng, số 6 cho bạn sự quan tâm với người và nơi gần mình; hai hệ cùng nghiêng về một người che chở bằng nhiệt tình thật. Bạn có thể là người đứng lên lo khi nhóm hay gia đình cần ai đó đi trước.",
+        "en": "Fire gives you generous warmth and the number 6 gives you care for the people and places close to you; both systems lean toward someone who shelters others with real enthusiasm. You may be the one who steps up when a group or family needs someone to go first."
+      },
+      "differ": {
+        "vi": "Lửa muốn tự do làm theo hứng, còn số 6 gắn bạn với những người đang cần mình. Có lúc bạn vừa muốn chạy theo một ý mới, vừa muốn ở lại vì có người trông vào mình.",
+        "en": "Fire wants the freedom to follow a spark, while the number 6 ties you to the people who need you. At times you want to chase a new idea and also stay because someone is counting on you."
+      },
+      "question": {
+        "vi": "Khi bạn đứng ra lo cho người khác, phần nhiệt huyết nào của riêng bạn đang chờ đến lượt?",
+        "en": "When you step up to look after others, which of your own enthusiasms is waiting for its turn?"
+      }
+    },
+    "fire.7": {
+      "meet": {
+        "vi": "Lửa thích khám phá bằng cách lao vào, số 7 thích khám phá bằng cách đào sâu; hai hệ cùng vẽ ra một người muốn tự mình tìm ra điều thật. Bạn có thể bị cuốn mạnh vào một câu hỏi cho đến khi hiểu nó từ gốc.",
+        "en": "Fire likes to explore by diving in and the number 7 likes to explore by digging deep; both systems sketch someone who wants to find out what is true for themselves. You may be pulled hard into a question until you understand it from the root."
+      },
+      "differ": {
+        "vi": "Lửa muốn thử ngay để biết, còn số 7 muốn quan sát và nghĩ cho thấu trước. Bạn có thể dao động giữa cách học bằng việc làm liền tay và cách học bằng việc lui lại một mình.",
+        "en": "Fire wants to try at once in order to know, while the number 7 wants to observe and think things through first. You may swing between learning by doing straight away and learning by stepping back alone."
+      },
+      "question": {
+        "vi": "Điều gì bạn đã nghĩ kỹ đủ lâu, và một thử nghiệm nhỏ nào có thể cho bạn biết thêm?",
+        "en": "What have you already thought through for long enough, and what small experiment could tell you more?"
+      }
+    },
+    "fire.8": {
+      "meet": {
+        "vi": "Lửa đem lại sức đẩy và sự dám nhận phần việc khó, số 8 đem lại cái nhìn toàn cục và mong muốn thấy kết quả cụ thể; hai hệ cùng cho thấy dáng một người thấy thoải mái ở vị trí dẫn. Bạn có thể nhận ra mình bình tĩnh hơn khi được giao phần quyết định thay vì đứng chờ.",
+        "en": "Fire brings drive and the courage to take on the hard part, and the number 8 brings the whole-picture view and a wish to see concrete results; both systems show the outline of someone at ease in the lead. You may notice you feel calmer when handed the decision instead of waiting for it."
+      },
+      "differ": {
+        "vi": "Lửa dẫn bằng cảm hứng, số 8 tính toán nguồn lực và muốn một con đường đo được. Bạn có thể giằng giữa việc kéo mọi người đi bằng nhiệt huyết và việc cân từng bước cho vững.",
+        "en": "Fire leads by inspiration, while the number 8 weighs resources and wants a path that can be measured. You may be torn between carrying people along with enthusiasm and weighing each step to keep it steady."
+      },
+      "question": {
+        "vi": "Khi bạn dẫn, điều gì đang đi bằng cảm hứng và điều gì cần một cách đo rõ hơn?",
+        "en": "When you lead, what is moving on inspiration and what needs a clearer way of measuring?"
+      }
+    },
+    "fire.9": {
+      "meet": {
+        "vi": "Lửa gợi lòng nhiệt thành, số 9 gợi cái nhìn rộng và lòng cảm thông; ghép lại, chúng vẽ ra một người muốn việc mình làm có ý nghĩa với nhiều người. Lòng bạn có thể bừng lên khi một việc chạm vào điều lớn hơn lợi ích riêng.",
+        "en": "Fire suggests a warm, wholehearted drive and the number 9 suggests a wide view and compassion; taken together, they sketch someone who wants their work to mean something to many people. Your heart may light up when a task touches something larger than your own interest."
+      },
+      "differ": {
+        "vi": "Lửa muốn bắt đầu cái mới, còn số 9 quen khép lại và buông điều đã qua. Có lúc bạn bị kéo giữa việc châm một ngọn lửa mới và việc ngồi lại tiễn một chặng cũ cho trọn.",
+        "en": "Fire wants to begin something new, while the number 9 is used to closing and letting go of what has passed. At times you are pulled between lighting a new flame and sitting down to see an old stretch off properly."
+      },
+      "question": {
+        "vi": "Có chặng nào bạn muốn cảm ơn và khép lại, để ngọn lửa mới có chỗ?",
+        "en": "Is there a stretch you would like to thank and close, so that a new flame has room?"
+      }
+    },
+    "earth.1": {
+      "meet": {
+        "vi": "Đất cho sự vững, số 1 cho sáng kiến; ghép lại, hai hệ gợi một người bắt đầu chậm mà có nền. Khi đã quyết, bạn có thể bước đi đều và khó bị lay.",
+        "en": "Earth gives steadiness and the number 1 gives initiative; together the two systems suggest someone who starts slowly but on solid ground. Once you decide, you may walk evenly and be hard to sway."
+      },
+      "differ": {
+        "vi": "Đất muốn kiểm tra và chờ đúng thời điểm, còn số 1 muốn đi trước mà không đợi ai cho phép. Bạn có thể vừa muốn cứ làm, vừa muốn thấy nền dưới chân đủ rõ.",
+        "en": "Earth wants to check and wait for the right moment, while the number 1 wants to go first without waiting for permission. You may both want to just do it and want to see the ground beneath you clearly."
+      },
+      "question": {
+        "vi": "Bước đầu nào bạn đã sẵn sàng làm trước, dù nền chưa hoàn hảo?",
+        "en": "Which first step are you ready to take, even though the ground is not perfect?"
+      }
+    },
+    "earth.2": {
+      "meet": {
+        "vi": "Đất mang sự kiên nhẫn, số 2 mang khả năng lắng nghe; kết hợp lại, chúng nghiêng về một người đáng tin vì ở lại và chú ý. Trong các mối quan hệ, bạn có thể được nhớ vì sự có mặt đều đặn hơn là vì lời nói lớn.",
+        "en": "Earth brings patience and the number 2 brings the ability to listen; combined, they lean toward someone dependable because they stay and pay attention. In your relationships, you may be remembered for steady presence more than for big words."
+      },
+      "differ": {
+        "vi": "Đất giữ nếp quen riêng của mình, còn số 2 dễ chỉnh theo tâm trạng người bên cạnh. Bạn có thể khó phân biệt điều mình thật sự cần với điều giữ cho mọi người yên.",
+        "en": "Earth keeps its own familiar routines, while the number 2 easily adjusts to the mood of the person beside it. You may find it hard to tell what you truly need from what keeps everyone at peace."
+      },
+      "question": {
+        "vi": "Nếp quen nào của bạn đang được giữ vì chính bạn muốn, và nếp nào vì người khác đã quen?",
+        "en": "Which of your routines do you keep because you want them, and which because others are used to them?"
+      }
+    },
+    "earth.3": {
+      "meet": {
+        "vi": "Đất thích những thứ chạm được, số 3 thích biểu đạt; hai hệ cùng gợi việc biến ý thành một thứ cụ thể như một món ăn, một trang viết hay một món đồ làm bằng tay. Lòng bạn có thể vui nhất khi thấy điều mình nghĩ có hình hài.",
+        "en": "Earth likes things you can touch and the number 3 likes expression; both systems suggest turning an idea into something concrete, such as a dish, a written page or a handmade object. Your heart may be happiest when you see what you imagined take shape."
+      },
+      "differ": {
+        "vi": "Đất giữ nhịp đều và làm cho kỹ, còn số 3 thích tung ra nhiều ý và để hứng dẫn đường. Có lúc bạn muốn trau chuốt đến vừa lòng, có lúc muốn buông tay cho nó bay.",
+        "en": "Earth keeps an even pace and works carefully, while the number 3 likes to toss out many ideas and let the mood lead. Sometimes you want to polish until it satisfies you, and sometimes you want to let go and let it fly."
+      },
+      "question": {
+        "vi": "Điều gì bạn muốn làm ra thành thứ chạm được, và bạn cho phép nó dở dang đến mức nào?",
+        "en": "What do you want to make into something tangible, and how unfinished are you willing to let it be?"
+      }
+    },
+    "earth.4": {
+      "meet": {
+        "vi": "Đất và số 4 cùng nói về nền móng, sự kiên nhẫn và từng bước nhỏ, vì vậy hai hệ gặp nhau ở nhịp đều đặn. Bạn có thể thấy yên nhất khi mỗi việc có chỗ của nó và tiến độ nhìn thấy được.",
+        "en": "Earth and the number 4 both speak of foundations, patience and small steps, so the two systems meet in an even rhythm. You may feel most at ease when each task has its place and progress can be seen."
+      },
+      "differ": {
+        "vi": "Đất tìm sự thoải mái qua giác quan và cảm giác quen thuộc, còn số 4 tìm nó qua quy tắc và kế hoạch. Có lúc bạn dựa vào cảm giác dễ chịu, có lúc dựa vào bản kế hoạch, và hai thứ ấy không luôn trùng nhau.",
+        "en": "Earth looks for comfort through the senses and familiar feeling, while the number 4 looks for it through rules and plans. At times you rely on a sense of ease and at times on the plan, and the two do not always match."
+      },
+      "question": {
+        "vi": "Nếu hôm nay bỏ một việc đều đặn, bạn lo mất điều gì và điều gì có thể nhẹ đi?",
+        "en": "If you dropped one regular task today, what would you worry about losing, and what might feel lighter?"
+      }
+    },
+    "earth.5": {
+      "meet": {
+        "vi": "Đất cho bạn gốc rễ, số 5 cho bạn sự tò mò với trải nghiệm; hai hệ gợi một người đi nhiều mà vẫn có chỗ về. Có thể bạn thử cái mới bằng cách mở rộng điều đang có hơn là bỏ nó.",
+        "en": "Earth gives you roots and the number 5 gives you curiosity about experience; the two systems suggest someone who travels widely and still has a place to return to. Perhaps you try the new by extending what you have rather than leaving it."
+      },
+      "differ": {
+        "vi": "Đất giữ nếp, còn số 5 thích đổi; bạn có thể bị kéo giữa chỗ quen đã thuộc và chỗ lạ chưa biết. Đôi khi cùng một ngày bạn vừa muốn y như hôm qua, vừa muốn khác hẳn.",
+        "en": "Earth keeps routines, while the number 5 likes to change; you may be pulled between the familiar place you know and the strange one you do not. On the same day you may want it exactly like yesterday and also entirely different."
+      },
+      "question": {
+        "vi": "Có nếp quen nào bạn muốn đổi thử, và có nếp nào bạn muốn giữ nguyên?",
+        "en": "Is there a routine you want to try changing, and one you want to keep exactly as it is?"
+      }
+    },
+    "earth.6": {
+      "meet": {
+        "vi": "Đất chăm lo bằng việc cụ thể, số 6 chăm lo người và nơi gần mình; hai hệ cùng gợi một người nuôi dưỡng bằng việc nhỏ đều đặn như bữa cơm, chỗ ngồi gọn gàng hay lời hỏi han quen thuộc. Bạn có thể được nhớ vì sự chu đáo không ồn ào.",
+        "en": "Earth cares through concrete actions and the number 6 cares for the people and places close by; both systems suggest someone who nurtures through small steady things like a meal, a tidy seat or a familiar check-in. You may be remembered for quiet thoughtfulness."
+      },
+      "differ": {
+        "vi": "Đất giữ nhịp và sự thoải mái riêng, còn số 6 hướng về những người đang cần mình. Khi lo cho nhiều người, phần chỗ của chính bạn có thể mỏng dần mà bạn không nhận ra.",
+        "en": "Earth holds its own pace and comfort, while the number 6 turns toward the people who need you. When you look after many people, your own share of space may thin out without you noticing."
+      },
+      "question": {
+        "vi": "Phần nào trong ngày thuộc riêng bạn, và bạn đang giữ nó ra sao?",
+        "en": "Which part of your day belongs only to you, and how are you keeping it?"
+      }
+    },
+    "earth.7": {
+      "meet": {
+        "vi": "Đất kiên nhẫn quan sát, số 7 đào sâu để hiểu; hai hệ cùng gợi một người chậm mà kỹ, hiểu điều gì đó bằng cách ngâm với nó đủ lâu. Có thể bạn không vội kết luận cho đến khi thấy đã đủ vững.",
+        "en": "Earth observes patiently and the number 7 digs deep to understand; both systems suggest someone slow but thorough, who understands something by staying with it long enough. Perhaps you not rush to a conclusion until it feels solid."
+      },
+      "differ": {
+        "vi": "Đất tin vào điều thử được và nhìn thấy được, còn số 7 tin vào chiều sâu chưa gọi thành lời. Có lúc bạn cần một bằng chứng cầm được, có lúc bạn theo một cảm giác lặng lẽ không giải thích nổi.",
+        "en": "Earth trusts what can be tested and seen, while the number 7 trusts a depth not yet put into words. At times you need proof you can hold, and at times you follow a quiet sense you cannot explain."
+      },
+      "question": {
+        "vi": "Điều gì bạn tin dù chưa có bằng chứng, và điều gì bạn cần thấy rõ mới tin?",
+        "en": "What do you believe without proof, and what do you need to see clearly before you believe it?"
+      }
+    },
+    "earth.8": {
+      "meet": {
+        "vi": "Đất nói về nguồn lực và hình hài, số 8 nói về cái nhìn toàn cục và kết quả cụ thể; hai hệ cùng gợi một người dựng được thứ có trọng lượng và nhìn đường dài. Lòng bạn có thể thấy chắc chân khi mục tiêu rõ và từng bước đo được.",
+        "en": "Earth speaks of resources and form and the number 8 speaks of the whole-picture view and concrete results; both systems suggest someone who can build something with weight and looks down the long road. Your heart may feel steady when the goal is clear and each step can be measured."
+      },
+      "differ": {
+        "vi": "Đất cần nhịp đều và chỗ nghỉ, còn số 8 hay đặt mục tiêu cao hơn nhịp ấy. Có lúc bạn thấy mình bị đẩy nhanh hơn mức thấy thoải mái.",
+        "en": "Earth needs an even pace and a place to rest, while the number 8 tends to set goals higher than that pace. At times you may feel pushed faster than feels comfortable."
+      },
+      "question": {
+        "vi": "Mục tiêu nào đang đòi bạn đi nhanh hơn nhịp thoải mái của mình, và bạn thấy sao về điều đó?",
+        "en": "Which goal is asking you to go faster than your comfortable pace, and how do you feel about that?"
+      }
+    },
+    "earth.9": {
+      "meet": {
+        "vi": "Đất đem lại sự thực tế, số 9 đem lại cái nhìn rộng; hai hệ cùng gợi việc làm điều lớn bằng những việc nhỏ cụ thể. Bạn có thể thấy ý nghĩa nhất khi giúp được ai đó bằng một việc làm rõ ràng, kiên trì.",
+        "en": "Earth brings practicality and the number 9 brings a wide view; both systems suggest doing something large through small concrete tasks. You may find the most meaning when you help someone through a clear, patient piece of work."
+      },
+      "differ": {
+        "vi": "Đất giữ lấy và vun đắp, còn số 9 buông ra và cho đi. Bạn có thể đứng giữa việc giữ lại cho mình và việc trao đi cho người khác.",
+        "en": "Earth holds on and cultivates, while the number 9 lets go and gives away. You may stand between keeping something for yourself and handing it over to others."
+      },
+      "question": {
+        "vi": "Bạn đang giữ điều gì vì thật sự cần, và điều gì chỉ vì đã quen giữ?",
+        "en": "What are you holding because you truly need it, and what only because you are used to holding it?"
+      }
+    },
+    "air.1": {
+      "meet": {
+        "vi": "Khí tò mò và ưa ý mới, số 1 ưa tự khởi đầu; cùng nhau, chúng gợi một người dám đưa ý tưởng ra trước. Bạn có thể là người mở lời trong nhóm khi chưa ai biết bắt đầu từ đâu.",
+        "en": "Air is curious and loves new ideas and the number 1 loves starting on its own; together they suggest someone who dares to put an idea forward first. You may be the one who speaks up when nobody is sure where to begin."
+      },
+      "differ": {
+        "vi": "Khí thích trao đổi và cân nhắc nhiều góc nhìn, còn số 1 thích tự quyết. Có lúc bạn muốn nghe thêm ý kiến, có lúc chỉ muốn chốt rồi đi.",
+        "en": "Air likes to exchange views and weigh many angles, while the number 1 likes to decide alone. At times you want to hear more opinions, and at times you simply want to settle it and go."
+      },
+      "question": {
+        "vi": "Quyết định nào bạn đã nghe đủ ý kiến và chỉ còn chờ chính mình chốt?",
+        "en": "Which decision have you heard enough opinions about, now only waiting for you to settle it?"
+      }
+    },
+    "air.2": {
+      "meet": {
+        "vi": "Khí thích trò chuyện, số 2 giỏi lắng nghe; cùng nhau, chúng gợi một người nối chuyện tốt và biết hỏi đúng chỗ. Người khác có thể thấy dễ nói với bạn vì bạn vừa thú vị vừa để ý.",
+        "en": "Air enjoys conversation and the number 2 is good at listening; together they suggest someone who keeps a talk going well and knows where to ask. Others may find you easy to talk to because you are both interesting and attentive."
+      },
+      "differ": {
+        "vi": "Khí giữ một chút khoảng cách để nhìn cho rõ, còn số 2 muốn gần để cảm. Bạn có thể lúc muốn lùi ra để nghĩ, lúc muốn lại gần để thấu.",
+        "en": "Air keeps a little distance to see clearly, while the number 2 wants closeness in order to feel. You may sometimes want to step back to think and sometimes step closer to understand."
+      },
+      "question": {
+        "vi": "Với một người bạn đang quan tâm, bạn cần thêm lời nói hay thêm sự ở bên?",
+        "en": "With someone you care about, do you need more words or more presence?"
+      }
+    },
+    "air.3": {
+      "meet": {
+        "vi": "Khí là ngôn ngữ và ý tưởng, số 3 là biểu đạt; hai hệ gặp nhau ở chỗ bạn sáng nhất trong lời: kể, viết, nghĩ thành tiếng. Bạn có thể hiểu ra điều mình nghĩ chỉ khi nghe chính mình nói.",
+        "en": "Air is language and ideas and the number 3 is expression; the two systems meet where you shine most in words: telling, writing, thinking aloud. You may only discover what you think when you hear yourself say it."
+      },
+      "differ": {
+        "vi": "Khí thích lý lẽ gọn và góc nhìn tỉnh, còn số 3 thích kể có màu sắc và cảm xúc. Có lúc bạn muốn mạch lạc từng ý, có lúc muốn để câu chuyện tự bay.",
+        "en": "Air likes tidy reasoning and a clear-headed angle, while the number 3 likes telling with colour and feeling. At times you want each idea in order, and at times you want the story to fly by itself."
+      },
+      "question": {
+        "vi": "Điều gì bạn hay nói bằng giọng vui nhưng thật ra là chuyện nghiêm túc với bạn?",
+        "en": "What do you often say in a light tone that is actually serious to you?"
+      }
+    },
+    "air.4": {
+      "meet": {
+        "vi": "Khí phân tích, số 4 sắp xếp; ghép lại, chúng vẽ ra một người biến ý nghĩ lộn xộn thành hệ thống. Lòng bạn có thể thấy dễ chịu khi có danh sách, sơ đồ hay một khung rõ cho điều đang nghĩ.",
+        "en": "Air analyses and the number 4 organises; taken together, they sketch someone who turns a jumble of thoughts into a system. Your heart may feel at ease when there is a list, a diagram or a clear frame for what you are thinking."
+      },
+      "differ": {
+        "vi": "Khí thích đổi góc nhìn và nhảy sang chủ đề khác, còn số 4 thích ở lại trong một khung cho đến khi xong. Bạn có thể bị kéo giữa việc khám phá thêm và việc hoàn tất gọn gàng.",
+        "en": "Air likes to change angle and jump to another topic, while the number 4 likes to stay inside one frame until it is done. You may be pulled between exploring further and finishing neatly."
+      },
+      "question": {
+        "vi": "Ý nào đang nằm trong đầu bạn mà chưa được đặt vào một bước làm cụ thể?",
+        "en": "Which idea sits in your head without yet being placed into a concrete step?"
+      }
+    },
+    "air.5": {
+      "meet": {
+        "vi": "Khí linh hoạt, số 5 ưa thay đổi; kết hợp lại, chúng nghiêng về một người dễ thích nghi, gặp nhiều người và học nhanh. Có thể bạn thấy nhẹ nhõm khi có nhiều lối để chọn và nhiều thứ để hỏi.",
+        "en": "Air is flexible and the number 5 loves change; combined, they lean toward someone who adapts easily, meets many people and learns quickly. Perhaps you feel relief when there are many paths to choose from and many things to ask about."
+      },
+      "differ": {
+        "vi": "Khí thích hiểu và nói về trải nghiệm, còn số 5 thích nhào vào chính trải nghiệm. Bạn có thể dao động giữa vị trí người quan sát đang suy nghĩ và người đang ở giữa cuộc chơi.",
+        "en": "Air likes to understand and talk about experience, while the number 5 likes to plunge into experience itself. You may swing between being the observer who is thinking and the person in the middle of the game."
+      },
+      "question": {
+        "vi": "Gần đây bạn học được điều gì từ việc làm hơn là từ việc nghĩ?",
+        "en": "What have you recently learned from doing more than from thinking?"
+      }
+    },
+    "air.6": {
+      "meet": {
+        "vi": "Khí thích trao đổi, số 6 muốn chăm sóc; đặt cạnh nhau, chúng hé ra hình ảnh một người quan tâm bằng lời và nhận phần trách nhiệm với người gần mình. Bạn có thể là người được tìm đến khi ai đó cần nói ra, rồi ở lại lo cho đến khi việc ổn.",
+        "en": "Air likes to exchange and the number 6 wants to care; side by side, they hint at someone who cares through words and takes responsibility for the people close to them. You may be the one people turn to when they need to say it out loud, and who stays to see it through."
+      },
+      "differ": {
+        "vi": "Khí giữ chút khoảng cách để nhìn khách quan, còn số 6 hòa vào chuyện của người gần. Bạn có thể lúc muốn phân tích giúp họ, lúc chỉ cần ngồi bên cạnh.",
+        "en": "Air keeps a little distance to see objectively, while the number 6 merges into the affairs of those close by. You may sometimes want to analyse for them and sometimes simply sit beside them."
+      },
+      "question": {
+        "vi": "Với người bạn đang lo cho, họ cần một lời gợi ý hay cần bạn nghe đến hết?",
+        "en": "For the person you are worried about, do they need a suggestion or do they need you to listen to the end?"
+      }
+    },
+    "air.7": {
+      "meet": {
+        "vi": "Khí là tư duy, số 7 là tìm hiểu sâu; ghép lại, chúng vẽ ra một người đọc, hỏi và mày mò đến nơi đến chốn. Lòng bạn có thể bị cuốn vào một chủ đề và quên cả thời gian.",
+        "en": "Air is thought and the number 7 is deep inquiry; taken together, they sketch someone who reads, asks and tinkers until they reach the bottom of things. Your heart may get absorbed in a topic and lose track of time."
+      },
+      "differ": {
+        "vi": "Khí thích chia sẻ và hỏi nhiều người, còn số 7 thích ở một mình nghĩ cho thấu. Bạn có thể lúc muốn có người cùng bàn, lúc muốn yên tĩnh để tự nghe mình.",
+        "en": "Air likes to share and ask many people, while the number 7 likes to think things through alone. You may sometimes want someone to discuss with and sometimes want quiet to hear yourself."
+      },
+      "question": {
+        "vi": "Điều bạn đang nghiền ngẫm, bạn muốn nói với ai, hay còn cần thêm thời gian một mình?",
+        "en": "The thing you are mulling over: do you want to tell someone, or do you still need more time alone?"
+      }
+    },
+    "air.8": {
+      "meet": {
+        "vi": "Khí nhìn bức tranh lớn bằng ý tưởng, số 8 nhìn nó bằng nguồn lực và mục tiêu; kết hợp lại, chúng nghiêng về một người biết hoạch định và hình dung đường đi. Bạn có thể thấy mình hợp với việc nối ý tưởng với một kế hoạch có sức nặng.",
+        "en": "Air sees the big picture through ideas and the number 8 sees it through resources and goals; combined, they lean toward someone who can plan and picture the road ahead. You may feel suited to connecting an idea to a plan with weight."
+      },
+      "differ": {
+        "vi": "Khí thích giữ nhiều khả năng cùng mở, còn số 8 muốn chốt một kết quả đo được. Bạn có thể lúc muốn giữ nhiều phương án, lúc thấy cần chọn một.",
+        "en": "Air likes to keep many possibilities open, while the number 8 wants to settle on a measurable result. You may sometimes want to keep many options and sometimes feel the need to pick one."
+      },
+      "question": {
+        "vi": "Phương án nào bạn đang giữ mở lâu hơn mức cần thiết?",
+        "en": "Which option are you keeping open for longer than you need to?"
+      }
+    },
+    "air.9": {
+      "meet": {
+        "vi": "Khí là ý tưởng và sự kết nối, số 9 là cái nhìn rộng; đặt cạnh nhau, chúng hé ra hình ảnh một người nghĩ cho nhiều người và biết kể bằng ngôn ngữ chung. Có thể bạn thấy hứng khởi khi một ý tưởng giúp nhiều người hiểu nhau hơn.",
+        "en": "Air is ideas and connection and the number 9 is a wide view; side by side, they hint at someone who thinks for many people and can speak in a shared language. Perhaps you feel inspired when an idea helps many people understand each other."
+      },
+      "differ": {
+        "vi": "Khí dễ đứng ngoài để nhìn, còn số 9 dễ mang nỗi chung vào lòng. Có lúc bạn giữ khoảng cách để tỉnh táo, có lúc để mình thấm vào điều đang xảy ra.",
+        "en": "Air easily stands outside to look, while the number 9 easily carries shared sorrows within. At times you keep your distance to stay clear-headed, and at times you let yourself soak in what is happening."
+      },
+      "question": {
+        "vi": "Bên cạnh điều lớn bạn thường bàn rất rõ, có điều gần nào bạn muốn nói đến theo cách riêng không?",
+        "en": "Beside the big matters you often discuss very clearly, is there something close to you that you would like to speak about in your own way?"
+      }
+    },
+    "water.1": {
+      "meet": {
+        "vi": "Nước cảm nhận sâu, số 1 tự khởi đầu; cùng nhau, chúng gợi một người bắt đầu từ thôi thúc bên trong thay vì từ lời người khác. Bạn có thể tin vào một cảm giác khó giải thích và theo nó.",
+        "en": "Water feels deeply and the number 1 starts from itself; together they suggest someone who begins from an inner urge rather than from what others say. You may trust a feeling that is hard to explain and follow it."
+      },
+      "differ": {
+        "vi": "Nước mềm và dễ ngấm tâm trạng của người bên cạnh, còn số 1 muốn tự quyết và đứng một mình. Bạn có thể bị kéo giữa việc lắng nghe cảm xúc của người khác và việc giữ hướng của mình.",
+        "en": "Water is soft and easily soaks up the mood of those beside it, while the number 1 wants to decide and stand alone. You may be pulled between listening to others' feelings and keeping your own direction."
+      },
+      "question": {
+        "vi": "Khi cảm xúc của người khác và hướng đi của bạn lệch nhau, bạn thường nghe bên nào trước?",
+        "en": "When someone else's feelings and your own direction do not line up, which do you usually hear first?"
+      }
+    },
+    "water.2": {
+      "meet": {
+        "vi": "Nước đồng cảm, số 2 tinh tế; cùng nhau, chúng gợi một người đọc không khí rất nhanh và an ủi bằng sự có mặt. Có thể bạn nhận ra tâm trạng của một căn phòng trước cả khi ai đó lên tiếng.",
+        "en": "Water empathises and the number 2 is sensitive; together they suggest someone who reads the atmosphere very quickly and comforts by being present. Perhaps you sense the mood of a room before anyone speaks."
+      },
+      "differ": {
+        "vi": "Nước đi theo dòng cảm xúc riêng và có lúc thu kín, còn số 2 thường chờ đúng lúc và ngại làm lệch sự hòa. Bạn có thể vừa muốn khép lại, vừa muốn người kia thấy dễ chịu.",
+        "en": "Water follows its own emotional current and sometimes withdraws, while the number 2 often waits for the right moment and hesitates to disturb the harmony. You may want to close up and still want the other person to feel at ease."
+      },
+      "question": {
+        "vi": "Cảm xúc nào hôm nay là của bạn, và cảm xúc nào bạn nhặt từ người xung quanh?",
+        "en": "Which feelings today are your own, and which did you pick up from the people around you?"
+      }
+    },
+    "water.3": {
+      "meet": {
+        "vi": "Nước có nhiều cảm xúc để kể, số 3 có nhu cầu biểu đạt; hai hệ cùng gợi việc cho cảm xúc một hình hài qua chữ, nhạc hay hình ảnh. Bạn có thể nhẹ lòng hơn khi điều đang chảy bên trong có chỗ để ra.",
+        "en": "Water has many feelings to tell and the number 3 has a need to express; both systems suggest giving feeling a form through words, music or images. You may feel lighter when what flows inside has somewhere to go."
+      },
+      "differ": {
+        "vi": "Nước hay giữ kín và đi vào trong, còn số 3 hướng ra ngoài và thích được chia sẻ. Có lúc bạn muốn giữ điều ấy cho riêng mình, có lúc muốn kể cho ai đó nghe.",
+        "en": "Water tends to stay private and move inward, while the number 3 turns outward and enjoys sharing. At times you want to keep it to yourself, and at times you want to tell someone."
+      },
+      "question": {
+        "vi": "Cảm xúc nào bạn muốn giữ riêng, và cảm xúc nào đang chờ được kể ra?",
+        "en": "Which feeling do you want to keep private, and which is waiting to be told?"
+      }
+    },
+    "water.4": {
+      "meet": {
+        "vi": "Nước ghi nhớ và gắn bó, số 4 xây nền; cùng nhau, chúng gợi một người trung thành với điều đã gắn và xây quan hệ hay thói quen bền. Có thể bạn quý những nơi chốn và con người đã đồng hành với mình lâu.",
+        "en": "Water remembers and attaches and the number 4 lays foundations; both systems suggest someone loyal to what they are bonded with, who builds lasting ties and habits. Perhaps you cherish the places and people who have stayed with you a long time."
+      },
+      "differ": {
+        "vi": "Nước chảy theo cảm xúc thay đổi, còn số 4 muốn nếp đều đặn. Có lúc nếp đều làm bạn yên, có lúc bạn thấy nó bó lại những điều đang muốn dâng lên.",
+        "en": "Water flows with shifting feelings, while the number 4 wants a regular pattern. Sometimes the pattern calms you, and sometimes it feels like it binds what is trying to rise."
+      },
+      "question": {
+        "vi": "Nếp đều nào giúp cảm xúc của bạn yên, và nếp nào, nếu có, làm bạn thấy chật?",
+        "en": "Which regular pattern helps your feelings feel calm, and which one, if any, feels confining?"
+      }
+    },
+    "water.5": {
+      "meet": {
+        "vi": "Nước chảy và thích nghi, số 5 ưa thay đổi; cùng nhau, chúng gợi một người di chuyển theo dòng và cảm nhận trải nghiệm mới bằng cả tâm trạng. Lòng bạn có thể thấy sống động khi một nơi hay một người mới làm bạn xúc động.",
+        "en": "Water flows and adapts and the number 5 loves change; together they suggest someone who moves with the current and takes in new experience with their whole mood. Your heart may feel alive when a new place or person moves you."
+      },
+      "differ": {
+        "vi": "Nước muốn gắn bó và có chỗ neo, còn số 5 muốn tự do và nhẹ. Bạn có thể bị kéo giữa việc neo lại và việc lướt đi.",
+        "en": "Water wants attachment and an anchor, while the number 5 wants freedom and lightness. You may be pulled between dropping anchor and gliding on."
+      },
+      "question": {
+        "vi": "Bạn cần neo vào điều gì để thấy được tự do đi xa?",
+        "en": "What do you need to anchor to in order to feel free to go far?"
+      }
+    },
+    "water.6": {
+      "meet": {
+        "vi": "Nước đồng cảm, số 6 chăm sóc; đặt cạnh nhau, chúng hé ra hình ảnh một người nuôi dưỡng một cách tự nhiên, vì vậy người khác có thể dễ tìm đến để kể chuyện. Bạn có thể là nơi người ta thấy an toàn khi được ở bên.",
+        "en": "Water empathises and the number 6 nurtures; side by side, they hint at someone who looks after others naturally, so others may find it easy to come to you to confide. You may be a place where people feel safe simply being with you."
+      },
+      "differ": {
+        "vi": "Nước hấp thụ nỗi lòng của người khác, còn số 6 nhận trách nhiệm với họ. Bạn có thể mang nhiều hơn phần của mình mà không hay.",
+        "en": "Water absorbs the sorrows of others, while the number 6 takes responsibility for them. You may carry more than your own share without noticing."
+      },
+      "question": {
+        "vi": "Trong những gì bạn đang mang, điều gì là của người khác và có thể đặt xuống?",
+        "en": "Of what you are carrying, what belongs to others and could be put down?"
+      }
+    },
+    "water.7": {
+      "meet": {
+        "vi": "Nước sâu và kín, số 7 đào sâu để hiểu; ghép lại, chúng vẽ ra một người sống nhiều ở bên trong, tin trực giác và cần yên để nghe được mình. Bạn có thể thấy rõ nhất điều gì đó khi ở một mình với nó.",
+        "en": "Water is deep and private and the number 7 digs deep to understand; taken together, they sketch someone who lives much inwardly, trusts intuition and needs quiet to hear themselves. You may see something most clearly when alone with it."
+      },
+      "differ": {
+        "vi": "Nước muốn được nối với người bằng cảm xúc, còn số 7 muốn lui về một mình. Có lúc bạn cần một vòng tay, có lúc cần một cánh cửa đóng.",
+        "en": "Water wants to connect with people through feeling, while the number 7 wants to retreat alone. At times you need an embrace, and at times a closed door."
+      },
+      "question": {
+        "vi": "Hôm nay bạn cần ở một mình hay cần ở bên ai đó, và bạn đã nói điều ấy chưa?",
+        "en": "Today do you need to be alone or to be with someone, and have you said so?"
+      }
+    },
+    "water.8": {
+      "meet": {
+        "vi": "Nước cảm được con người, số 8 nhìn toàn cục; kết hợp lại, chúng nghiêng về một người hiểu nhóm của mình và điều hành bằng sự nhạy cảm. Bạn có thể nhận ra điều chưa ai nói ra trước khi chốt một quyết định.",
+        "en": "Water senses people and the number 8 sees the whole; combined, they lean toward someone who understands their group and leads with sensitivity. You may notice what no one has said before settling on a decision."
+      },
+      "differ": {
+        "vi": "Nước mềm và dễ rung theo, còn số 8 muốn vững và quyết. Bạn có thể bị kéo giữa việc để cảm xúc dẫn đường và việc gồng lên cho đủ mạnh.",
+        "en": "Water is soft and easily moved, while the number 8 wants to be firm and decisive. You may be pulled between letting feeling lead and bracing yourself to be strong enough."
+      },
+      "question": {
+        "vi": "Khi giữ vai dẫn, bạn cho phép mình để lộ cảm xúc đến mức nào?",
+        "en": "When you hold the lead, how much of your feeling do you allow to show?"
+      }
+    },
+    "water.9": {
+      "meet": {
+        "vi": "Nước đồng cảm sâu, số 9 bao dung và nhìn rộng; đặt cạnh nhau, chúng hé ra hình ảnh một người chạm được vào nỗi chung và muốn giúp. Lòng bạn có thể xúc động trước một câu chuyện của người lạ như của mình.",
+        "en": "Water empathises deeply and the number 9 is generous and wide-seeing; side by side, they hint at someone who can touch shared sorrow and wants to help. Your heart may be moved by a stranger's story as if it were your own."
+      },
+      "differ": {
+        "vi": "Nước giữ ký ức rất lâu, còn số 9 gắn với việc buông. Bạn có thể bị kéo giữa việc giữ lại một ký ức và việc để nó đi.",
+        "en": "Water holds memory for a very long time, while the number 9 is linked with letting go. You may be pulled between holding a memory and letting it leave."
+      },
+      "question": {
+        "vi": "Có ký ức nào bạn vẫn mang, và nó đang cho bạn điều gì?",
+        "en": "Is there a memory you still carry, and what is it giving you?"
+      }
+    }
+  },
+  "moon": {
+    "fire.1": {
+      "meet": {
+        "vi": "Lửa trong cảm xúc cần được hành động; số linh hồn 1 mong tự chọn hướng đi cho mình. Bạn có thể thấy lòng yên hơn khi được làm theo ý mình thay vì chờ một tín hiệu cho phép.",
+        "en": "Fire in your feelings needs to act; soul urge 1 longs to choose its own direction. You may feel more at peace when you can follow your own lead rather than wait for a sign of permission."
+      },
+      "differ": {
+        "vi": "Lửa trong cảm xúc muốn có người chứng kiến và ghi nhận; số linh hồn 1 muốn đứng được mà không cần ai gật đầu. Bạn có thể vừa muốn được thấy, vừa muốn làm trong im lặng.",
+        "en": "Fire in your feelings wants a witness and some acknowledgement; soul urge 1 wants to stand without anyone nodding. You may both want to be seen and want to work in silence."
+      },
+      "question": {
+        "vi": "Bạn cần ai chứng kiến một việc bạn làm, hay cần được làm mà không ai nhìn?",
+        "en": "Do you need someone to witness something you do, or do you need to do it without anyone watching?"
+      }
+    },
+    "fire.2": {
+      "meet": {
+        "vi": "Số linh hồn 2 mong sự gần gũi và được hiểu, còn cảm xúc kiểu Lửa cần sự ấm và thẳng. Lòng bạn có thể thèm một người vừa nồng hậu vừa nói thật với mình.",
+        "en": "Soul urge 2 longs for closeness and being understood, and Fire feelings need warmth and directness. Your heart may crave someone who is both heartfelt and honest with you."
+      },
+      "differ": {
+        "vi": "Lửa trong cảm xúc dễ bùng lên rồi qua nhanh, trong khi số linh hồn 2 lo làm vỡ sự hòa. Đôi khi bạn có thể phân vân giữa việc nói ra cơn nóng và việc giữ cho mọi thứ êm.",
+        "en": "Fire in your feelings flares up and passes quickly, while soul urge 2 worries about breaking the harmony. Now and then you may hesitate between voicing the heat and keeping things smooth."
+      },
+      "question": {
+        "vi": "Có điều gì bạn muốn nói thẳng hơn với một người gần mình không, và điều gì làm việc ấy dễ hơn hay khó hơn?",
+        "en": "Is there something you would like to say more directly to someone close to you, and what makes that easier or harder?"
+      }
+    },
+    "fire.3": {
+      "meet": {
+        "vi": "Về cảm xúc, Lửa cần được sống động; về mong muốn bên trong, số linh hồn 3 hướng tới niềm vui và được lắng nghe. Có thể bạn thèm tiếng cười, nhịp nhanh và một sân khấu nhỏ để mình tỏa sáng.",
+        "en": "In feeling, Fire needs to feel alive; in the inner wish, soul urge 3 turns toward joy and being heard. Perhaps you crave laughter, a quick tempo and a small stage to shine on."
+      },
+      "differ": {
+        "vi": "Số linh hồn 3 cần được nghe thật chứ không chỉ được cười cùng, còn cảm xúc Lửa dễ chán khi thiếu kích thích. Thỉnh thoảng bạn chỉ muốn vui, có lúc có thể muốn ai đó nghe sâu hơn lớp vui bên ngoài.",
+        "en": "Soul urge 3 needs to be truly heard, not just laughed with, while Fire feelings get bored without stimulation. From time to time you only want fun, and sometimes you may want someone to listen beneath the cheerful surface."
+      },
+      "question": {
+        "vi": "Bạn muốn ai nghe điều gì nằm phía sau tiếng cười của mình?",
+        "en": "Who would you like to hear what lies behind your laughter?"
+      }
+    },
+    "fire.4": {
+      "meet": {
+        "vi": "Lửa tìm cách xả năng lượng bằng hành động, số linh hồn 4 tìm một nền vững có trật tự: hai điều ấy gặp nhau ở một việc có nếp để đổ sức vào. Bạn có thể thấy dễ chịu khi sức nóng có chỗ đi.",
+        "en": "Fire looks to release energy through action and soul urge 4 looks for a solid, orderly ground; they meet in a task with a shape to pour effort into. You may feel better when the heat has somewhere to go."
+      },
+      "differ": {
+        "vi": "Cảm xúc Lửa thích bùng lên bất chợt, nhưng số linh hồn 4 muốn mọi thứ đoán trước được. Có lúc bạn bực khi kế hoạch bị phá, có lúc chính bạn có thể là người phá nó.",
+        "en": "Fire feelings like to flare unexpectedly, but soul urge 4 wants things to be predictable. At times you are irritated when a plan is broken, and at times you may be the one who breaks it."
+      },
+      "question": {
+        "vi": "Khi mọi thứ lệch kế hoạch, cảm xúc đầu tiên của bạn là gì và nó muốn bạn làm gì?",
+        "en": "When things drift from the plan, what is your first feeling and what does it want you to do?"
+      }
+    },
+    "fire.5": {
+      "meet": {
+        "vi": "Lửa cần cảm thấy mình đang sống, số linh hồn 5 mong tự do và đổi mới, và cả hai đều không chịu đứng yên. Bạn có thể thấy ngột ngạt khá nhanh khi bị buộc ở một chỗ quá lâu.",
+        "en": "Fire needs to feel alive and soul urge 5 longs for freedom and renewal, and neither likes standing still. You may feel stifled fairly quickly when tied to one place for too long."
+      },
+      "differ": {
+        "vi": "Cảm xúc Lửa muốn cảm cho rõ và mạnh, còn số linh hồn 5 muốn có nhiều thứ để cảm. Đôi khi bạn có thể chuyển sang điều mới khi cảm xúc cũ còn chưa nói hết lời.",
+        "en": "Fire feelings want to feel clearly and strongly, while soul urge 5 wants many things to feel. Now and then you may move to something new while the old feeling is still unfinished."
+      },
+      "question": {
+        "vi": "Khi đi tìm điều mới, bạn đang hướng tới cảm giác nào?",
+        "en": "When you go looking for something new, which feeling are you moving toward?"
+      }
+    },
+    "fire.6": {
+      "meet": {
+        "vi": "Một bên là hơi ấm dốc hết mình của Lửa, một bên là mong muốn được chăm sóc và chăm sóc người khác của số linh hồn 6. Nhiều lúc bạn có thể rất cần một mái ấm nơi mình được là mình.",
+        "en": "On one side, the wholehearted warmth of Fire; on the other, soul urge 6's wish to be cared for and to care. At times you may greatly need a home where you can be yourself."
+      },
+      "differ": {
+        "vi": "Số linh hồn 6 muốn giữ sự hòa trong nhà, còn cảm xúc Lửa muốn bộc lộ cái nóng thật. Thỉnh thoảng bạn có thể cân nhắc kỹ trước khi để lộ cơn bực, có thể vì không muốn làm tổn thương người mình thương.",
+        "en": "Soul urge 6 wants to keep peace at home, while Fire feelings want to show the real heat. From time to time you may think carefully before showing irritation, perhaps out of care not to hurt someone you love."
+      },
+      "question": {
+        "vi": "Ở nơi bạn thấy thân thuộc, có điều gì bạn muốn nói rõ hơn không?",
+        "en": "In the place where you feel at home, is there something you would like to say more clearly?"
+      }
+    },
+    "fire.7": {
+      "meet": {
+        "vi": "Điều cảm xúc Lửa cần là bộc phát và rõ ràng; điều số linh hồn 7 mong là im lặng và hiểu cho thấu. Bạn có thể cần một khoảng riêng để cơn nóng lắng xuống và nhìn rõ nó.",
+        "en": "What Fire feelings need is to be spontaneous and clear; what soul urge 7 longs for is silence and deep understanding. You may need a space of your own for the heat to settle so you can see it clearly."
+      },
+      "differ": {
+        "vi": "Lửa muốn xả ngay; số linh hồn 7 muốn nghĩ cho thấu rồi mới mở lời. Người khác có thể thấy bạn đột ngột nóng rồi lại đột ngột lặng.",
+        "en": "Fire wants to release at once; soul urge 7 wants to think it through before speaking. Others may see you suddenly heat up and then suddenly fall quiet."
+      },
+      "question": {
+        "vi": "Sau khi cơn nóng qua, bạn thấy còn lại điều gì cần được hiểu?",
+        "en": "After the heat passes, what remains that needs to be understood?"
+      }
+    },
+    "fire.8": {
+      "meet": {
+        "vi": "Khi cảm xúc Lửa cần được ghi nhận và số linh hồn 8 mong tạo ra điều có sức nặng, hai điều ấy gặp nhau ở việc được coi trọng. Có thể bạn thấy yên lòng khi việc mình làm được người khác nhìn nhận nghiêm túc.",
+        "en": "When Fire feelings need acknowledgement and soul urge 8 longs to make something with weight, they meet in being taken seriously. Perhaps you feel at peace when what you do is regarded seriously by others."
+      },
+      "differ": {
+        "vi": "Một bên, cảm xúc Lửa cần được đáp lại ngay; bên kia, số linh hồn 8 chịu được đường dài để chờ kết quả. Có lúc bạn có thể khó chịu vì sự ghi nhận đến chậm hơn điều bạn mong.",
+        "en": "On one side, Fire feelings need a quick response; on the other, soul urge 8 can bear the long road while waiting for results. At times you may feel unsettled because recognition arrives later than you hoped."
+      },
+      "question": {
+        "vi": "Điều gì khiến bạn thấy mình được coi trọng thật sự, ngoài những thành tích?",
+        "en": "What makes you feel genuinely valued, beyond your achievements?"
+      }
+    },
+    "fire.9": {
+      "meet": {
+        "vi": "Lửa trong cảm xúc muốn dốc nhiệt cho điều mình tin; số linh hồn 9 mong cho đi và thấy ý nghĩa. Lòng bạn có thể bừng lên khi thấy mình góp được cho điều lớn hơn bản thân.",
+        "en": "Fire in your feelings wants to pour heat into what you believe in; soul urge 9 longs to give and find meaning. Your heart may blaze up when you see you are contributing to something larger than yourself."
+      },
+      "differ": {
+        "vi": "Lửa trong cảm xúc dễ cạn sức khi cho đi quá nhanh, trong khi số linh hồn 9 khó từ chối điều cần giúp. Bạn có thể bị kéo giữa việc dốc hết và việc giữ lại ít lửa cho chính mình.",
+        "en": "Fire in your feelings can run low when giving too fast, while soul urge 9 finds it hard to refuse a need for help. You may be pulled between giving everything and keeping a little flame for yourself."
+      },
+      "question": {
+        "vi": "Điều bạn muốn góp vào là gì, và bao nhiêu sức thì vừa với bạn?",
+        "en": "What do you want to contribute to, and how much of your strength is the right amount for you?"
+      }
+    },
+    "earth.1": {
+      "meet": {
+        "vi": "Số linh hồn 1 mong tự chọn hướng đi, còn cảm xúc kiểu Đất cần nhịp đều và một chốn yên. Bạn có thể thấy vững nhất khi tự sắp đời mình theo cách mình đã chọn.",
+        "en": "Soul urge 1 longs to choose its own direction, and Earth feelings need an even rhythm and a calm place. You may feel most grounded when you arrange your life in a way you chose."
+      },
+      "differ": {
+        "vi": "Cảm xúc Đất tìm an ủi trong điều quen thuộc, còn số linh hồn 1 muốn bứt khỏi lối cũ. Bạn có thể bị kéo giữa việc nép vào nếp đã có và việc đi theo một lối của riêng mình.",
+        "en": "Earth feelings look for comfort in the familiar, while soul urge 1 wants to break from the old way. You may be pulled between tucking into the routine you have and following a path of your own."
+      },
+      "question": {
+        "vi": "Nếp nào bạn đang giữ vì thói quen, và nếp nào bạn thật sự chọn?",
+        "en": "Which routine are you keeping out of habit, and which have you truly chosen?"
+      }
+    },
+    "earth.2": {
+      "meet": {
+        "vi": "Về cảm xúc, Đất cần sự ổn định; về mong muốn bên trong, số linh hồn 2 hướng tới sự gần gũi dịu dàng. Lòng bạn có thể ấm lên nhờ sự có mặt đều đặn: một người ở cạnh, một buổi gặp quen.",
+        "en": "In feeling, Earth needs stability; in the inner wish, soul urge 2 turns toward gentle closeness. Your heart may warm through steady presence: someone beside you, a familiar meeting."
+      },
+      "differ": {
+        "vi": "Phần Đất trong cảm xúc mở lòng chậm, trong khi số linh hồn 2 muốn được hiểu. Người ngoài có thể thấy bạn xa hơn điều bạn thật sự cảm.",
+        "en": "The Earth part of your feelings opens slowly, while soul urge 2 wants to be understood. Others may see you as more distant than you really feel."
+      },
+      "question": {
+        "vi": "Bạn cần thêm thời gian để mở lòng, hay cần ai đó hỏi đúng câu?",
+        "en": "Do you need more time to open up, or someone who asks the right question?"
+      }
+    },
+    "earth.3": {
+      "meet": {
+        "vi": "Đất tìm sự thoải mái qua giác quan, số linh hồn 3 tìm niềm vui và được lắng nghe: hai điều ấy gặp nhau ở những phút nhỏ có hương vị. Có thể bạn vui nhất trong những lúc như bữa ngon hay câu đùa quen.",
+        "en": "Earth looks for comfort through the senses and soul urge 3 looks for joy and being heard; they meet in small moments with flavour. Perhaps you are happiest in moments such as a good meal or a familiar joke."
+      },
+      "differ": {
+        "vi": "Cảm xúc Đất muốn giữ nhịp ổn, còn số linh hồn 3 thích bung ra. Đôi khi bạn muốn ngồi yên với thứ quen, có lúc lại muốn bay.",
+        "en": "Earth feelings want to keep a steady pace, while soul urge 3 likes to burst out. Now and then you want to sit quietly with the familiar, and sometimes you want to fly."
+      },
+      "question": {
+        "vi": "Niềm vui nhỏ nào lặp lại mỗi tuần mà bạn thật sự mong?",
+        "en": "Which small joy repeats each week that you truly look forward to?"
+      }
+    },
+    "earth.4": {
+      "meet": {
+        "vi": "Đất cần một nền chắc để dựa vào, số linh hồn 4 cũng mong một nền vững có trật tự, và hai bên cùng nghiêng về sự ổn định. Lòng bạn có thể yên khi thấy mọi thứ có chỗ của nó.",
+        "en": "Earth needs firm ground to lean on and soul urge 4 also longs for a solid, orderly ground, so both lean toward stability. Your heart may settle when you see everything has its place."
+      },
+      "differ": {
+        "vi": "Phần Đất trong cảm xúc tìm sự dễ chịu trong cảm giác, nhưng số linh hồn 4 tìm nó trong quy củ. Có lúc nhà cửa ngăn nắp mà lòng vẫn chưa yên, và điều thiếu có thể không nằm ở trật tự.",
+        "en": "The Earth part of your feelings looks for ease in sensation, but soul urge 4 looks for it in structure. Sometimes the home is tidy and the heart is still unsettled, and what is missing may not be order."
+      },
+      "question": {
+        "vi": "Nếu có lúc mọi thứ ngăn nắp mà lòng vẫn chưa yên, bạn nghĩ điều gì còn thiếu?",
+        "en": "If there are times when everything is in order and your heart is still unsettled, what do you think is missing?"
+      }
+    },
+    "earth.5": {
+      "meet": {
+        "vi": "Một bên là chốn để quay về của Đất, một bên là tự do và trải nghiệm của số linh hồn 5. Bạn có thể thích đi xa khi biết mình có nơi để về.",
+        "en": "On one side, Earth's place to return to; on the other, soul urge 5's freedom and experience. You may enjoy going far when you know there is somewhere to come home to."
+      },
+      "differ": {
+        "vi": "Phần Đất trong cảm xúc muốn giữ chỗ đứng, trong khi số linh hồn 5 muốn không bị trói. Bạn có thể bị kéo giữa việc ở lại cho yên và việc đi cho thoáng.",
+        "en": "The Earth part of your feelings wants to keep their footing, while soul urge 5 wants not to be tied down. You may be pulled between staying for peace and going for air."
+      },
+      "question": {
+        "vi": "Chỗ về cần có điều gì để bạn thấy yên khi đi xa?",
+        "en": "What does your place to return to need to have for you to feel at ease when you travel far?"
+      }
+    },
+    "earth.6": {
+      "meet": {
+        "vi": "Điều cảm xúc Đất cần là cụ thể và chạm được; điều số linh hồn 6 mong là chăm sóc và được thuộc về. Lòng bạn có thể no ấm khi chăm ai đó bằng những việc nhỏ đều đặn.",
+        "en": "What Earth feelings need is something concrete and tangible; what soul urge 6 longs for is to care and to belong. Your heart may feel full when you look after someone through small steady tasks."
+      },
+      "differ": {
+        "vi": "Số linh hồn 6 hướng về nhu cầu của người khác, còn cảm xúc Đất muốn giữ nhịp riêng. Thỉnh thoảng bạn có thể lo cho người đến mức quên phần nghỉ của mình.",
+        "en": "Soul urge 6 turns toward other people's needs, while Earth feelings want to keep their own pace. From time to time you may look after others so much that you overlook your own rest."
+      },
+      "question": {
+        "vi": "Hôm nay, việc cụ thể nào có thể là một cách chăm cho chính bạn?",
+        "en": "Today, what concrete thing could be a way of looking after yourself?"
+      }
+    },
+    "earth.7": {
+      "meet": {
+        "vi": "Khi cảm xúc Đất cần sự yên tĩnh ở một nơi quen và số linh hồn 7 mong im lặng để hiểu cho thấu, hai điều ấy gặp nhau ở khoảng riêng. Bạn có thể cần nhiều thời gian một mình, ở một chỗ bạn thuộc lòng.",
+        "en": "When Earth feelings need quiet in a familiar place and soul urge 7 longs for silence and deep understanding, they meet in private space. You may need plenty of time alone, in a spot you know by heart."
+      },
+      "differ": {
+        "vi": "Cảm xúc Đất cần chạm vào thực tế như ăn, đi, làm bằng tay; số linh hồn 7 muốn rút vào trong đầu. Có lúc bạn cần bước ra khỏi suy nghĩ để vào lại ngày thường.",
+        "en": "Earth feelings need contact with the real, like eating, walking, working with the hands; soul urge 7 wants to withdraw into the mind. At times you may need to step out of thought and back into ordinary day."
+      },
+      "question": {
+        "vi": "Khi đầu quá đầy, việc làm bằng tay nào giúp bạn lắng xuống?",
+        "en": "When your head is too full, which task with your hands helps you settle?"
+      }
+    },
+    "earth.8": {
+      "meet": {
+        "vi": "Đất trong cảm xúc cần cảm giác an toàn có thật; số linh hồn 8 mong tạo ra điều có sức nặng. Bạn có thể thấy yên khi mình đủ vững để gánh một phần trách nhiệm.",
+        "en": "Earth in your feelings needs a real sense of safety; soul urge 8 longs to make something with weight. You may feel at ease when you are steady enough to carry a share of responsibility."
+      },
+      "differ": {
+        "vi": "Cảm xúc Đất muốn nghỉ cho đủ, còn số linh hồn 8 muốn tiến lên. Bạn có thể bị kéo giữa việc dừng lại và việc vươn tới.",
+        "en": "Earth feelings want enough rest, while soul urge 8 wants to move forward. You may be pulled between pausing and reaching."
+      },
+      "question": {
+        "vi": "Bạn thấy mình đủ vững khi nào, và điều đó khác thế nào với việc làm được nhiều?",
+        "en": "When do you feel steady enough, and how is that different from getting a lot done?"
+      }
+    },
+    "earth.9": {
+      "meet": {
+        "vi": "Số linh hồn 9 mong cho đi và hoàn tất, còn cảm xúc kiểu Đất đón nhận mọi thứ chậm mà chắc. Bạn có thể thấy yên lòng khi cho đi và hoàn tất một việc có ích cho nhiều người, làm từng bước đều.",
+        "en": "Soul urge 9 longs to give and to complete, and Earth feelings take things in slowly and firmly. You may feel at peace when you give and finish something useful to many people, one steady step at a time."
+      },
+      "differ": {
+        "vi": "Một bên, cảm xúc Đất muốn giữ nếp; bên kia, số linh hồn 9 quen buông. Đôi khi bạn có thể khó rời điều quen, kể cả khi một chặng có vẻ đã xong.",
+        "en": "On one side, Earth feelings want to keep the routine; on the other, soul urge 9 is used to letting go. Now and then you may find it hard to leave what is familiar, even when a stretch seems to have ended."
+      },
+      "question": {
+        "vi": "Có điều quen nào mà bạn tự hỏi chặng của nó đã xong chưa?",
+        "en": "Is there something familiar where you wonder whether its stretch is over?"
+      }
+    },
+    "air.1": {
+      "meet": {
+        "vi": "Về cảm xúc, Khí hiểu mình bằng cách nghĩ và nói ra; về mong muốn bên trong, số linh hồn 1 hướng tới việc tự chủ hướng đi. Bạn có thể cần khoảng thoáng để tự nghĩ và tự chọn.",
+        "en": "In feeling, Air understands itself by thinking and speaking; in the inner wish, soul urge 1 turns toward steering its own direction. You may need open space to think and choose on your own."
+      },
+      "differ": {
+        "vi": "Cảm xúc Khí cần trao đổi; số linh hồn 1 cần tự quyết. Có lúc trò chuyện làm bạn rõ ra, có lúc nó có thể khiến bạn rối vì quá nhiều ý.",
+        "en": "Air feelings need exchange; soul urge 1 needs to decide alone. Sometimes talking makes you clearer, and sometimes it may muddle you with too many opinions."
+      },
+      "question": {
+        "vi": "Với một chuyện đang cần nghĩ, bạn cần hỏi ý ai hay cần tự nghĩ trước?",
+        "en": "With something you are working out, do you need to ask someone or to think on your own first?"
+      }
+    },
+    "air.2": {
+      "meet": {
+        "vi": "Khí hiểu mình qua trò chuyện, số linh hồn 2 mong kết nối và được hiểu: hai điều ấy gặp nhau ở lời nói. Có thể bạn rất cần một người hiểu mình bằng lời.",
+        "en": "Air understands itself through conversation and soul urge 2 longs for connection and being understood; they meet in words. Perhaps you greatly need someone who understands you through what is said."
+      },
+      "differ": {
+        "vi": "Cảm xúc Khí cần chỗ thoáng, còn số linh hồn 2 cần sự gần. Bạn có thể bị kéo giữa nhu cầu được ở gần và nhu cầu có không gian.",
+        "en": "Air feelings need open space, while soul urge 2 needs closeness. You may be pulled between the need to be near and the need for room."
+      },
+      "question": {
+        "vi": "Khi có người muốn gần hơn, điều gì làm bạn thở nhẹ và điều gì làm bạn hơi chật?",
+        "en": "When someone wants to be closer, what lets you breathe easily and what makes you feel a bit hemmed in?"
+      }
+    },
+    "air.3": {
+      "meet": {
+        "vi": "Khí cần sự nhẹ nhàng và được nói ra, số linh hồn 3 mong niềm vui và được lắng nghe, và cả hai cùng thích có người để trò chuyện. Lòng bạn có thể cần bạn bè, tiếng cười và những cuộc nói chuyện làm mình nhẹ đi.",
+        "en": "Air needs lightness and being able to say things aloud, and soul urge 3 longs for joy and being heard; both like having someone to talk with. Your heart may need friends, laughter and conversations that lighten you."
+      },
+      "differ": {
+        "vi": "Số linh hồn 3 ưa giữ không khí vui, còn cảm xúc Khí dễ nói về cảm xúc một cách nhẹ nhàng. Có lúc lời nói nhẹ hơn điều bạn đang nghĩ, và đôi khi như vậy cũng ổn.",
+        "en": "Soul urge 3 likes to keep the mood cheerful, while Air feelings can talk about feeling lightly. At times the words are lighter than what you are thinking, and sometimes that is fine."
+      },
+      "question": {
+        "vi": "Khi bạn đùa về một điều, có phần nào trong đó bạn muốn được nghe nghiêm túc không?",
+        "en": "When you joke about something, is there a part you would like to be heard seriously?"
+      }
+    },
+    "air.4": {
+      "meet": {
+        "vi": "Một bên là hiểu rồi mới yên của Khí, một bên là trật tự và nền vững của số linh hồn 4. Lòng bạn có thể dịu đi khi viết ra, lập danh sách hay đặt tên cho điều mình cảm.",
+        "en": "On one side, Air's need to understand before settling; on the other, soul urge 4's order and solid ground. Your heart may soften when you write things down, make a list or put a name to what you feel."
+      },
+      "differ": {
+        "vi": "Phần Khí trong cảm xúc thích đổi góc nhìn, nhưng số linh hồn 4 muốn một khung cố định. Thỉnh thoảng bạn muốn gọi tên cảm xúc cho gọn, có lúc nó vượt khỏi mọi ô đã chuẩn bị.",
+        "en": "The Air part of your feelings likes to change angle, but soul urge 4 wants a fixed frame. From time to time you want to name a feeling neatly, and sometimes it overflows every box you prepared."
+      },
+      "question": {
+        "vi": "Có cảm xúc nào chưa nằm gọn trong chữ nào mà bạn có thể ngồi cùng, chưa cần gọi tên?",
+        "en": "Is there a feeling that does not fit into any word yet, one you could sit with without naming it?"
+      }
+    },
+    "air.5": {
+      "meet": {
+        "vi": "Điều cảm xúc Khí cần là sự đa dạng; điều số linh hồn 5 mong là tự do và đổi mới. Bạn có thể thấy thoải mái khi có nhiều người, nhiều ý và nhiều nơi để đến.",
+        "en": "What Air feelings need is variety; what soul urge 5 longs for is freedom and renewal. You may feel at ease with many people, many ideas and many places to go."
+      },
+      "differ": {
+        "vi": "Phần Khí trong cảm xúc tìm cách hiểu bằng đầu óc, nhưng số linh hồn 5 tìm cảm giác mới bằng trải nghiệm. Có lúc việc đổi nhanh cũng là một cách để thử cảm giác mới.",
+        "en": "The Air part of your feelings looks to understand with the mind, but soul urge 5 looks for new sensation through experience. At times switching quickly is also a way of trying a new sensation."
+      },
+      "question": {
+        "vi": "Khi chán, bạn đang muốn điều mới, hay muốn một điều quen theo cách khác?",
+        "en": "When you are bored, do you want something new, or something familiar in a different way?"
+      }
+    },
+    "air.6": {
+      "meet": {
+        "vi": "Khi cảm xúc Khí cần bày tỏ quan tâm bằng lời và số linh hồn 6 mong chăm sóc và được thuộc về, hai điều ấy gặp nhau ở những cuộc nói chuyện ấm. Có thể bạn ấm lên bởi một cuộc trò chuyện giản dị với người thân.",
+        "en": "When Air feelings need to show care in words and soul urge 6 longs to care and to belong, they meet in warm conversation. Perhaps you warm up at a simple conversation with someone close."
+      },
+      "differ": {
+        "vi": "Số linh hồn 6 gắn bạn với người gần, còn cảm xúc Khí cần khoảng cách để suy nghĩ. Có lúc bạn muốn lùi ra một chút và có thể thấy có lỗi về điều đó.",
+        "en": "Soul urge 6 binds you to those close, while Air feelings need distance to think. At times you may want to step back a little and feel guilty about it."
+      },
+      "question": {
+        "vi": "Nếu bạn muốn một khoảng riêng, nó trông như thế nào?",
+        "en": "If you wanted some space of your own, what would it look like?"
+      }
+    },
+    "air.7": {
+      "meet": {
+        "vi": "Khí trong cảm xúc cần ý tưởng và chỗ để nghĩ; số linh hồn 7 mong im lặng và hiểu cho thấu. Bạn có thể thích đọc, đặt câu hỏi và thấy yên khi có chỗ để nghĩ.",
+        "en": "Air in your feelings needs ideas and room to think; soul urge 7 longs for silence and deep understanding. You may enjoy reading and asking questions and feel settled when you have room to think."
+      },
+      "differ": {
+        "vi": "Phần Khí trong cảm xúc thích trao đổi, trong khi số linh hồn 7 thích im. Đôi khi bạn muốn bàn cho rõ, có lúc muốn giữ suy nghĩ cho riêng mình.",
+        "en": "The Air part of your feelings likes exchange, while soul urge 7 likes silence. Now and then you want to talk it out, and sometimes you want to keep your thoughts to yourself."
+      },
+      "question": {
+        "vi": "Nếu có suy nghĩ bạn chưa muốn chia sẻ, nó đang cần thêm điều gì?",
+        "en": "If there is a thought you do not want to share yet, what does it still need?"
+      }
+    },
+    "air.8": {
+      "meet": {
+        "vi": "Số linh hồn 8 mong tạo ra điều có sức nặng, còn cảm xúc kiểu Khí cần nhìn mọi chuyện cho rõ. Lòng bạn có thể yên khi có một kế hoạch rõ và hiểu được cục diện.",
+        "en": "Soul urge 8 longs to make something with weight, and Air feelings need to see things clearly. Your heart may settle when there is a clear plan and you understand the situation."
+      },
+      "differ": {
+        "vi": "Một bên, cảm xúc Khí cần tách ra một chút để nhìn; bên kia, số linh hồn 8 muốn một nền vững để đứng. Có lúc lý lẽ giúp bạn bình tĩnh, và có lúc bạn có thể muốn nghe thêm điều lòng mình nói.",
+        "en": "On one side, Air feelings need to step back a little to look; on the other, soul urge 8 wants firm ground to stand on. At times reasoning calms you, and at times you may want to hear more of what your heart says."
+      },
+      "question": {
+        "vi": "Khi bạn giải thích một chuyện bằng lý lẽ, lòng bạn có đang nói thêm điều gì không?",
+        "en": "When you explain something with reasons, is your heart saying anything more?"
+      }
+    },
+    "air.9": {
+      "meet": {
+        "vi": "Về cảm xúc, Khí nhìn ý nghĩa từ một khoảng xa; về mong muốn bên trong, số linh hồn 9 hướng tới cho đi và thấy ý nghĩa. Bạn có thể yên lòng khi nói được điều đúng với nhiều người và kết nối họ.",
+        "en": "In feeling, Air sees meaning from a little distance; in the inner wish, soul urge 9 turns toward giving and finding meaning. You may feel settled when you can say something true for many people and connect them."
+      },
+      "differ": {
+        "vi": "Cảm xúc Khí giữ chút khoảng cách, còn số linh hồn 9 dễ ôm nỗi chung. Thỉnh thoảng bạn có thể bàn nỗi chung rất rõ trong khi nỗi riêng chưa cần được nói ra.",
+        "en": "Air feelings keep a little distance, while soul urge 9 readily embraces shared sorrow. From time to time you may discuss shared pain very clearly while your own does not need to be spoken yet."
+      },
+      "question": {
+        "vi": "Nếu một người bạn đang buồn, bạn nói gì với họ, và bạn muốn nói gì với chính mình?",
+        "en": "If a friend were feeling sad, what would you say to them, and what would you like to say to yourself?"
+      }
+    },
+    "water.1": {
+      "meet": {
+        "vi": "Nước cảm sâu và kín, số linh hồn 1 mong tự đứng và tự chọn: hai điều ấy gặp nhau ở quyền riêng tư. Có thể bạn cần cảm xúc của mình được tôn trọng như thứ của riêng mình.",
+        "en": "Water feels deeply and privately, and soul urge 1 longs to stand and choose on its own; they meet in the right to privacy. Perhaps you need your feelings respected as something that is yours alone."
+      },
+      "differ": {
+        "vi": "Một bên, cảm xúc Nước dễ mềm đi theo người khác; bên kia, số linh hồn 1 muốn đứng vững một mình. Bạn có thể bị kéo giữa việc hòa vào và việc giữ lấy mình.",
+        "en": "On one side, Water feelings easily soften toward others; on the other, soul urge 1 wants to stand firm alone. You may be pulled between merging and holding on to yourself."
+      },
+      "question": {
+        "vi": "Nếu có lúc bạn thấy mình tan vào cảm xúc của ai đó, điều gì giúp bạn trở về với chính mình?",
+        "en": "If there are times you find yourself dissolving into someone else's feelings, what helps you come back to yourself?"
+      }
+    },
+    "water.2": {
+      "meet": {
+        "vi": "Nước cần sự gần gũi an toàn, số linh hồn 2 mong hòa hợp và được hiểu, và cả hai cùng hướng về một người hiểu mà không cần giải thích nhiều. Bạn có thể rất cần có người như thế bên cạnh.",
+        "en": "Water needs safe closeness and soul urge 2 longs for harmony and being understood, and both turn toward someone who understands without much explaining. You may greatly need such a person beside you."
+      },
+      "differ": {
+        "vi": "Phần Nước trong cảm xúc giữ kín cho đến khi thấy an toàn, trong khi số linh hồn 2 muốn hòa với người. Có lúc bạn chờ người ta tới gần, và họ có thể không biết bạn đang chờ.",
+        "en": "The Water part of your feelings stays closed until it feels safe, while soul urge 2 wants to blend with others. Sometimes you wait for people to come near, and they may not know you are waiting."
+      },
+      "question": {
+        "vi": "Nếu có lúc bạn chờ ai đó đoán ra điều mình cần, điều gì khiến việc nói ra khó hơn?",
+        "en": "If there are times you wait for someone to guess what you need, what makes saying it harder?"
+      }
+    },
+    "water.3": {
+      "meet": {
+        "vi": "Một bên là nơi để cảm xúc chảy của Nước, một bên là biểu đạt và được lắng nghe của số linh hồn 3. Bạn có thể nhẹ lòng khi cảm xúc ra ngoài qua chữ, giai điệu hay hình vẽ.",
+        "en": "On one side, Water's need for somewhere for feeling to flow; on the other, soul urge 3's wish to express and be heard. You may feel lighter when feeling comes out through words, melody or drawing."
+      },
+      "differ": {
+        "vi": "Cảm xúc Nước thích giữ riêng; số linh hồn 3 muốn được nghe thấy. Bạn có thể bị kéo giữa việc giữ riêng và việc bước ra.",
+        "en": "Water feelings like to stay private; soul urge 3 wants to be heard. You may be pulled between keeping it private and stepping out."
+      },
+      "question": {
+        "vi": "Hình thức nào, chữ, giai điệu hay hình vẽ, giúp cảm xúc của bạn ra ngoài mà bạn vẫn thấy an toàn?",
+        "en": "Which form, words, melody or drawing, lets your feelings out while you still feel safe?"
+      }
+    },
+    "water.4": {
+      "meet": {
+        "vi": "Điều cảm xúc Nước cần là cảm giác an toàn; điều số linh hồn 4 mong là một nền vững. Lòng bạn có thể yên khi có nơi chốn quen, nếp đều và những người đáng tin.",
+        "en": "What Water feelings need is a sense of safety; what soul urge 4 longs for is solid ground. Your heart may settle with a familiar place, a steady routine and people you can rely on."
+      },
+      "differ": {
+        "vi": "Phần Nước trong cảm xúc dâng lên không theo lịch, nhưng số linh hồn 4 muốn mọi thứ đoán trước được. Có lúc cảm xúc tràn vào đúng ngày bạn đã xếp kín.",
+        "en": "The Water part of your feelings rises without a schedule, but soul urge 4 wants things to be predictable. Sometimes feeling floods in on exactly the day you filled to the brim."
+      },
+      "question": {
+        "vi": "Trong lịch của bạn có chỗ nào để cảm xúc được ngồi xuống không?",
+        "en": "Is there a place in your schedule where feeling can sit down?"
+      }
+    },
+    "water.5": {
+      "meet": {
+        "vi": "Khi cảm xúc Nước muốn cảm nhận trọn vẹn và số linh hồn 5 mong tự do trải nghiệm, hai điều ấy gặp nhau ở những điều mới làm lòng rung lên. Bạn có thể bị hấp dẫn bởi nơi mới, người mới hay một bản nhạc làm mình xao động.",
+        "en": "When Water feelings want to feel fully and soul urge 5 longs for the freedom to experience, they meet in new things that stir the heart. You may be drawn to a new place, a new person or a piece of music that moves you."
+      },
+      "differ": {
+        "vi": "Cảm xúc Nước muốn gắn sâu với ai đó, còn số linh hồn 5 muốn nhẹ và thoáng. Đôi khi bạn muốn bám lấy, có lúc muốn bay đi.",
+        "en": "Water feelings want to bond deeply, while soul urge 5 wants to be light and open. Now and then you want to cling and sometimes you want to fly off."
+      },
+      "question": {
+        "vi": "Điều gì làm bạn thấy đủ gần mà vẫn đủ tự do?",
+        "en": "What makes you feel close enough and still free enough?"
+      }
+    },
+    "water.6": {
+      "meet": {
+        "vi": "Nước trong cảm xúc cần được che chở và đồng cảm; số linh hồn 6 mong chăm và thuộc về. Có thể bạn ấm lên khi trong nhà hay trong nhóm có sự quan tâm thật giữa mọi người.",
+        "en": "Water in your feelings needs to be sheltered and understood; soul urge 6 longs to care and belong. Perhaps you warm up when there is real concern among people at home or in a group."
+      },
+      "differ": {
+        "vi": "Phần Nước trong cảm xúc cần được ôm, nhưng số linh hồn 6 quen là người ôm. Bạn có thể quen là nơi trú cho người khác mà vẫn cần một chỗ để trú.",
+        "en": "The Water part of your feelings needs to be held, but soul urge 6 is used to being the one who holds. You may be used to being a shelter for others and still need a place to shelter."
+      },
+      "question": {
+        "vi": "Ai là người bạn có thể dựa vào mà không cần giữ vai người mạnh?",
+        "en": "Who can you lean on without having to play the strong one?"
+      }
+    },
+    "water.7": {
+      "meet": {
+        "vi": "Số linh hồn 7 mong khoảng lặng để hiểu cho thấu, còn cảm xúc kiểu Nước cần chiều sâu. Bạn có thể rất cần thời gian một mình để nghe thấy điều mình thật sự cảm.",
+        "en": "Soul urge 7 longs for stillness in which to understand deeply, and Water feelings need depth. You may greatly need time alone to hear what you truly feel."
+      },
+      "differ": {
+        "vi": "Số linh hồn 7 muốn giữ phần mình cho riêng, còn cảm xúc Nước muốn được ai đó thấu. Thỉnh thoảng bạn mong được hiểu mà có thể chưa mở cửa cho ai bước vào.",
+        "en": "Soul urge 7 wants to keep its share private, while Water feelings want someone to understand them. From time to time you may long to be understood without yet opening the door for anyone."
+      },
+      "question": {
+        "vi": "Có điều gì bạn muốn ai đó hiểu về mình, và bạn muốn kể theo cách nào?",
+        "en": "Is there something you would like someone to understand about you, and how would you like to tell it?"
+      }
+    },
+    "water.8": {
+      "meet": {
+        "vi": "Về cảm xúc, Nước cảm nhận người và không khí xung quanh; về mong muốn bên trong, số linh hồn 8 hướng tới tạo ra điều có sức nặng. Lòng bạn có thể muốn dùng sự nhạy cảm của mình để làm một việc có ý nghĩa.",
+        "en": "In feeling, Water senses people and the atmosphere around; in the inner wish, soul urge 8 turns toward making something with weight. Your heart may want to use your sensitivity to do something meaningful."
+      },
+      "differ": {
+        "vi": "Cảm xúc Nước dễ tổn thương một cách lặng lẽ; số linh hồn 8 trông vững vàng bên ngoài. Người ngoài có thể thấy bạn mạnh hơn điều bạn đang cảm.",
+        "en": "Water feelings can be hurt quietly; soul urge 8 looks steady on the outside. Others may see you as stronger than what you are feeling."
+      },
+      "question": {
+        "vi": "Nếu có điều bạn đang cảm mà người ngoài khó thấy qua vẻ vững vàng, bạn muốn ai biết về nó?",
+        "en": "If there is something you feel that is hard to see through your steady look, who would you want to know about it?"
+      }
+    },
+    "water.9": {
+      "meet": {
+        "vi": "Nước đồng cảm sâu, số linh hồn 9 mong cho đi và thấy ý nghĩa: hai điều ấy gặp nhau ở việc giúp được một ai đó. Lòng bạn có thể ấm lên khi sự nhạy cảm của mình giúp được người khác.",
+        "en": "Water empathises deeply and soul urge 9 longs to give and find meaning; they meet in helping someone. Your heart may warm when your sensitivity helps another person."
+      },
+      "differ": {
+        "vi": "Cảm xúc Nước ngấm và giữ lâu; số linh hồn 9 muốn buông. Có lúc bạn có thể khó rời một cảm xúc nặng, của mình hay của người khác.",
+        "en": "Water feelings soak in and hold on for long; soul urge 9 wants to release. At times you may find it hard to leave behind a heavy feeling, whether your own or someone else's."
+      },
+      "question": {
+        "vi": "Nếu có điều gì bạn đang mang hộ ai đó, bạn muốn làm gì với nó hôm nay?",
+        "en": "If there is something you are carrying on behalf of someone, what would you like to do with it today?"
+      }
+    }
+  }
+}

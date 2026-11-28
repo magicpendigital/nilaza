@@ -172,6 +172,7 @@ import { previousDayKey, visibleStreak } from "./src/features/home/streak";
 import { CardLibrary } from "./src/features/tarot/CardLibrary";
 import { ExploreHome } from "./src/features/explore/ExploreHome";
 import { NumerologyScreen } from "./src/features/numerology/NumerologyScreen";
+import { loadSavedName } from "./src/features/numerology/store";
 import { BookQuoteScreen } from "./src/features/bookQuote/BookQuoteScreen";
 import { BOOK_QUOTE_FEATURE_ID, availableBookQuoteBooks, bookQuoteBookForPersona, bookQuoteHandoff, bookQuoteText, bookQuoteTitle, homeBookQuote, type BookQuoteBookId, type BookQuoteOfDay } from "./src/features/bookQuote/content";
 import personaShortNamesData from "../../packages/content/data/persona-short-names.json";
@@ -209,6 +210,7 @@ function personaTagline(persona: Persona, language: Language) {
 const learnedTarotCardsKey = "nilaza.learnedTarotCards.v1";
 import { ProfileHome } from "./src/features/profile/ProfileHome";
 import { WhoAmI } from "./src/features/profile/WhoAmI";
+import { TwoSystems } from "./src/features/profile/TwoSystems";
 import { useSavedCharts } from "./src/features/profile/useSavedCharts";
 import { BirthDateFields } from "./src/features/astrology/BirthFields";
 import { DeleteAccountPanel } from "./src/features/profile/DeleteAccountPanel";
@@ -6308,6 +6310,10 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                 onMakeChart={() => startAstrology("hub")}
                 onOpenNumerology={() => navigate("numerology")}
                 onWriteJournal={() => { setJournalEntryToOpen(null); navigate("journal"); }}
+                onWriteJournalPrompt={(prompt) => { setJournalPrompt(prompt); setJournalEntryToOpen(null); navigate("journal"); }}
+                twoSystemsPremium={displayedTier === "premium"}
+                // The birth name saved for the Number Map (account storage only); never the display name.
+                loadNumerologyName={scope.userId ? () => loadSavedName(storage) : undefined}
                 onDeleteSavedChart={(chart) => requestConfirmation({
                   title: language === "vi" ? "Xóa lá số này?" : "Delete this chart?",
                   body: language === "vi"
@@ -9080,6 +9086,9 @@ function ProfileScreen({
   onMakeChart,
   onOpenNumerology,
   onWriteJournal,
+  onWriteJournalPrompt,
+  twoSystemsPremium,
+  loadNumerologyName,
   memberSince,
   readingsCount,
   dailyReminder,
@@ -9190,17 +9199,23 @@ function ProfileScreen({
   onMakeChart: () => void;
   onOpenNumerology?: () => void;
   onWriteJournal: () => void;
+  /** Hai hệ cùng nhìn bạn (lô H1): Journal pre-filled with the block question, the displayed tier, the saved birth name. */
+  onWriteJournalPrompt: (prompt: string) => void;
+  twoSystemsPremium: boolean;
+  loadNumerologyName?: () => Promise<string>;
   premium: PremiumState;
   premiumUserId: string | undefined;
   onSignIn?: () => void;
 }) {
   const currentTone = tones.find((tone) => tone.id === profile.tone);
   const annualPriceMath = getAnnualPriceHypothesisMath();
-  const [profileSection, setProfileSection] = useState<"overview" | "whoAmI" | "identity" | "birth" | "preferences" | "privacy" | "notifications" | "premium" | "account" | "deleteAccount">(initialSection ?? "overview");
-  const savedCharts = useSavedCharts(storage, profileSection === "whoAmI", savedChartsRevision);
-  // Sections opened from Tôi là ai go back to it; everything else goes back to the Tôi overview.
-  const [openedFromWhoAmI, setOpenedFromWhoAmI] = useState(false);
-  const openFromWhoAmI = (section: "birth" | "identity") => { setOpenedFromWhoAmI(true); setProfileSection(section); };
+  const [profileSection, setProfileSection] = useState<"overview" | "whoAmI" | "twoSystems" | "identity" | "birth" | "preferences" | "privacy" | "notifications" | "premium" | "account" | "deleteAccount">(initialSection ?? "overview");
+  const savedCharts = useSavedCharts(storage, profileSection === "whoAmI" || profileSection === "twoSystems", savedChartsRevision);
+  // Sections opened from Tôi là ai (or from Hai hệ inside it) go back there; Hai hệ goes back to Tôi là ai;
+  // everything else goes back to the Tôi overview.
+  const [returnSection, setReturnSection] = useState<"whoAmI" | "twoSystems" | null>(null);
+  const openFrom = (from: "whoAmI" | "twoSystems", section: "birth" | "identity" | "premium") => { setReturnSection(from); setProfileSection(section); };
+  const openFromWhoAmI = (section: "birth" | "identity") => openFrom("whoAmI", section);
   const hasBirthProfile = Boolean(birthDate || birthTime || birthPlace || birthTimeUnknown);
   const birthTimeLabel = birthTimeUnknown || !birthTime ? c.unknownBirthTime : birthTime;
   const selectedGoals = goals.filter((goal) => profile.goals.includes(goal.id));
@@ -9296,6 +9311,7 @@ function ProfileScreen({
   };
   const detailTitles = {
     whoAmI: language === "vi" ? "Tôi là ai" : "Who am I",
+    twoSystems: language === "vi" ? "Hai hệ cùng nhìn bạn" : "Two systems, one you",
     identity: language === "vi" ? "Danh tính & ngôn ngữ" : "Identity & language",
     birth: profileLabels.birthSection,
     preferences: profileLabels.preferences,
@@ -9339,8 +9355,8 @@ function ProfileScreen({
         />
       ) : (
         <SubflowTopBar title={detailTitles[profileSection]} onLeft={() => {
-          const back = openedFromWhoAmI && profileSection !== "whoAmI" ? "whoAmI" : "overview";
-          setOpenedFromWhoAmI(false);
+          const back = profileSection === "twoSystems" ? "whoAmI" : returnSection && profileSection !== "whoAmI" ? returnSection : "overview";
+          setReturnSection(null);
           setProfileSection(back);
         }} />
       )}
@@ -9361,10 +9377,28 @@ function ProfileScreen({
           onMakeChart={onMakeChart}
           onOpenNumerology={onOpenNumerology}
           onWriteJournal={onWriteJournal}
+          onOpenTwoSystems={() => setProfileSection("twoSystems")}
           onEditBirth={() => openFromWhoAmI("birth")}
           onEditName={() => openFromWhoAmI("identity")}
           onExport={onExportData}
           onClearBirth={onClearBirthProfile}
+        />
+      ) : null}
+
+      {profileSection === "twoSystems" ? (
+        <TwoSystems
+          language={language}
+          signedIn={Boolean(premiumUserId)}
+          premium={twoSystemsPremium}
+          savedCharts={savedCharts}
+          birthDate={birthDate}
+          loadSavedName={loadNumerologyName}
+          onEditBirth={() => openFrom("twoSystems", "birth")}
+          onMakeChart={onMakeChart}
+          onOpenNumerology={onOpenNumerology}
+          onOpenPremium={paywallEnabled ? () => openFrom("twoSystems", "premium") : undefined}
+          onSignIn={onSignIn}
+          onWriteJournal={onWriteJournalPrompt}
         />
       ) : null}
 

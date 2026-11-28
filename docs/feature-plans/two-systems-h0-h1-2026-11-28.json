@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "taskId": "two-systems-h0-h1-2026-11-28",
+  "ownerAgent": "mobile_agent",
+  "lane": "Content + Mobile: Hai hệ cùng nhìn bạn (H0 content blocks, H1 template-only screen)",
+  "goal": "Ship 'Hai hệ cùng nhìn bạn' as approved on 28/11/2026: two template-only axes (Sun element x root life path; Moon element x root soul urge), content drafted by agents and reviewed with nilaza-content-review, then Owner review; screen opened from Who am I, Free sees chips + meeting point, rest dimmed.",
+  "successCriteria": [
+    "packages/content/data/two-systems-blocks.json has 36 Sun pairs + 36 Moon pairs + 4 element frames per axis + UI strings, vi and en, review.status draft until the Owner approves.",
+    "validate:data checks every pair exists, vi/en present, no forbidden words, no duplicate sentences.",
+    "Who am I Premium row opens the Two systems screen; Sun axis needs a certain Sun sign and a valid birth date; Moon axis needs a certain Moon sign and a name; otherwise an invitation, never a guess.",
+    "11 and 22 use the 2 and 4 blocks plus the existing masters nuance; Free sees chips + meeting point, the rest dimmed with a Premium label, no countdown; guest sees a sign-in invitation.",
+    "No AI call, no network, nothing saved; tsc, mobile tests, validate:data and preflight pass."
+  ],
+  "writeScope": [
+    "packages/content/data/two-systems-blocks.json",
+    "scripts/validate-data.mjs",
+    "docs/content-reviews/two-systems-2026-11-28.vi.md",
+    "apps/mobile/src/features/profile/TwoSystems.tsx",
+    "apps/mobile/src/features/profile/twoSystemsModel.ts",
+    "apps/mobile/src/features/profile/WhoAmI.tsx",
+    "apps/mobile/src/features/profile/__tests__/TwoSystems.test.tsx",
+    "apps/mobile/src/features/profile/__tests__/twoSystemsModel.test.ts",
+    "apps/mobile/src/features/profile/__tests__/WhoAmI.test.tsx",
+    "apps/mobile/src/features/billing/PaywallPanel.tsx",
+    "apps/mobile/src/features/billing/__tests__/PaywallPanel.test.tsx",
+    "apps/mobile/App.tsx",
+    "apps/admin/workflow-catalog.js",
+    "docs/proposals/ASTRO_NUMEROLOGY_SYNTHESIS_TWO_SYSTEMS_PLAN_2026-11-28.vi.md",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "No SQL, no Edge Function, no AI route. Synthesis report (R0-R2) is a separate record and PR.",
+    "numerology-blocks.json and astrology content files are read only."
+  ],
+  "impact": {
+    "entryPoint": "Who am I > Premium > Hai hệ cùng nhìn bạn (was a static Coming soon row); Back returns to Who am I.",
+    "dataWrite": "None. Reads saved birth profile, saved chart and the name the person entered.",
+    "backendContract": "Unchanged: no API, Edge Function or table touched.",
+    "adminVisibility": "None; App.tsx digest in the Admin workflow catalog refreshed if App.tsx changes.",
+    "privacySafety": "Everything is computed and shown on the device; content is pre-written and reviewed; reflective wording, no prediction. Premium lock is UI-only (content ships in the app), accepted in the plan.",
+    "observability": "No new usage events in this batch.",
+    "rollback": "Revert the PR; the row returns to Coming soon."
+  },
+  "canonicalContracts": [
+    "docs/proposals/ASTRO_NUMEROLOGY_SYNTHESIS_TWO_SYSTEMS_PLAN_2026-11-28.vi.md",
+    "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Workflow and approval rules.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Workflow and approval rules.",
+      "sha256": "e508d09a9fdffc78da809a4f1449f1d77999186b9bd371870bd8582e132075e1"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Workflow and approval rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/ASTRO_NUMEROLOGY_SYNTHESIS_TWO_SYSTEMS_PLAN_2026-11-28.vi.md",
+      "reason": "Plan with Owner decisions 28/11.",
+      "sha256": "e0b7af1bec7bfa771cd8897649c963c46936548ab412d22c76d66b358dc878a4"
+    },
+    {
+      "path": "apps/mobile/src/features/profile/WhoAmI.tsx",
+      "reason": "Entry row to replace.",
+      "sha256": "df89258dc110ffc77771a6334fcff0c7465d277be7e9e094a8621ed61ee4c5e8"
+    },
+    {
+      "path": "apps/mobile/src/features/profile/whoAmIModel.ts",
+      "reason": "certainSigns and lifePathLabel reused.",
+      "sha256": "40bd1ee580177b6d89c23980c39bf54c48d842eb489ffbc1a8ecb28fe5694ced"
+    },
+    {
+      "path": "apps/mobile/src/features/numerology/calc.ts",
+      "reason": "lifePathNumber and nameNumbers reused.",
+      "sha256": "8965d234a138e9ce4f09ca1933d28b97343142615cf4e07b16aa891caf730bbc"
+    },
+    {
+      "path": "apps/mobile/src/features/billing/PaywallPanel.tsx",
+      "reason": "Coming soon list.",
+      "sha256": "f55808a0e726b5fb5a7b165eea1fe2e3696dc2dd02498e2398cb4b61227d257c"
+    },
+    {
+      "path": "scripts/validate-data.mjs",
+      "reason": "Data checks to extend.",
+      "sha256": "5ff823a92c3a08ab7d23b45610c3d5326450d467a32525bf6a293f2a6bb4f865"
+    },
+    {
+      "path": "packages/content/data/numerology-blocks.json",
+      "reason": "masters nuance reused.",
+      "sha256": "918d9cea12a8c34a18edd969c0a45f2b76507bf6c77206a5c929ba243f3d84a8"
+    },
+    {
+      "path": "packages/content/data/astrology-zodiac-guides.json",
+      "reason": "Sign elements.",
+      "sha256": "a2db3cd1f96fd09257d8c86dfd9970139134c9aa545bf6793bf4a1b9c79ea2ec"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before edits; Owner answered the 8 plan questions on 28/11."
+    },
+    {
+      "name": "nilaza-content-review",
+      "decision": "verified-current",
+      "evidence": "Used to review the new two-systems blocks before Owner review."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No package added."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No auth, RLS or server change in this batch.",
+    "sensitiveData": "No data leaves the device.",
+    "secretsLogging": "No secret read, written or logged.",
+    "externalInput": "Only local profile data.",
+    "dependencies": "No package added or upgraded.",
+    "migrationRelease": "No migration and no release in this batch; nothing written to any database.",
+    "stopCondition": "Stop before any SQL, deploy or setting change.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Branch cut from origin/main 217e158; record written before code edits; the plan doc already carries the Owner decisions section.",
+    "paths": [
+      "docs/proposals/ASTRO_NUMEROLOGY_SYNTHESIS_TWO_SYSTEMS_PLAN_2026-11-28.vi.md"
+    ]
+  },
+  "validationCommands": [
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "npm run validate:data",
+    "npm run admin:check",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Tôi → Tôi là ai → Premium → Hai hệ cùng nhìn bạn → xem trục Mặt Trời × số chủ đạo và Mặt Trăng × số linh hồn; thử khi chưa có giờ sinh, chưa nhập tên, và khi là khách.",
+  "residualRisk": "Content is AI-drafted and agent-reviewed until the Owner reads it; not tried on a phone (large text, TalkBack).",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
