@@ -43,7 +43,8 @@
     "docs/release/share-numerology-landing-2026-11-28/HANDOFF.vi.md",
     "packages/content/data/astrology-daily-sky.json",
     "PLAN.md",
-    "apps/admin/workflow-catalog.js"
+    "apps/admin/workflow-catalog.js",
+    "docs/release/share-numerology-landing-2026-11-28/rollout-2026-11-28.json"
   ],
   "untouchedSurfaces": [
     "No SQL applied, no Edge Function deployed, no secret read or set, no Supabase/Vercel/Cloudflare/EAS/Play setting changed; no supabase command against the remote project.",
