@@ -196,7 +196,8 @@ function Locked({ language, onOpenPremium, testID }: { language: Language; onOpe
       </View>
     </>
   );
-  const label = `${tag}: ${differ}, ${question}`;
+  // The tag is a full sentence in the content file, so it reads after the two part labels.
+  const label = `${differ}, ${question}. ${tag}`;
   return onOpenPremium ? (
     <Pressable testID={testID} accessibilityRole="button" accessibilityLabel={label} onPress={onOpenPremium} style={s.locked}>{content}</Pressable>
   ) : (

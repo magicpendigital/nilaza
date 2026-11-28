@@ -1,4 +1,5 @@
 import numerologyBlocks from "../../../../../../packages/content/data/numerology-blocks.json";
+import twoSystemsBlocks from "../../../../../../packages/content/data/two-systems-blocks.json";
 import { certainSigns } from "../whoAmIModel";
 import { elementOfSign, moonAxis, pairBlockId, sunAxis, twoSystemsContentReviewed, twoSystemsView, type TwoSystemsInputs } from "../twoSystemsModel";
 import { numberFrom } from "../../numerology/calc";
@@ -49,7 +50,7 @@ test("life path 11 uses the block of 2 with the master note and the Number Map n
   expect(axis.element).toBe("water");
   expect(axis.number.label).toBe("11/2");
   expect(axis.blockId).toBe("water.2");
-  expect(axis.block?.meet).toMatch(/lắng nghe/);
+  expect(axis.block?.meet).toBe(twoSystemsBlocks.sun["water.2"].meet.vi);
   expect(axis.master?.note).toContain("11");
   expect(axis.master?.note).not.toContain("{number}");
   expect(axis.master?.nuance).toBe(numerologyBlocks.masters["11"].vi);
@@ -76,12 +77,19 @@ test("a plain number has no master note", () => {
   expect(axis.chips.map((chip) => chip.label)).toEqual(["Sun Aries · Fire", "Life path 1"]);
 });
 
-test("a pair with no block keeps the chips and hides the body", () => {
-  // 05/01/2000: 5 + 1 + 2 = 8; fire.8 is not in the placeholder.
+test("every element and root 1-9 has a block on both axes, so no pair falls back to chips only", () => {
+  for (const element of ["fire", "earth", "air", "water"]) {
+    for (let root = 1; root <= 9; root += 1) {
+      for (const axis of [twoSystemsBlocks.sun, twoSystemsBlocks.moon] as Record<string, unknown>[]) {
+        expect(axis[`${element}.${root}`]).toBeDefined();
+      }
+    }
+  }
+  // 05/01/2000: 5 + 1 + 2 = 8.
   const axis = sunAxis(inputs({ signs: { sun: "leo" }, birthDate: "2000-01-05" }));
   if (axis.status !== "ready") throw new Error("expected a ready axis");
   expect(axis.blockId).toBe("fire.8");
-  expect(axis.block).toBeUndefined();
+  expect(axis.block?.meet).toBe(twoSystemsBlocks.sun["fire.8"].meet.vi);
   expect(axis.chips).toHaveLength(2);
 });
 
