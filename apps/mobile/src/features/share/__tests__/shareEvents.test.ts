@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { sendShareEvents } from "../../../backendClient";
-import { SHARE_ACTIONS, SHARE_EVENT_NAMES, SHARE_OUTCOMES, SHARE_SURFACES, toShareEventPayload } from "../shareEvents";
+import { SHARE_ACTIONS, SHARE_EVENT_NAMES, SHARE_FORMATS, SHARE_OUTCOMES, SHARE_SURFACES, toShareEventPayload } from "../shareEvents";
 
 const handlerSource = fs.readFileSync(path.resolve(__dirname, "../../../../../../supabase/functions/share-events/handler.ts"), "utf8");
 const serverList = (name: string) => {
@@ -14,6 +14,7 @@ it("accepts exactly the values the server function accepts", () => {
   expect([...SHARE_SURFACES]).toEqual(serverList("SHARE_SURFACES"));
   expect([...SHARE_ACTIONS]).toEqual(serverList("SHARE_ACTIONS"));
   expect([...SHARE_OUTCOMES]).toEqual(serverList("SHARE_OUTCOMES"));
+  expect([...SHARE_FORMATS]).toEqual(serverList("SHARE_FORMATS"));
   expect(serverList("SHARE_SURFACES").length).toBeGreaterThan(0);
 });
 
@@ -25,6 +26,13 @@ it("builds a payload only from enumerated values and drops everything else", () 
   expect(toShareEventPayload("share_completed", { surface: "today_card", action: "image", outcome: "sent" })).toBeNull();
   expect(toShareEventPayload("page_view", { surface: "today_card", action: "image" })).toBeNull();
   expect(toShareEventPayload("share_tapped", { surface: "my question about Acme", action: "image" })).toBeNull();
+});
+
+it("adds the image format only to image shares and only from the list", () => {
+  expect(toShareEventPayload("share_tapped", { surface: "book_quote", action: "image", format: "story" })).toEqual({ name: "share_tapped", surface: "book_quote", action: "image", format: "story" });
+  expect(toShareEventPayload("share_completed", { surface: "numerology_map", action: "image", outcome: "returned", format: "post" })).toEqual({ name: "share_completed", surface: "numerology_map", action: "image", outcome: "returned", format: "post" });
+  expect(toShareEventPayload("share_tapped", { surface: "today_card", action: "link", format: "story" })).toEqual({ name: "share_tapped", surface: "today_card", action: "link" });
+  expect(toShareEventPayload("share_tapped", { surface: "today_card", action: "image", format: "square" })).toEqual({ name: "share_tapped", surface: "today_card", action: "image" });
 });
 
 describe("sendShareEvents", () => {

@@ -133,13 +133,17 @@ export function NumerologyScreen({ language, storage, initialBirthDate, onBirthD
 }
 
 function shareRequest(map: NumerologyMap, language: Language): ShareRequest {
+  const block = numberBlock(map.lifePath, language);
   return {
     model: numerologyModel({
       language,
       lifePath: map.lifePath.label,
       birthday: map.birthday.label,
       expression: map.name?.expression.label,
-      lifePathTitle: numberBlock(map.lifePath, language).title
+      lifePathTitle: block.title,
+      lifePathRoot: map.lifePath.root,
+      light: block.light,
+      question: block.question
     }),
     primary: "image"
   };

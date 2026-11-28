@@ -5,11 +5,16 @@ import WaitlistForm from "../WaitlistForm.astro";
 import ShareCta from "./ShareCta.astro";
 import ShareTrust from "./ShareTrust.astro";
 import { shareCtaOf } from "../../lib/shareCta";
-import { sharePhaseNames, zodiac, type ShareVariant } from "../../lib/shareLanding";
+import { quoteBooks, sharePhaseNames, zodiac, type ShareVariant } from "../../lib/shareLanding";
 import type { Locale } from "../../lib/site";
 import cards from "../../../../../packages/content/data/tarot-cards.json";
 import numerology from "../../../../../packages/content/data/numerology-blocks.json";
 import sky from "../../../../../packages/content/data/astrology-daily-sky.json";
+import daoDucKinh from "../../../../../packages/content/data/book-quotes/dao-duc-kinh.json";
+import suyTuong from "../../../../../packages/content/data/book-quotes/suy-tuong.json";
+import kinhPhapCu from "../../../../../packages/content/data/book-quotes/kinh-phap-cu.json";
+import binhPhap from "../../../../../packages/content/data/book-quotes/binh-phap-ton-tu.json";
+import kinhDich from "../../../../../packages/content/data/book-quotes/kinh-dich.json";
 
 type Text = { vi: string; en: string };
 const { locale, variant } = Astro.props as { locale: Locale; variant: ShareVariant | "auto" };
@@ -38,13 +43,22 @@ const skyText = wants("sky")
       moon: Object.fromEntries(Object.entries(sky.moonSign as Record<string, { tone: Record<string, Text>; body: Text }>).map(([sign, entry]) => [sign, { tone: Object.fromEntries(Object.entries(entry.tone).map(([decan, text]) => [decan, pick(text)])), body: pick(entry.body) }]))
     }
   : null;
-const data = JSON.stringify({ locale, variant, tarot, numbers, sky: skyText }).replace(/</g, "\\u003c");
+// Book lines: only files whose review is approved (the app's draft gate), only the quote, reference and question.
+type QuoteFile = { book: string; review: { status: string }; items: { ref: Text; quote: Text; question: Text }[] };
+const quoteFiles: Record<string, QuoteFile> = { "dao-duc-kinh": daoDucKinh, "suy-tuong": suyTuong, "kinh-phap-cu": kinhPhapCu, "binh-phap-ton-tu": binhPhap, "kinh-dich": kinhDich } as Record<string, QuoteFile>;
+const quote = wants("quote")
+  ? quoteBooks
+      .filter((book) => quoteFiles[book.id].review.status === "approved" && quoteFiles[book.id].items.length > 0)
+      .map((book) => ({ id: book.id, label: pick(book.label), author: pick(book.author), items: quoteFiles[book.id].items.map((item) => [pick(item.quote), pick(item.ref), pick(item.question)]) }))
+  : null;
+const data = JSON.stringify({ locale, variant, tarot, numbers, sky: skyText, quote }).replace(/</g, "\\u003c");
 const cta = shareCtaOf(locale);
 const heading = {
   card: vi ? "Một lá bài để chậm lại một nhịp." : "One card to slow down for a moment.",
   reading: vi ? "Một trải bài để ngồi nghĩ cùng nhau." : "A spread to think about together.",
   numbers: vi ? "Con số chủ đạo của bạn là gì?" : "What is your life path number?",
-  sky: vi ? "Bầu trời của một ngày." : "The sky of one day."
+  sky: vi ? "Bầu trời của một ngày." : "The sky of one day.",
+  quote: vi ? "Một câu cho hôm nay." : "A line for today."
 };
 ---
 <section class="share-hero" data-share-root data-variant={variant}><div class="shell share-frame">
@@ -97,6 +111,26 @@ const heading = {
     </div>
   )}
 
+  {wants("quote") && quote && quote.length > 0 && (
+    <div class="panel" data-panel="quote" hidden={!show("quote")}>
+      <h1 class="display">{heading.quote}</h1>
+      <p class="lead">{vi ? "Một người bạn vừa chia sẻ một câu từ sách cổ trên Nilaza. Mỗi ngày một câu, kèm một câu hỏi để bạn tự ngẫm." : "A friend just shared a line from an old book on Nilaza. One line a day, with a question to sit with."}</p>
+      <figure class="quote-block" data-quote hidden aria-live="polite">
+        <blockquote class="quote-text" data-quote-text></blockquote>
+        <figcaption class="quote-source" data-quote-source></figcaption>
+        <p class="eyebrow quote-ask">{vi ? "Câu hỏi cho mình" : "A question for you"}</p>
+        <p class="question" data-quote-question></p>
+      </figure>
+      <div class="try">
+        <p class="eyebrow">{vi ? "Câu hôm nay của sách khác" : "Today's line from another book"}</p>
+        <div class="book-tabs" data-quote-books role="group" aria-label={vi ? "Chọn sách" : "Choose a book"}>
+          {quote.map((book) => <button class="book-tab" type="button" data-book={book.id} aria-pressed="false">{book.label}</button>)}
+        </div>
+        <p class="note">{vi ? "Câu được chọn theo ngày trên máy bạn, giống trong ứng dụng. Không có gì được gửi đi." : "The line is chosen by the date on your device, as in the app. Nothing is sent."}</p>
+      </div>
+    </div>
+  )}
+
   <ShareCta {locale} variant={variant === "auto" ? "share" : variant} />
   <ShareTrust {locale} />
 </div></section>
@@ -109,7 +143,7 @@ const heading = {
 <script is:inline type="application/json" id="share-landing-data" set:html={data}></script>
 <script>
   import { trackPublicEvent } from "../../lib/analytics";
-  import { isShareVariant, parseCardIds, parseSharedSky, randomIndex, readShareArrival, variantFromSearch, type ShareVariant } from "../../lib/shareLanding";
+  import { isShareVariant, parseCardIds, parseSharedSky, quoteBookIndex, quoteDateKey, quoteItemIndex, randomIndex, readShareArrival, variantFromSearch, type ShareVariant } from "../../lib/shareLanding";
   import { lifePathNumber, parseBirthDate } from "../../../../mobile/src/features/numerology/calc";
 
   type Card = { name: string; keywords: string[]; question: string };
@@ -119,6 +153,7 @@ const heading = {
     tarot: Record<string, Card> | null;
     numbers: { blocks: Record<string, { title: string; leans: string; question: string }>; masters: Record<string, string> } | null;
     sky: { signs: Record<string, string>; phases: Record<string, string>; moon: Record<string, { tone: Record<string, string>; body: string }> } | null;
+    quote: { id: string; label: string; author: string; items: [string, string, string][] }[] | null;
   };
   const raw = document.getElementById("share-landing-data")?.textContent;
   const data = raw ? (JSON.parse(raw) as Data) : null;
@@ -243,6 +278,33 @@ const heading = {
         set("[data-sky-body]", entry.body);
       }
     }
+
+    if (panelName === "quote" && data.quote?.length) {
+      const books = data.quote;
+      const dateKey = quoteDateKey();
+      const block = root.querySelector<HTMLElement>("[data-quote]");
+      const tabs = [...root.querySelectorAll<HTMLButtonElement>("[data-quote-books] [data-book]")];
+      const set = (selector: string, text: string) => { const element = root.querySelector<HTMLElement>(selector); if (element) element.textContent = text; };
+      const showBook = (index: number) => {
+        const book = books[index];
+        const [text, ref, question] = book.items[quoteItemIndex(book.id, dateKey, book.items.length)];
+        set("[data-quote-text]", text);
+        set("[data-quote-source]", `${book.author} · ${ref}`);
+        set("[data-quote-question]", question);
+        for (const tab of tabs) tab.setAttribute("aria-pressed", String(tab.dataset.book === book.id));
+        if (block) block.hidden = false;
+      };
+      showBook(quoteBookIndex(dateKey, books.length));
+      for (const tab of tabs) {
+        tab.addEventListener("click", () => {
+          const index = books.findIndex((book) => book.id === tab.dataset.book);
+          if (index < 0) return;
+          showBook(index);
+          // The variant only: never which book or line.
+          tried();
+        });
+      }
+    }
   }
 </script>
 <style>
@@ -275,6 +337,14 @@ const heading = {
 .result-title{font:500 clamp(1.7rem,5vw,2.4rem)/1.15 var(--display);margin:0 0 12px}
 .sky-meta{color:var(--moon);margin:0 0 12px;font-size:.92rem}
 .sky-line{font:500 clamp(1.5rem,5vw,2.2rem)/1.2 var(--display);color:var(--gold);margin:0 0 16px;max-width:28ch}
+.quote-block{margin:0 0 8px;max-width:680px}
+.quote-text{margin:0 0 14px;padding:0 0 0 18px;border-left:3px solid var(--gold);font:500 clamp(1.5rem,5vw,2.2rem)/1.3 var(--display);color:var(--ivory)}
+.quote-source{color:var(--moon);font-size:.92rem;margin:0 0 20px}
+.quote-ask{margin:0 0 6px}
+.book-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
+.book-tab{min-height:44px;padding:.45rem .9rem;border:1px solid var(--line);border-radius:99px;background:transparent;color:var(--ivory);font:inherit;font-size:.9rem;cursor:pointer}
+.book-tab[aria-pressed="true"]{border-color:var(--gold);color:var(--gold)}
+.book-tab:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .join{display:grid;grid-template-columns:1fr 1fr;gap:80px}
 @media(max-width:800px){.join{grid-template-columns:1fr;gap:32px}.share-hero{padding:56px 0 48px}.try .button{width:100%}}
 @media(min-width:801px){.friend-cards[data-count="3"]{grid-template-columns:repeat(3,minmax(0,1fr))}.friend-cards[data-count="4"]{grid-template-columns:repeat(4,minmax(0,1fr))}}

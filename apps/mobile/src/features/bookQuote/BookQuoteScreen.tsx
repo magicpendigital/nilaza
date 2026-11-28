@@ -7,6 +7,7 @@ import {
   SHOW_DRAFT_BOOK_QUOTES, availableBookQuoteBooks, bookQuoteAuthor, bookQuoteTabLabel, bookQuoteText, bookQuoteTitle, pickBookQuote,
   type BookQuoteBookId, type BookQuoteOfDay
 } from "./content";
+import { bookQuoteModel, type ShareRequest } from "../share/shareCardContent";
 import {
   isBookQuoteSaved, loadSavedBookQuotes, saveSavedBookQuotes, toggleSavedBookQuote,
   type BookQuoteStorage, type SavedBookQuote
@@ -32,6 +33,8 @@ type Props = {
   personaName: (personaId: string) => string;
   onAskPersona: (quote: BookQuoteOfDay) => void;
   onWriteJournal: (quote: BookQuoteOfDay) => void;
+  /** Opens the share sheet. The card carries only the approved quote, its source and its question. */
+  onOpenShare?: (request: ShareRequest) => void;
   onEvent?: (name: string, metadata?: Record<string, string | number | boolean>) => void;
   onBack: () => void;
   contentContainerStyle?: StyleProp<ViewStyle>;
@@ -45,7 +48,7 @@ type Props = {
   featureAccessService?: FeatureAccessService;
 };
 
-export function BookQuoteScreen({ language, dateKey, initialBook, storage, personaName, onAskPersona, onWriteJournal, onEvent, onBack, contentContainerStyle, showDrafts = SHOW_DRAFT_BOOK_QUOTES, isPremium = false, onOpenPremium, featureAccessService }: Props) {
+export function BookQuoteScreen({ language, dateKey, initialBook, storage, personaName, onAskPersona, onWriteJournal, onOpenShare, onEvent, onBack, contentContainerStyle, showDrafts = SHOW_DRAFT_BOOK_QUOTES, isPremium = false, onOpenPremium, featureAccessService }: Props) {
   const vi = language === "vi";
   // Free / Premium switch (Admin, Owner publishes). Default config: Free for everyone, so nothing changes until a
   // Premium setting is published. Saved quotes stay outside the gate: what a user saved is never hidden.
@@ -165,6 +168,12 @@ export function BookQuoteScreen({ language, dateKey, initialBook, storage, perso
           <Ionicons name={isSaved ? "bookmark" : "bookmark-outline"} size={18} color={colors.gold} accessible={false} />
           <Text style={s.secondaryText}>{isSaved ? (vi ? "Đã lưu" : "Saved") : (vi ? "Lưu câu này" : "Save this quote")}</Text>
         </Pressable>
+        {onOpenShare ? (
+          <Pressable testID="book-quote-share" accessibilityRole="button" onPress={() => onOpenShare(bookQuoteShareRequest(quote, language))} style={s.secondary}>
+            <Ionicons name="share-social-outline" size={18} color={colors.ivory} accessible={false} />
+            <Text style={s.secondaryText}>{vi ? "Chia sẻ câu này" : "Share this line"}</Text>
+          </Pressable>
+        ) : null}
       </View>
 
       {otherBooks.length ? (
@@ -212,6 +221,21 @@ export function BookQuoteScreen({ language, dateKey, initialBook, storage, perso
       <Text style={s.footnote}>{vi ? "Mỗi sách một câu mỗi ngày; mở lại trong ngày vẫn là câu này." : "One line per book each day; reopen it today and it stays the same."}</Text>
     </ScrollView>
   );
+}
+
+/** Share card for today's quote: book title and reference as the source, plus the item's own question. */
+export function bookQuoteShareRequest(quote: BookQuoteOfDay, language: Language): ShareRequest {
+  const ref = bookQuoteText(quote.item, "ref", language);
+  const title = bookQuoteTitle(quote.book, language);
+  return {
+    model: bookQuoteModel({
+      language,
+      quote: bookQuoteText(quote.item, "quote", language),
+      source: ref ? `${title} · ${ref}` : title,
+      question: bookQuoteText(quote.item, "question", language)
+    }),
+    primary: "image"
+  };
 }
 
 function Header({ language, onBack }: { language: Language; onBack: () => void }) {

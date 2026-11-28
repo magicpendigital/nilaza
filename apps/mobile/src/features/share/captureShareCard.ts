@@ -3,7 +3,8 @@ import { Share, type View } from "react-native";
 import * as Clipboard from "expo-clipboard";
 import * as Sharing from "expo-sharing";
 import { captureRef, releaseCapture } from "react-native-view-shot";
-import { SHARE_IMAGE_HEIGHT, SHARE_IMAGE_WIDTH } from "./ShareCardView";
+import type { ShareFormat } from "./shareEvents";
+import { SHARE_FORMAT_SIZE } from "./ShareCardView";
 
 /**
  * "returned" means the system share sheet came back without an error. Android does not tell the app whether
@@ -55,17 +56,18 @@ export function releasePending() {
 }
 
 /**
- * Captures the card as a 1080x1350 PNG and hands it to the system share sheet. With a message, the image and the text go in one
+ * Captures the card as a PNG in the chosen format (post 1080x1350, story 1080x1920) and hands it to the system share sheet. With a message, the image and the text go in one
  * share through react-native-share; if that module is missing or fails, the image alone goes through expo-sharing. Cancelling the
  * share sheet is not a failure. Never throws.
  */
-export async function shareCardImage(card: RefObject<View | null>, dialogTitle: string, message?: string): Promise<ShareOutcome> {
+export async function shareCardImage(card: RefObject<View | null>, dialogTitle: string, message?: string, format: ShareFormat = "post"): Promise<ShareOutcome> {
+  const size = SHARE_FORMAT_SIZE[format] ?? SHARE_FORMAT_SIZE.post;
   releasePending();
   let uri: string | null = null;
   let launched = false;
   try {
     if (!card.current) return "failed";
-    uri = await captureRef(card, { format: "png", quality: 1, width: SHARE_IMAGE_WIDTH, height: SHARE_IMAGE_HEIGHT, result: "tmpfile" });
+    uri = await captureRef(card, { format: "png", quality: 1, width: size.width, height: size.height, result: "tmpfile" });
     const native = message ? loadNativeShare() : null;
     if (native && message) {
       try {

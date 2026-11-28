@@ -10,7 +10,7 @@
     "web:dev": "npm --workspace apps/web run dev --",
     "web:check": "npm --workspace apps/web run check",
     "web:build": "npm --workspace apps/web run build",
-    "web:share:test": "node --test scripts/share-landing.test.mjs && node scripts/build-share-card-thumbs.mjs --check",
+    "web:share:test": "node --test scripts/share-landing.test.mjs && node scripts/build-share-card-thumbs.mjs --check && node scripts/build-share-og.mjs --check",
     "validate:public-content": "node scripts/validate-public-content.mjs && node scripts/build-public-help-corpus.mjs --check",
     "public-help-corpus:build": "node scripts/build-public-help-corpus.mjs",
     "public-help-corpus:check": "node scripts/build-public-help-corpus.mjs --check",
