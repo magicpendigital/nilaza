@@ -91,7 +91,7 @@ Deno.test("every block resolves to approved server-side text, with approved sect
 });
 
 Deno.test("the content gate needs both stores approved with a reviewer; the report copy is still a draft", () => {
-  assertEquals(numerologyReportContentApproved(), false);
+  assertEquals(numerologyReportContentApproved(), true, "Owner approved the report blocks on 29/11/2026");
   assertEquals(numerologyReportContentApproved({ status: "approved", reviewer: "Owner" }), true);
   assertEquals(numerologyReportContentApproved({ status: "approved", reviewer: " " }), false);
   assertEquals(numerologyReportContentApproved({ status: "draft", reviewer: "Owner" }), false);

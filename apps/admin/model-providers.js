@@ -22,8 +22,8 @@
   // Model catalogue (code, reviewed 13/11). Only these models can be chosen; a model already in use outside the list
   // stays visible but cannot be picked again. Direct-provider names are not yet checked against a live account.
   const CATALOGUE = Object.freeze({
-    openrouter: ["deepseek/deepseek-v4.1-flash", "xiaomi/mimo-v2.6-flash", "deepseek/deepseek-v4.1-flash-1017", "openai/gpt-5.4-mini", "openai/gpt-5.4", "anthropic/claude-sonnet-4.6", "google/gemini-3.5-flash"],
-    anthropic: ["claude-haiku-4-5", "claude-sonnet-4-5"],
+    openrouter: ["deepseek/deepseek-v4.1-flash", "xiaomi/mimo-v2.6-flash", "deepseek/deepseek-v4.1-flash-1017", "openai/gpt-5.4-mini", "openai/gpt-5.4", "anthropic/claude-sonnet-4.6", "google/gemini-3.5-flash", "deepseek/deepseek-v4-flash", "deepseek/deepseek-v4-pro"],
+    anthropic: ["claude-haiku-4-5", "claude-sonnet-4-5", "claude-sonnet-5-5"],
     gemini: ["gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-2.5-pro"],
     openai: ["gpt-4o-mini", "gpt-4.1-mini"],
     deepseek: ["deepseek-flash", "deepseek-v4-pro"],

@@ -375,7 +375,7 @@
     e("check_safety", "output_check", "safety_event", t("Bị chặn", "Blocked"), [nrp[1]], ["blocked", "blocked"], t("moderationStatus blocked.", "moderationStatus blocked.")),
     e("check_usage", "output_check", "usage_log", t("Đạt", "Passed"), [nrp[1]], ["report", "report"]),
     e("usage_response", "usage_log", "response", t("Trả về", "Return"), [nrp[1]], ["response", "response"])
-  ], [t("Công tắc numerology_report tắt sẵn; migration 20261128100000 và việc deploy ai-numerology-report cần Owner duyệt. Chữ của báo cáo (numerology-report.json) và numerology-blocks còn bản nháp nên hàm trả content_not_approved. Trace ghi theo feature numerology_report nhưng chưa gắn vào sơ đồ này.", "The numerology_report switch is seeded off; migration 20261128100000 and deploying ai-numerology-report need Owner approval. The report copy (numerology-report.json) and numerology blocks are still drafts, so the function answers content_not_approved. Traces are written under numerology_report but are not bound to this graph.")]);
+  ], [t("Công tắc numerology_report tắt sẵn; migration 20261128100000 và việc deploy ai-numerology-report cần Owner duyệt. Chữ của báo cáo (numerology-report.json) và prompt numerology_report_system được Owner duyệt 29/11; numerology-blocks đã duyệt 25/11. Trace ghi theo feature numerology_report nhưng chưa gắn vào sơ đồ này.", "The numerology_report switch is seeded off; migration 20261128100000 and deploying ai-numerology-report need Owner approval. The report copy (numerology-report.json) and the numerology_report_system prompt were approved by the Owner on 29/11; the numerology blocks were approved on 25/11. Traces are written under numerology_report but are not bound to this graph.")]);
 
   // Field-level ports supplement aggregates; these names describe data use only,
   // never expose example private values or turn the graph into an executor.
@@ -665,7 +665,7 @@
   },
   {
     "path": "supabase/functions/ai-numerology-report/handler.ts",
-    "sha256": "33ca018cda874f421b1a798d90ba1972e0e332f168b1e97dafed1e6a820bb930"
+    "sha256": "17151ec2636f15b0bf383c7e535887858f08cdc8c4d9e53402c9f2f1a72318a8"
   },
   {
     "path": "supabase/functions/_shared/numerology-payload.ts",
@@ -673,11 +673,11 @@
   },
   {
     "path": "supabase/functions/_shared/numerology-report-prompt.ts",
-    "sha256": "e102feeb51fc7d9d7b0b6f8c157a7f6ae9297b82a997b98a2edd96cd5b5bad2c"
+    "sha256": "a53945c86bef487257f840ece2734fc8a5071d79b42eba229d086e297d169d5f"
   },
   {
     "path": "packages/content/data/numerology-report.json",
-    "sha256": "52d330d84f12376744613bc3dc9c8c71fa28eab1d5f6cdc62c0eddb9f46a8de0"
+    "sha256": "9fc06c745f69a8904f40f017b42c2aacab00ca05c7685e572cc3c225d610dd7e"
   }
 ]
   };

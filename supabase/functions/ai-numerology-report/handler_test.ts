@@ -99,6 +99,7 @@ Deno.test("delivers a checked report with approved titles, records counts only, 
   const input = h.generateInputs[0];
   assertEquals(input.feature, "numerology_report");
   assertEquals(input.fallbackText, "");
+  assertEquals(input.costCapMicro, 100_000, "report cost cap lets the Sonnet step run");
   assertEquals(input.strictTraceRedaction, true);
   assertEquals(input.deferTraceFlush, true);
   assert(input.system.includes("LOCKED RULES"));
@@ -161,11 +162,10 @@ Deno.test("each gate refuses in order before any model work", async () => {
   assertEquals(body.nextReportAt, nextVietnamDay(new Date(NOON_VN)));
 });
 
-Deno.test("the default content gate reads the shipped report copy, still a draft: 503 content_not_approved", async () => {
+Deno.test("the default content gate reads the shipped report copy, approved by the Owner 29/11: the request goes past the gate", async () => {
   const h = harness();
-  const response = await createNumerologyReportHandler(() => h.deps, { now: () => new Date(NOON_VN) })(post());
-  assertEquals([response.status, (await response.json()).error], [503, "content_not_approved"]);
-  assertEquals(h.calls, ["auth", "switch"]);
+  await createNumerologyReportHandler(() => h.deps, { now: () => new Date(NOON_VN) })(post());
+  assert(h.calls.includes("tier"), "content gate passed with the shipped approved copy");
 });
 
 Deno.test("a body with personal data, digit counts or block ids that do not follow is refused after the claim", async () => {

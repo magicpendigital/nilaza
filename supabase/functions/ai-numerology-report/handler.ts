@@ -32,12 +32,18 @@ import { isIncompleteAnswerFinishReason } from "../../../packages/ai-contracts/a
 export const FEATURE = "numerology_report";
 export const ATTEMPT_EVENT = "numerology_report_attempted";
 export const DELIVERED_EVENT = "numerology_report_generated";
+/**
+ * Cost cap for one report's step chain, micro-USD (Owner 29/11/2026: Sonnet 5.5 first, budget 5 USD). The shared
+ * default (20 000) would skip Sonnet, whose worst case is about 4 000 output tokens x 10 USD/M plus the input; the
+ * per-feature Admin config does not cover this feature yet.
+ */
+export const NUMEROLOGY_REPORT_COST_CAP_MICRO = 100_000;
 
 // Structural copy of model-router's ModelTraceFinalization (kept local so tests need no provider imports).
 export type ReportTraceFinalization = { status: "ok" | "blocked" | "fallback" | "error"; output: Record<string, unknown> };
 export type ReportGeneration = ModelGenerationResult & { finalizeTrace?: (input: ReportTraceFinalization) => Promise<void> };
 export type ReportGenerateInput = {
-  feature: typeof FEATURE; route?: ModelRoute; strictTraceRedaction: true; deferTraceFlush: true;
+  feature: typeof FEATURE; route?: ModelRoute; costCapMicro: number; strictTraceRedaction: true; deferTraceFlush: true;
   traceContext: { userId: string; request: Request; metadata: Record<string, unknown> };
   system: string; messages: Array<{ role: "user"; content: string }>; fallbackText: "";
   acceptOutput: (text: string, finishReason?: string) => string | undefined;
@@ -112,7 +118,7 @@ export function createNumerologyReportHandler(configure: (req: Request) => Numer
       const prompt = await deps.resolvePrompt(request.language);
       const { route, experiment } = await deps.resolveRoute(userId, request.language);
       const generation = await deps.generate({
-        feature: FEATURE, route, strictTraceRedaction: true, deferTraceFlush: true,
+        feature: FEATURE, route, costCapMicro: NUMEROLOGY_REPORT_COST_CAP_MICRO, strictTraceRedaction: true, deferTraceFlush: true,
         traceContext: {
           userId, request: req,
           metadata: {

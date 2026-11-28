@@ -51,6 +51,12 @@ Deno.test("the output check accepts a clean report, drops a model title and uses
   assertEquals(ok.output.questions.length, 3);
 });
 
+Deno.test("the output check strips one outer Markdown fence (models without a JSON mode)", () => {
+  const fenced = checkNumerologyReportText("```json\n" + withSection(0, { title: "Model title" }) + "\n```", sections);
+  assert(fenced.output, "fenced JSON accepted");
+  assertEquals(checkNumerologyReportText("```\nnot json\n```", sections).reason, "not_json");
+});
+
 Deno.test("the output check names each rejection", () => {
   const L = NUMEROLOGY_REPORT_LIMITS;
   const cases: Array<[string, string]> = [

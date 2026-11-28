@@ -77,7 +77,9 @@ export function checkNumerologyReportText(text: string, sections: readonly Repor
   const L = NUMEROLOGY_REPORT_LIMITS;
   if (text.length > L.maxChars) return { reason: "too_long" };
   let value: unknown;
-  try { value = JSON.parse(text.trim()); } catch { return { reason: "not_json" }; }
+  // Some models (Claude without a JSON mode) wrap the object in a Markdown fence despite the rule; strip one outer fence.
+  const body = text.trim().replace(/^```(?:json)?\s*([\s\S]*?)\s*```$/i, "$1");
+  try { value = JSON.parse(body); } catch { return { reason: "not_json" }; }
   const v = record(value);
   if (!v) return { reason: "not_object" };
   if (Object.keys(v).some((key) => key !== "sections" && key !== "questions")) return { reason: "extra_key" };

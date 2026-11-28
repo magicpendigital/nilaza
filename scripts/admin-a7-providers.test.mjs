@@ -111,7 +111,7 @@ test("A7: the chain editor allows at most 4 steps, catalogue models only, and wa
   assert.equal(tarot().querySelector('[data-chain-add="tarot_reading"]').disabled, true, "no fifth step");
   setValue(h, '#chain-tarot_reading-2-provider', "anthropic", "change");
   const models = [...tarot().querySelectorAll("#chain-tarot_reading-2-model option")].map((option) => option.value);
-  assert.deepEqual(models, ["claude-haiku-4-5", "claude-sonnet-4-5"]);
+  assert.deepEqual(models, ["claude-haiku-4-5", "claude-sonnet-4-5", "claude-sonnet-5-5"]);
   assert.equal(tarot().querySelector("#chain-tarot_reading-2-model").tagName, "SELECT", "no free-text model field");
   assert.match(tarot().textContent, /Sẽ bị bỏ qua: đang tắt/);
   setValue(h, '#chain-tarot_reading-3-provider', "deepseek", "change");

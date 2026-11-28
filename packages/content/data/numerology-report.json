@@ -1,10 +1,10 @@
 {
-  "version": "2026-11-28-draft1",
+  "version": "2026-11-29-approved1",
   "review": {
-    "status": "draft",
-    "reviewer": null,
-    "reviewedAt": null,
-    "note": "AI-drafted 28/11/2026 for the Number Map synthesis report (plan ASTRO_NUMEROLOGY_SYNTHESIS_TWO_SYSTEMS_PLAN_2026-11-28, lot R0). Kept apart from the Owner-approved numerology-blocks.json so that store and the running private-message function stay approved. The ai-numerology-report function refuses (content_not_approved) until this block says approved with a named reviewer. Any later edit needs a new Owner review."
+    "status": "approved",
+    "reviewer": "Owner",
+    "reviewedAt": "2026-11-29",
+    "note": "Read and approved by the Owner on 29/11/2026 together with the numerology_report_system prompt. Not reviewed by an external numerology expert. AI-drafted 28/11/2026 for the Number Map synthesis report (plan ASTRO_NUMEROLOGY_SYNTHESIS_TWO_SYSTEMS_PLAN_2026-11-28, lot R0). Kept apart from the Owner-approved numerology-blocks.json so that store and the running private-message function stay approved. The ai-numerology-report function refuses (content_not_approved) until this block says approved with a named reviewer. Any later edit needs a new Owner review."
   },
   "sections": {
     "you": {

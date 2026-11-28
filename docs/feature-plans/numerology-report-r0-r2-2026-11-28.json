@@ -82,6 +82,8 @@
     "packages/content/generated/public-help-corpus/manifest.json",
     "packages/content/generated/public-help-corpus/corpus.jsonl",
     "apps/mobile/src/features/numerology/SavedReportRow.tsx",
+    "scripts/admin-a7-providers.test.mjs",
+    "supabase/functions/_shared/model-router-cost_test.ts",
     "PLAN.md"
   ],
   "untouchedSurfaces": [
