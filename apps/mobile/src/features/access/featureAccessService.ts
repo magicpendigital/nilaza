@@ -26,6 +26,11 @@ export type FeatureAccessService = {
   hydrate(): Promise<FeatureAccessSnapshot>;
   /** Ask the server unless it answered less than `refreshMs` ago (or `force`). Never throws. */
   refresh(options?: { force?: boolean }): Promise<FeatureAccessSnapshot>;
+  /**
+   * Use an answer the app already got from the server (the start-up bootstrap carries the same payload as the
+   * published-config read), exactly as if `refresh` had fetched it, so no second request is made. Never throws.
+   */
+  accept(answer: unknown, checkedAt?: number): Promise<FeatureAccessSnapshot>;
   subscribe(listener: (snapshot: FeatureAccessSnapshot) => void): () => void;
 };
 
@@ -85,15 +90,7 @@ export function createFeatureAccessService(input: {
     inFlight ??= (async () => {
       try {
         const answer = await input.fetcher();
-        const checkedAt = now();
-        if (answer === null || answer === undefined) {
-          await removeJson(storageKey).catch(() => undefined);
-          return publish({ ...defaultsSnapshot(), source: "remote", checkedAt });
-        }
-        const parsed = parsePublishedFeatureAccess(answer);
-        if (!parsed) return snapshot;
-        await saveJson<CachedCopy>(storageKey, { ...parsed, checkedAt }).catch(() => undefined);
-        return publish({ ...parsed, source: "remote", checkedAt });
+        return await apply(answer, now());
       } catch {
         return snapshot;
       } finally {
@@ -103,10 +100,32 @@ export function createFeatureAccessService(input: {
     return inFlight;
   };
 
+  // "Nothing published" (null) resets to the defaults; a malformed answer keeps what is in use.
+  const apply = async (answer: unknown, checkedAt: number) => {
+    if (answer === null || answer === undefined) {
+      await removeJson(storageKey).catch(() => undefined);
+      return publish({ ...defaultsSnapshot(), source: "remote", checkedAt });
+    }
+    const parsed = parsePublishedFeatureAccess(answer);
+    if (!parsed) return snapshot;
+    await saveJson<CachedCopy>(storageKey, { ...parsed, checkedAt }).catch(() => undefined);
+    return publish({ ...parsed, source: "remote", checkedAt });
+  };
+
+  const accept = async (answer: unknown, checkedAt?: number) => {
+    await hydrate();
+    try {
+      return await apply(answer, checkedAt ?? now());
+    } catch {
+      return snapshot;
+    }
+  };
+
   return {
     get: () => snapshot,
     hydrate,
     refresh,
+    accept,
     subscribe(listener) {
       listeners.add(listener);
       return () => listeners.delete(listener);
@@ -116,7 +135,10 @@ export function createFeatureAccessService(input: {
 
 let shared: FeatureAccessService | null = null;
 
-/** Set the app-wide service once (e.g. with backendClient.getPublishedFeatureAccess and the current session). */
+/**
+ * Set the app-wide service once. The app does this in StartupGate with the start-up bootstrap read
+ * (backendClient.getAppBootstrap), so the switch and the release policy come from one request.
+ */
 export function configureFeatureAccess(fetcher: () => Promise<unknown>): FeatureAccessService {
   shared = createFeatureAccessService({ fetcher });
   return shared;

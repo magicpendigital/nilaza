@@ -230,6 +230,18 @@ Vào **Công tắc và hạn mức → Miễn phí / Premium** (đường dẫn 
 - **Khóa ở đâu:** công tắc này chỉ khóa tính năng **trong app** (Owner quyết 27/11/2026); máy chủ không chặn thêm.
 - **Ba quy tắc cố định:** chuyển sang Premium **không bao giờ xóa hay khóa** nội dung người dùng đã lưu; tài khoản Premium luôn giữ quyền dùng; tính năng đã **tắt** ở công tắc bật/tắt hiện có thì không hiện lại vì trang này.
 - **Trạng thái hiện tại (27/11/2026):** trang Admin và bộ đọc cấu hình trong app đã có trong mã nguồn và đã chạy kiểm thử tự động. **Chưa** áp migration `20261127090000_feature_access_configs.sql` lên Supabase (khi chưa áp, trang báo thiếu bảng và chỉ hiện mặc định, không lưu được). Năm tính năng trong app **chưa** nối vào công tắc này: đổi sang Premium ở Admin chưa làm app thay đổi cho tới bản app sau. Áp migration và triển khai lại `admin-documentation` (để sổ tay này cập nhật trong Admin) là hai việc riêng, mỗi việc cần Owner duyệt.
+- **Cập nhật 28/11/2026:** trong mã nguồn app, Câu sách (`book_quote`) đã nối vào công tắc này (tài khoản không có Premium thấy nhãn Premium khi đặt Premium; câu đã lưu vẫn xem được). App nhận bảng công tắc ngay lúc khởi động, cùng lần kiểm máy chủ ở mục 4.4. Bốn tính năng còn lại chưa nối. Chưa có bản app nào phát hành với phần này.
+
+### 4.4. Phiên bản app tối thiểu
+
+Ở cuối trang **Miễn phí / Premium** (`#access`) có ô **Phiên bản app tối thiểu**. Mỗi lần mở, app hỏi máy chủ một lần; bản app cũ hơn mức Owner đặt sẽ được nhắc cập nhật.
+
+- **Ai đặt:** chỉ **Owner** (quyền `ai.manage`). Người khác có quyền xem AI chỉ thấy giá trị đang áp dụng, ai đặt, lúc nào, lý do, và các lần đặt trước.
+- **Cách đặt:** nhập phiên bản dạng `x.y.z` (ví dụ `0.1.4`), số **ngày nhắc** (0–30, mặc định 3) và **lý do** (10–500 ký tự), rồi bấm **Lưu phiên bản tối thiểu**. Để trống ô phiên bản là **bỏ** tối thiểu. Mỗi lần lưu được ghi nhật ký kiểm toán.
+- **Người dùng thấy gì:** bản cũ hơn mức tối thiểu thấy dòng nhắc "Đã có phiên bản Nilaza mới" kèm nút Cập nhật (vẫn dùng app bình thường) cho tới hết số ngày nhắc; sau đó app hiện màn hình **"Cần cập nhật"** với nút mở Google Play và không vào được app cho tới khi cập nhật. Đặt 0 ngày là bắt buộc ngay.
+- **Cẩn thận:** áp dụng ngay khi lưu. Đừng đặt số cao hơn bản đang có trên Google Play, nếu không mọi người sẽ bị chặn sau số ngày nhắc.
+- **Mất mạng:** app không kết nối được máy chủ vẫn mở được trong **24 giờ** kể từ lần kiểm thành công gần nhất (có dòng báo "Đang ngoại tuyến"); quá 24 giờ, hoặc máy chưa từng kết nối, app hiện màn hình **"Mất kết nối"** với nút Thử lại.
+- **Trạng thái hiện tại (28/11/2026):** trang Admin và phần kiểm khi khởi động trong app đã có trong mã nguồn và đã chạy kiểm thử tự động. **Chưa** áp migration `20261128090000_app_release_policy.sql` lên Supabase (khi chưa áp, ô này báo thiếu migration); chưa thử trên máy thật. Áp migration, triển khai lại `admin-documentation` và phát hành bản app là các việc riêng, mỗi việc cần Owner duyệt.
 
 ---
 
