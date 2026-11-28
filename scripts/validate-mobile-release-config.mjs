@@ -13,6 +13,8 @@ if (!Number.isInteger(app.android?.versionCode) || app.android.versionCode < 1) 
 if (versionCode !== String(app.android?.versionCode)) errors.push(`Android Gradle versionCode (${versionCode || "missing"}) must match app.json (${app.android?.versionCode})`);
 if (versionName !== app.version) errors.push(`Android Gradle versionName (${versionName || "missing"}) must match app.json (${app.version})`);
 if (app.ios?.buildNumber !== String(app.android?.versionCode)) errors.push("iOS buildNumber must match the current Android versionCode for the shared internal release line");
+if (app.ios?.bundleIdentifier !== app.android?.package) errors.push(`iOS bundleIdentifier (${app.ios?.bundleIdentifier || "missing"}) must match the Android package (${app.android?.package || "missing"})`);
+if (app.ios?.config?.usesNonExemptEncryption !== false) errors.push("app.json ios.config.usesNonExemptEncryption must be false (the app uses only standard HTTPS)");
 
 if (errors.length) {
   console.error("Mobile release configuration validation failed:");
