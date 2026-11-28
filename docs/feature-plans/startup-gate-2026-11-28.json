@@ -19,6 +19,7 @@
     "docs/proposals/STARTUP_GATE_SERVER_CONTENT_2026-11-27.vi.md",
     "docs/release/singapore-edge-functions-2026-11-09/feature-access-van9-rollout-2026-11-27.json",
     "PLAN.md",
+    "docs/release/singapore-edge-functions-2026-11-09/startup-gate-rollout-2026-11-28.json",
     "supabase/migrations/20261128090000_app_release_policy.sql",
     "scripts/app-release-policy-sql.test.mjs",
     "package.json",
@@ -71,12 +72,12 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Startup order: PasswordRecoveryBoundary > EmailConfirmationBoundary > AccountBoundary; splash hide rules; guest preview and onboarding gates.",
-      "sha256": "d62707da77903794abc866f076f3ff9c1109b0c12affbe4f6ebf5de41cb1e4a4"
+      "sha256": "1181570b36a0b6990c982e5224d04d7cd215858c208026375155f5f08995e762"
     },
     {
       "path": "apps/mobile/src/backendClient.ts",
       "reason": "getPublishedFeatureAccess (anon + signed-in) and BackendUnavailableError offline/busy mapping reused by the bootstrap call.",
-      "sha256": "6fd5c5c21aa0bf2496e09f51a84fef4b0f7bca727ed31129cbbc7df857ee3389"
+      "sha256": "c26a67ceb8c697126dc906534db6c00e55b09d0509e5ac61912cd16f4bbfd5d1"
     },
     {
       "path": "apps/mobile/src/features/access/featureAccessService.ts",
@@ -86,7 +87,7 @@
     {
       "path": "apps/mobile/src/runtimeConfig.ts",
       "reason": "onlineModeRequired / guestEntryEnabled flags the gate must respect.",
-      "sha256": "8cbbaa867a41d1631664c5c2e15eab9ba0f5ccc2ee59f1311fe308b64ca8cfaf"
+      "sha256": "02a4aac5f560a45e03fc35a87f7547cb72bdc81cca358426590622ad3708a0d4"
     },
     {
       "path": "supabase/migrations/20261127090000_feature_access_configs.sql",
