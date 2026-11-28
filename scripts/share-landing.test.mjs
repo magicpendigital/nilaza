@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import fs from "node:fs";
-import { elementPairKey, isShareVariant, isZodiacId, parseCardIds, parseSharedSky, randomIndex, readShareArrival, shareMeta, sharePhaseNames, shareSurfaces, shareVariants, sunSignFromDateInput, sunSignOf, variantFromSearch, zodiac } from "../apps/web/src/lib/shareLanding.ts";
+import { elementPairKey, isShareVariant, quoteBookIndex, quoteBooks, quoteDateKey, quoteHash, quoteItemIndex, isZodiacId, parseCardIds, parseSharedSky, randomIndex, readShareArrival, shareMeta, sharePhaseNames, shareSurfaces, shareVariants, sunSignFromDateInput, sunSignOf, variantFromSearch, zodiac } from "../apps/web/src/lib/shareLanding.ts";
 import { shareCtaOf } from "../apps/web/src/lib/shareCta.ts";
 
 test("finds the Sun sign on both sides of every boundary", () => {
@@ -64,6 +64,8 @@ test("reads a share arrival only from enumerated utm values", () => {
   assert.deepEqual(readShareArrival(""), { fromShare: false, surface: null, medium: null });
   assert.deepEqual(readShareArrival("?utm_source=share&utm_medium=card&utm_campaign=numerology_map"), { fromShare: true, surface: "numerology_map", medium: "card" });
   assert.deepEqual(readShareArrival("?utm_source=share&utm_medium=card&utm_campaign=daily_sky"), { fromShare: true, surface: "daily_sky", medium: "card" });
+  assert.deepEqual(readShareArrival("?utm_source=share&utm_medium=qr&utm_campaign=book_quote"), { fromShare: true, surface: "book_quote", medium: "qr" });
+  assert.deepEqual(readShareArrival("?utm_source=share&utm_medium=QR&utm_campaign=book_quote"), { fromShare: true, surface: "book_quote", medium: null });
 });
 
 test("the website, the app and the share-events server list the same surfaces", () => {
@@ -81,6 +83,7 @@ test("the old /share address picks the variant from utm_campaign and falls back 
   assert.equal(variantFromSearch("?utm_campaign=daily_sky"), "sky");
   assert.equal(variantFromSearch("?utm_campaign=tarot_reading"), "reading");
   assert.equal(variantFromSearch("?utm_campaign=today_card"), "card");
+  assert.equal(variantFromSearch("?utm_campaign=book_quote"), "quote");
   assert.equal(variantFromSearch("?utm_campaign=<script>"), "card");
   assert.equal(variantFromSearch(""), "card");
   assert.ok(isShareVariant("sky"));
@@ -178,4 +181,47 @@ test("public analytics accepts the two share events and drops free text and unkn
   trackPublicEvent("share_landing_try", { locale: "vi", source: "share", variant: "numbers", birth: "1990-01-01", number: 7, card: "major-00-fool" });
   assert.deepEqual(seen[2], { eventName: "share_landing_try", properties: { locale: "vi", source: "share", variant: "numbers" } });
   delete globalThis.window;
+});
+
+// Same table as apps/mobile/src/features/bookQuote/__tests__/content.test.ts: the web and the app pick the same line.
+test("the quote page picks the same daily line as the app", () => {
+  const files = quoteBooks.map((book) => JSON.parse(fs.readFileSync(`packages/content/data/book-quotes/${book.id}.json`, "utf8"))).filter((file) => file.review.status === "approved" && file.items.length);
+  const table = [
+    ["2026-11-28", "dao-duc-kinh", "ddk-042", "kinh-phap-cu", "pc-025"],
+    ["2026-12-31", "binh-phap-ton-tu", "bp-10-27", "dao-duc-kinh", "ddk-004"],
+    ["2027-01-01", "kinh-dich", "kd-22", "suy-tuong", "st-02-05"],
+    ["2027-02-28", "kinh-phap-cu", "pc-380", "kinh-dich", "kd-12"],
+    ["2028-02-29", "binh-phap-ton-tu", "bp-11-35", "dao-duc-kinh", "ddk-023"]
+  ];
+  const lineOf = (file, dateKey) => file.items[quoteItemIndex(file.book, dateKey, file.items.length)].id;
+  for (const [dateKey, book, itemId, otherBook, otherItemId] of table) {
+    const home = files[quoteBookIndex(dateKey, files.length)];
+    assert.equal(home.book, book, dateKey);
+    assert.equal(lineOf(home, dateKey), itemId, dateKey);
+    assert.equal(lineOf(files.find((file) => file.book === otherBook), dateKey), otherItemId, dateKey);
+  }
+  assert.equal(quoteHash(""), 0x811c9dc5);
+  assert.equal(quoteDateKey(new Date(2027, 0, 5, 23, 30)), "2027-01-05");
+  assert.equal(quoteItemIndex("kinh-dich", "2027-01-01", 0), -1);
+  assert.equal(quoteBookIndex("2027-01-01", 0), -1);
+});
+
+test("the quote page lists the app's books in the app's order and publishes only approved lines", () => {
+  const app = fs.readFileSync("apps/mobile/src/features/bookQuote/content.ts", "utf8");
+  const order = JSON.parse(/bookQuoteBookOrder: BookQuoteBookId\[\] = (\[[^\]]+\])/.exec(app)[1]);
+  assert.deepEqual(quoteBooks.map((book) => book.id), order);
+  for (const book of quoteBooks) assert.ok(app.includes(`"${book.id}": { vi: "${book.label.vi}", en: "${book.label.en}" }`), `${book.id} label`);
+  const page = fs.readFileSync("apps/web/src/components/share/ShareLanding.astro", "utf8");
+  assert.match(page, /review\.status === "approved"/);
+  // Only the quote, reference and question reach the page: never the gloss or tags.
+  assert.match(page, /\[pick\(item\.quote\), pick\(item\.ref\), pick\(item\.question\)\]/);
+  assert.doesNotMatch(page, /item\.gloss/);
+});
+
+test("every share variant page has its own preview image", () => {
+  const page = fs.readFileSync("apps/web/src/pages/[locale]/share/[variant].astro", "utf8");
+  assert.match(page, /image=\{`\/share\/og\/\$\{variant\}-\$\{locale\}\.png`\}/);
+  for (const variant of shareVariants) for (const locale of ["vi", "en"]) assert.ok(fs.existsSync(`apps/web/public/share/og/${variant}-${locale}.png`), `${variant}-${locale}`);
+  const builder = fs.readFileSync("scripts/build-share-og.mjs", "utf8");
+  assert.deepEqual(JSON.parse(/const variants = (\[[^\]]+\])/.exec(builder)[1]), [...shareVariants]);
 });

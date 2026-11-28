@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "title": "Share cards v2 S1: share-events redeployed with book_quote and format; quote share page and per-page preview images for the website",
+  "date": "2026-11-28",
+  "target": {
+    "projectRef": "etfajmrwyywokgafzxsb",
+    "label": "production (Owner decision 2026-11-12)",
+    "web": "Cloudflare Pages project nilaza-web-staging (nilaza-web-staging.pages.dev, nilaza.magicpendigital.com)"
+  },
+  "ownerApproval": "Owner approved in chat on 2026-11-28: 'Duyệt commit → PR → gộp S1a vào main. Đồng ý đưa bản mới của máy chủ ghi sự kiện chia sẻ lên. Đồng ý triển khai bước S1b.'",
+  "records": [
+    "docs/feature-plans/share-cards-v2-s1-2026-11-28.json",
+    "docs/feature-plans/share-cards-v2-s1b-2026-11-28.json"
+  ],
+  "functions": {
+    "sourceCommit": "3affb98 (merge of PR #91 into main)",
+    "preDeployChecks": [
+      "PR #91 CI green: Admin contract, Mobile type/tests/bundles, Plan/skills/preflight, Vercel",
+      "Deno tests for share-events: 21 passed"
+    ],
+    "method": "npx --yes supabase@3.1.0 functions deploy share-events --remote=etfajmrwyywokgafzxsb --use-api --yes (run by Claude) from the main checkout at 3affb98. The first attempt at 05:56 UTC failed with a Supabase API 502 before anything was deployed; the retry succeeded.",
+    "sourceSha256": {
+      "supabase/functions/share-events/handler.ts": "926b4486e41bca3165d9fed63bd71f164e0a70d231224832fb9fee2003e3db4f",
+      "supabase/functions/share-events/index.ts": "4b154a65f68d6aa5ec5995a249d469805b58585723305e83adb417097fbaf164",
+      "supabase/functions/_shared/ai-request-guard.ts": "cf1204cae48dac9cfc718dd93f5b4d2a93efffefef03b12fae0f73f680dae056"
+    },
+    "deployed": [
+      { "name": "share-events", "version": 9, "verifyJwt": true, "note": "Previous v8. Accepts the book_quote surface and an optional format (post or story) on image shares; rejects format on link shares and unknown values." }
+    ],
+    "verification": [
+      "functions list: share-events ACTIVE, version 9, verify_jwt true",
+      "unauthenticated POST to share-events returns 401"
+    ]
+  },
+  "web": {
+    "status": "pending: deployed after the S1b pull request is merged into main; this section is filled in then",
+    "method": "npm --workspace apps/web run deploy:staging"
+  },
+  "notVerified": [
+    "a signed-in share from a phone writing share_tapped/share_completed with book_quote or format into usage_events (needs a new Android build)"
+  ],
+  "rollback": "Function: redeploy share-events from main 31768fc (v8 source). Web: roll back nilaza-web-staging to the previous production deployment in Cloudflare Pages."
+}
