@@ -86,47 +86,47 @@
     {
       "path": "supabase/functions/share-events/handler.ts",
       "reason": "Server allow-list for surfaces and event shape.",
-      "sha256": "982ac48d1c6de5fae94cc36c9a0ff514b6d24b3f1a2e87a2bf7f7c81e7f598ef"
+      "sha256": "926b4486e41bca3165d9fed63bd71f164e0a70d231224832fb9fee2003e3db4f"
     },
     {
       "path": "apps/mobile/src/features/share/shareEvents.ts",
       "reason": "App copy of the allow-list.",
-      "sha256": "fd53095260e3dc486bb3e2b403505b8a0c87abcd2414d3b73c1bb90eb343b557"
+      "sha256": "e628b273456d73eb72d68498b6467a37a5227dbb94ccebb962924af53a7a180e"
     },
     {
       "path": "apps/mobile/src/features/share/shareLink.ts",
       "reason": "Share URL per surface.",
-      "sha256": "4048ff0176463232eb7cfe4ae0b554f915e9a0b1d52280d5f26ab0130de9342a"
+      "sha256": "ee6405f3503a226fd56ccb1ba6118055c62e18aa046a0fd633da671a13ce4a46"
     },
     {
       "path": "apps/mobile/src/features/share/shareCardContent.ts",
       "reason": "Card models and builders.",
-      "sha256": "0b658a82105c72c1259ab8f72a34e57a919d74bdc47a5c02d7d908e54b1838e6"
+      "sha256": "20e60b2e68f10ed63fdfdf1fe6c40a2e28569dc1ce39662aa08ce70fad591a9d"
     },
     {
       "path": "apps/mobile/src/features/share/ShareCardView.tsx",
       "reason": "Current single 4:5 template.",
-      "sha256": "c17fdd11a424940cdb70928ede490f6332bcc4a3c103d541d9884e1ec9083dff"
+      "sha256": "149791a1eff158e140d4fdcab455852b91d3d512db3b90833caf3f67b9182b7e"
     },
     {
       "path": "apps/mobile/src/features/share/ShareCardSheet.tsx",
       "reason": "Share sheet and events.",
-      "sha256": "90d531245918ed47664169eac76ec5a015f6d2476a762c1a67fddf7ae24f0ed8"
+      "sha256": "751879d59874d38b6ae217a5da82665c6ac8f0e3d1d7f73c5ff944db201c82f2"
     },
     {
       "path": "apps/mobile/src/features/share/captureShareCard.ts",
       "reason": "Capture size.",
-      "sha256": "8ae15019cc287ca815b4b944d80356135fe80894b04d27a730089cafbf15e0f8"
+      "sha256": "a4aea3d0b3c9b1e756961d4eaed3214e7c002939c87f07c0c5eb2f117047a103"
     },
     {
       "path": "apps/mobile/src/features/bookQuote/BookQuoteScreen.tsx",
       "reason": "Gets the share entry.",
-      "sha256": "5dd457391c3501b0c15d552ffe19d22986263294f11378200c6b2e9d4884c28a"
+      "sha256": "4b6dcd703a2d4b07e9fe81f98200a5ddf7bbf0c2d6ea19427be4c04924513560"
     },
     {
       "path": "apps/mobile/src/features/numerology/NumerologyScreen.tsx",
       "reason": "Numerology share request gets block light, question and root.",
-      "sha256": "eeacb062d977921164c1cd02cca934e8e1412888d333ed4af6c579e3323f0f45"
+      "sha256": "a2d0081fc5ce0bd3fd85a04eddf94ae35530217dfcfee082f07f098b28b2b916"
     },
     {
       "path": "packages/content/data/numerology-blocks.json",
@@ -178,7 +178,7 @@
     "unresolvedHighRisks": []
   },
   "workingTreeReview": {
-    "note": "Record written before any code edit on branch claude/share-cards-v2-s1 cut from origin/main 217e158 (28/11/2026); the worktree was clean then. Scope updated during implementation (28/11): the qrcode type file lives in apps/mobile/src/features/share/qrcode.d.ts (src/types.ts already exists, so no src/types/ folder), and AstrologyExperience.tsx gets one line so the astro_invite card prints its own invite line.",
+    "note": "Record written before any code edit on branch claude/share-cards-v2-s1 cut from origin/main 217e158 (28/11/2026); the worktree was clean then. Scope updated during implementation (28/11): the qrcode type file lives in apps/mobile/src/features/share/qrcode.d.ts (src/types.ts already exists, so no src/types/ folder), and AstrologyExperience.tsx gets one line so the astro_invite card prints its own invite line. Review hashes refreshed to the implemented files at commit time (28/11), as earlier PRs did.",
     "paths": []
   },
   "validationCommands": [
