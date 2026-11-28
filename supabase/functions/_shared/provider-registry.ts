@@ -24,7 +24,9 @@ export const FEATURE_DATA_CLASS: Record<string, DataClass> = {
   tarot_note: "personal",
   reader_router: "personal",
   // 2026-11-25: computed numerology numbers and approved block ids only (no name, no birth date); kept sensitive.
-  numerology_private_message: "sensitive"
+  numerology_private_message: "sensitive",
+  // 2026-11-28: the full report sends the same kind of data plus digits present (no counts) and arrow ids; sensitive.
+  numerology_report: "sensitive"
 };
 export function featureDataClass(feature: string): DataClass {
   return FEATURE_DATA_CLASS[feature] ?? "sensitive";
@@ -239,9 +241,14 @@ export const REFERENCE_PRICE_BOOK: Record<string, ReferencePriceEntry> = {
   "openrouter:openai/gpt-5.4": { input: 2.5, output: 15, verified: true, source: OPENROUTER_API, checkedOn: "2026-11-15" },
   "openrouter:anthropic/claude-sonnet-4.6": { input: 3, output: 15, verified: true, source: OPENROUTER_API, checkedOn: "2026-11-15" },
   "openrouter:google/gemini-3.5-flash": { input: 1.5, output: 9, verified: true, source: OPENROUTER_API, checkedOn: "2026-11-15" },
+  // Owner 29/11/2026: fallback steps 2 and 3 of the Number Map full report.
+  "openrouter:deepseek/deepseek-v4-flash": { input: 0.09, output: 0.18, verified: true, source: OPENROUTER_API, checkedOn: "2026-11-29" },
+  "openrouter:deepseek/deepseek-v4-pro": { input: 0.89, output: 1.5069, verified: true, source: OPENROUTER_API, checkedOn: "2026-11-29" },
   // Direct providers (off by default): values equal the OpenRouter mirror of the provider's list price on 15/11.
   "anthropic:claude-haiku-4-5": { input: 1, output: 5, verified: true, source: OPENROUTER_MIRROR, checkedOn: "2026-11-15" },
   "anthropic:claude-sonnet-4-5": { input: 3, output: 15, verified: true, source: OPENROUTER_MIRROR, checkedOn: "2026-11-15" },
+  // Owner 29/11/2026: first step of the Number Map full report (direct Anthropic key added by the Owner in Admin).
+  "anthropic:claude-sonnet-5-5": { input: 2, output: 10, verified: true, source: OPENROUTER_MIRROR, checkedOn: "2026-11-29" },
   "openai:gpt-4o-mini": { input: 0.15, output: 0.6, verified: true, source: OPENROUTER_MIRROR, checkedOn: "2026-11-15" },
   "openai:gpt-4.1-mini": { input: 0.4, output: 1.6, verified: true, source: OPENROUTER_MIRROR, checkedOn: "2026-11-15" },
   "gemini:gemini-2.5-flash": { input: 0.3, output: 2.5, verified: true, source: OPENROUTER_MIRROR, checkedOn: "2026-11-15" },

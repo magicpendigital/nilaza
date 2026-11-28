@@ -195,6 +195,28 @@ export const defaultModelRoutes: Record<string, ModelRoute> = {
     ],
     totalDeadlineMs: 40_000
   },
+  // 2026-11-28: Bản đồ số "Báo cáo tổng hợp". Same cheap pair as the private message; the model joins approved blocks
+  // per section into JSON {sections, questions}, checked inside the router (numerology-report-prompt.ts). Longer answer,
+  // so a larger token budget and longer waits; total stays under the 150 s Edge limit. Sensitive data class.
+  numerology_report: {
+    feature: "numerology_report",
+    version: "2026-11-28-numerology-report-v1",
+    status: "active",
+    primaryProvider: "openrouter",
+    primaryModel: "deepseek/deepseek-v4.1-flash",
+    fallbackProvider: "openrouter",
+    fallbackModel: "xiaomi/mimo-v2.6-flash",
+    temperature: 0.6,
+    maxOutputTokens: 4000,
+    responseSchema: "numerology_report_v1",
+    fallbackWhen: ["missing_api_key", "provider_timeout", "rate_limit", "provider_5xx", "malformed_response"],
+    safetyPolicy: { approvedBlocksOnly: true, blockDeterministicPredictions: true, reasoning: { mode: "off" } },
+    steps: [
+      { provider: "openrouter", model: "deepseek/deepseek-v4.1-flash", timeoutMs: 60_000, maxTokens: 4000, temperature: 0.6, jsonMode: true, reasoning: { mode: "off" } },
+      { provider: "openrouter", model: "xiaomi/mimo-v2.6-flash", timeoutMs: 60_000, maxTokens: 4000, temperature: 0.6, jsonMode: true, reasoning: { mode: "off" } }
+    ],
+    totalDeadlineMs: 120_000
+  },
   // Batch C (2026-11-24): AI tier of the reader suggestion. A decision model picks one slug (no text); a cheap chat model
   // answering JSON is the fallback. The 4 s budget is enforced in reader-router.ts (the table minimum deadline is 5 s).
   // The primary/fallback pair describes the chat step so a router that ignores steps never calls a decision API.

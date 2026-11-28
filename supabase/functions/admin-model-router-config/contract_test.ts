@@ -67,3 +67,10 @@ Deno.test("2026-11-25 contract: numerology_private_message routes publish like a
   assert(modelRouteRpcPayload(numerology).feature === "numerology_private_message", "numerology_private_message accepted");
   throws(() => modelRouteRpcPayload({ ...numerology, steps: [step("openrouter_decisions", "typesafe/jev-1.14"), chat], note: "Ghi chú hợp lệ" }), /only allowed for reader_router/, "decision step on numerology");
 });
+
+Deno.test("2026-11-28 contract: numerology_report routes publish like any chat feature, without decision steps", () => {
+  const chat = step("openrouter", "deepseek/deepseek-v4.1-flash", { timeoutMs: 60000, maxTokens: 4000, temperature: 0.6, jsonMode: true });
+  const report = { ...legacy, feature: "numerology_report", responseSchema: "numerology_report_v1", maxTokens: 4000, temperature: 0.6 };
+  assert(modelRouteRpcPayload(report).feature === "numerology_report", "numerology_report accepted");
+  throws(() => modelRouteRpcPayload({ ...report, steps: [step("openrouter_decisions", "typesafe/jev-1.14"), chat], note: "Ghi chú hợp lệ" }), /only allowed for reader_router/, "decision step on numerology report");
+});

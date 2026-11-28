@@ -14,7 +14,9 @@
     tarot_note: "Ghi chú riêng Tarot",
     reader_router: "Gợi ý người đọc (tầng AI)",
     // 2026-11-25 (migration 20261125090000): seeded off until the Owner approves the content and turns it on.
-    numerology_private_message: "Lời nhắn riêng Thần số học"
+    numerology_private_message: "Lời nhắn riêng Thần số học",
+    // 2026-11-28 (migration 20261128100000): seeded off until the Owner approves the content and turns it on.
+    numerology_report: "Báo cáo tổng hợp Thần số học"
   };
   const initialTransport = { target: window.NilazaAdminTransportTarget || "", url: window.ENV?.SUPABASE_URL || "", key: window.ENV?.SUPABASE_ANON_KEY || "" };
   let invalidated = false, active = null, epoch = 0;

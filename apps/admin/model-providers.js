@@ -22,8 +22,8 @@
   // Model catalogue (code, reviewed 13/11). Only these models can be chosen; a model already in use outside the list
   // stays visible but cannot be picked again. Direct-provider names are not yet checked against a live account.
   const CATALOGUE = Object.freeze({
-    openrouter: ["deepseek/deepseek-v4.1-flash", "xiaomi/mimo-v2.6-flash", "deepseek/deepseek-v4.1-flash-1017", "openai/gpt-5.4-mini", "openai/gpt-5.4", "anthropic/claude-sonnet-4.6", "google/gemini-3.5-flash"],
-    anthropic: ["claude-haiku-4-5", "claude-sonnet-4-5"],
+    openrouter: ["deepseek/deepseek-v4.1-flash", "xiaomi/mimo-v2.6-flash", "deepseek/deepseek-v4.1-flash-1017", "openai/gpt-5.4-mini", "openai/gpt-5.4", "anthropic/claude-sonnet-4.6", "google/gemini-3.5-flash", "deepseek/deepseek-v4-flash", "deepseek/deepseek-v4-pro"],
+    anthropic: ["claude-haiku-4-5", "claude-sonnet-4-5", "claude-sonnet-5-5"],
     gemini: ["gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-2.5-pro"],
     openai: ["gpt-4o-mini", "gpt-4.1-mini"],
     deepseek: ["deepseek-flash", "deepseek-v4-pro"],
@@ -42,7 +42,8 @@
     { id: "ai_council", label: "Hội đồng", dataClass: "sensitive", schema: "ai_council_rounds_v2", wait: 40 },
     { id: "tarot_note", label: "Ghi chú riêng Tarot", dataClass: "personal", schema: "tarot_note_output_v1", wait: 20 },
     { id: "reader_router", label: "Gợi ý người đọc", dataClass: "personal", schema: "reader_router_choice_v1", wait: 3, decisions: true },
-    { id: "numerology_private_message", label: "Lời nhắn riêng Thần số học", dataClass: "personal", schema: "numerology_private_message_v1", wait: 20 }
+    { id: "numerology_private_message", label: "Lời nhắn riêng Thần số học", dataClass: "personal", schema: "numerology_private_message_v1", wait: 20 },
+    { id: "numerology_report", label: "Báo cáo tổng hợp Thần số học", dataClass: "sensitive", schema: "numerology_report_v1", wait: 60 }
   ]);
   const REASONING = [["", "Mặc định của model"], ["off", "Tắt"], ["minimal", "Rất ít"], ["low", "Ít"], ["medium", "Vừa"], ["high", "Nhiều"]];
   const PROBE_LABELS = { ok: "Ổn", bad_key: "Sai khóa", no_credit: "Hết tiền", unreachable: "Không gọi được", not_configured: "Chưa cấu hình" };

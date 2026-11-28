@@ -38,3 +38,11 @@ Deno.test("Tarot AI: one delivered reading a day, three attempts at most; chat f
   assertEquals(tarotDailyLimits(policy("all_premium")), { delivered: 1, attempts: 3 });
   assertEquals(accountTierPolicy.personaChat?.dailyLimit, 5);
 });
+
+Deno.test("Numerology full report: one delivered report a day, three attempts at most (2026-11-28)", async () => {
+  const { accountTierPolicy, numerologyReportDailyLimits } = await import("./account-tier-policy.ts");
+  assertEquals(accountTierPolicy.numerologyReport, { dailyLimit: 1, failedAttemptAllowance: 2 });
+  assertEquals(numerologyReportDailyLimits(), { delivered: 1, attempts: 3 });
+  // A policy without the key keeps the same numbers, never more.
+  assertEquals(numerologyReportDailyLimits(policy("all_premium")), { delivered: 1, attempts: 3 });
+});

@@ -14,6 +14,7 @@ export type TierPolicy = {
   personaChat?: { dailyLimit: number };
   tarotAi?: { dailyLimit: number; failedAttemptAllowance: number };
   numerologyMessage?: { dailyLimit: number; failedAttemptAllowance: number };
+  numerologyReport?: { dailyLimit: number; failedAttemptAllowance: number };
 };
 
 export const accountTierPolicy = policy as TierPolicy;
@@ -46,6 +47,13 @@ export function tarotDailyLimits(current: TierPolicy = accountTierPolicy): { del
 // A missing policy key keeps the same numbers, never more.
 export function numerologyMessageDailyLimits(current: TierPolicy = accountTierPolicy): { delivered: number; attempts: number } {
   const limits = current.numerologyMessage ?? { dailyLimit: 1, failedAttemptAllowance: 2 };
+  return { delivered: limits.dailyLimit, attempts: limits.dailyLimit + limits.failedAttemptAllowance };
+}
+
+// Numerology full report (Owner 2026-11-28): Premium, 1 delivered report per Vietnam day plus 2 failed attempts.
+// A missing policy key keeps the same numbers, never more.
+export function numerologyReportDailyLimits(current: TierPolicy = accountTierPolicy): { delivered: number; attempts: number } {
+  const limits = current.numerologyReport ?? { dailyLimit: 1, failedAttemptAllowance: 2 };
   return { delivered: limits.dailyLimit, attempts: limits.dailyLimit + limits.failedAttemptAllowance };
 }
 
