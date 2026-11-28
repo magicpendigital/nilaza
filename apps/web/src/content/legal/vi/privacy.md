@@ -35,7 +35,7 @@ Mục này chỉ áp dụng khi Nilaza bật tính năng "Báo cáo tổng hợp
 
 - **Bạn chủ động gửi:** ứng dụng chỉ gửi sau khi bạn bấm "Gửi" trong hộp giải thích.
 - **Dữ liệu được gửi:** các con số Thần số học đã tính trên điện thoại, những chữ số có mặt trong biểu đồ ngày sinh (không gửi số lần lặp lại), các đường đầy hoặc trống, mã các khối nội dung và ngôn ngữ. **Không** gửi họ tên, ngày sinh, năm sinh hay tuổi của bạn.
-- **Xử lý:** máy chủ Nilaza ghép chữ của các khối nội dung đã soạn sẵn rồi nhờ một mô hình AI (qua nhà cung cấp OpenRouter) viết thành báo cáo. Mã tài khoản của bạn không được gửi cho nhà cung cấp mô hình.
+- **Xử lý:** máy chủ Nilaza ghép chữ của các khối nội dung đã soạn sẵn rồi nhờ một mô hình AI viết thành báo cáo: trước tiên là mô hình Claude của nhà cung cấp Anthropic; nếu không được thì một mô hình DeepSeek qua nhà cung cấp OpenRouter. Các nhà cung cấp này xử lý dữ liệu thay cho Nilaza. Mã tài khoản của bạn không được gửi cho nhà cung cấp mô hình.
 - **Lưu trữ:** báo cáo được **lưu trên điện thoại của bạn**, có trong "Xuất dữ liệu" và xóa được ở mục "Báo cáo đã lưu". Nilaza **không lưu** chữ của báo cáo, các con số hay mã khối trên máy chủ; máy chủ chỉ ghi số lần thử trong ngày và thông tin kỹ thuật (thời điểm, ngôn ngữ, số phần, số khối, model đã dùng) để giới hạn số báo cáo mỗi ngày và theo dõi chất lượng dịch vụ.
 
 ## Mua gói Premium

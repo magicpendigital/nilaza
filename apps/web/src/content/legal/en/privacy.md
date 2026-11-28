@@ -35,7 +35,7 @@ This section applies only once Nilaza switches on the "Full report" feature for 
 
 - **You choose to send:** the app sends only after you tap "Send" in the explanation box.
 - **Data sent:** the Numerology numbers computed on your phone, the digits present in your birth chart (not how often they repeat), the full or empty lines, the codes of the content blocks and the language. Your name, birth date, birth year and age are **not** sent.
-- **Processing:** Nilaza's server joins the text of prepared content blocks and asks an AI model (through the provider OpenRouter) to write the report. Your account ID is not sent to the model provider.
+- **Processing:** Nilaza's server joins the text of prepared content blocks and asks an AI model to write the report: first a Claude model from the provider Anthropic; if that fails, a DeepSeek model through the provider OpenRouter. These providers process the data on behalf of Nilaza. Your account ID is not sent to the model provider.
 - **Storage:** the report is **saved on your phone**, is included in "Export data" and can be deleted under "Saved reports". Nilaza does **not** store the report text, the numbers or the block codes on its servers; the server records only the day's attempts and technical details (time, language, number of parts, number of blocks, model used) to keep the daily report limit and to monitor service quality.
 
 ## Buying Premium

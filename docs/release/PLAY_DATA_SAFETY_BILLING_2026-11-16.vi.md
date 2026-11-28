@@ -65,13 +65,13 @@ Chỉ cần khai phần này **khi Owner bật** công tắc `numerology_private
 - Mã hóa khi truyền: HTTPS như các tính năng AI khác. Xóa tài khoản xóa các dòng usage_events như hiện có.
 - **Owner quyết** khi bật: chọn loại dữ liệu Play phù hợp nhất (gợi ý trên) và cập nhật trang quyền riêng tư (đã có mục "Lời nhắn riêng Thần số học (khi tính năng được bật)" ở bản vi/en).
 
-### 2.5. Báo cáo tổng hợp Bản đồ số (thêm 28/11/2026, nháp, chỉ áp dụng khi bật tính năng)
+### 2.5. Báo cáo tổng hợp Bản đồ số (thêm 28/11/2026; cập nhật 29/11/2026 khi Owner duyệt bật)
 
-Chỉ cần khai phần này **khi Owner bật** công tắc `numerology_report`. Lúc viết, công tắc được tạo ở trạng thái **tắt** (migration `20261128100000`, chưa áp), hàm `ai-numerology-report` chưa deploy, và chữ của báo cáo (`numerology-report.json`) còn bản nháp, nên ứng dụng hiện "Sắp có" và không gọi AI.
+Chỉ cần khai phần này **khi Owner bật** công tắc `numerology_report`. 29/11/2026: Owner duyệt nội dung và prompt, duyệt áp migration `20261128100000`, deploy `ai-numerology-report` và bật công tắc. Model: Claude Sonnet 5.5 gọi **trực tiếp Anthropic**, dự phòng DeepSeek V4 Flash rồi V4 Pro **qua OpenRouter**.
 
 | Nhóm (Play) | Loại dữ liệu | Thu thập | Chia sẻ | Bắt buộc? | Mục đích | Ghi chú |
 |---|---|---|---|---|---|---|
-| Hoạt động trong ứng dụng (App activity) | Cùng loại Owner chọn cho mục 2.4 | **Có**, chỉ khi người dùng bấm "Gửi" | **Không** (nhà cung cấp mô hình AI qua OpenRouter xử lý thay mặt Nilaza) | Không bắt buộc: người dùng chủ động gửi | Chức năng ứng dụng (App functionality) | Gửi các con số đã tính, **các chữ số có mặt** trong biểu đồ ngày sinh (không gửi số lần lặp), các đường đầy/trống suy ra từ đó, mã khối nội dung và ngôn ngữ. **Không** gửi họ tên, ngày sinh, năm sinh, tuổi hay tổng chữ cái. Máy chủ **không lưu** chữ của báo cáo; chỉ ghi số lần thử, thời điểm, ngôn ngữ, số phần, số khối và model (usage_events). Báo cáo được **lưu trên điện thoại** của người dùng. |
+| Hoạt động trong ứng dụng (App activity) | Cùng loại Owner chọn cho mục 2.4 | **Có**, chỉ khi người dùng bấm "Gửi" | **Không** (Anthropic và OpenRouter là nhà cung cấp dịch vụ xử lý thay mặt Nilaza, không tính là chia sẻ) | Không bắt buộc: người dùng chủ động gửi | Chức năng ứng dụng (App functionality) | Gửi các con số đã tính, **các chữ số có mặt** trong biểu đồ ngày sinh (không gửi số lần lặp), các đường đầy/trống suy ra từ đó, mã khối nội dung và ngôn ngữ. **Không** gửi họ tên, ngày sinh, năm sinh, tuổi hay tổng chữ cái. Máy chủ **không lưu** chữ của báo cáo; chỉ ghi số lần thử, thời điểm, ngôn ngữ, số phần, số khối và model (usage_events). Báo cáo được **lưu trên điện thoại** của người dùng. |
 
 - Ghi chú về "chữ số có mặt": tập chữ số có mặt (ví dụ 1, 2, 3, 5) không đủ để dựng lại ngày sinh, nhưng là dữ liệu suy ra từ ngày sinh. Đề xuất vẫn khai như mục 2.4 (con số đã tính), **Owner xác nhận** khi bật.
 - Báo cáo lưu trên máy nằm trong "Xuất dữ liệu" và xóa được ở "Tôi là ai → Báo cáo đã lưu → Xóa" hoặc khi xóa dữ liệu trên máy; không có bản trên máy chủ để xóa.

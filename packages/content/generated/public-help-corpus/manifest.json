@@ -249,7 +249,7 @@
       "updated_at": "2026-11-28",
       "public_url_path": "/en/privacy",
       "source_path": "apps/web/src/content/legal/en/privacy.md",
-      "checksum_sha256": "c119ba48b46164d785a6a388e0660d426dd98f5492abb686efdb6d30bced800f",
+      "checksum_sha256": "9ba7d268cdf444269fc1fd7b64e212f0cf9f501842b0010266b873ad50b4feef",
       "chunk_count": 7
     },
     {
@@ -297,7 +297,7 @@
       "updated_at": "2026-11-28",
       "public_url_path": "/vi/privacy",
       "source_path": "apps/web/src/content/legal/vi/privacy.md",
-      "checksum_sha256": "844b842a01c6fd4514bf0e54d36d3e38d37ce91d513daf59e055499e5708c8f1",
+      "checksum_sha256": "3d0acbddb914be49a6d2fdf16eeae6220f279ed760da4d2f80374c5198cef29a",
       "chunk_count": 7
     },
     {
