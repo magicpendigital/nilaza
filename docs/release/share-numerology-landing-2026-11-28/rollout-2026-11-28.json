@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "title": "share-events redeployed with numerology_map and daily_sky surfaces; share landing pages deployed to Cloudflare Pages staging",
+  "date": "2026-11-28",
+  "target": {
+    "projectRef": "etfajmrwyywokgafzxsb",
+    "label": "production (Owner decision 2026-11-12)",
+    "web": "Cloudflare Pages project nilaza-web-staging (nilaza-web-staging.pages.dev, nilaza.magicpendigital.com)"
+  },
+  "ownerApproval": "Owner approved in chat on 2026-11-28: '1. Đồng ý deploy lại share-events.', '3. Đồng ý. Tôi đã đăng nhập Cloudflare ... hãy trực tiếp thao tác trên trình duyệt.' and 'Duyệt cả 2 nhánh nhóm A và chia sẻ vào main.'",
+  "records": [
+    "docs/feature-plans/share-numerology-landing-2026-11-28.json"
+  ],
+  "sourceCommit": "31768fc (merge of PR #88 into main)",
+  "preDeployChecks": [
+    "PR #88 CI green: Admin contract, Mobile type/tests/bundles, Plan/skills/preflight, Vercel",
+    "Deno tests for share-events on main 31768fc: 19 passed, 0 failed",
+    "npm run web:build: 56 pages, web compatibility passed"
+  ],
+  "functions": {
+    "method": "npx --yes supabase@3.1.0 functions deploy share-events --remote=etfajmrwyywokgafzxsb --use-api --yes (run by Claude), from main 31768fc",
+    "deployed": [
+      { "name": "share-events", "version": 8, "verifyJwt": true, "note": "Previous v7. Adds numerology_map and daily_sky to the allowed share surfaces and the share_landing_try event that carries only the page variant." }
+    ]
+  },
+  "web": {
+    "method": "npm --workspace apps/web run deploy:staging (wrangler pages deploy dist --project-name nilaza-web-staging --branch main), run by Claude from a tree identical to main 31768fc",
+    "deploymentUrl": "https://f2349e7c.nilaza-web-staging.pages.dev",
+    "note": "Google Play link stays empty in apps/web/src/lib/shareCta.ts until the app passes Play review; the CTA shows the Android tester sign-up instead."
+  },
+  "verification": {
+    "done": [
+      "functions list: share-events ACTIVE, version 8, verify_jwt true",
+      "unauthenticated POST to share-events returns 401",
+      "HTTP 200 with the expected titles on both domains for /vi/share/numbers/, /vi/share/sky/, /vi/share/reading/, the old /vi/share/ and /en/share/numbers/",
+      "In Chrome on nilaza.magicpendigital.com/vi/share/numbers/: entering 15/08/1990 shows life path 6 'Người chăm chút'; the URL does not change and carries no date"
+    ],
+    "notDone": [
+      "a signed-in share from a phone writing share_tapped/share_completed for numerology_map or daily_sky into usage_events (needs a new Android build)",
+      "link previews on Zalo, Messenger and Facebook",
+      "mobile-width visual review of all four landing pages",
+      "Google Play link (Owner fills it in after Play review)"
+    ]
+  },
+  "rollback": "Function: redeploy share-events from the commit before PR #88 (v7 source). Web: in Cloudflare Pages, roll back nilaza-web-staging to the previous production deployment, or redeploy dist built from the previous main."
+}
