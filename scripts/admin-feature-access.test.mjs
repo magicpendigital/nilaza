@@ -253,7 +253,8 @@ test("feature access: registered in AI Studio (script order, route, nav, RPC all
   assert.match(html, /<script src="\.\/ai-features\.js"><\/script>\s*<script src="\.\/feature-access\.js"><\/script>\s*<script src="\.\/prompt-versions\.js"><\/script>/);
   const app = read("apps/admin/app.js");
   assert.match(app, /access: "featureAccess"/);
-  assert.match(app, /window\.NilazaFeatureAccess\.mount\(detailPanel\)/);
+  // Since 28/11 it mounts in its own box inside the panel, with the minimum app version box under it.
+  assert.match(app, /window\.NilazaFeatureAccess\.mount\(accessRoot\)/);
   assert.match(app, /state\.detail === "featureAccess"[^\n]*\) return "none"/);
   assert.match(app, /window\.NilazaFeatureAccess\?\.clear\(\)/);
   const shell = read("apps/admin/shell.js");
