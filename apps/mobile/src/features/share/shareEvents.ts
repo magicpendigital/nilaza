@@ -1,7 +1,7 @@
 // Values the server accepts for share measurement. supabase/functions/share-events/handler.ts holds the same lists;
 // a test compares them so the two cannot drift apart.
 export const SHARE_EVENT_NAMES = ["share_tapped", "share_completed"] as const;
-export const SHARE_SURFACES = ["today_card", "tarot_reading", "astro_big3", "astro_invite"] as const;
+export const SHARE_SURFACES = ["today_card", "tarot_reading", "astro_big3", "astro_invite", "numerology_map", "daily_sky"] as const;
 export const SHARE_ACTIONS = ["image", "link"] as const;
 export const SHARE_OUTCOMES = ["returned", "unavailable", "failed"] as const;
 

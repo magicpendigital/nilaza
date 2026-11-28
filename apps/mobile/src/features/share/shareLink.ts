@@ -4,8 +4,8 @@ import { astrologySignIds, type AstrologySignId } from "../astrology/contracts";
 // Public origin of the Nilaza website. Share links open a public page here; they never open the app.
 export const SHARE_ORIGIN = "https://nilaza.magicpendigital.com";
 
-// "numerology_map" is local-only for now: it is not in the server allow-list (shareEvents.ts), so no server share event is sent for it.
-export type ShareSurface = "today_card" | "tarot_reading" | "astro_big3" | "astro_invite" | "numerology_map";
+// Every surface is also in the server allow-list (shareEvents.ts); numerology_map and daily_sky were added there on 28/11/2026.
+export type ShareSurface = "today_card" | "tarot_reading" | "astro_big3" | "astro_invite" | "numerology_map" | "daily_sky";
 export type ShareMedium = "card" | "invite";
 
 const idAlphabet = "abcdefghijklmnopqrstuvwxyz0123456789";
@@ -28,10 +28,32 @@ export type ShareLinkInput = {
   cardIds?: string[];
   /** The sender's Sun sign, only when the chart gives a single sign. */
   sunSign?: AstrologySignId | null;
+  /** Today's public sky, only for the daily_sky surface. */
+  sky?: ShareSkyDay | null;
+};
+
+/** Public sky of one calendar day: the same for everyone, so it says nothing about the sender. */
+export type ShareSkyDay = { moonSign: AstrologySignId; decan: "early" | "mid" | "late"; phase: string; date: string };
+
+const skyDecans = ["early", "mid", "late"];
+const skyPhases = ["new", "waxing_crescent", "first_quarter", "waxing_gibbous", "full", "waning_gibbous", "last_quarter", "waning_crescent"];
+
+/**
+ * Website page per surface. Each page has its own preview title and description (Zalo, Messenger), so the path names the
+ * variant, not only utm_campaign. The old /share page still reads utm_campaign for links sent before 28/11/2026.
+ */
+export const sharePagePath: Record<ShareSurface, string> = {
+  today_card: "share/card",
+  tarot_reading: "share/reading",
+  numerology_map: "share/numbers",
+  daily_sky: "share/sky",
+  astro_big3: "compare",
+  astro_invite: "compare"
 };
 
 /**
- * Tracked link for one share. Only public card ids, one sign name, the surface and a random id leave the device.
+ * Tracked link for one share. Only public card ids, one sign name, the public sky of the day, the surface and a random id
+ * leave the device. A number-map link carries no number, name or date.
  * The website forwards the utm_* values to the existing waitlist function, so signups from shares are countable.
  */
 export function buildShareUrl(input: ShareLinkInput): string {
@@ -40,7 +62,15 @@ export function buildShareUrl(input: ShareLinkInput): string {
   const params = new URLSearchParams();
   if (isAstro) {
     if (input.sunSign && (astrologySignIds as readonly string[]).includes(input.sunSign)) params.set("s", input.sunSign);
-  } else {
+  } else if (input.surface === "daily_sky") {
+    const sky = input.sky;
+    if (sky && (astrologySignIds as readonly string[]).includes(sky.moonSign) && skyDecans.includes(sky.decan) && skyPhases.includes(sky.phase) && /^\d{4}-\d{2}-\d{2}$/.test(sky.date)) {
+      params.set("m", sky.moonSign);
+      params.set("k", sky.decan);
+      params.set("p", sky.phase);
+      params.set("d", sky.date);
+    }
+  } else if (input.surface !== "numerology_map") {
     const cards = (input.cardIds ?? []).filter((id) => cardIdPattern.test(id)).slice(0, MAX_SHARE_CARDS);
     if (cards.length) params.set("c", cards.join(","));
   }
@@ -48,7 +78,7 @@ export function buildShareUrl(input: ShareLinkInput): string {
   params.set("utm_medium", input.surface === "astro_invite" ? "invite" : "card");
   params.set("utm_campaign", input.surface);
   params.set("utm_content", /^[a-z0-9]{6,12}$/.test(input.id) ? input.id : newShareId());
-  return `${SHARE_ORIGIN}/${locale}/${isAstro ? "compare" : "share"}?${params.toString()}`;
+  return `${SHARE_ORIGIN}/${locale}/${sharePagePath[input.surface] ?? "share"}?${params.toString()}`;
 }
 
 /** Plain readable address printed on the card image; it carries no tracking. */
@@ -87,6 +117,10 @@ export function shareLinkMessage(language: Language, surface: ShareSurface, url:
       : vi
         ? "Mình vừa xem bản đồ sao của mình và có vài điều làm mình bất ngờ. Bạn xem của bạn đi?"
         : "I just looked at my star chart and a few things surprised me. Want to see yours?";
+  } else if (surface === "daily_sky") {
+    lead = vi
+      ? "Hôm nay mình đọc bầu trời trên Nilaza và có một dòng làm mình nghĩ về nhịp của ngày. Bạn xem bầu trời hôm nay gợi gì cho bạn?"
+      : "I read today's sky on Nilaza and one line made me think about the pace of the day. Want to see what it brings up for you?";
   } else if (surface === "numerology_map") {
     lead = vi
       ? "Mình vừa xem bản đồ số của mình và có một nét làm mình phải gật gù. Bạn thử xem bản đồ số của bạn đi?"

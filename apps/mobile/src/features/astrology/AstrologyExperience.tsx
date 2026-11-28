@@ -949,6 +949,7 @@ export function AstrologyExperience({
                 onAddBirthDate={newForm}
                 {...(myChart ? { onAddBirthTime: () => editBirthDetails(myChart.report, true) } : {})}
                 {...(onWriteJournal ? { onWriteJournal } : {})}
+                {...(onOpenShare ? { onShare: onOpenShare } : {})}
               />
             )}
             {stage === "home" && (

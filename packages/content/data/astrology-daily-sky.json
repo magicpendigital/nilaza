@@ -1,8 +1,8 @@
 {
-  "version": "2026-11-24-draft1",
-  "status": "draft",
-  "reviewedBy": null,
-  "approval": "AI-drafted 2026-11-24 for Lô 2; not yet read by the Owner or a human astrology reviewer. Follows the banned-phrase list in ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23 section 6.2.",
+  "version": "2026-11-28-approved1",
+  "status": "approved",
+  "reviewedBy": "Owner",
+  "approval": "AI-drafted 2026-11-24 for Lô 2, then read and approved by the Owner on 28/11/2026 for the app and the public Daily Sky share card and web page. Not reviewed by an external astrology expert. The Owner plans better versions later; any edit needs a new Owner review. Follows the banned-phrase list in ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23 section 6.2.",
   "scope": "Bầu trời hôm nay: text keyed by today's Moon sign x decan (early 0-10°, mid 10-20°, late 20-30°), the Moon-Sun relation for users without a birth time, and the four main phase moments.",
   "labels": {
     "lean": {

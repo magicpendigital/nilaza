@@ -1,0 +1,19 @@
+---
+// One call to action for every share page: one benefit line, one button, one privacy line. The waitlist form sits
+// below in #join until the Play listing is switched on in lib/shareCta.ts.
+import { shareCtaOf } from "../../lib/shareCta";
+import type { Locale } from "../../lib/site";
+const { locale, variant } = Astro.props as { locale: Locale; variant: string };
+const cta = shareCtaOf(locale);
+---
+<div class="share-cta">
+  <p class="share-cta-benefit">{cta.benefit}</p>
+  <a class="button share-cta-button" href={cta.href} {...(cta.kind === "play" ? { rel: "noopener", target: "_blank" } : {})} data-analytics-event="waitlist_cta_click" data-analytics-source="share" data-analytics-surface="share_landing" data-analytics-target={variant}>{cta.label}</a>
+  <p class="share-cta-privacy">{cta.privacy}</p>
+</div>
+<style>
+.share-cta{display:grid;gap:10px;justify-items:start;max-width:620px;margin:34px 0 0;padding:22px;border:1px solid rgba(201,164,92,.45);border-radius:var(--radius);background:rgba(201,164,92,.06)}
+.share-cta-benefit{margin:0;color:var(--ivory)}
+.share-cta-button{width:100%;max-width:360px}
+.share-cta-privacy{margin:0;color:var(--moon);font-size:.85rem}
+</style>

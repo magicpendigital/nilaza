@@ -1,49 +1,14 @@
 ---
+// The address every share link used before 28/11/2026. It keeps working: the variant is read from utm_campaign in
+// the browser. New links open /share/card, /share/reading, /share/numbers or /share/sky, which have their own previews.
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import WaitlistForm from "../../../components/WaitlistForm.astro";
+import ShareLanding from "../../../components/share/ShareLanding.astro";
 import { locales, type Locale } from "../../../lib/site";
-import cards from "../../../../../../packages/content/data/tarot-cards.json";
+import { shareMeta } from "../../../lib/shareLanding";
 export function getStaticPaths() { return locales.map(locale => ({ params: { locale }, props: { locale } })); }
 const { locale } = Astro.props as { locale: Locale };
-const vi = locale === "vi";
-// Only card names are published to this page; ids outside this list are ignored in the browser.
-const names = Object.fromEntries((cards as { id: string; name: { vi: string; en: string } }[]).map(card => [card.id, card.name]));
-const data = JSON.stringify({ names, locale }).replace(/</g, "\\u003c");
-const title = vi ? "Một lá bài từ người bạn trên Nilaza" : "A card from a friend on Nilaza";
-const description = vi ? "Một người bạn vừa chia sẻ lá bài của họ. Nilaza là nơi để rút bài, đặt câu hỏi hay hơn và tự phản chiếu." : "A friend just shared their card. Nilaza is a place to draw cards, ask better questions and reflect.";
+const { title, description } = shareMeta(locale, "auto");
 ---
 <BaseLayout {locale} {title} {description} waitlistTarget="#join">
-  <section class="hero"><div class="shell">
-    <p class="eyebrow">{vi ? "Từ một người bạn trên Nilaza" : "From a friend on Nilaza"}</p>
-    <h1 class="display" data-heading>{vi ? "Một lá bài để chậm lại một nhịp." : "One card to slow down for a moment."}</h1>
-    <p class="cards" data-cards hidden></p>
-    <p class="lead">{vi ? "Nilaza là nơi để rút bài, đặt câu hỏi hay hơn và tự phản chiếu. Đây là cách nhìn bằng biểu tượng, không phải dự đoán tương lai." : "Nilaza is a place to draw cards, ask better questions and reflect. It is a symbolic way of looking, not a prediction of the future."}</p>
-    <a class="button" href="#join" data-analytics-event="waitlist_cta_click" data-analytics-source="share" data-analytics-surface="share_landing">{vi ? "Đăng ký trước ra mắt" : "Join the waitlist"}</a>
-  </div></section>
-  <section class="section" id="join"><div class="shell join">
-    <div><p class="eyebrow">{vi ? "Đăng ký trước ra mắt" : "Prelaunch waitlist"}</p><h2 class="section-title">{vi ? "Rút lá bài của riêng bạn khi Nilaza ra mắt." : "Draw your own card when Nilaza launches."}</h2></div>
-    <WaitlistForm {locale} />
-  </div></section>
-  <script is:inline type="application/json" id="share-data" set:html={data}></script>
-  <script>
-    import { trackPublicEvent } from "../../../lib/analytics";
-    import { parseCardIds, readShareArrival } from "../../../lib/shareLanding";
-    const raw = document.getElementById("share-data")?.textContent;
-    const data = raw ? (JSON.parse(raw) as { names: Record<string, { vi: string; en: string }>; locale: "vi" | "en" }) : null;
-    if (data) {
-      const vi = data.locale === "vi";
-      const ids = parseCardIds(new URLSearchParams(location.search).get("c"), new Set(Object.keys(data.names)));
-      const list = document.querySelector<HTMLElement>("[data-cards]");
-      const heading = document.querySelector<HTMLElement>("[data-heading]");
-      if (ids.length && list && heading) {
-        // Text only: names come from the published list, never from the address.
-        list.textContent = ids.map((id) => data.names[id][data.locale]).join(" · ");
-        list.hidden = false;
-        heading.textContent = vi ? "Một người bạn vừa rút bài." : "A friend just drew a card.";
-      }
-      const arrival = readShareArrival(location.search);
-      if (arrival.fromShare) trackPublicEvent("share_link_opened", { locale: data.locale, source: "share", surface: arrival.surface, medium: arrival.medium });
-    }
-  </script>
+  <ShareLanding {locale} variant="auto" />
 </BaseLayout>
-<style>.hero{padding:90px 0 80px;background:radial-gradient(circle at 25% 20%,rgba(14,90,90,.45),transparent 32%)}.hero h1{font-size:clamp(2.6rem,9vw,6rem);margin:14px 0}.cards{font:500 clamp(1.4rem,4vw,2.2rem)/1.25 var(--display);color:var(--gold);margin:0 0 18px}.lead{max-width:620px;color:var(--moon);margin:0 0 30px}.join{display:grid;grid-template-columns:1fr 1fr;gap:80px}@media(max-width:760px){.join{grid-template-columns:1fr;gap:32px}.hero{padding:65px 0 56px}}</style>
