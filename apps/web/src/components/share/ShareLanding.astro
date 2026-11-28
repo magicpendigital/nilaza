@@ -23,10 +23,11 @@ const pick = (text: Text) => text[locale];
 const wants = (...names: ShareVariant[]) => variant === "auto" || names.includes(variant);
 const show = (...names: ShareVariant[]) => variant !== "auto" && names.includes(variant);
 
-// Only public library text for the visitor's locale is published: card names, three keywords and the card's question;
-// the approved life-path blocks; the sky line for each Moon sign. Nothing comes from the link except enumerated ids.
+// Only public library text for the visitor's locale is published: card names, three keywords, the upright and
+// reversed meanings and the card's question; the approved life-path blocks; the sky line for each Moon sign. Nothing
+// comes from the link except enumerated ids and 0/1 flags.
 const tarot = wants("card", "reading")
-  ? Object.fromEntries((cards as { id: string; name: Text; keywords: { vi: string[]; en: string[] }; reflectionQuestion: Text }[]).map((card) => [card.id, { name: pick(card.name), keywords: card.keywords[locale].slice(0, 3), question: pick(card.reflectionQuestion) }]))
+  ? Object.fromEntries((cards as { id: string; name: Text; keywords: { vi: string[]; en: string[] }; uprightMeaning: Text; reversedMeaning: Text; reflectionQuestion: Text }[]).map((card) => [card.id, { name: pick(card.name), keywords: card.keywords[locale].slice(0, 3), upright: pick(card.uprightMeaning), reversed: pick(card.reversedMeaning), question: pick(card.reflectionQuestion) }]))
   : null;
 const numbers = wants("numbers")
   ? {
@@ -52,7 +53,7 @@ const quote = wants("quote")
       .map((book) => ({ id: book.id, label: pick(book.label), author: pick(book.author), items: quoteFiles[book.id].items.map((item) => [pick(item.quote), pick(item.ref), pick(item.question)]) }))
   : null;
 const data = JSON.stringify({ locale, variant, tarot, numbers, sky: skyText, quote }).replace(/</g, "\\u003c");
-const cta = shareCtaOf(locale);
+const cta = shareCtaOf(locale, undefined, variant);
 const heading = {
   card: vi ? "Một lá bài để chậm lại một nhịp." : "One card to slow down for a moment.",
   reading: vi ? "Một trải bài để ngồi nghĩ cùng nhau." : "A spread to think about together.",
@@ -72,9 +73,11 @@ const heading = {
       <p class="lead" data-tarot-lead>{vi ? "Tarot ở Nilaza là một cách nhìn bằng biểu tượng: mỗi lá gợi một câu hỏi để bạn tự soi chiếu, không là lời dự đoán." : "Tarot on Nilaza is a symbolic way of looking: each card opens a question to reflect on, not a prediction."}</p>
       <div class="try">
         <p class="eyebrow">{vi ? "Đến lượt bạn" : "Your turn"}</p>
-        <button class="button" type="button" data-draw>{vi ? "Rút lá của bạn" : "Draw your card"}</button>
-        <p class="note">{vi ? "Lá được rút ngẫu nhiên ngay trên trình duyệt này. Không có gì được gửi đi." : "The card is drawn at random in this browser. Nothing is sent."}</p>
+        <p class="try-ask">{vi ? "Còn lá bài đang chờ bạn hôm nay là gì?" : "And which card is waiting for you today?"}</p>
+        <button class="button" type="button" data-draw>{vi ? "Rút lá của bạn hôm nay" : "Draw your card for today"}</button>
+        <p class="note" data-draw-note>{vi ? "Mỗi ngày một lá, rút ngẫu nhiên ngay trên trình duyệt này. Không có gì được gửi đi." : "One card a day, drawn at random in this browser. Nothing is sent."}</p>
         <div class="drawn" data-drawn hidden aria-live="polite"></div>
+        <p class="note" data-drawn-note hidden>{vi ? "Đây là lá của bạn hôm nay. Ngày mai quay lại để rút lá mới." : "This is your card for today. Come back tomorrow to draw a new one."}</p>
       </div>
     </div>
   )}
@@ -143,10 +146,10 @@ const heading = {
 <script is:inline type="application/json" id="share-landing-data" set:html={data}></script>
 <script>
   import { trackPublicEvent } from "../../lib/analytics";
-  import { isShareVariant, parseCardIds, parseSharedSky, quoteBookIndex, quoteDateKey, quoteItemIndex, randomIndex, readShareArrival, variantFromSearch, type ShareVariant } from "../../lib/shareLanding";
+  import { drawWebCard, isShareVariant, meaningBody, parseCardIds, parseMeaningFlag, parseOrientations, parseSharedSky, playReferrerUrl, quoteBookIndex, quoteDateKey, quoteItemIndex, readShareArrival, readWebDraw, variantFromSearch, vnDateKey, type ShareVariant, type WebDraw } from "../../lib/shareLanding";
   import { lifePathNumber, parseBirthDate } from "../../../../mobile/src/features/numerology/calc";
 
-  type Card = { name: string; keywords: string[]; question: string };
+  type Card = { name: string; keywords: string[]; upright: string; reversed: string; question: string };
   type Data = {
     locale: "vi" | "en";
     variant: ShareVariant | "auto";
@@ -172,9 +175,9 @@ const heading = {
     if (arrival.fromShare) trackPublicEvent("share_link_opened", { locale: lang, source: "share", surface: arrival.surface, medium: arrival.medium, variant });
 
     // Every element below is built with textContent and fixed attributes: nothing from the address becomes markup.
-    const cardFigure = (id: string, card: Card, size: "small" | "large") => {
+    const cardFigure = (id: string, card: Card, size: "small" | "large", reversed = false) => {
       const figure = document.createElement("figure");
-      figure.className = `card-figure ${size}`;
+      figure.className = `card-figure ${size}${reversed ? " reversed" : ""}`;
       const image = document.createElement("img");
       image.src = `/share/cards/${id}.webp`;
       image.alt = card.name;
@@ -183,8 +186,26 @@ const heading = {
       image.decoding = "async";
       const caption = document.createElement("figcaption");
       caption.textContent = card.name;
+      if (reversed) {
+        const turn = document.createElement("span");
+        turn.className = "orientation";
+        turn.textContent = vi ? "Ngược" : "Reversed";
+        caption.append(" ", turn);
+      }
       figure.append(image, caption);
       return figure;
+    };
+    // Library meaning for the card's orientation, under a short label.
+    const meaningBlock = (card: Card, reversed: boolean, label: string) => {
+      const block = document.createElement("div");
+      block.className = "meaning";
+      const title = document.createElement("p");
+      title.className = "meaning-label";
+      title.textContent = label;
+      const body = document.createElement("p");
+      body.textContent = meaningBody(reversed ? card.reversed : card.upright);
+      block.append(title, body);
+      return block;
     };
     const keywordList = (words: string[]) => {
       const list = document.createElement("ul");
@@ -197,16 +218,22 @@ const heading = {
       const tarot = data.tarot;
       const heading = root.querySelector<HTMLElement>("[data-tarot-heading]");
       if (heading) heading.textContent = (variant === "reading" ? heading.dataset.reading : heading.dataset.card) ?? heading.textContent;
-      const ids = parseCardIds(new URLSearchParams(location.search).get("c"), new Set(Object.keys(tarot)));
+      const params = new URLSearchParams(location.search);
+      const known = new Set(Object.keys(tarot));
+      const ids = parseCardIds(params.get("c"), known);
+      const turned = parseOrientations(params.get("o"), ids.length);
+      const withMeaning = parseMeaningFlag(params.get("m"));
       const friend = root.querySelector<HTMLElement>("[data-friend-cards]");
       const friendQuestion = root.querySelector<HTMLElement>("[data-friend-question]");
       if (ids.length && friend && heading) {
         heading.textContent = ids.length === 1 ? (vi ? "Bạn của bạn vừa rút lá này." : "Your friend just drew this card.") : vi ? "Bạn của bạn vừa trải những lá này." : "Your friend just laid out these cards.";
         friend.dataset.count = String(ids.length);
-        friend.replaceChildren(...ids.map((id) => {
+        friend.replaceChildren(...ids.map((id, index) => {
           const wrap = document.createElement("div");
           wrap.className = "friend-card";
-          wrap.append(cardFigure(id, tarot[id], ids.length === 1 ? "large" : "small"), keywordList(tarot[id].keywords));
+          wrap.append(cardFigure(id, tarot[id], ids.length === 1 ? "large" : "small", turned[index]), keywordList(tarot[id].keywords));
+          // The meaning only when the sharer chose to include it (m=1).
+          if (withMeaning) wrap.append(meaningBlock(tarot[id], turned[index], vi ? "Lá này gợi" : "This card points to"));
           return wrap;
         }));
         friend.hidden = false;
@@ -217,18 +244,34 @@ const heading = {
       }
       const drawButton = root.querySelector<HTMLButtonElement>("[data-draw]");
       const drawn = root.querySelector<HTMLElement>("[data-drawn]");
-      const allIds = Object.keys(tarot);
-      drawButton?.addEventListener("click", () => {
+      const drawNote = root.querySelector<HTMLElement>("[data-draw-note]");
+      const drawnNote = root.querySelector<HTMLElement>("[data-drawn-note]");
+      const play = root.querySelector<HTMLAnchorElement>('.share-cta-button[data-cta-kind="play"]');
+      const playBase = play?.getAttribute("href") ?? "";
+      const day = vnDateKey();
+      const storageKey = "nilaza.share.webDraw";
+      // One draw per Vietnam day in this browser; the stored value is checked against the deck and the day before use.
+      const stored = (() => { try { return readWebDraw(localStorage.getItem(storageKey), day, known); } catch { return null; } })();
+      const showDraw = (draw: WebDraw) => {
         if (!drawn) return;
-        const pool = allIds.filter((id) => !ids.includes(id));
-        const id = pool[randomIndex(pool.length)];
-        const card = tarot[id];
+        const card = tarot[draw.id];
         const question = document.createElement("p");
         question.className = "question";
         question.textContent = card.question;
-        drawn.replaceChildren(cardFigure(id, card, "large"), keywordList(card.keywords), question);
+        drawn.replaceChildren(cardFigure(draw.id, card, "large", draw.reversed), keywordList(card.keywords), meaningBlock(card, draw.reversed, vi ? "Hôm nay lá này gợi với bạn" : "Today this card points to"), question);
         drawn.hidden = false;
-        drawButton.textContent = vi ? "Rút lá khác" : "Draw another";
+        if (drawButton) drawButton.hidden = true;
+        if (drawNote) drawNote.hidden = true;
+        if (drawnNote) drawnNote.hidden = false;
+        // When the Play listing is on, the button carries the drawn card so the app can open on it later (T3).
+        if (play) play.href = playReferrerUrl(playBase, draw);
+      };
+      if (play) play.href = playReferrerUrl(playBase, null);
+      if (stored) showDraw(stored);
+      drawButton?.addEventListener("click", () => {
+        const draw = drawWebCard(Object.keys(tarot), ids, day);
+        try { localStorage.setItem(storageKey, JSON.stringify(draw)); } catch { /* private mode: the draw still shows */ }
+        showDraw(draw);
         tried();
       });
     }
@@ -319,7 +362,15 @@ const heading = {
 .friend-question,.question{font:500 clamp(1.3rem,4.5vw,1.8rem)/1.25 var(--display);color:var(--gold);margin:0 0 18px;max-width:30ch}
 .try{margin:26px 0 0;padding:22px 0 0;border-top:1px solid var(--line)}
 .try .button{min-width:220px}
-.drawn{display:grid;grid-template-columns:minmax(0,180px);gap:12px;margin-top:20px}
+.try [hidden]{display:none}
+.try-ask{font:500 clamp(1.3rem,4.5vw,1.7rem)/1.25 var(--display);color:var(--ivory);margin:6px 0 16px}
+.drawn{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;margin-top:20px;max-width:620px}
+.drawn :global(.card-figure){max-width:180px}
+:global(.card-figure.reversed img){transform:rotate(180deg)}
+:global(.orientation){font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,164,92,.5);border-radius:99px;padding:.15rem .45rem;vertical-align:middle;white-space:nowrap}
+:global(.meaning){margin:10px 0 0;max-width:62ch}
+:global(.meaning p){margin:0;color:var(--ivory);line-height:1.55}
+:global(.meaning .meaning-label){margin:0 0 4px;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
 :global(.card-figure){margin:0}
 :global(.card-figure img){width:100%;height:auto;border-radius:10px;border:1px solid rgba(201,164,92,.4);background:#0f0e0d}
 :global(.card-figure figcaption){margin-top:8px;font:500 1.15rem/1.25 var(--display);color:var(--ivory)}
