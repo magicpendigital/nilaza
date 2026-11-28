@@ -40,12 +40,15 @@
     "scripts/share-landing.test.mjs",
     "scripts/build-share-card-thumbs.mjs",
     "package.json",
-    "docs/release/share-numerology-landing-2026-11-28/HANDOFF.vi.md"
+    "docs/release/share-numerology-landing-2026-11-28/HANDOFF.vi.md",
+    "packages/content/data/astrology-daily-sky.json",
+    "PLAN.md"
   ],
   "untouchedSurfaces": [
     "No SQL applied, no Edge Function deployed, no secret read or set, no Supabase/Vercel/Cloudflare/EAS/Play setting changed; no supabase command against the remote project.",
-    "PLAN.md is updated by the main session, not here.",
-    "Not touched (another session): ProfileHome.tsx, NumerologyScreen.tsx, WhoAmI files, astrology-topic-placements.json, zodiac guides, synastry data, astrology-daily-sky.json.",
+    "PLAN.md is updated by the main session in this same branch (28/11).",
+    "astrology-daily-sky.json: only the review header changes (Owner approved the content on 28/11); no text is edited.",
+    "Not touched (another session): ProfileHome.tsx, NumerologyScreen.tsx, WhoAmI files, astrology-topic-placements.json, zodiac guides, synastry data.",
     "No per-card OG images (Step B), no A/B title test.",
     "Waitlist function and its stored utm fields are unchanged."
   ],
@@ -130,7 +133,7 @@
     {
       "path": "packages/content/data/astrology-daily-sky.json",
       "reason": "Day line for the sky variant (read only; status draft, flagged for Owner).",
-      "sha256": "d5744653d30d1fce2e903e266ab824c2709d05b9d3fda7f061b493fd21880a45"
+      "sha256": "e685a41ed74ff4431b9dc764d8bfb98451b9944553c7539fb4823138dc385a9c"
     },
     {
       "path": "apps/web/src/lib/shareLanding.ts",
