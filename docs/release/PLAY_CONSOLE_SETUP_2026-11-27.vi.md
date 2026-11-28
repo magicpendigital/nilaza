@@ -27,13 +27,13 @@ Owner duyệt 26/11: tạo app Nilaza trên tài khoản nhà phát triển "Mag
 
 ## Còn lại, cần Owner
 
-1. **Thông tin đăng nhập (App access):** nhập tài khoản thử cho người duyệt của Google (email + mật khẩu). Agent không được nhập mật khẩu. Mục này chặn mục 2 và 3.
-2. **Đối tượng mục tiêu:** chọn 18+ (theo quyết định sản phẩm). Agent làm được sau khi xong mục 1.
-3. **Gửi An toàn dữ liệu:** bấm Gửi sau mục 2 (nội dung đã điền sẵn).
-4. **Email liên hệ công khai** trong Cài đặt cửa hàng (bắt buộc, hiện công khai trên Google Play) và trang web nếu muốn.
+1. ✅ **Thông tin đăng nhập (App access):** Owner tự nhập tài khoản thử cho người duyệt (27/11).
+2. ✅ **Đối tượng mục tiêu:** đã chọn 18+ (27/11).
+3. ✅ **An toàn dữ liệu:** đã gửi; bản xem trước bước 5 khớp nội dung trong biên nhận này (27/11).
+4. ✅ **Email liên hệ công khai** và danh sách người thử: Owner tự làm (27/11).
 5. Quyết định còn mở về An toàn dữ liệu: có coi việc gửi nội dung cho OpenRouter là "chia sẻ" không (đang khai là bên xử lý thay mặt, không chia sẻ); thông báo đẩy Expo; câu "hít thở" trong nghi thức Tarot có bị coi là tính năng sức khỏe không.
 6. Trang điều khoản còn chỗ trống; điền xong thì thêm URL vào Tư cách người bán.
-7. Thử nghiệm khép kín: cần ≥ 12 người thử trong 14 ngày trước khi lên Production (tài khoản cá nhân).
+7. Thử nghiệm khép kín: đã tạo và gửi xét duyệt (xem mục dưới). Để đăng ký Production (tài khoản cá nhân) cần ≥ 12 người thử tham gia liên tục 14 ngày; hiện 4 danh sách có 11 email, cần thêm ít nhất 1 người.
 8. Lợi ích Premium trong mô tả còn chung chung; thanh toán chưa kiểm đầu cuối.
 
 ## Bản build AAB và bản phát hành Thử nghiệm nội bộ (27/11)
@@ -44,3 +44,12 @@ Owner duyệt 26/11: tạo app Nilaza trên tài khoản nhà phát triển "Mag
 - **Play Console:** bản phát hành "8 (0.1.3)" ở kênh **Thử nghiệm nội bộ**, ghi chú phát hành tiếng Việt từ [nội dung trang cửa hàng](PLAY_STORE_LISTING_2026-11-27.vi.md). Play đọc được: API tối thiểu 24, SDK mục tiêu 36, kích thước cài mới 88,9 MB. Trạng thái 27/11 10:25: "Đã phát hành cho những người thử nghiệm nội bộ", "Chưa được xem xét"; tên tạm `app.nilaza.mobile (unreviewed)` cho đến khi Google duyệt xong.
 - 2 cảnh báo, không chặn: chưa có danh sách người thử (kênh hiện "Không hoạt động"); chưa tải tệp gỡ rối mã (R8/proguard).
 - **Còn cần Owner:** thêm email người thử ở thẻ "Nhân viên kiểm thử" của kênh Thử nghiệm nội bộ, rồi gửi đường liên kết tham gia cho họ. Chưa cài thử từ Google Play trên máy thật.
+
+## Thử nghiệm khép kín và gửi Google xét duyệt (27/11)
+
+- **Vì sao cần:** nút "Gửi ứng dụng đi xem xét" bị khóa dù mọi mục Nội dung ứng dụng đã xong. Google chỉ xét duyệt khi có bản phát hành ở kênh Thử nghiệm khép kín (hoặc công khai); kênh nội bộ không qua xét duyệt. Owner duyệt tạo bản khép kín và gửi xét duyệt (27/11, "Đồng ý, tạo luôn").
+- **Kênh "Thử nghiệm khép kín - Alpha":** quốc gia Việt Nam; người thử là 4 danh sách email Chess (1), Clik (1), From FB (3), MCY-Phase1-Internal-test (6); bản phát hành "8 (0.1.3)" dùng lại gói AAB versionCode 8 ở trên (không dựng bản mới); ghi chú phát hành chép từ bản nội bộ. Ô "email hoặc URL để gửi ý kiến phản hồi" để trống.
+- 1 cảnh báo, không chặn: chưa có tệp gỡ rối mã (R8/proguard).
+- **Đã gửi 14 thay đổi** (kênh khép kín, trang cửa hàng tiếng Việt, phân loại nội dung, đối tượng 18+, chính sách quyền riêng tư, quảng cáo, An toàn dữ liệu, ứng dụng sức khỏe, tư cách người bán, danh mục, thông tin đăng nhập, mã nhận dạng quảng cáo, ứng dụng chính phủ, tính năng tài chính). Trang Tổng quan về việc xuất bản hiện "Các thay đổi đang được xem xét"; Play chạy kiểm tra nhanh (tối đa 14 phút) rồi tự chuyển cho Google; Google báo thường xong trong 7 ngày.
+- **Chưa kiểm chứng:** kết quả kiểm tra nhanh và kết quả xét duyệt của Google; cài app từ Google Play trên máy thật; đường liên kết tham gia khép kín (chỉ hiện sau khi được duyệt).
+

@@ -2,11 +2,15 @@
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import WaitlistForm from "../../../components/WaitlistForm.astro";
 import { locales, type Locale } from "../../../lib/site";
+import ShareCta from "../../../components/share/ShareCta.astro";
+import ShareTrust from "../../../components/share/ShareTrust.astro";
+import { shareCtaOf } from "../../../lib/shareCta";
 import { zodiac } from "../../../lib/shareLanding";
 import synastry from "../../../../../../packages/content/data/astrology-synastry.json";
 export function getStaticPaths() { return locales.map(locale => ({ params: { locale }, props: { locale } })); }
 const { locale } = Astro.props as { locale: Locale };
 const vi = locale === "vi";
+const cta = shareCtaOf(locale);
 // Approved element-pair text and disclaimers are reused as published in the app; nothing here is scored or predictive.
 const data = JSON.stringify({ locale, zodiac, pairs: synastry.elementPairs, elementNames: synastry.elementNames, intro: synastry.intro, footer: synastry.footer }).replace(/</g, "\\u003c");
 const title = vi ? "Lời mời so bản đồ sao — Nilaza" : "An invite to compare star charts — Nilaza";
@@ -30,11 +34,13 @@ const description = vi ? "Một người bạn mời bạn so hai Mặt Trời. 
       <p class="note" data-note></p>
       <p class="note" data-footer></p>
     </div>
+    <ShareCta {locale} variant="compare" />
+    <ShareTrust {locale} />
   </div></section>
-  <section class="section" id="join"><div class="shell join">
-    <div><p class="eyebrow">{vi ? "Đăng ký trước ra mắt" : "Prelaunch waitlist"}</p><h2 class="section-title">{vi ? "Xem đầy đủ bản đồ sao của bạn khi Nilaza ra mắt." : "See your full star chart when Nilaza launches."}</h2><p class="note">{vi ? "Trong ứng dụng, bản đồ sao được tính từ ngày, giờ và nơi sinh ngay trên điện thoại của bạn." : "In the app, your chart is calculated from your birth date, time and place on your own phone."}</p></div>
+  {cta.kind === "waitlist" && <section class="section" id="join"><div class="shell join">
+    <div><p class="eyebrow">{vi ? "Bản Android" : "Android app"}</p><h2 class="section-title">{vi ? "Đăng ký thử bản Android." : "Sign up to try the Android app."}</h2><p class="note">{vi ? "Trong ứng dụng, bản đồ sao được tính từ ngày, giờ và nơi sinh ngay trên điện thoại của bạn." : "In the app, your chart is calculated from your birth date, time and place on your own phone."}</p></div>
     <WaitlistForm {locale} />
-  </div></section>
+  </div></section>}
   <script is:inline type="application/json" id="compare-data" set:html={data}></script>
   <script>
     import { trackPublicEvent } from "../../../lib/analytics";
@@ -89,6 +95,8 @@ const description = vi ? "Một người bạn mời bạn so hai Mặt Trời. 
         document.querySelector<HTMLElement>("[data-note]")!.textContent = (pair ? `${data.intro[lang]} ` : "") + (vi ? "Ngày gần ranh giới giữa hai cung có thể khác theo năm và giờ sinh." : "Dates near the edge between two signs can differ by year and birth time.");
         document.querySelector<HTMLElement>("[data-footer]")!.textContent = pair ? data.footer[lang] : "";
         result.hidden = false;
+        // The variant only: never the date or a sign.
+        trackPublicEvent("share_landing_try", { locale: lang, source: "share", variant: "compare" });
       });
     }
   </script>

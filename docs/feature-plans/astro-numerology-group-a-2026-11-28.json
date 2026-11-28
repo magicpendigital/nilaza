@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "taskId": "astro-numerology-group-a-2026-11-28",
+  "ownerAgent": "mobile_agent",
+  "lane": "Mobile: Astro Numerology group A small items, plus the Owner-approved 28/11 backend rollout receipt and the synthesis/two-systems plan",
+  "goal": "Close the small Astro Numerology gaps the Owner approved on 28/11/2026 (Profile row label, Number Map section bar and Write-in-Journal button, saved Number Map row in Who am I, review of topic labels and phai/se wording) and record the approved rollout (migration 20261116100000, ai-tarot-reading, admin-model-router-config).",
+  "successCriteria": [
+    "Profile row reads Ngay sinh, ten & ban do / Birth date, name & maps.",
+    "Number Map result has a section bar (Ban, Bieu do, Nhip, Hop so) and a Write in Journal button that opens the Journal with the life-path question.",
+    "Who am I lists the Number Map under Saved reports when a birth date exists, with View opening the Number Map.",
+    "Topic labels and phai/se wording reviewed; findings recorded.",
+    "Rollout receipt and plan document committed; PLAN.md updated; tsc, mobile tests, validate:data pass."
+  ],
+  "writeScope": [
+    "apps/mobile/src/features/profile/ProfileHome.tsx",
+    "apps/mobile/src/features/profile/WhoAmI.tsx",
+    "apps/mobile/src/features/profile/__tests__/WhoAmI.test.tsx",
+    "apps/mobile/src/features/profile/__tests__/ProfileHome.test.tsx",
+    "apps/mobile/src/features/numerology/NumerologyScreen.tsx",
+    "apps/mobile/src/features/numerology/__tests__/NumerologyScreen.test.tsx",
+    "apps/mobile/App.tsx",
+    "docs/release/singapore-edge-functions-2026-11-09/tarot-free-draw-router-rollout-2026-11-28.json",
+    "docs/proposals/ASTRO_NUMEROLOGY_SYNTHESIS_TWO_SYSTEMS_PLAN_2026-11-28.vi.md",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "No new SQL or Edge Function code; share surfaces and the web landing page are handled in a separate PR.",
+    "No AI call added; Hai he and Bao cao tong hop are planned only."
+  ],
+  "impact": {
+    "entryPoint": "Profile row label; Number Map result section bar and journal button; Who am I saved reports row.",
+    "dataWrite": "None new. The journal button pre-fills an approved question; nothing saved until the person writes.",
+    "backendContract": "Unchanged in code. Receipt records the Owner-approved apply of 20261116100000 and deploys of ai-tarot-reading v16 and admin-model-router-config v9.",
+    "adminVisibility": "admin-model-router-config redeploy lets Admin list the numerology_private_message route.",
+    "privacySafety": "Journal prompt is approved generic content; no name or birth date leaves the device; Who am I row shows the date already shown in the identity card.",
+    "observability": "No new events.",
+    "rollback": "Revert the PR. Migration rollback per the file header; redeploy previous function versions."
+  },
+  "canonicalContracts": [
+    "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md",
+    "packages/content/data/numerology-blocks.json"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Workflow and approval rules.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Workflow and approval rules.",
+      "sha256": "e508d09a9fdffc78da809a4f1449f1d77999186b9bd371870bd8582e132075e1"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Workflow and approval rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/mobile/src/features/profile/ProfileHome.tsx",
+      "reason": "Reviewed before editing (group A).",
+      "sha256": "0c0546446d3e16650f3d29a8a024e249b3f61eae3ebdedd833a96c88178d112d"
+    },
+    {
+      "path": "apps/mobile/src/features/profile/WhoAmI.tsx",
+      "reason": "Reviewed before editing (group A).",
+      "sha256": "edf8c9bccad6001931004d8a3065e1b78abc49bba6e456833e80a793d4547d38"
+    },
+    {
+      "path": "apps/mobile/src/features/numerology/NumerologyScreen.tsx",
+      "reason": "Reviewed before editing (group A).",
+      "sha256": "eeacb062d977921164c1cd02cca934e8e1412888d333ed4af6c579e3323f0f45"
+    },
+    {
+      "path": "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md",
+      "reason": "Reviewed before editing (group A).",
+      "sha256": "f91941131ccd1ca1f91282564c1f6ae25adff5f192d051a7346ec98a3d20ca75"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before code edits; PLAN.md updated in the same PR; infra steps approved by the Owner in chat 28/11."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No package added; Play Console form choices recorded as observed on 26-27/11/2026."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No auth or RLS change in code. Applied migration only replaces tarot_draw_claim body; authenticated has no execute (checked).",
+    "sensitiveData": "No birth data or name sent anywhere new.",
+    "secretsLogging": "No secret read or written.",
+    "externalInput": "No new input path.",
+    "dependencies": "No package added.",
+    "migrationRelease": "Migration 20261116100000 (LF SHA-256 6b37fdac84e012eb0e3c1f60dc204ae2052b9528dbfab176b38519bdf76bfb8d) applied with Owner approval 28/11. This PR only records that rollout; it writes nothing to a database.",
+    "stopCondition": "Stop before any further SQL, deploy or setting change.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Branch cut from origin/main fb847f6; record written before code edits.",
+    "paths": []
+  },
+  "validationCommands": [
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "npm run validate:data",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Tôi → Ngày sinh, tên & bản đồ; Khám phá → Bản đồ số → xem kết quả → thanh Bạn/Biểu đồ/Nhịp/Hợp số → Viết vào Nhật ký; Tôi → thẻ tên → Tôi là ai → Báo cáo đã lưu → Bản đồ số → Xem.",
+  "residualRisk": "Not tried on a phone (Back, TalkBack, large text).",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

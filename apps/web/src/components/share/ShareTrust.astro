@@ -1,0 +1,20 @@
+---
+// Plain facts only: no counts, countdowns or claims about outcomes.
+import type { Locale } from "../../lib/site";
+const { locale } = Astro.props as { locale: Locale };
+const vi = locale === "vi";
+const items = vi
+  ? ["Tính ngay trên máy của bạn", "Để tự soi chiếu, không là lời dự đoán", "Dành cho người từ 18 tuổi"]
+  : ["Calculated on your device", "For self-reflection, not prediction", "For people aged 18 and over"];
+---
+<aside class="share-trust" aria-label={vi ? "Cách Nilaza làm việc" : "How Nilaza works"}>
+  <ul>{items.map((item) => <li>{item}</li>)}</ul>
+  <p><a href={`/${locale}/privacy`}>{vi ? "Chính sách riêng tư" : "Privacy policy"}</a><span aria-hidden="true"> · </span><a href={`/${locale}/safety`}>{vi ? "An toàn" : "Safety"}</a></p>
+</aside>
+<style>
+.share-trust{margin:28px 0 0;padding-top:18px;border-top:1px solid var(--line);max-width:680px}
+.share-trust ul{display:flex;flex-wrap:wrap;gap:8px 10px;margin:0 0 10px;padding:0;list-style:none}
+.share-trust li{border:1px solid var(--line);border-radius:99px;padding:.25rem .7rem;color:var(--moon);font-size:.8rem}
+.share-trust p{margin:0;font-size:.85rem;color:var(--moon)}
+.share-trust a{color:var(--gold);display:inline-flex;align-items:center;min-height:44px}
+</style>

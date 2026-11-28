@@ -84,6 +84,28 @@ test("a Sun boundary birth date shows the change time and lets the user pick a s
   expect(screen.queryByText("Chọn tạm Song Ngư")).toBeNull();
 });
 
+test("sharing today's sky sends only the public sky, even when a chart is saved", () => {
+  const onShare = jest.fn();
+  const screen = render(<DailySkyScreen language="vi" now={now} zone={vn} chart={withHouse} onShare={onShare} />);
+  fireEvent.press(screen.getByText("Chia sẻ bầu trời hôm nay"));
+  expect(onShare).toHaveBeenCalledTimes(1);
+  const request = onShare.mock.calls[0][0];
+  const sky = dailySkyAt(now, vn);
+  const publicReading = dailySkyReading(sky, { kind: "none" }, "vi", vn);
+  expect(request.model.surface).toBe("daily_sky");
+  expect(request.model.title).toBe("Trăng ở Kim Ngưu");
+  expect(request.model.message).toBe(publicReading.headline);
+  expect(request.sky).toEqual({ moonSign: "taurus", decan: sky.decan, phase: sky.phase.id, date: "2026-11-24" });
+  expect(Object.keys(request).sort()).toEqual(["model", "primary", "sky"]);
+  const shared = JSON.stringify(request);
+  expect(shared).not.toMatch(/Song Ngư|pisces|lá số|Nhà 5|house/i);
+});
+
+test("no share button without a share handler", () => {
+  const screen = render(<DailySkyScreen language="vi" now={now} zone={vn} />);
+  expect(screen.queryByText("Chia sẻ bầu trời hôm nay")).toBeNull();
+});
+
 test("English labels", () => {
   const screen = render(<DailySkyScreen language="en" now={now} zone={vn} />);
   expect(screen.getByText("Moon in Taurus")).toBeTruthy();

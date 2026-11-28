@@ -1631,3 +1631,24 @@ export async function getPublishedContent(input: BackendOptions = {}): Promise<P
   if (!result?.payload || !Array.isArray(result.payload.personas) || !Array.isArray(result.payload.decks)) return null;
   return result as PublishedContentBundle;
 }
+
+/**
+ * Read the published Free / Premium switch and limits (migration 20261127090000_feature_access_configs).
+ * get_feature_access_config() is granted to anon as well, so guests get the same rules; it only returns the
+ * active published copy ({version, publishedAt, config}) or null. The caller validates the shape
+ * (features/access/featureAccessConfig.ts) and keeps its cache or built-in defaults on any error.
+ * Not called by any screen yet: the five features are wired in a later app release.
+ */
+export async function getPublishedFeatureAccess(input: BackendOptions = {}): Promise<unknown> {
+  const options = currentOptions(input);
+  if (options.authToken && options.userId) {
+    const { sb, options: personal } = personalClient(input);
+    return readPersonal<unknown>(sb.rpc("get_feature_access_config"), personal);
+  }
+  const url = options.supabaseUrl ?? options.baseUrl?.replace(/\/functions\/v1\/?$/, "");
+  if (!url || !options.apiKey) throw new Error("Backend is not configured");
+  const sb = createClient(url, options.apiKey, {
+    auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false }
+  });
+  return readPersonal<unknown>(sb.rpc("get_feature_access_config"), options);
+}
