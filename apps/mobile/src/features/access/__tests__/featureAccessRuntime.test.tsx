@@ -45,6 +45,20 @@ describe("feature access service", () => {
     expect(fetcher).toHaveBeenCalledTimes(2);
   });
 
+  test("accept: the start-up bootstrap payload is used without a second request", async () => {
+    const fetcher = jest.fn(async () => { throw new Error("should not be called"); });
+    const service = createFeatureAccessService({ fetcher, now: () => 2_000 });
+    expect(await service.accept({ version: 4, publishedAt: null, config: premiumRune() }, 1_500)).toMatchObject({ source: "remote", version: 4, checkedAt: 1_500 });
+    // Within the refresh window the hook's refresh keeps the accepted copy.
+    expect(await service.refresh()).toMatchObject({ source: "remote", version: 4 });
+    expect(fetcher).not.toHaveBeenCalled();
+    expect(JSON.parse((await AsyncStorage.getItem(FEATURE_ACCESS_STORAGE_KEY)) ?? "null")).toMatchObject({ version: 4 });
+    // A malformed payload keeps the copy in use; null (nothing published) goes back to the defaults.
+    expect(await service.accept({ version: 5, config: "nope" })).toMatchObject({ version: 4 });
+    expect(await service.accept(null)).toMatchObject({ source: "remote", version: null });
+    expect(await AsyncStorage.getItem(FEATURE_ACCESS_STORAGE_KEY)).toBeNull();
+  });
+
   test("a broken cache falls back to the defaults", async () => {
     await AsyncStorage.setItem(FEATURE_ACCESS_STORAGE_KEY, JSON.stringify({ version: 5, config: { features: {} } }));
     const service = createFeatureAccessService({ fetcher: async () => { throw new Error("offline"); } });

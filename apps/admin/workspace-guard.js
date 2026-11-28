@@ -199,6 +199,9 @@
     publish_feature_access_config: "ai.manage",
     rollback_feature_access_config: "ai.manage",
     get_feature_access_audience: "ai.read",
+    // Minimum app version (Owner decision 28/11, migration 20261128090000); the RPCs check the same rules.
+    get_app_release_policies: "ai.read",
+    set_app_release_policy: "ai.manage",
     get_growth_waitlist_overview: "overview.read",
     // AI cost by feature (P1-C, migration 20261115120000); aggregates only, the RPC checks ai.read itself.
     get_ai_cost_summary: "ai.read",
