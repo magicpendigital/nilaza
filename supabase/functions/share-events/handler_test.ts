@@ -70,6 +70,39 @@ Deno.test("still rejects surfaces outside the list, including near-misses of the
   }
 });
 
+// 28/11/2026 (share cards v2, S1): the quote card is a new surface, and image shares say which size was chosen.
+Deno.test("stores the book quote surface and the image format", async () => {
+  const { call, inserted } = setup();
+  const res = await call({ events: [
+    { name: "share_tapped", surface: "book_quote", action: "image", format: "story" },
+    { name: "share_completed", surface: "book_quote", action: "image", outcome: "returned", format: "story" },
+    { name: "share_completed", surface: "today_card", action: "image", outcome: "returned", format: "post" },
+    { name: "share_tapped", surface: "book_quote", action: "link" }
+  ] });
+  assertEquals(res.status, 202);
+  assertEquals(inserted[0].map((row) => row.metadata), [
+    { surface: "book_quote", action: "image", format: "story" },
+    { surface: "book_quote", action: "image", outcome: "returned", format: "story" },
+    { surface: "today_card", action: "image", outcome: "returned", format: "post" },
+    { surface: "book_quote", action: "link" }
+  ]);
+});
+
+Deno.test("rejects a format outside the list, a format on a link share and a non-string format", async () => {
+  for (const event of [
+    { name: "share_tapped", surface: "today_card", action: "image", format: "square" },
+    { name: "share_tapped", surface: "today_card", action: "image", format: "Story" },
+    { name: "share_tapped", surface: "today_card", action: "link", format: "post" },
+    { name: "share_tapped", surface: "today_card", action: "image", format: null },
+    { name: "share_tapped", surface: "today_card", action: "image", format: ["post"] }
+  ]) {
+    const { call, inserted } = setup();
+    const res = await call({ events: [event] });
+    assertEquals(res.status, 400, JSON.stringify(event));
+    assertEquals(inserted.length, 0);
+  }
+});
+
 Deno.test("one unknown surface rejects the whole batch, so no partial rows are written", async () => {
   const { call, inserted } = setup();
   const res = await call({ events: [tap, { name: "share_tapped", surface: "numerology_maps", action: "image" }] });
