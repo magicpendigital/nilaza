@@ -11,6 +11,7 @@ import {
   isBookQuoteSaved, loadSavedBookQuotes, saveSavedBookQuotes, toggleSavedBookQuote,
   type BookQuoteStorage, type SavedBookQuote
 } from "./savedQuotes";
+import { PremiumGate, useFeatureAccess, type FeatureAccessService } from "../access";
 
 // "Một câu cho hôm nay": one quote per book per day, picked on the device from the local date.
 // Layout follows the approved proposal (27/11/2026): book tabs, date, ref, serif quote, attribution,
@@ -36,10 +37,19 @@ type Props = {
   contentContainerStyle?: StyleProp<ViewStyle>;
   /** Draft gate override; defaults to SHOW_DRAFT_BOOK_QUOTES (tests pass true to use the sample files). */
   showDrafts?: boolean;
+  /** Premium account (App: displayed tier is premium). Only matters when Admin publishes book_quote as Premium. */
+  isPremium?: boolean;
+  /** Opens the Premium screen from the lock card; without it the card says where Premium lives. */
+  onOpenPremium?: () => void;
+  /** Free / Premium service (tests); defaults to the app-wide one fed by the start-up check. */
+  featureAccessService?: FeatureAccessService;
 };
 
-export function BookQuoteScreen({ language, dateKey, initialBook, storage, personaName, onAskPersona, onWriteJournal, onEvent, onBack, contentContainerStyle, showDrafts = SHOW_DRAFT_BOOK_QUOTES }: Props) {
+export function BookQuoteScreen({ language, dateKey, initialBook, storage, personaName, onAskPersona, onWriteJournal, onEvent, onBack, contentContainerStyle, showDrafts = SHOW_DRAFT_BOOK_QUOTES, isPremium = false, onOpenPremium, featureAccessService }: Props) {
   const vi = language === "vi";
+  // Free / Premium switch (Admin, Owner publishes). Default config: Free for everyone, so nothing changes until a
+  // Premium setting is published. Saved quotes stay outside the gate: what a user saved is never hidden.
+  const access = useFeatureAccess("book_quote", { isPremium, service: featureAccessService });
   const books = useMemo(() => availableBookQuoteBooks(showDrafts), [showDrafts]);
   const [book, setBook] = useState<BookQuoteBookId | undefined>(() => (initialBook && books.includes(initialBook) ? initialBook : books[0]));
   const [saved, setSaved] = useState<SavedBookQuote[]>([]);
@@ -112,6 +122,7 @@ export function BookQuoteScreen({ language, dateKey, initialBook, storage, perso
       <Header language={language} onBack={onBack} />
       <Text accessibilityRole="header" style={s.title}>{vi ? "Một câu cho hôm nay" : "A line for today"}</Text>
 
+      <PremiumGate access={access} language={language} onOpenPremium={onOpenPremium}>
       <View accessibilityRole="tablist" style={s.tabs}>
         {books.map((id) => {
           const selected = id === quote.book;
@@ -177,6 +188,7 @@ export function BookQuoteScreen({ language, dateKey, initialBook, storage, perso
           })}
         </View>
       ) : null}
+      </PremiumGate>
 
       {saved.length ? (
         <View style={s.section}>
