@@ -10,6 +10,7 @@ import { ConsentCard, CompareView, PeopleList, PersonFields } from "./SynastryVi
 import { compareCharts, synastryText, type RelationshipType } from "./synastry";
 import { big3Story, moonTodayFor, skyTopicIds, topicLabel, topicReading, type SkyTopicId } from "./skyContent";
 import { big3Model, singleSunSign, type ShareRequest } from "../share/shareCardContent";
+import { shareInviteLine } from "../share/shareLink";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
@@ -756,7 +757,7 @@ export function AstrologyExperience({
     if (!onOpenShare || !myChart) return;
     const { big3 } = myChart;
     const model = big3Model({ language, sun: big3.sun, moon: big3.moon, rising: big3.rising, timeKnown: big3.timeKnown, headline: big3Story(big3, language).headline });
-    onOpenShare({ model: { ...model, surface }, sunSign: singleSunSign(big3.sun), primary: surface === "astro_invite" ? "link" : "image" });
+    onOpenShare({ model: { ...model, surface, invite: shareInviteLine(language, surface) }, sunSign: singleSunSign(big3.sun), primary: surface === "astro_invite" ? "link" : "image" });
   };
   // Today's Moon needs the houses, so only an exact birth time shows the block.
   const myMoonHouse = myChart?.big3.timeKnown ? moonHouseToday(myChart.report.chart, now) : null;

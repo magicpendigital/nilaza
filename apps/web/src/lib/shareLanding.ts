@@ -69,7 +69,8 @@ export function parseCardIds(param: string | null, known: ReadonlySet<string>): 
 }
 
 // Same list as the app (shareEvents.ts) and the share-events server function.
-export const shareSurfaces = ["today_card", "tarot_reading", "astro_big3", "astro_invite", "numerology_map", "daily_sky"] as const;
+// book_quote added 28/11/2026 (share cards v2, S1a); its own landing variant comes with S1b.
+export const shareSurfaces = ["today_card", "tarot_reading", "astro_big3", "astro_invite", "numerology_map", "daily_sky", "book_quote"] as const;
 export type ShareSurface = (typeof shareSurfaces)[number];
 
 /** The page layout a share link opens. Big 3 and invite links open /compare and have no variant here. */

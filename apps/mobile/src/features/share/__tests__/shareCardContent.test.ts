@@ -1,4 +1,4 @@
-import { big3Model, dailySkyModel, numerologyModel, readingModel, singleSunSign, todayCardModel } from "../shareCardContent";
+import { big3Model, bookQuoteModel, dailySkyModel, numerologyModel, readingModel, singleSunSign, todayCardModel } from "../shareCardContent";
 
 it("builds the daily-sky card from the public sky only", () => {
   const model = dailySkyModel({ language: "vi", moonSign: "taurus", phaseName: "Trăng tròn", headline: "Một ngày để chậm lại. " + "x".repeat(300) });
@@ -120,4 +120,44 @@ test("the number-map card shows numbers only and keeps the reflection note", () 
   expect(model.cardNames).toBeUndefined();
   expect(model.signName).toBeUndefined();
   expect(numerologyModel({ language: "en", lifePath: "7", birthday: "3" }).rows).toHaveLength(2);
+});
+
+test("v2: each feature carries its own skin and invite line inside the shared frame", () => {
+  const image = { uri: "card" };
+  expect(todayCardModel({ language: "vi", cardName: "Ngôi Sao", meaning: "Hy vọng.", image })).toMatchObject({ skin: "tarot", invite: "Bạn rút thử xem lá của bạn là gì?" });
+  expect(numerologyModel({ language: "vi", lifePath: "7", birthday: "3" })).toMatchObject({ skin: "numbers", invite: "Còn bạn là số mấy? Tính trong 10 giây" });
+  expect(bookQuoteModel({ language: "vi", quote: "Câu.", source: "Đạo Đức Kinh · Chương 9", question: "Hỏi?" })).toMatchObject({ skin: "quote", invite: "Nhận một câu mỗi sáng từ kho tri thức cổ" });
+  expect(readingModel({ language: "vi", cards: [], summary: "" }).skin).toBe("classic");
+  expect(big3Model({ language: "vi", sun: [], moon: [], timeKnown: false }).skin).toBe("classic");
+});
+
+test("v2 Tarot skin: English name as title, Vietnamese small line, at most three keywords", () => {
+  const model = todayCardModel({ language: "vi", cardName: "Ngôi Sao (The Star)", meaning: "Hy vọng.", image: { uri: "card" }, englishName: "The Star", localName: "Ngôi Sao", keywords: ["hy vọng", "chữa lành", "niềm tin", "thừa"] });
+  expect(model.title).toBe("The Star");
+  expect(model.subtitle).toBe("Ngôi Sao");
+  expect(model.keywords).toEqual(["hy vọng", "chữa lành", "niềm tin"]);
+  expect(model.cardNames).toEqual(["Ngôi Sao (The Star)"]);
+  const english = todayCardModel({ language: "en", cardName: "The Star", meaning: "Hope.", image: { uri: "card" }, englishName: "The Star", localName: "Ngôi Sao" });
+  expect(english.subtitle).toBeUndefined();
+});
+
+test("v2 Numbers skin: big number, lit root, approved light and question, number chips only", () => {
+  const model = numerologyModel({ language: "vi", lifePath: "11/2", birthday: "6", expression: "8", lifePathTitle: "Người lắng nghe", lifePathRoot: 2, light: "Bạn nghe được điều người khác bỏ qua.", question: "Hôm nay bạn muốn lắng nghe ai?" });
+  expect(model.numbers).toEqual({
+    kindLabel: "Số chủ đạo",
+    value: "11/2",
+    root: 2,
+    notes: [{ label: "Điểm sáng", text: "Bạn nghe được điều người khác bỏ qua." }, { label: "Câu hỏi", text: "Hôm nay bạn muốn lắng nghe ai?" }],
+    chips: ["Ngày sinh · 6", "Biểu đạt · 8"]
+  });
+  expect(numerologyModel({ language: "en", lifePath: "7", birthday: "3", lifePathRoot: 22 }).numbers?.root).toBe(0);
+  expect(JSON.stringify(model)).not.toMatch(/\d{1,2}\/\d{1,2}\/\d{4}|19\d\d|20\d\d/);
+});
+
+test("v2 Quote skin: only the approved quote, its source and its question", () => {
+  const model = bookQuoteModel({ language: "en", quote: "x".repeat(400), source: "Tao Te Ching · Chapter 9", question: "When is enough?" });
+  expect(model.surface).toBe("book_quote");
+  expect(model.quote?.text.length).toBeLessThanOrEqual(320);
+  expect(model.quote).toMatchObject({ source: "Tao Te Ching · Chapter 9", questionLabel: "A question for me", question: "When is enough?" });
+  expect(model.images).toEqual([]);
 });
