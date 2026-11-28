@@ -21,7 +21,8 @@
     "package.json",
     "apps/mobile/src/features/bookQuote/__tests__/",
     "docs/release/share-cards-v2-s1b-2026-11-28/",
-    "PLAN.md"
+    "PLAN.md",
+    "reports/2026-11-28-android-share-cards-v2-test.md"
   ],
   "untouchedSurfaces": [
     "App code and share-events are S1a (PR 91) and are not changed here.",
@@ -145,7 +146,7 @@
     "stopCondition": "Stop if the quote page would need any non-approved text, if the web rotation cannot be shown to match the app's for fixed dates, or if a preview image cannot be kept under 200 KB at 1200x630."
   },
   "workingTreeReview": {
-    "note": "Record written before any S1b edit; branch fast-forwarded to main 3affb98 after PR 91 merged. sourceReview hashes refreshed to the implemented files at commit time.",
+    "note": "Record written before any S1b edit; branch fast-forwarded to main 3affb98 after PR 91 merged. sourceReview hashes refreshed to the implemented files at commit time. Follow-up docs PR after PR 92 merged: web deploy receipt, Android device test report (EAS 2b10c936) and PLAN update; no code change.",
     "paths": []
   },
   "validationCommands": [

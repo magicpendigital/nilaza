@@ -25,7 +25,12 @@
       "supabase/functions/_shared/ai-request-guard.ts": "cf1204cae48dac9cfc718dd93f5b4d2a93efffefef03b12fae0f73f680dae056"
     },
     "deployed": [
-      { "name": "share-events", "version": 9, "verifyJwt": true, "note": "Previous v8. Accepts the book_quote surface and an optional format (post or story) on image shares; rejects format on link shares and unknown values." }
+      {
+        "name": "share-events",
+        "version": 9,
+        "verifyJwt": true,
+        "note": "Previous v8. Accepts the book_quote surface and an optional format (post or story) on image shares; rejects format on link shares and unknown values."
+      }
     ],
     "verification": [
       "functions list: share-events ACTIVE, version 9, verify_jwt true",
@@ -33,8 +38,16 @@
     ]
   },
   "web": {
-    "status": "pending: deployed after the S1b pull request is merged into main; this section is filled in then",
-    "method": "npm --workspace apps/web run deploy:staging"
+    "status": "deployed 2026-11-28 after PR 92 merged into main (merge commit d8de24d)",
+    "method": "npm run web:build then npm --workspace apps/web run deploy:staging from the main checkout",
+    "deployment": "https://050fb37d.nilaza-web-staging.pages.dev",
+    "note": "A first deploy (198bc29e) reused a stale dist without the S1b pages; the site was rebuilt from main and deployed again as 050fb37d. deploy:staging does not build, so run web:build first.",
+    "verification": [
+      "/vi/share/quote and /en/share/quote: 308 to the trailing-slash address, then 200, on nilaza-web-staging.pages.dev and nilaza.magicpendigital.com",
+      "the redirect keeps utm_source, utm_medium=qr and utm_campaign=book_quote",
+      "/share/og/quote-vi.png and /share/og/card-en.png: 200 image/png on both domains",
+      "nilaza.magicpendigital.com/vi/share/quote: title 'Một câu cho hôm nay từ Nilaza', og:image https://nilaza.magicpendigital.com/share/og/quote-vi.png"
+    ]
   },
   "notVerified": [
     "a signed-in share from a phone writing share_tapped/share_completed with book_quote or format into usage_events (needs a new Android build)"
