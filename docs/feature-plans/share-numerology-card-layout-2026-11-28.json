@@ -62,7 +62,7 @@
     {
       "path": "apps/mobile/src/features/share/ShareCardView.tsx",
       "reason": "Card frame and the numbers body being fixed.",
-      "sha256": "149791a1eff158e140d4fdcab455852b91d3d512db3b90833caf3f67b9182b7e"
+      "sha256": "14e61a8916953929f03e6fa5c3a423698f12fa5a317b329b6bc4ed3ff7b26c76"
     },
     {
       "path": "apps/mobile/src/features/share/shareCardContent.ts",
@@ -72,12 +72,12 @@
     {
       "path": "reports/2026-11-28-android-share-cards-v2-test.md",
       "reason": "Device findings being fixed.",
-      "sha256": "2cf47182099cfa2fb456bea6609c19440ddf8f6cbd2234de9e53281cfc6804c6"
+      "sha256": "c6c622d8b2605a2cd08e55e7a957aaff839bca12ad1a25239e2534df54c14507"
     },
     {
       "path": ".easignore",
       "reason": "Root EAS archive ignore list.",
-      "sha256": "6ad93ec73fd5725938252672c54211d6dfc4ba7cc01b376a357ae3e3704d4aef"
+      "sha256": "296d010a59e65d05f8e6bb0f19c41abc0c76aeaaac317d9def7d9e78e0c8c3cb"
     }
   ],
   "skillReview": [
@@ -108,7 +108,7 @@
     "stopCondition": "Stop if the spacing fix would cut off the notes or chips on the 4:5 card."
   },
   "workingTreeReview": {
-    "note": "Record written before any edit on branch claude/share-numerology-card-layout cut from origin/main f86460c.",
+    "note": "Record written before any edit on branch claude/share-numerology-card-layout cut from origin/main f86460c. sourceReview hashes refreshed to the edited files at commit time.",
     "paths": []
   },
   "validationCommands": [
