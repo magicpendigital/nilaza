@@ -176,7 +176,7 @@
     {
       "path": "apps/admin/workflow-catalog.js",
       "reason": "Feature graphs and App.tsx digest.",
-      "sha256": "28bee1649dbc5f8bb682c1f8786b8b244802e47878bfecbd844bee66b701eb17"
+      "sha256": "b6ff6295dc0f2dce4add72d47254a77c6036366f5dbbbcb7ed4b0e8323895259"
     },
     {
       "path": "apps/mobile/src/features/profile/WhoAmI.tsx",
