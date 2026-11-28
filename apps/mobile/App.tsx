@@ -4683,7 +4683,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     });
   };
   const recordShareEvent = (name: ShareEventName, meta: ShareEventMeta) => {
-    recordEvent(name, { surface: meta.surface, action: meta.action, ...(meta.outcome ? { outcome: meta.outcome } : {}) });
+    recordEvent(name, { surface: meta.surface, action: meta.action, ...(meta.outcome ? { outcome: meta.outcome } : {}), ...(meta.format ? { format: meta.format } : {}) });
     // Server count: enumerated values only, signed-in sessions only, never delays or blocks the share.
     const payload = toShareEventPayload(name, meta);
     if (payload) void sendShareEvents([payload], backendOptions);
@@ -4697,7 +4697,11 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         language,
         cardName: displayTarotCardInline(card, language),
         meaning: displayTarotMeaning(card, language),
-        image: getTarotCardImage(todayPulse.deck.id, card.id)
+        image: getTarotCardImage(todayPulse.deck.id, card.id),
+        // Brand rule for Tarot: English name as the title, Vietnamese name as the small line.
+        englishName: card.name.en,
+        localName: card.name.vi,
+        keywords: localizedList(card.keywords, language)
       }),
       cardIds: [card.id]
     });
@@ -6139,6 +6143,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             personaName={(personaId) => { const persona = personasById[personaId]; return persona ? personaShortName(persona, language) : (language === "vi" ? "người dẫn" : "the guide"); }}
             onAskPersona={askBookQuoteGuide}
             onWriteJournal={writeBookQuoteJournal}
+            onOpenShare={openShareSheet}
             onEvent={(name, metadata) => recordEvent(name, { ...metadata, feature: BOOK_QUOTE_FEATURE_ID })}
             onBack={() => navigate(bookQuoteReturnScreen)}
             contentContainerStyle={[styles.screen, { paddingHorizontal: adaptiveLayout.gutter }]} />
