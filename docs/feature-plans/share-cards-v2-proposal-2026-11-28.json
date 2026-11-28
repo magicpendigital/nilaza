@@ -61,7 +61,7 @@
     {
       "path": "apps/mobile/src/features/share/shareCardContent.ts",
       "reason": "Current share card builders and privacy rules.",
-      "sha256": "decddff315a613218c4b97c3631fa2d76047cf0d84d27974292162327a6049a2"
+      "sha256": "0b658a82105c72c1259ab8f72a34e57a919d74bdc47a5c02d7d908e54b1838e6"
     },
     {
       "path": "skills/nilaza-plan-qc/SKILL.md",

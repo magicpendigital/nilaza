@@ -110,3 +110,17 @@ test("unreadable saved charts are reported without offering delete", () => {
   expect(screen.getByText(/Chưa đọc được lá số đã lưu/)).toBeTruthy();
   expect(screen.queryByText("Xóa")).toBeNull();
 });
+
+test("saved reports list the Number Map when a birth date exists, and View opens it", () => {
+  const onOpenNumerology = jest.fn();
+  const { screen } = renderWhoAmI({ onOpenNumerology, savedCharts: { status: "ready", charts: [] } });
+  expect(screen.queryByText("Chưa có báo cáo nào được lưu trên máy.")).toBeNull();
+  expect(screen.getByText("Bản đồ số · 15/03/2000")).toBeTruthy();
+  fireEvent.press(screen.getByLabelText("Xem Bản đồ số"));
+  expect(onOpenNumerology).toHaveBeenCalledTimes(1);
+});
+
+test("no Number Map row without a birth date or a handler", () => {
+  expect(renderWhoAmI({ birthDate: "", onOpenNumerology: jest.fn() }).screen.queryByTestId("whoami-numerology-row")).toBeNull();
+  expect(renderWhoAmI().screen.queryByTestId("whoami-numerology-row")).toBeNull();
+});

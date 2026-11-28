@@ -45,6 +45,38 @@ Deno.test("stores enumerated events for the verified user only, with feature sha
   ]);
 });
 
+// 28/11/2026: the app already sends numerology_map (Bản đồ số, Lô 3) and now daily_sky (Bầu trời hôm nay).
+// Before this list change the whole request for those surfaces was answered 400 and nothing was stored.
+Deno.test("stores share events for the number map and today's sky surfaces", async () => {
+  const { call, inserted } = setup();
+  const res = await call({ events: [
+    { name: "share_tapped", surface: "numerology_map", action: "image" },
+    { name: "share_completed", surface: "numerology_map", action: "link", outcome: "returned" },
+    { name: "share_tapped", surface: "daily_sky", action: "image" },
+    { name: "share_completed", surface: "daily_sky", action: "image", outcome: "unavailable" }
+  ] });
+  assertEquals(res.status, 202);
+  assertEquals(await res.json(), { accepted: 4 });
+  assertEquals(inserted[0].map((row) => row.metadata.surface), ["numerology_map", "numerology_map", "daily_sky", "daily_sky"]);
+  assertEquals(inserted[0].every((row) => row.feature === "share"), true);
+});
+
+Deno.test("still rejects surfaces outside the list, including near-misses of the new ones", async () => {
+  for (const surface of ["numerology", "numerology_map ", "Daily_Sky", "daily-sky", "sky", "astro_daily"]) {
+    const { call, inserted } = setup();
+    const res = await call({ events: [{ name: "share_tapped", surface, action: "image" }] });
+    assertEquals(res.status, 400, surface);
+    assertEquals(inserted.length, 0);
+  }
+});
+
+Deno.test("one unknown surface rejects the whole batch, so no partial rows are written", async () => {
+  const { call, inserted } = setup();
+  const res = await call({ events: [tap, { name: "share_tapped", surface: "numerology_maps", action: "image" }] });
+  assertEquals(res.status, 400);
+  assertEquals(inserted.length, 0);
+});
+
 Deno.test("ignores any user id sent in the body: it is rejected as an extra key", async () => {
   const { call, inserted } = setup();
   const res = await call({ events: [{ ...tap, user_id: "22222222-2222-4222-8222-222222222222" }] });

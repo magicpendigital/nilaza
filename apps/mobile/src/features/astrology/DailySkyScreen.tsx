@@ -10,6 +10,7 @@ import { localizeAstrologySign, type AstrologySignId } from "./contracts";
 import { dailySkyAt, type DailySky } from "./dailySky";
 import { dailySkyReading, ingressLine, skyPersonalOf, type SkyTopic } from "./dailySkyContent";
 import { deviceZone, formatClock, formatDayMonth, localDateOf, type LocalZone } from "./localDay";
+import { dailySkyModel, type ShareRequest } from "../share/shareCardContent";
 
 // "Bầu trời hôm nay" (Lô 2, spec section 6): works offline and as a guest; the chart, when saved
 // on this device, only changes which text is chosen. Nothing is stored or sent from here.
@@ -37,7 +38,22 @@ export function skyPhaseLine(sky: DailySky, language: Language, zone: LocalZone 
   return `${phase} · ${percent} · ${event} ${when}`;
 }
 
-export function DailySkyScreen({ language, now, zone = deviceZone, chart, ready = true, onAddBirthDate, onAddBirthTime, onWriteJournal }: {
+const pad2 = (value: number) => String(value).padStart(2, "0");
+
+/**
+ * Share request for today's sky. It is built from the public reading (no chart), so the card and the link carry only
+ * what is the same for everyone today: the Moon's sign, decan, phase and the date. Never the chart, birth data or name.
+ */
+export function dailySkyShareRequest(sky: DailySky, language: Language, zone: LocalZone = deviceZone): ShareRequest {
+  const publicReading = dailySkyReading(sky, { kind: "none" }, language, zone);
+  return {
+    model: dailySkyModel({ language, moonSign: sky.sign, phaseName: moonPhaseLabel(sky.phase.id, language).name, headline: publicReading.headline }),
+    sky: { moonSign: sky.sign, decan: sky.decan, phase: sky.phase.id, date: `${sky.date.year}-${pad2(sky.date.month)}-${pad2(sky.date.day)}` },
+    primary: "image"
+  };
+}
+
+export function DailySkyScreen({ language, now, zone = deviceZone, chart, ready = true, onAddBirthDate, onAddBirthTime, onWriteJournal, onShare }: {
   language: Language;
   now?: Date;
   zone?: LocalZone;
@@ -48,6 +64,8 @@ export function DailySkyScreen({ language, now, zone = deviceZone, chart, ready 
   onAddBirthDate?: () => void;
   onAddBirthTime?: () => void;
   onWriteJournal?: (prompt: string) => void;
+  /** Opens the share sheet with today's public sky only. */
+  onShare?: (request: ShareRequest) => void;
 }) {
   const vi = language === "vi";
   const [at] = useState(() => now ?? new Date());
@@ -175,6 +193,13 @@ export function DailySkyScreen({ language, now, zone = deviceZone, chart, ready 
         ) : null}
       </View>
 
+      {onShare ? (
+        <Pressable accessibilityRole="button" accessibilityHint={vi ? "Chỉ chia sẻ bầu trời chung của hôm nay, không kèm thông tin của bạn." : "Shares only today's sky, none of your details."} onPress={() => onShare(dailySkyShareRequest(sky, language, zone))} style={s.secondary}>
+          <Ionicons name="share-outline" size={18} color={colors.gold} />
+          <Text style={s.link}>{vi ? "Chia sẻ bầu trời hôm nay" : "Share today's sky"}</Text>
+        </Pressable>
+      ) : null}
+
       <Pressable accessibilityRole="button" accessibilityState={{ expanded: howOpen }} onPress={() => setHowOpen((open) => !open)} style={s.howRow}>
         <Text style={s.cardTitleSmall}>{reading.how.title}</Text>
         <Ionicons name={howOpen ? "chevron-up" : "chevron-down"} size={18} color="#B8B0A4" />
@@ -225,5 +250,6 @@ const s = StyleSheet.create({
   note: { color: "#8F877C", fontFamily: typography.bodyFontFamily, fontSize: 12.5, lineHeight: 18 },
   primary: { minHeight: 48, borderRadius: radius.pill, backgroundColor: colors.ivory, alignItems: "center", justifyContent: "center" },
   primaryText: { color: colors.charcoal, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 15 },
+  secondary: { minHeight: 48, borderRadius: radius.pill, borderWidth: 1, borderColor: "rgba(201, 164, 92, 0.5)", flexDirection: "row", gap: 8, alignItems: "center", justifyContent: "center" },
   howRow: { minHeight: layout.minimumTouchTarget, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }
 });

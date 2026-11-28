@@ -4676,7 +4676,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     setShareSheet({
       model: request.model,
       primary: request.primary ?? "image",
-      url: buildShareUrl({ language, surface: request.model.surface, id: newShareId(), cardIds: request.cardIds, sunSign: request.sunSign })
+      url: buildShareUrl({ language, surface: request.model.surface, id: newShareId(), cardIds: request.cardIds, sunSign: request.sunSign, sky: request.sky })
     });
   };
   const recordShareEvent = (name: ShareEventName, meta: ShareEventMeta) => {
@@ -6125,6 +6125,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
               initialBirthDate={birthDate} onBirthDateChange={setBirthDate} onOpenShare={openShareSheet}
               onEvent={(name, metadata) => recordEvent(name, metadata)}
               onRequestPrivateMessage={tarotServerMode ? (payload) => requestNumerologyMessage(payload, backendOptions) : undefined}
+              onWriteJournal={(prompt) => { setJournalPrompt(prompt); setJournalEntryToOpen(null); navigate("journal"); }}
               onBack={() => navigate("explore")} />
           </ScrollView>
         ) : screen === "bookQuote" ? (
@@ -6295,6 +6296,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                 savedChartsRevision={savedChartsRevision}
                 onOpenSavedChart={(chart) => { startAstrology("hub"); setAstrologyChartToOpen(chart.id); }}
                 onMakeChart={() => startAstrology("hub")}
+                onOpenNumerology={() => navigate("numerology")}
                 onWriteJournal={() => { setJournalEntryToOpen(null); navigate("journal"); }}
                 onDeleteSavedChart={(chart) => requestConfirmation({
                   title: language === "vi" ? "Xóa lá số này?" : "Delete this chart?",
@@ -9066,6 +9068,7 @@ function ProfileScreen({
   onOpenSavedChart,
   onDeleteSavedChart,
   onMakeChart,
+  onOpenNumerology,
   onWriteJournal,
   memberSince,
   readingsCount,
@@ -9175,6 +9178,7 @@ function ProfileScreen({
   onOpenSavedChart: (chart: SavedChart) => void;
   onDeleteSavedChart: (chart: SavedChart) => void;
   onMakeChart: () => void;
+  onOpenNumerology?: () => void;
   onWriteJournal: () => void;
   premium: PremiumState;
   premiumUserId: string | undefined;
@@ -9345,6 +9349,7 @@ function ProfileScreen({
           onOpenChart={onOpenSavedChart}
           onDeleteChart={onDeleteSavedChart}
           onMakeChart={onMakeChart}
+          onOpenNumerology={onOpenNumerology}
           onWriteJournal={onWriteJournal}
           onEditBirth={() => openFromWhoAmI("birth")}
           onEditName={() => openFromWhoAmI("identity")}
