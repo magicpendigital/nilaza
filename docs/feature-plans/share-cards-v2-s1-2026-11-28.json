@@ -31,7 +31,8 @@
     "scripts/share-landing.test.mjs",
     "docs/release/share-cards-v2-s1-2026-11-28/HANDOFF.vi.md",
     "docs/proposals/SHARE_CARDS_V2_2026-11-28.vi.md",
-    "PLAN.md"
+    "PLAN.md",
+    "apps/admin/workflow-catalog.js"
   ],
   "untouchedSurfaces": [
     "No SQL, no Edge Function deploy, no website deploy, no secret read or set, no Supabase/Vercel/Cloudflare/EAS/Play setting changed, no Android build.",
@@ -178,7 +179,7 @@
     "unresolvedHighRisks": []
   },
   "workingTreeReview": {
-    "note": "Record written before any code edit on branch claude/share-cards-v2-s1 cut from origin/main 217e158 (28/11/2026); the worktree was clean then. Scope updated during implementation (28/11): the qrcode type file lives in apps/mobile/src/features/share/qrcode.d.ts (src/types.ts already exists, so no src/types/ folder), and AstrologyExperience.tsx gets one line so the astro_invite card prints its own invite line. Review hashes refreshed to the implemented files at commit time (28/11), as earlier PRs did.",
+    "note": "Record written before any code edit on branch claude/share-cards-v2-s1 cut from origin/main 217e158 (28/11/2026); the worktree was clean then. Scope updated during implementation (28/11): the qrcode type file lives in apps/mobile/src/features/share/qrcode.d.ts (src/types.ts already exists, so no src/types/ folder), and AstrologyExperience.tsx gets one line so the astro_invite card prints its own invite line. Review hashes refreshed to the implemented files at commit time (28/11), as earlier PRs did. apps/admin/workflow-catalog.js: only the App.tsx source digest is refreshed, as earlier PRs did after editing App.tsx.",
     "paths": []
   },
   "validationCommands": [
